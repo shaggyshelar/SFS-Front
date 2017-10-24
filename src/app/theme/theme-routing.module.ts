@@ -10,6 +10,10 @@ const routes: Routes = [
     "canActivate": [AuthGuard],
     "children": [
       {
+        "path": "features\/users",
+        "loadChildren": ".\/pages\/default\/features\/users\/users.module#UsersModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
