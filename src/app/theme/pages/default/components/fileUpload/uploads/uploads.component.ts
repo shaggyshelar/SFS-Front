@@ -18,14 +18,17 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-      'assets/demo/default/custom/components/datatables/base/html-table.js');
+    // this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    //   'assets/demo/default/custom/components/datatables/base/html-table.js');
+
+    // this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    //   'assets/demo/default/custom/components/base/toastr.js');
+
+    // this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    //   'assets/demo/default/custom/components/datatables/base/data-ajax.js');
 
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-      'assets/demo/default/custom/components/base/toastr.js');
-
-    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-      'assets/demo/default/custom/components/datatables/base/data-ajax.js');
+      'assets/demo/default/custom/components/datatables/base/data-local-custom.js');
 
   }
 
