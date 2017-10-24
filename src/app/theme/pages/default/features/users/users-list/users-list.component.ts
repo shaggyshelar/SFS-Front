@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-users-list",
@@ -7,7 +8,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class UsersListComponent implements OnInit {
   userList : any;  
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
@@ -30,5 +31,6 @@ export class UsersListComponent implements OnInit {
   }
 
     onManageRoleClick(data: any) {
+        this.router.navigate(['/features/users/manage-role', data.ID]);
     }
 }

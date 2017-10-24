@@ -14,6 +14,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/users\/users.module#UsersModule"
       },
       {
+        "path": "features\/roles",
+        "loadChildren": ".\/pages\/default\/features\/roles\/roles.module#RolesModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
