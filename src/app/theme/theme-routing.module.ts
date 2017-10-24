@@ -461,6 +461,10 @@ const routes: Routes = [
         "path": "404",
         "loadChildren": ".\/pages\/default\/not-found\/not-found\/not-found.module#NotFoundModule"
       },
+	  {
+        "path": "components\/fileUpload\/uploads",
+        "loadChildren": ".\/pages\/default\/components\/fileUpload\/uploads\/uploads.module#UploadsComponentModule"
+      },
       {
         "path": "",
         "redirectTo": "index",

@@ -138,6 +138,53 @@ var ToastrDemo = function() {
                 });
             }
         });
+        
+        $('#uploadToast').click(function () {
+            toastr.clear();
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+              };
+              
+              toastr.success("Added Student Records", "CSV Uploaded Successfully");
+        });
+
+           
+        $('#cancelToast').click(function () {
+            toastr.clear();
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+              };
+              
+              toastr.info("CSV Uploading Cancelled");
+        });
 
         function getLastToast(){
             return $toastlast;
