@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { UsersComponent } from './users.component';
-import { UsersListComponent } from './users-list/users-list.component';
-import { UserRoleComponent } from './user-role/user-role.component';
+import { RolesComponent } from './roles.component';
+import { RoleListComponent } from './role-list/role-list.component';
+import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
 import {
 DataTableModule,
 SharedModule,
+ButtonModule,
+AutoCompleteModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -20,10 +22,11 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: UsersComponent,
+        component: RolesComponent,
         children: [
-          { path: 'list', component: UsersListComponent },
-          { path: 'manage-role/:id', component: UserRoleComponent },
+          { path: 'list', component: RoleListComponent },
+          { path: 'add', component: RoleAddEditComponent },
+          { path: 'edit/:roleId', component: RoleAddEditComponent },
         ]
       }
     ]
@@ -35,14 +38,17 @@ const routes: Routes = [
     CommonModule, RouterModule.forChild(routes),
     LayoutModule,
     FormsModule,
+    ReactiveFormsModule, 
     // primeng modules
     DataTableModule,
     SharedModule,
+    ButtonModule,
+    AutoCompleteModule,
   ], declarations: [
-    UsersComponent,
-    UsersListComponent,
-    UserRoleComponent,
+    RolesComponent,
+    RoleListComponent,
+    RoleAddEditComponent,
   ]
 })
-export class UsersModule {
+export class RolesModule {
 }
