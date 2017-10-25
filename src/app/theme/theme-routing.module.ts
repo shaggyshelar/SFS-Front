@@ -18,6 +18,22 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/roles\/roles.module#RolesModule"
       },
       {
+        "path": "features\/school",
+        "loadChildren": ".\/pages\/default\/features\/school\/school.module#SchoolModule"
+      },
+      {
+        "path": "features\/categories",
+        "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
+      },
+      {
+        "path": "features\/fees",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fees.module#FeesModule"
+      },
+      {
+        "path": "features\/reports",
+        "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
