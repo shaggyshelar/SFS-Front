@@ -38,60 +38,54 @@
 <div class="m-content">
 	<div class="row">
 		<div class="col-lg-12">
-			<!--begin::Portlet-->
-			<div class="m-portlet">
+		<!--begin::Portlet-->
+			<div class="m-portlet m-portlet--tab">
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
+							<span class="m-portlet__head-icon m--hide">
+								<i class="la la-gear"></i>
+							</span>
 							<h3 class="m-portlet__head-text">
 								User Add/Edit
 							</h3>
 						</div>
-
 					</div>
 				</div>
-				<div class="m-portlet__body">
-					<!--begin::Section-->
-					<div class="m-section">
-						<div class="m-section__content">
-                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="portlet light bordered legends-portlet">
-                                    <div class="portlet-body">
-                                        <form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(userForm)" [formGroup]="userForm">
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">UserName</label>
-                                            <div class="col-md-10">
-                                            <input type="text" formControlName="UserName" name="userName" class="form-control">
-                                            <div class="alert alert-danger" *ngIf="userForm.get('UserName').hasError('required') && userForm.get('UserName').touched">
-                                                Please enter UserName
-                                            </div>
-                                            </div>
-                                            </div>
-                                                <div class="form-group">
-                                                <label class="col-md-2 control-label">Password</label>
-                                                <div class="col-md-10">
-                                                <input type="text" formControlName="Password" name="password" class="form-control">
-                                                <div class="alert alert-danger" *ngIf="userForm.get('Password').hasError('required') && userForm.get('Password').touched">
-                                                    Please enter Password
-                                                </div>
-                                                </div>
-                                            </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-2 col-md-10">
-                                            <button pButton type="submit" label="Save" [disabled]="userForm.invalid"></button>
-                                            <button pButton type="button" label="Cancel" (click)="onCancel()"></button>
-                                            </div>
-                                        </div>
-                                        </form>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div> 
+				<!--begin::Form-->
+				<form class="m-form m-form--fit m-form--label-align-right" role="form" novalidate (ngSubmit)="onSubmit(userForm)" [formGroup]="userForm">
+					<div class="m-portlet__body">
+						<div class="form-group m-form__group">
+							<label for="userName">
+								User Name
+							</label>
+							<input type="text" formControlName="UserName" name="userName" id="userName" class="form-control m-input" placeholder="User Name">
+							<div class="alert alert-danger" *ngIf="userForm.get('UserName').hasError('required') && userForm.get('UserName').touched">
+								Please enter UserName
+							</div>
+						</div>
+						<div class="form-group m-form__group">
+							<label for="password">
+								Password
+							</label>
+							<input type="text" formControlName="Password" name="password" class="form-control"  placeholder="Password">
+							<div class="alert alert-danger" *ngIf="userForm.get('Password').hasError('required') && userForm.get('Password').touched">
+								Please enter Password
+							</div>
+						</div>	
+					</div>
+					<div class="m-portlet__foot m-portlet__foot--fit">
+						<div class="m-form__actions">
+							 <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+								Submit
+							</button>
+							<button type="button" class="btn btn-secondary" (click)="onCancel()">
+								Cancel
+							</button> 							
 						</div>
 					</div>
-					<!--end::Section-->
-				</div>
+				</form>
+				<!--end::Form-->
 			</div>
 			<!--end::Portlet-->
 		</div>

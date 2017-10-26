@@ -3,7 +3,7 @@ import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { UsersService } from '../../../_services/users.service';
+import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 
 /** Component Declaration */
@@ -19,12 +19,12 @@ export class UserAddEditComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private UsersService: UsersService,
+        private UsersService: UserService,
         private route: ActivatedRoute, private router: Router) {
     }
     ngOnInit() {
         this.userForm = this.formBuilder.group({
-            ID: [0],
+            id: [0],
             UserName: ['', [Validators.required]],
             Password: ['', [Validators.required]],
         });
@@ -34,8 +34,8 @@ export class UserAddEditComponent implements OnInit {
             this.UsersService.getUserById(this.params)
                 .subscribe((results:User) => {
                     this.userForm.setValue({
-                        ID: results.ID,
-                        Name: results.UserName
+                        id: results.id,
+                        UserName: results.UserName
                     });
                 })             
             }

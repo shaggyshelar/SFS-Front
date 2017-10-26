@@ -1,0 +1,31 @@
+import { Injectable } from "@angular/core";
+import { Headers, Http, RequestOptions, Response } from "@angular/http";
+
+import { User } from "../_models/index";
+import { AppSettings } from '../../../../app-settings';
+
+@Injectable()
+export class UserService {
+  constructor(private http: Http) {
+  }
+
+  getAllUsers() {   
+   return this.http.get(AppSettings.API_ENDPOINT + 'users', AppSettings.requestOptions()).map((response: Response) => response.json());  
+  }
+
+  getUserById(id: number) {
+    return this.http.get(AppSettings.API_ENDPOINT +'users/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  createUser(user: User) {
+    return this.http.post(AppSettings.API_ENDPOINT +'users', user, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  updateUser(user: User) {
+    return this.http.put(AppSettings.API_ENDPOINT +'users/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(AppSettings.API_ENDPOINT +'users/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+}
