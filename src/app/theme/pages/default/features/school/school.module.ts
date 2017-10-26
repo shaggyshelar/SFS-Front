@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SchoolComponent } from './school.component';
 import { SchoolListComponent } from './school-list/school-list.component';
@@ -11,6 +11,7 @@ import { LayoutModule } from '../../../../layouts/layout.module';
 import {
 DataTableModule,
 SharedModule,
+ButtonModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -36,9 +37,11 @@ const routes: Routes = [
     CommonModule, RouterModule.forChild(routes),
     LayoutModule,
     FormsModule,
+    ReactiveFormsModule,
     // primeng modules
     DataTableModule,
     SharedModule,
+    ButtonModule,
   ], declarations: [
     SchoolComponent,
     SchoolListComponent,
