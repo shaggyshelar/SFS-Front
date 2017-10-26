@@ -19,7 +19,7 @@ export class UserAddEditComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private UsersService: UserService,
+        private userService: UserService,
         private route: ActivatedRoute, private router: Router) {
     }
     ngOnInit() {
@@ -31,7 +31,7 @@ export class UserAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
             if (this.params) {
-            this.UsersService.getUserById(this.params)
+            this.userService.getUserById(this.params)
                 .subscribe((results:User) => {
                     this.userForm.setValue({
                         id: results.id,
@@ -44,14 +44,14 @@ export class UserAddEditComponent implements OnInit {
 
     onSubmit({ value, valid }: { value: User, valid: boolean }) {
         if (this.params) {
-            this.UsersService.updateUser(value)
+            this.userService.updateUser(value)
                 .subscribe(
                 results => {
                     this.router.navigate(['/features/users/list']);
                 },
                 error => this.errorMessage = <any>error);
         } else {
-            this.UsersService.createUser(value)
+            this.userService.createUser(value)
                 .subscribe(
                 results => {
                     this.router.navigate(['/features/users/list']);

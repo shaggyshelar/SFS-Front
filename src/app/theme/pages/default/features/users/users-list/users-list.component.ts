@@ -12,7 +12,7 @@ import { User } from "../../../_models/user";
 })
 export class UsersListComponent implements OnInit {
   userList :  Observable<User[]>;  
-  constructor( private UserService: UserService, private router: Router) {
+  constructor( private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -20,7 +20,7 @@ export class UsersListComponent implements OnInit {
   }
 
     getAllUsers() {
-      this.userList = this.UserService.getAllUsers();
+      this.userList = this.userService.getAllUsers();
     }
     onManageRoleClick(user: User) {
       this.router.navigate(['/features/users/manage-role', user.id]);
@@ -29,7 +29,7 @@ export class UsersListComponent implements OnInit {
       this.router.navigate(['/features/users/edit', user.id]);
     }
     onDelete(user: User) {
-      this.UserService.deleteUser(user.id).subscribe((results:any) => {                      
+      this.userService.deleteUser(user.id).subscribe((results:any) => {                      
            this.getAllUsers();
       })
     }
