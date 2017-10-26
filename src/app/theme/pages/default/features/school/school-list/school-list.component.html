@@ -71,7 +71,7 @@
 			<!--end: Search Form -->
 			<!--begin: Datatable -->
 
-			<p-dataTable [value]="userList" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
+			<p-dataTable [value]="schoolList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
 				<p-column field="SchoolName" header="School Name"></p-column>
 				<p-column field="SchoolCode" header="School Code"></p-column>
 				<p-column field="SchoolEmail" header="School Email"></p-column>
@@ -79,7 +79,7 @@
 				<p-column field="SchoolAddress" header="School Address"></p-column>
 				<p-column header="Edit">
 					<ng-template let-school="rowData" pTemplate type="body">
-						<a href="javascript:;" (click)="onManageSchoolClick(school)" class="m-link m-link--focus m-login__account-link">
+						<a href="javascript:;" (click)="onEditSchoolClick(school)" class="m-link m-link--focus m-login__account-link">
 							Edit
 						</a>
 					</ng-template>

@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { DefaultComponent } from '../../default.component';
+import { LayoutModule } from '../../../../layouts/layout.module';
+
+import { RoleService } from '../../_services/index';
 import { RolesComponent } from './roles.component';
 import { RoleListComponent } from './role-list/role-list.component';
 import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
-import { DefaultComponent } from '../../default.component';
-import { LayoutModule } from '../../../../layouts/layout.module';
-import { RoleService } from '../../_services/index';
 
 import {
 DataTableModule,

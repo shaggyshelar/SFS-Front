@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+
+import { SchoolService } from '../../../_services/school.service';
+import { School } from "../../../_models/school";
 
 @Component({
     selector: "app-users-list",
@@ -7,55 +11,27 @@ import { Router } from '@angular/router';
     encapsulation: ViewEncapsulation.None,
 })
 export class SchoolListComponent implements OnInit {
-    userList : any;  
-    constructor(private router: Router) {
+    schoolList :  Observable<School[]>;  
+    constructor(private router: Router, private schoolService : SchoolService) {
     }
 
-    ngOnInit() {
-        this.userList = [{
-            ID: 1,
-            SchoolName: "School1",
-            SchoolCode: 'admin',
-            SchoolEmail : 'school1@school1.com',
-            SchoolPhone : '5474125879',
-            SchoolAddress : 'My School adderess is as mentioned.'
-        },
-        {
-            ID: 2,
-            SchoolName: "School1",
-            SchoolCode: 'admin',
-            SchoolEmail : 'school1@school1.com',
-            SchoolPhone : '5474125879',
-            SchoolAddress : 'My School adderess is as mentioned.'
-        },
-        {
-            ID: 3,
-            SchoolName: "School1",
-            SchoolCode: 'admin',
-            SchoolEmail : 'school1@school1.com',
-            SchoolPhone : '5474125879',
-            SchoolAddress : 'My School adderess is as mentioned.'
-        },
-        {
-            ID: 4,
-            SchoolName: "School1",
-            SchoolCode: 'admin',
-            SchoolEmail : 'school1@school1.com',
-            SchoolPhone : '5474125879',
-            SchoolAddress : 'My School adderess is as mentioned.'
-        }];
+    ngOnInit() {      
+        this.getAllSchools();
+    }
 
+    getAllSchools() {
+        this.schoolList = this.schoolService.getAllSchools();
     }
     onAddSchool() {
         this.router.navigate(['/features/school/add']);
-      }
-
-      onManageSchoolClick(data: any) {
-          debugger;
-        this.router.navigate(['/features/school/edit', data.ID]);
     }
-    onSchoolDeleteClick(data: any) {
-        debugger;
-        alert('Deleted the record having ID : '+ data.ID);
-      }
+
+    onEditSchoolClick(school: School) {
+        this.router.navigate(['/features/school/edit', school.id]);
+    }
+    onSchoolDeleteClick(school: School) {
+        this.schoolService.deleteSchool(school.id).subscribe((results:any) => {                      
+           this.getAllSchools();
+      })
+    }
 }
