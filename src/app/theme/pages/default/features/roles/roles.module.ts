@@ -7,6 +7,7 @@ import { RoleListComponent } from './role-list/role-list.component';
 import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
+import { RoleService } from '../../_services/index';
 
 import {
 DataTableModule,
@@ -44,11 +45,15 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     AutoCompleteModule,
-  ], declarations: [
+  ], 
+  declarations: [
     RolesComponent,
     RoleListComponent,
     RoleAddEditComponent,
-  ]
+  ],
+  providers: [
+    RoleService,
+  ],
 })
 export class RolesModule {
 }

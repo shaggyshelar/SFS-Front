@@ -3,6 +3,9 @@ import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { RoleService } from '../../../_services/role.service';
+import { Role } from "../../../_models/Role";
+
 /** Component Declaration */
 @Component({
     selector: 'app-role-add-edit',
@@ -19,32 +22,47 @@ export class RoleAddEditComponent implements OnInit {
     roleForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,
+        private formBuilder: FormBuilder, private roleService: RoleService,
         private route: ActivatedRoute, private router: Router) {
     }
     ngOnInit() {
         this.roleForm = this.formBuilder.group({
-            ID: [0],
-            Name: ['', [Validators.required]],
+            id: [0],
+            RoleName: ['', [Validators.required]],
+            RoleDescription: [''],
         });
         this.route.params.forEach((params: Params) => {
             this.params = params['roleId'];
             if (this.params) {
-                 this.roleForm.setValue({
-                    ID: 1,
-                    Name: 'SuperAdmin',
-                });
-                this.getAllPermissions();
-                this.getPermissionsByRole();               
+            this.roleService.getRoleById(this.params)
+                .subscribe((results:Role) => {
+                    this.getAllPermissions();
+                    this.getPermissionsByRole();  
+                    this.roleForm.setValue({
+                        id: results.id,
+                        RoleName: results.RoleName,
+                        RoleDescription: results.RoleDescription
+                    });                  
+                })             
             }
         });
     }
 
-    onSubmit({ value, valid }: { value: any, valid: boolean }) {
+    onSubmit({ value, valid }: { value: Role, valid: boolean }) {
         if (this.params) {
-          this.router.navigate(['/features/roles/list']);
+            this.roleService.updateRole(value)
+                .subscribe(
+                results => {
+                    this.router.navigate(['/features/roles/list']);
+                },
+                error => this.errorMessage = <any>error);
         } else {
-            this.router.navigate(['/features/roles/list']);
+            this.roleService.createRole(value)
+                .subscribe(
+                results => {
+                    this.router.navigate(['/features/roles/list']);
+                },
+                error => this.errorMessage = <any>error);
         }
     }
 
