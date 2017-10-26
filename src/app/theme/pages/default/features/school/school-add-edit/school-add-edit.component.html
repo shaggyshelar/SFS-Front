@@ -52,7 +52,7 @@
 			<div class="m-section">
 				<div class="m-section__content">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="portlet light bordered legends-portlet">
 								<div class="portlet-body">
 									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(schoolForm)" [formGroup]="schoolForm">
@@ -75,25 +75,21 @@
 											</div>
 										</div> -->
 										<div class="form-group">
+											<label class="col-md-3 control-label">Institute Name</label>
+											<div class="col-md-9">												
+												<p-dropdown [options]="institutes" [style]="{'width':'100%'}" formControlName="InstituteId" name="instituteId"></p-dropdown>
+													<div class="alert alert-danger" *ngIf="schoolForm.get('InstituteId').hasError('required') && schoolForm.get('InstituteId').touched">
+														Please select Institute
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
 											<label class="col-md-3 control-label">School Code</label>
 											<div class="col-md-9">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
+												<input type="text" formControlName="SchoolCode" name="schoolCode" class="form-control">
+												<div class="alert alert-danger" *ngIf="schoolForm.get('SchoolCode').hasError('required') && schoolForm.get('SchoolCode').touched">
+													Please enter School Code
+												</div>
 											</div>
 										</div>
 										<div class="form-group">
