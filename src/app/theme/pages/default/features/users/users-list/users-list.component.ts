@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { UsersService } from '../../../_services/users.service';
+import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 
 @Component({
@@ -12,7 +12,7 @@ import { User } from "../../../_models/user";
 })
 export class UsersListComponent implements OnInit {
   userList :  Observable<User[]>;  
-  constructor( private UsersService: UsersService, private router: Router) {
+  constructor( private UserService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -20,20 +20,18 @@ export class UsersListComponent implements OnInit {
   }
 
     getAllUsers() {
-      this.UsersService.getAllUsers().subscribe((results:any) => {                      
-          this.userList =  results;
-      })
+      this.userList = this.UserService.getAllUsers();
     }
-    onManageRoleClick(data: any) {
-        this.router.navigate(['/features/users/manage-role', data.ID]);
+    onManageRoleClick(user: User) {
+      this.router.navigate(['/features/users/manage-role', user.id]);
     }
     onEditClick(user: User) {
-      this.router.navigate(['/features/users/edit', user.ID]);
+      this.router.navigate(['/features/users/edit', user.id]);
     }
     onDelete(user: User) {
-       this.UsersService.deleteUser(user.ID).subscribe((results:any) => {                      
+      this.UserService.deleteUser(user.id).subscribe((results:any) => {                      
            this.getAllUsers();
-        })
+      })
     }
     onAddClick() {
       this.router.navigate(['/features/users/add']);
