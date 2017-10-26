@@ -23,15 +23,6 @@ export class CategoriesAddEditComponent implements OnInit {
       CategoryName: ['', [Validators.required]],
       CategoryDescription: ['', [Validators.required]],
     });
-    // this.route.params.forEach((params: Params) => {
-    //   this.params = params['roleId'];
-    //   if (this.params) {
-    //     this.schoolForm.setValue({
-    //       ID: 1,
-    //       Name: 'SuperAdmin',
-    //     });
-    //   }
-    // });
   }
 
   onSubmit({ value, valid }: { value: any, valid: boolean }) {

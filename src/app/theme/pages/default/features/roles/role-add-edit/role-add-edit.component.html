@@ -53,57 +53,58 @@
 					<!--begin::Section-->
 					<div class="m-section">
 						<div class="m-section__content">
-                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="portlet light bordered legends-portlet">
-                                    <div class="portlet-body">
-                                        <form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(roleForm)" [formGroup]="roleForm">
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Name</label>
-                                            <div class="col-md-10">
-                                            <input type="text" formControlName="Name" name="roleName" class="form-control">
-                                            <div class="alert alert-danger" *ngIf="roleForm.get('Name').hasError('required') && roleForm.get('Name').touched">
-                                                Please enter Role Name
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-2 col-md-10">
-                                            <button pButton type="submit" label="Save" [disabled]="roleForm.invalid"></button>
-                                            <button pButton type="button" label="Cancel" (click)="onCancel()"></button>
-                                            </div>
-                                        </div>
-                                        </form>
-                                    </div>
-                                    </div>
-                                </div>
-                                 <div class="col-md-6" *ngIf='params'>
-                                    <div class="portlet light bordered">
-                                    <div class="portlet-body">
-                                        <div class="form-group">
-                                        <div class="row">
-                                            <label class="col-md-2  control-label">Name</label>
-                                            <div class="col-md-8">
-                                            <p-autoComplete [(ngModel)]="selectedPermission" [suggestions]="filteredPermissionList" (completeMethod)="filterPermission($event)"
-                                                field="Text" [size]="30" placeholder="Permissions" [minLength]="1"></p-autoComplete>
-                                            </div>
-                                            <div class="col-md-2">
-                                            <button class="btn btn-default" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''"> ADD </button>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <p-dataTable [value]="rolePermissionList" [responsive]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
-                                        <p-column field="Text" header="Permissions" [sortable]="true"></p-column>
-                                        <p-column header="Revoke">
-                                            <template  pTemplate="body" let-permission="rowData">
-                                            <a href="javascript:;" class="m-link m-link--focus m-login__account-link" (click)="revokePermission(permission)">Revoke</a>
-                                            </template>
-                                        </p-column>
-                                        </p-dataTable>
-                                    </div>
-                                    </div>
-                                </div> 
-                            </div> 
+							<div class="row">
+								<div class="col-md-6">
+									<div class="portlet light bordered legends-portlet">
+										<div class="portlet-body">
+											<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(roleForm)" [formGroup]="roleForm">
+												<div class="form-group">
+													<label class="col-md-2 control-label">Name</label>
+													<div class="col-md-10">
+														<input type="text" formControlName="Name" name="roleName" class="form-control">
+														<div class="alert alert-danger" *ngIf="roleForm.get('Name').hasError('required') && roleForm.get('Name').touched">
+															Please enter Role Name
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-md-offset-2 col-md-10">
+														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid"></button>
+														<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6" *ngIf='params'>
+									<div class="portlet light bordered">
+										<div class="portlet-body">
+											<div class="form-group">
+												<div class="row">
+													<label class="col-md-2  control-label">Name</label>
+													<div class="col-md-8">
+														<p-autoComplete [(ngModel)]="selectedPermission" [suggestions]="filteredPermissionList" (completeMethod)="filterPermission($event)"
+														 field="Text" [size]="30" placeholder="Permissions" [minLength]="1"></p-autoComplete>
+													</div>
+													<div class="col-md-2">
+														<button class="btn btn-default" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
+														ADD </button>
+													</div>
+												</div>
+											</div>
+											<p-dataTable [value]="rolePermissionList" [responsive]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+												<p-column field="Text" header="Permissions" [sortable]="true"></p-column>
+												<p-column header="Revoke">
+													<template pTemplate="body" let-permission="rowData">
+														<a href="javascript:;" class="m-link m-link--focus m-login__account-link" (click)="revokePermission(permission)">Revoke</a>
+													</template>
+												</p-column>
+											</p-dataTable>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!--end::Section-->
