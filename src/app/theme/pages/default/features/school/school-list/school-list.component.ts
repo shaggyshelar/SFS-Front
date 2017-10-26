@@ -50,8 +50,12 @@ export class SchoolListComponent implements OnInit {
         this.router.navigate(['/features/school/add']);
       }
 
-      onManageRoleClick(data: any) {
+      onManageSchoolClick(data: any) {
           debugger;
         this.router.navigate(['/features/school/edit', data.ID]);
     }
+    onSchoolDeleteClick(data: any) {
+        debugger;
+        alert('Deleted the record having ID : '+ data.ID);
+      }
 }
