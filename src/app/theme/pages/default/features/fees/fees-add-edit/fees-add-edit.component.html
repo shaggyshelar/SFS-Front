@@ -48,7 +48,126 @@
 			</div>
 		</div>
 		<div class="m-portlet__body">
-			
+			<!--begin::Section-->
+			<div class="m-section">
+				<div class="m-section__content">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="portlet light bordered legends-portlet">
+								<div class="portlet-body">
+									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(feesForm)" [formGroup]="feesForm">
+										<div class="form-group m-form__group">
+											<label for="categoryId" class="col-md-4 control-label">School Id</label>
+											<div class="col-md-8">
+												<select class="form-control m-input" id="exampleSelect1">
+													<option>
+														1
+													</option>
+													<option>
+														2
+													</option>
+													<option>
+														3
+													</option>
+													<option>
+														4
+													</option>
+													<option>
+														5
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="schoolId" class="col-md-4 control-label">Frequency Id</label>
+											<div class="col-md-8">
+												<select class="form-control m-input" id="exampleSelect1">
+													<option>
+														1
+													</option>
+													<option>
+														2
+													</option>
+													<option>
+														3
+													</option>
+													<option>
+														4
+													</option>
+													<option>
+														5
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="feeHeadName" class="col-md-4 control-label">FeeHead Name</label>
+											<div class="col-md-8">
+												<input type="text" formControlName="FeeHeadName" name="feeHeadName" class="form-control m-input" placeholder="Enter FeeHead Name">
+												<div class="alert alert-danger" *ngIf="feesForm.get('FeeHeadName').hasError('required') && feesForm.get('FeeHeadName').touched">
+													Please enter FeeHead Name
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="feeHeadCharges" class="col-md-4 control-label">Fee Head Charges</label>
+											<div class="col-md-8">
+												<input type="text" formControlName="FeeHeadCharges" name="feeHeadCharges" class="form-control" placeholder="Enter Fee Head Charges">
+												<div class="alert alert-danger" *ngIf="feesForm.get('FeeHeadCharges').hasError('required') && feesForm.get('FeeHeadCharges').touched">
+													Please enter Fee Head Charges
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="schoolId" class="col-md-4 control-label">Is AddHoc</label>
+											<div class="col-md-8">
+												<select class="form-control m-input" id="exampleSelect1">
+													<option>
+														Yes
+													</option>
+													<option>
+														No
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="schoolId" class="col-md-4 control-label">Standard Id</label>
+											<div class="col-md-8">
+												<select class="form-control m-input" id="exampleSelect1">
+													<option>
+														1
+													</option>
+													<option>
+														2
+													</option>
+													<option>
+														3
+													</option>
+													<option>
+														4
+													</option>
+													<option>
+														5
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group ">
+											<div class="col-md-offset-2 col-md-10">
+												<button pButton type="submit" label="Save" [disabled]="feesForm.invalid"></button>
+												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Section-->
 		</div>
 	</div>
 </div>

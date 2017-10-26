@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FeesComponent } from './fees.component';
 import { FeesListComponent } from './fees-list/fees-list.component';
 import { FeesAddEditComponent } from './fees-add-edit/fees-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
-
 import {
 DataTableModule,
 SharedModule,
+ButtonModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -39,6 +39,8 @@ const routes: Routes = [
     // primeng modules
     DataTableModule,
     SharedModule,
+    ReactiveFormsModule,
+    ButtonModule,
   ], declarations: [
     FeesComponent,
     FeesListComponent,
