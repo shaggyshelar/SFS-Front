@@ -4,17 +4,21 @@ import { Observable } from 'rxjs/Rx';
 
 import { FeesService } from '../../../_services/fees.service';
 import { Fees } from "../../../_models/fees";
+import { Pipe, PipeTransform } from '@angular/core';
+
 
 @Component({
   selector: "app-users-list",
   templateUrl: "./fees-list.component.html",
   encapsulation: ViewEncapsulation.None,
 })
+
+
+
 export class FeesListComponent implements OnInit {
-  feesList: Observable<Fees[]>;  ;
+  feesList: Observable<Fees[]>;;
   constructor(private router: Router, private feesService: FeesService) {
   }
-
   ngOnInit() {
     this.getAllFees();
   }
