@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,11 +8,12 @@ import { FeesAddEditComponent } from './fees-add-edit/fees-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { FeesService } from '../../_services/index';
+
 import {
-DataTableModule,
-SharedModule,
-ButtonModule,
-DropdownModule,
+  DataTableModule,
+  SharedModule,
+  ButtonModule,
+  DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [

@@ -76,12 +76,20 @@
 				<p-column field="SchoolId" header="School Id"></p-column>
 				<p-column field="FrequencyId" header="Frequency Id"></p-column>
 				<p-column field="FeeHeadCharges" header="Fee Head Charges"></p-column>
-				<p-column field="IsAddHoc" header="IsAddHoc?"></p-column>
+				<p-column header="IsAddHoc?">
+					<ng-template let-fee="rowData" pTemplate type="body">
+						{{fee.IsAddHoc == true ? "Yes" : "No"}}
+					</ng-template>
+				</p-column>
 				<p-column field="StandardId" header="Standard Id"></p-column>
 				<p-column field="CategoryId" header="Category Id"></p-column>
-				<p-column field="IsApproved" header="IsApproved?" ></p-column>
+				<p-column header="IsApproved?">
+					<ng-template let-fee="rowData" pTemplate type="body">
+						{{fee.IsApproved ? "Yes" : "No"}}
+					</ng-template>
+				</p-column>
 				<p-column field="IsApprovedBy" header="Approved By"></p-column>
-				<p-column field="CurrencyId" header="Currency Id" ></p-column>
+				<p-column field="CurrencyId" header="Currency Id"></p-column>
 				<p-column header="Edit">
 					<ng-template let-fee="rowData" pTemplate type="body">
 						<a href="javascript:;" (click)="onManageFeeClick(fee)" class="m-link m-link--focus m-login__account-link">
