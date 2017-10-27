@@ -59,98 +59,91 @@
 										<div class="form-group m-form__group">
 											<label for="categoryId" class="col-md-4 control-label">School Id</label>
 											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
+												<p-dropdown [options]="feeHeadIdList" [style]="{'width':'100%'}" formControlName="FeeHeadId" name="FeeHeadId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('FeeHeadId').hasError('required') && feesForm.get('FeeHeadId').touched">
+													Please select Fee Head Id
+												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group">
-											<label for="schoolId" class="col-md-4 control-label">Frequency Id</label>
+											<label for="schoolId" class="col-md-4 control-label">School Id</label>
 											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
+												<p-dropdown [options]="schoolIdList" [style]="{'width':'100%'}" formControlName="SchoolId" name="SchoolId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('SchoolId').hasError('required') && feesForm.get('SchoolId').touched">
+													Please select School Id
+												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group">
-											<label for="feeHeadName" class="col-md-4 control-label">FeeHead Name</label>
+											<label for="frequencyId" class="col-md-4 control-label">Frequency Id</label>
 											<div class="col-md-8">
-												<input type="text" formControlName="FeeHeadName" name="feeHeadName" class="form-control m-input" placeholder="Enter FeeHead Name">
-												<div class="alert alert-danger" *ngIf="feesForm.get('FeeHeadName').hasError('required') && feesForm.get('FeeHeadName').touched">
-													Please enter FeeHead Name
+												<p-dropdown [options]="frequencyIdList" [style]="{'width':'100%'}" formControlName="FrequencyId" name="FrequencyId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('FrequencyId').hasError('required') && feesForm.get('FrequencyId').touched">
+													Please select Frequency Id
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="isAddHoc" class="col-md-4 control-label">Is AdHoc?</label>
+											<div class="col-md-8">
+												<p-dropdown [options]="isAddHocList" [style]="{'width':'100%'}" formControlName="IsAddHoc" name="IsAddHoc"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('IsAddHoc').hasError('required') && feesForm.get('IsAddHoc').touched">
+													Is AddHoc?
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="standardId" class="col-md-4 control-label">Standard Id</label>
+											<div class="col-md-8">
+												<p-dropdown [options]="standardIdList" [style]="{'width':'100%'}" formControlName="StandardId" name="StandardId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('StandardId').hasError('required') && feesForm.get('StandardId').touched">
+													Please select Standard Id
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="categoryId" class="col-md-4 control-label">Category Id</label>
+											<div class="col-md-8">
+												<p-dropdown [options]="categoryIdList" [style]="{'width':'100%'}" formControlName="CategoryId" name="CategoryId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('CategoryId').hasError('required') && feesForm.get('CategoryId').touched">
+													Please select Category Id
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="isApproved" class="col-md-4 control-label">Is Approved?</label>
+											<div class="col-md-8">
+												<p-dropdown [options]="isApprovedList" [style]="{'width':'100%'}" formControlName="IsApproved" name="IsApproved"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('IsApproved').hasError('required') && feesForm.get('IsApproved').touched">
+													Is Approved?
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="currencyId" class="col-md-4 control-label">Currency Id</label>
+											<div class="col-md-8">
+												<p-dropdown [options]="currencyIdList" [style]="{'width':'100%'}" formControlName="CurrencyId" name="CurrencyId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="feesForm.get('CurrencyId').hasError('required') && feesForm.get('CurrencyId').touched">
+													Please select Currency Id
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group">
+											<label for="isApprovedBy" class="col-md-4 control-label">Is Approved By</label>
+											<div class="col-md-8">
+												<input type="text" formControlName="IsApprovedBy" name="FeeHeIsApprovedByadCharges" class="form-control" placeholder="Enter Fee Head Charges">
+												<div class="alert alert-danger" *ngIf="feesForm.get('IsApprovedBy').hasError('required') && feesForm.get('IsApprovedBy').touched">
+													Is Approved By?
 												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group">
 											<label for="feeHeadCharges" class="col-md-4 control-label">Fee Head Charges</label>
 											<div class="col-md-8">
-												<input type="text" formControlName="FeeHeadCharges" name="feeHeadCharges" class="form-control" placeholder="Enter Fee Head Charges">
+												<input type="text" formControlName="FeeHeadCharges" name="FeeHeadCharges" class="form-control" placeholder="Enter Fee Head Charges">
 												<div class="alert alert-danger" *ngIf="feesForm.get('FeeHeadCharges').hasError('required') && feesForm.get('FeeHeadCharges').touched">
 													Please enter Fee Head Charges
 												</div>
-											</div>
-										</div>
-										<div class="form-group m-form__group">
-											<label for="schoolId" class="col-md-4 control-label">Is AddHoc</label>
-											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														Yes
-													</option>
-													<option>
-														No
-													</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group m-form__group">
-											<label for="schoolId" class="col-md-4 control-label">Standard Id</label>
-											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
 											</div>
 										</div>
 										<div class="form-group ">
@@ -159,7 +152,6 @@
 												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
 											</div>
 										</div>
-
 									</form>
 								</div>
 							</div>

@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+
+import { FeesService } from '../../../_services/fees.service';
+import { Fees } from "../../../_models/fees";
 
 @Component({
   selector: "app-users-list",
@@ -7,42 +11,26 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class FeesListComponent implements OnInit {
-  feesList: any;
-  constructor(private router: Router) {
+  feesList: Observable<Fees[]>;  ;
+  constructor(private router: Router, private feesService: FeesService) {
   }
 
   ngOnInit() {
-    this.feesList = [{
-      ID: 1,
-      FeeHeadName: "1",
-      FeeHeadCharges: '11',
-    },
-    {
-      ID: 2,
-      FeeHeadName: "2",
-      FeeHeadCharges: '11',
-    },
-    {
-      ID: 3,
-      FeeHeadName: "3",
-      FeeHeadCharges: '11',
-    },
-    {
-      ID: 4,
-      FeeHeadName: "4",
-      FeeHeadCharges: '11',
-    },
-    ];
+    this.getAllFees();
+  }
+  getAllFees() {
+    this.feesList = this.feesService.getAllFees();
+  }
+  onManageFeeClick(data: Fees) {
+    debugger;
+    this.router.navigate(['/features/fees/edit', data.id]);
   }
 
-  onManageFeeClick(data: any) {
+  onFeeDeleteClick(data: Fees) {
     debugger;
-    this.router.navigate(['/features/fees/edit', data.ID]);
-  }
-  onFeeDeleteClick(data: any) {
-    debugger;
-    //this.router.navigate(['/features/categories/edit', data.ID]);
-    alert('Deleted the record having ID : ' + data.ID);
+    this.feesService.deleteFee(data.id).subscribe((results: any) => {
+      this.getAllFees();
+    })
   }
 
   onAddFees() {

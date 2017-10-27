@@ -71,9 +71,17 @@
 			<!--end: Search Form -->
 			<!--begin: Datatable -->
 
-			<p-dataTable [value]="feesList" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-				<p-column field="FeeHeadName" header="FeeHead Name"></p-column>
-				<p-column field="FeeHeadCharges" header="FeeHead Charges"></p-column>
+			<p-dataTable [value]="feesList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
+				<p-column field="FeeHeadId" header="Fee Head Id"></p-column>
+				<p-column field="SchoolId" header="School Id"></p-column>
+				<p-column field="FrequencyId" header="Frequency Id"></p-column>
+				<p-column field="FeeHeadCharges" header="Fee Head Charges"></p-column>
+				<p-column field="IsAddHoc" header="IsAddHoc?"></p-column>
+				<p-column field="StandardId" header="Standard Id"></p-column>
+				<p-column field="CategoryId" header="Category Id"></p-column>
+				<p-column field="IsApproved" header="IsApproved?" ></p-column>
+				<p-column field="IsApprovedBy" header="Approved By"></p-column>
+				<p-column field="CurrencyId" header="Currency Id" ></p-column>
 				<p-column header="Edit">
 					<ng-template let-fee="rowData" pTemplate type="body">
 						<a href="javascript:;" (click)="onManageFeeClick(fee)" class="m-link m-link--focus m-login__account-link">

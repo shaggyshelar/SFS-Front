@@ -7,10 +7,12 @@ import { FeesListComponent } from './fees-list/fees-list.component';
 import { FeesAddEditComponent } from './fees-add-edit/fees-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
+import { FeesService } from '../../_services/index';
 import {
 DataTableModule,
 SharedModule,
-ButtonModule
+ButtonModule,
+DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -41,10 +43,14 @@ const routes: Routes = [
     SharedModule,
     ReactiveFormsModule,
     ButtonModule,
+    DropdownModule,
   ], declarations: [
     FeesComponent,
     FeesListComponent,
     FeesAddEditComponent,
+  ],
+  providers: [
+    FeesService,
   ]
 })
 export class FeesModule {
