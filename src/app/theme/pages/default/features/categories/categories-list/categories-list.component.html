@@ -71,7 +71,7 @@
 			<!--end: Search Form -->
 			<!--begin: Datatable -->
 			
-			<p-dataTable [value]="categoriesList" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
+			<p-dataTable [value]="categoriesList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
 				<p-column field="CategoryId" header="Category Id"></p-column>
 				<p-column field="SchoolId" header="SchoolId"></p-column>
 				<p-column field="CategoryName" header="Category Name"></p-column>

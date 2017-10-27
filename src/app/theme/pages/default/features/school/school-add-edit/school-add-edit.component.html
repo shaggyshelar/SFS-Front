@@ -56,7 +56,7 @@
 							<div class="portlet light bordered legends-portlet">
 								<div class="portlet-body">
 									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(schoolForm)" [formGroup]="schoolForm">
-										 <div class="form-group">
+										<div class="form-group">
 											<label class="col-md-3 control-label">School Name</label>
 											<div class="col-md-9">
 												<input type="text" formControlName="SchoolName" name="schoolName" class="form-control">
@@ -64,7 +64,7 @@
 													Please enter School Name
 												</div>
 											</div>
-										</div> 
+										</div>
 										<!-- <div class="form-group">
 											<label class="col-md-3 control-label">School Code</label>
 											<div class="col-md-9">
@@ -76,10 +76,10 @@
 										</div> -->
 										<div class="form-group">
 											<label class="col-md-3 control-label">Institute Name</label>
-											<div class="col-md-9">												
+											<div class="col-md-9">
 												<p-dropdown [options]="institutes" [style]="{'width':'100%'}" formControlName="InstituteId" name="instituteId"></p-dropdown>
-													<div class="alert alert-danger" *ngIf="schoolForm.get('InstituteId').hasError('required') && schoolForm.get('InstituteId').touched">
-														Please select Institute
+												<div class="alert alert-danger" *ngIf="schoolForm.get('InstituteId').hasError('required') && schoolForm.get('InstituteId').touched">
+													Please select Institute
 												</div>
 											</div>
 										</div>

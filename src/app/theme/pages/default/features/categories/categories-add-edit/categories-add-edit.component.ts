@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { CategoriesService } from '../../../_services/categories.service';
+import { Categories } from "../../../_models/categories";
+import { Observable } from 'rxjs/Rx';
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: "app-users-list",
@@ -11,25 +15,66 @@ export class CategoriesAddEditComponent implements OnInit {
   errorMessage: any;
   params: number;
   categoriesForm: FormGroup;
+  schools: SelectItem[];
+  categories: SelectItem[];
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute, private router: Router
+    private formBuilder: FormBuilder, private categorieslService: CategoriesService,
+    private route: ActivatedRoute, private router: Router,
   ) {
   }
 
   ngOnInit() {
+
+    this.schools = [];
+    this.schools.push({ label: 'Select', value: null });
+    this.schools.push({ label: 'School1', value: "1" });
+    this.schools.push({ label: 'School2', value: "2" });
+
+    this.categories = [];
+    this.categories.push({ label: 'Select', value: null });
+    this.categories.push({ label: 'Category1', value: "1" });
+    this.categories.push({ label: 'Category2', value: "2" });
+
     this.categoriesForm = this.formBuilder.group({
-      ID: [0],
+      id: [],
+      SchoolId: [0, [Validators.required]],
+      CategoryId: [0, [Validators.required]],
       CategoryName: ['', [Validators.required]],
       CategoryDescription: ['', [Validators.required]],
     });
+
+    this.route.params.forEach((params: Params) => {
+      this.params = params['categoriesId'];
+      if (this.params) {
+        this.categorieslService.getCategoryById(this.params)
+          .subscribe((results: Categories) => {
+            this.categoriesForm.setValue({
+              CategoryId: results.CategoryId,
+              SchoolId: results.SchoolId,
+              CategoryName: results.CategoryName,
+              CategoryDescription: results.CategoryDescription,
+              id: results.id
+            });
+          })
+      }
+    });
   }
 
-  onSubmit({ value, valid }: { value: any, valid: boolean }) {
+  onSubmit({ value, valid }: { value: Categories, valid: boolean }) {
     if (this.params) {
-      this.router.navigate(['/features/categories/list']);
+      this.categorieslService.updateCategory(value)
+        .subscribe(
+        results => {
+          this.router.navigate(['/features/categories/list']);
+        },
+        error => this.errorMessage = <any>error);
     } else {
-      this.router.navigate(['/features/categories/list']);
+      this.categorieslService.createCategory(value)
+        .subscribe(
+        results => {
+          this.router.navigate(['/features/categories/list']);
+        },
+        error => this.errorMessage = <any>error);
     }
   }
   onCancel() {

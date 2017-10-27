@@ -59,45 +59,19 @@
 										<div class="form-group m-form__group">
 											<label for="categoryId" class="col-md-4 control-label">Category Id</label>
 											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
+												<p-dropdown [options]="categories" [style]="{'width':'100%'}" formControlName="CategoryId" name="CategoryId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="categoriesForm.get('CategoryId').hasError('required') && schoolForm.get('CategoryId').touched">
+													Please select Category
+												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group">
 											<label for="schoolId" class="col-md-4 control-label">School Id</label>
 											<div class="col-md-8">
-												<select class="form-control m-input" id="exampleSelect1">
-													<option>
-														1
-													</option>
-													<option>
-														2
-													</option>
-													<option>
-														3
-													</option>
-													<option>
-														4
-													</option>
-													<option>
-														5
-													</option>
-												</select>
+												<p-dropdown [options]="schools" [style]="{'width':'100%'}" formControlName="SchoolId" name="SchoolId"></p-dropdown>
+												<div class="alert alert-danger" *ngIf="categoriesForm.get('SchoolId').hasError('required') && schoolForm.get('SchoolId').touched">
+													Please select School
+												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group">
@@ -124,7 +98,7 @@
 												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
 											</div>
 										</div>
-										
+
 									</form>
 								</div>
 							</div>
