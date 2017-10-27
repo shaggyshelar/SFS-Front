@@ -7,11 +7,13 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { CategoriesAddEditComponent } from './categories-add-edit/categories-add-edit.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
+import { CategoriesService } from '../../_services/index';
 
 import {
 DataTableModule,
 SharedModule,
 ButtonModule,
+DropdownModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -42,11 +44,15 @@ const routes: Routes = [
     DataTableModule,
     SharedModule,
     ButtonModule,
+    DropdownModule
   ], declarations: [
     CategoriesComponent,
     CategoriesListComponent,
     CategoriesAddEditComponent,
-  ]
+  ],
+  providers: [
+    CategoriesService,
+  ],
 })
 export class CategoriesModule {
 }
