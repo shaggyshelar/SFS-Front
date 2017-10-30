@@ -18,6 +18,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/roles\/roles.module#RolesModule"
       },
       {
+        "path": "features\/student",
+        "loadChildren": ".\/pages\/default\/features\/student\/student.module#StudentModule"
+      },
+      {
         "path": "features\/school",
         "loadChildren": ".\/pages\/default\/features\/school\/school.module#SchoolModule"
       },
