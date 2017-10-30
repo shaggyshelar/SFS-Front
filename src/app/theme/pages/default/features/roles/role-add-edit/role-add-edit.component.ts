@@ -25,8 +25,12 @@ export class RoleAddEditComponent implements OnInit {
     roleForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder, private roleService: RoleService,
-        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler) {
+        private formBuilder: FormBuilder,
+        private roleService: RoleService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private globalErrorHandler: GlobalErrorHandler,
+        private messageService: MessageService) {
     }
     ngOnInit() {
         this.roleForm = this.formBuilder.group({
@@ -58,6 +62,7 @@ export class RoleAddEditComponent implements OnInit {
             this.roleService.updateRole(value)
                 .subscribe(
                 results => {
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
                     this.router.navigate(['/features/roles/list']);
                 },
                 error => {
@@ -67,6 +72,7 @@ export class RoleAddEditComponent implements OnInit {
             this.roleService.createRole(value)
                 .subscribe(
                 results => {
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                     this.router.navigate(['/features/roles/list']);
                 },
                 error => {

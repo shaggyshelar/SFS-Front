@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { CategoriesService } from '../../../_services/categories.service';
 import { Categories } from "../../../_models/categories";
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
 
 @Component({
   selector: "app-users-list",
@@ -12,7 +14,11 @@ import { Categories } from "../../../_models/categories";
 })
 export class CategoriesListComponent implements OnInit {
   categoriesList: Observable<Categories[]>;
-  constructor(private CategoriesService: CategoriesService, private router: Router) {
+  constructor(
+    private CategoriesService: CategoriesService, 
+    private router: Router, 
+    private globalErrorHandler: GlobalErrorHandler, 
+    private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -32,10 +38,15 @@ export class CategoriesListComponent implements OnInit {
     this.router.navigate(['/features/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {
-    debugger;
-    this.CategoriesService.deleteCategory(data.id).subscribe((results: any) => {
-      this.getAllCategories();
-    })
+    this.CategoriesService.deleteCategory(data.id)
+      .subscribe(
+      results => {
+        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+        this.getAllCategories();
+        this.router.navigate(['/features/categories/list']);
+      },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      });
   }
-
 }
