@@ -3,6 +3,9 @@ import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
+
 import { RoleService } from '../../../_services/role.service';
 import { Role } from "../../../_models/Role";
 
@@ -23,27 +26,29 @@ export class RoleAddEditComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder, private roleService: RoleService,
-        private route: ActivatedRoute, private router: Router) {
+        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler) {
     }
     ngOnInit() {
         this.roleForm = this.formBuilder.group({
-            id: [0],
+            id: [],
             RoleName: ['', [Validators.required]],
             RoleDescription: [''],
         });
         this.route.params.forEach((params: Params) => {
             this.params = params['roleId'];
             if (this.params) {
-            this.roleService.getRoleById(this.params)
-                .subscribe((results:Role) => {
-                    this.getAllPermissions();
-                    this.getPermissionsByRole();  
-                    this.roleForm.setValue({
-                        id: results.id,
-                        RoleName: results.RoleName,
-                        RoleDescription: results.RoleDescription
-                    });                  
-                })             
+                this.roleService.getRoleById(this.params)
+                    .subscribe((results: Role) => {
+                        this.getAllPermissions();
+                        this.getPermissionsByRole();
+                        this.roleForm.setValue({
+                            id: results.id,
+                            RoleName: results.RoleName,
+                            RoleDescription: results.RoleDescription
+                        });
+                    }, error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             }
         });
     }
@@ -55,18 +60,22 @@ export class RoleAddEditComponent implements OnInit {
                 results => {
                     this.router.navigate(['/features/roles/list']);
                 },
-                error => this.errorMessage = <any>error);
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
         } else {
             this.roleService.createRole(value)
                 .subscribe(
                 results => {
                     this.router.navigate(['/features/roles/list']);
                 },
-                error => this.errorMessage = <any>error);
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
         }
     }
 
-    onAddPermission() {        
+    onAddPermission() {
     }
 
     filterPermission(event: any) {
@@ -79,7 +88,7 @@ export class RoleAddEditComponent implements OnInit {
             }
         }
     }
-    revokePermission(permission:any) {      
+    revokePermission(permission: any) {
     }
     onCancel() {
         this.router.navigate(['/features/roles/list']);
@@ -103,7 +112,7 @@ export class RoleAddEditComponent implements OnInit {
             }
         ];
     }
-    private getAllPermissions() {  
+    private getAllPermissions() {
         this.permissionList = [
             {
                 ID: 1,
@@ -113,8 +122,7 @@ export class RoleAddEditComponent implements OnInit {
                 ID: 2,
                 Key: 'Feature.MANAGE',
                 Text: 'Can manage Feature'
-            },  
+            },
         ]
     }
 }
-
