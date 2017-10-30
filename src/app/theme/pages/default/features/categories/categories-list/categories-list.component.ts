@@ -43,7 +43,6 @@ export class CategoriesListComponent implements OnInit {
       results => {
         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
         this.getAllCategories();
-        this.router.navigate(['/features/categories/list']);
       },
       error => {
         this.globalErrorHandler.handleError(error);
