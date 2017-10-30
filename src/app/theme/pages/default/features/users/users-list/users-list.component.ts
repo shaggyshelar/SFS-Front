@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+
 import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 
@@ -12,7 +14,7 @@ import { User } from "../../../_models/user";
 })
 export class UsersListComponent implements OnInit {
   userList :  Observable<User[]>;  
-  constructor( private userService: UserService, private router: Router) {
+  constructor( private userService: UserService, private router: Router, private globalErrorHandler : GlobalErrorHandler) {
   }
 
   ngOnInit() {
@@ -29,8 +31,11 @@ export class UsersListComponent implements OnInit {
       this.router.navigate(['/features/users/edit', user.id]);
     }
     onDelete(user: User) {
-      this.userService.deleteUser(user.id).subscribe((results:any) => {                      
+      this.userService.deleteUser(user.id).subscribe(
+        (data) => {                      
            this.getAllUsers();
+      }, error =>{
+         this.globalErrorHandler.handleError(error);
       })
     }
     onAddClick() {

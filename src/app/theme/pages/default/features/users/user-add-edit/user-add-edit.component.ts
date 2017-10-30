@@ -3,6 +3,9 @@ import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
+
 import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 
@@ -18,26 +21,27 @@ export class UserAddEditComponent implements OnInit {
     userForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,
-        private userService: UserService,
-        private route: ActivatedRoute, private router: Router) {
+        private formBuilder: FormBuilder,private globalErrorHandler: GlobalErrorHandler,
+        private userService: UserService,private route: ActivatedRoute, private router: Router) {
     }
     ngOnInit() {
         this.userForm = this.formBuilder.group({
-            id: [0],
+            id: [],
             UserName: ['', [Validators.required]],
             Password: ['', [Validators.required]],
         });
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
             if (this.params) {
-            this.userService.getUserById(this.params)
-                .subscribe((results:User) => {
-                    this.userForm.setValue({
-                        id: results.id,
-                        UserName: results.UserName
-                    });
-                })             
+                this.userService.getUserById(this.params)
+                    .subscribe((results: User) => {
+                        this.userForm.setValue({
+                            id: results.id,
+                            UserName: results.UserName
+                        });
+                    }, error => {
+                    this.globalErrorHandler.handleError(error);
+                })
             }
         });
     }
@@ -49,14 +53,18 @@ export class UserAddEditComponent implements OnInit {
                 results => {
                     this.router.navigate(['/features/users/list']);
                 },
-                error => this.errorMessage = <any>error);
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
         } else {
             this.userService.createUser(value)
                 .subscribe(
                 results => {
                     this.router.navigate(['/features/users/list']);
                 },
-                error => this.errorMessage = <any>error);
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
         }
     }
 

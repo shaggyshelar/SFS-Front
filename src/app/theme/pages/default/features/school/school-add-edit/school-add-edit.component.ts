@@ -3,6 +3,9 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
+
 import { SchoolService } from '../../../_services/school.service';
 import { School } from "../../../_models/School";
 
@@ -18,8 +21,8 @@ export class SchoolAddEditComponent implements OnInit {
   institutes: SelectItem[];
 
   constructor(
-    private formBuilder: FormBuilder, private schoolService: SchoolService,
-    private route: ActivatedRoute, private router: Router
+      private formBuilder: FormBuilder, private schoolService: SchoolService, private messageService: MessageService,
+      private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler
   ) {
   }
 
@@ -42,39 +45,50 @@ export class SchoolAddEditComponent implements OnInit {
 
     this.route.params.forEach((params: Params) => {
         this.params = params['schoolId'];
-          if (this.params) {
+        if (this.params) {
             this.schoolService.getSchoolById(this.params)
-              .subscribe((results:School) => {
-                  this.schoolForm.setValue({
-                      id: results.id,
-                      SchoolId: results.SchoolId,
-                      InstituteId : results.InstituteId,
-                      SchoolName: results.SchoolName,
-                      SchoolCode: results.SchoolCode,
-                      SchoolEmail: results.SchoolEmail,
-                      SchoolPhone: results.SchoolPhone,
-                      SchoolAddress: results.SchoolAddress
-                  });
-              })             
-          }
+                .subscribe(
+                (results: School) => {
+                    this.schoolForm.setValue({
+                        id: results.id,
+                        SchoolId: results.SchoolId,
+                        InstituteId: results.InstituteId,
+                        SchoolName: results.SchoolName,
+                        SchoolCode: results.SchoolCode,
+                        SchoolEmail: results.SchoolEmail,
+                        SchoolPhone: results.SchoolPhone,
+                        SchoolAddress: results.SchoolAddress
+                    });
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
+        }
       });
   }
+
 
   onSubmit({ value, valid }: { value: School, valid: boolean }) {
       if (this.params) {
           this.schoolService.updateSchool(value)
               .subscribe(
               results => {
+                  this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
                   this.router.navigate(['/features/school/list']);
               },
-              error => this.errorMessage = <any>error);
+              error => {
+                  this.globalErrorHandler.handleError(error);
+              });
       } else {
           this.schoolService.createSchool(value)
               .subscribe(
               results => {
+                  this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                   this.router.navigate(['/features/school/list']);
               },
-              error => this.errorMessage = <any>error);
+              error => {
+                  this.globalErrorHandler.handleError(error);
+              });
       }
   }
   onCancel() {

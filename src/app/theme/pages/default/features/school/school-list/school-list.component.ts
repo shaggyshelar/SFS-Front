@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+
 import { SchoolService } from '../../../_services/school.service';
 import { School } from "../../../_models/school";
 
@@ -12,7 +14,7 @@ import { School } from "../../../_models/school";
 })
 export class SchoolListComponent implements OnInit {
     schoolList :  Observable<School[]>;  
-    constructor(private router: Router, private schoolService : SchoolService) {
+    constructor(private router: Router, private schoolService : SchoolService, private globalErrorHandler : GlobalErrorHandler) {
     }
 
     ngOnInit() {      
@@ -30,8 +32,11 @@ export class SchoolListComponent implements OnInit {
         this.router.navigate(['/features/school/edit', school.id]);
     }
     onSchoolDeleteClick(school: School) {
-        this.schoolService.deleteSchool(school.id).subscribe((results:any) => {                      
-           this.getAllSchools();
-      })
+        this.schoolService.deleteSchool(school.id).subscribe(
+            data => {
+                this.getAllSchools();
+            }, error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 }

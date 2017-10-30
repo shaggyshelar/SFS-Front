@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+
 import { RoleService } from '../../../_services/role.service';
 import { Role } from "../../../_models/role";
 
@@ -12,7 +14,7 @@ import { Role } from "../../../_models/role";
 })
 export class RoleListComponent implements OnInit {
     roleList : Observable<Role[]>;  
-    constructor(private router: Router, private roleService: RoleService) {
+    constructor(private router: Router, private roleService: RoleService, private globalErrorHandler : GlobalErrorHandler) {
     }
 
     ngOnInit() {
@@ -27,8 +29,11 @@ export class RoleListComponent implements OnInit {
         this.router.navigate(['/features/roles/edit', role.id]);
     }
     onDelete(role: Role) {
-        this.roleService.deleteRole(role.id).subscribe((results:any) => {                      
+        this.roleService.deleteRole(role.id).subscribe(
+        (data) => {                      
             this.getAllRoles();
+        }, error =>{
+            this.globalErrorHandler.handleError(error);
         })
     }
 }
