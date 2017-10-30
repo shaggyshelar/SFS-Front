@@ -4,6 +4,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FeesService } from '../../../_services/fees.service';
 import { Fees } from "../../../_models/fees";
 import { Observable } from 'rxjs/Rx';
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
 
 import { SelectItem } from 'primeng/primeng';
 
@@ -27,7 +29,9 @@ export class FeesAddEditComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute, private router: Router,
-    private feesService: FeesService
+    private feesService: FeesService,
+    private messageService: MessageService,
+    private globalErrorHandler: GlobalErrorHandler
   ) {
   }
 
@@ -114,16 +118,22 @@ export class FeesAddEditComponent implements OnInit {
       this.feesService.updateFees(value)
         .subscribe(
         results => {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
           this.router.navigate(['/features/fees/list']);
         },
-        error => this.errorMessage = <any>error);
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
     } else {
       this.feesService.createFees(value)
         .subscribe(
         results => {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
           this.router.navigate(['/features/fees/list']);
         },
-        error => this.errorMessage = <any>error);
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
     }
   }
   onCancel() {

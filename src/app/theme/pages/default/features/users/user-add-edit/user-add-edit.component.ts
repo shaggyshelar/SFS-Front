@@ -21,8 +21,12 @@ export class UserAddEditComponent implements OnInit {
     userForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,private globalErrorHandler: GlobalErrorHandler,
-        private userService: UserService,private route: ActivatedRoute, private router: Router) {
+        private formBuilder: FormBuilder,
+        private globalErrorHandler: GlobalErrorHandler,
+        private userService: UserService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private messageService: MessageService) {
     }
     ngOnInit() {
         this.userForm = this.formBuilder.group({
@@ -40,8 +44,8 @@ export class UserAddEditComponent implements OnInit {
                             UserName: results.UserName
                         });
                     }, error => {
-                    this.globalErrorHandler.handleError(error);
-                })
+                        this.globalErrorHandler.handleError(error);
+                    })
             }
         });
     }
@@ -51,6 +55,7 @@ export class UserAddEditComponent implements OnInit {
             this.userService.updateUser(value)
                 .subscribe(
                 results => {
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
                     this.router.navigate(['/features/users/list']);
                 },
                 error => {
@@ -60,6 +65,7 @@ export class UserAddEditComponent implements OnInit {
             this.userService.createUser(value)
                 .subscribe(
                 results => {
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                     this.router.navigate(['/features/users/list']);
                 },
                 error => {
@@ -70,6 +76,6 @@ export class UserAddEditComponent implements OnInit {
 
     onCancel() {
         this.router.navigate(['/features/users/list']);
-    }  
+    }
 }
 

@@ -5,6 +5,8 @@ import { CategoriesService } from '../../../_services/categories.service';
 import { Categories } from "../../../_models/categories";
 import { Observable } from 'rxjs/Rx';
 import { SelectItem } from 'primeng/primeng';
+import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../_services/message.service';
 
 @Component({
   selector: "app-users-list",
@@ -19,7 +21,7 @@ export class CategoriesAddEditComponent implements OnInit {
   categories: SelectItem[];
   constructor(
     private formBuilder: FormBuilder, private categorieslService: CategoriesService,
-    private route: ActivatedRoute, private router: Router,
+    private route: ActivatedRoute, private router: Router, private messageService: MessageService, private globalErrorHandler: GlobalErrorHandler
   ) {
   }
 
@@ -65,16 +67,22 @@ export class CategoriesAddEditComponent implements OnInit {
       this.categorieslService.updateCategory(value)
         .subscribe(
         results => {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
           this.router.navigate(['/features/categories/list']);
         },
-        error => this.errorMessage = <any>error);
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
     } else {
       this.categorieslService.createCategory(value)
         .subscribe(
         results => {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
           this.router.navigate(['/features/categories/list']);
         },
-        error => this.errorMessage = <any>error);
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
     }
   }
   onCancel() {
