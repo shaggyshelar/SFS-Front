@@ -1,0 +1,122 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Student Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Students
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Add/Edit Student
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit Student
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="m-portlet__body">
+			<!--begin::Section-->
+			<div class="m-section">
+				<div class="m-section__content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portlet light bordered legends-portlet">
+								<div class="portlet-body">
+									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(studentForm)" [formGroup]="studentForm">
+										<div class="form-group">
+											<label class="col-md-3 control-label">First Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="FirstName" name="schoolName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('FirstName').hasError('required') && studentForm.get('FirstName').touched">
+													Please enter First Name
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label">Middle Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="MiddleName" name="middleName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('MiddleName').hasError('required') && studentForm.get('MiddleName').touched">
+													Please enter Middle Name												
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label">Last Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="LastName" name="lastName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('LastName').hasError('required') && studentForm.get('LastName').touched">
+													Please enter Last Name												
+												</div>
+											</div>
+										</div>									
+										<div class="form-group">
+											<label class="col-md-3 control-label">Email</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="Email" name="email" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('Email').hasError('required') && studentForm.get('Email').touched">
+													Please enter Email
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">Phone</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="Phone" name="phone" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('Phone').hasError('required') && studentForm.get('Phone').touched">
+													Please enter Phone Number
+												</div>
+											</div>
+										</div>									
+										<div class="form-group">
+											<div class="col-md-offset-2 col-md-10">
+												<button pButton type="submit" label="Save" [disabled]="studentForm.invalid"></button>
+												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Section-->
+		</div>
+	</div>
+</div>
