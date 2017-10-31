@@ -50,11 +50,18 @@ export class AuthComponent implements OnInit {
     this._authService.login(this.model.email, this.model.password)
       .subscribe(
       data => {
-        this._router.navigate([this.returnUrl]);
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.user) {
+          if(currentUser.user.isPasswordChanged=== true){
+            this._router.navigate(['/changePassword']);
+          }else{
+            this._router.navigate([this.returnUrl]);
+          }
+        }       
       },
       error => {
         this.showAlert('alertSignin');
-        this._alertService.error(JSON.parse(error._body).error.message);
+        this._alertService.error(JSON.parse(error._body).Message);
         this.loading = false;
       });
   }
