@@ -36,7 +36,6 @@ export class FeesListComponent implements OnInit {
       results => {
         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
         this.getAllFees();
-        this.router.navigate(['/features/categories/list']);
       },
       error => {
         this.globalErrorHandler.handleError(error);

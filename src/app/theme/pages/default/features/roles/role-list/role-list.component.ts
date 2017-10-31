@@ -37,7 +37,6 @@ export class RoleListComponent implements OnInit {
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
                 this.getAllRoles();
-                this.router.navigate(['/features/roles/list']);
             },
             error => {
                 this.globalErrorHandler.handleError(error);

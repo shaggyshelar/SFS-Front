@@ -39,7 +39,6 @@ export class UsersListComponent implements OnInit {
       results => {
         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
         this.getAllUsers();
-        this.router.navigate(['/features/users/list']);
       },
       error => {
         this.globalErrorHandler.handleError(error);

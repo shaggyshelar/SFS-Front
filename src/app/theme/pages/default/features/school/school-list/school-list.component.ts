@@ -40,7 +40,6 @@ export class SchoolListComponent implements OnInit {
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
                 this.getAllSchools();
-                this.router.navigate(['/features/school/list']);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
