@@ -9,6 +9,8 @@ import { SchoolService } from '../../_services/index';
 import { SchoolComponent } from './school.component';
 import { SchoolListComponent } from './school-list/school-list.component';
 import { SchoolAddEditComponent } from './school-add-edit/school-add-edit.component';
+import { InstitutesComponent } from './institutes/institutes.component';
+
 
 import {
 DataTableModule,
@@ -29,6 +31,8 @@ const routes: Routes = [
           { path: 'list', component: SchoolListComponent },
           { path: 'add', component: SchoolAddEditComponent },
           { path: 'edit/:schoolId', component: SchoolAddEditComponent },
+          { path: 'institutes', component: InstitutesComponent },
+          
         ]
       }
     ]
@@ -51,6 +55,7 @@ const routes: Routes = [
     SchoolComponent,
     SchoolListComponent,
     SchoolAddEditComponent,
+    InstitutesComponent,
   ],
   providers: [
     SchoolService,

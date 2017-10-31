@@ -38,6 +38,18 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
       {
+        "path": "features\/masterManagement",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
+      },
+      {
+        "path": "features\/configuration",
+        "loadChildren": ".\/pages\/default\/features\/configuration\/configuration.module#ConfigurationModule"
+      },
+      {
+        "path": "features\/archival",
+        "loadChildren": ".\/pages\/default\/features\/archival\/archival.module#ArchivalModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
