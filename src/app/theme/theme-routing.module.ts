@@ -544,6 +544,10 @@ const routes: Routes = [
     "path": "snippets\/pages\/errors\/error-6",
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/errors\/errors-error-6\/errors-error-6.module#ErrorsError6Module"
   },
+   {
+    "path": "changePassword",
+    "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
+  },
   {
     "path": "**",
     "redirectTo": "404",
