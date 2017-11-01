@@ -66,14 +66,6 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/components\/utils\/utils-session-timeout\/utils-session-timeout.module#UtilsSessionTimeoutModule"
       },
       {
-        "path": "header\/actions",
-        "loadChildren": ".\/pages\/default\/header\/header-actions\/header-actions.module#HeaderActionsModule"
-      },
-      {
-        "path": "header\/profile",
-        "loadChildren": ".\/pages\/default\/header\/header-profile\/header-profile.module#HeaderProfileModule"
-      },
-      {
         "path": "404",
         "loadChildren": ".\/pages\/default\/not-found\/not-found\/not-found.module#NotFoundModule"
       },
