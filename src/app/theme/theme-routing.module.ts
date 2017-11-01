@@ -558,6 +558,7 @@ const routes: Routes = [
   },
    {
     "path": "changePassword",
+    "canActivate": [AuthGuard],
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
   },
   {
