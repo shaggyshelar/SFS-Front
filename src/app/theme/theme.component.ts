@@ -2,8 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Helpers } from '../helpers';
 import { ScriptLoaderService } from '../_services/script-loader.service';
-import { Message } from 'primeng/primeng';
-import { MessageService } from '../_services/message.service';
 
 declare let mApp: any;
 declare let mUtil: any;
@@ -12,23 +10,13 @@ declare let mLayout: any;
   selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
   templateUrl: "./theme.component.html",
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    '../../../node_modules/primeng/resources/primeng.css',
-    '../../../node_modules/primeng/resources/themes/bootstrap/theme.css',
-  ]
 })
 export class ThemeComponent implements OnInit {
-  msgs: Message[] = [];
 
-  constructor(private messageService: MessageService, private _script: ScriptLoaderService, private _router: Router) {
+  constructor(private _script: ScriptLoaderService, private _router: Router) {
 
   }
   ngOnInit() {
-    this.messageService.getMessages()
-      .subscribe((value: Object) => {
-        this.msgs = [];
-        this.msgs.push(value);
-      });
     this._script.load('body', 'assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js')
       .then(result => {
         Helpers.setLoading(false);
