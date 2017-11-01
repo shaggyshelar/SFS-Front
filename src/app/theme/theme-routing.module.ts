@@ -58,14 +58,6 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/index\/index.module#IndexModule"
       },
       {
-        "path": "components\/utils\/idle-timer",
-        "loadChildren": ".\/pages\/default\/components\/utils\/utils-idle-timer\/utils-idle-timer.module#UtilsIdleTimerModule"
-      },
-      {
-        "path": "components\/utils\/session-timeout",
-        "loadChildren": ".\/pages\/default\/components\/utils\/utils-session-timeout\/utils-session-timeout.module#UtilsSessionTimeoutModule"
-      },
-      {
         "path": "404",
         "loadChildren": ".\/pages\/default\/not-found\/not-found\/not-found.module#NotFoundModule"
       },
