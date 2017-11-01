@@ -50,6 +50,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/archival\/archival.module#ArchivalModule"
       },
       {
+        "path": "features\/feeProcessing",
+        "loadChildren": ".\/pages\/default\/features\/fee_processing\/fee_processing.module#FeeProcessingModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
