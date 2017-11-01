@@ -2,7 +2,7 @@
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
-				Fees Management
+				Master Management
 			</h3>
 			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
 				<li class="m-nav__item m-nav__item--home">
@@ -16,7 +16,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Fee Management
+							Master Management
 						</span>
 					</a>
 				</li>
@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Fee Heads
+							Categories
 						</span>
 					</a>
 				</li>
@@ -42,7 +42,7 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Fees List
+						Categories List
 					</h3>
 				</div>
 			</div>
@@ -52,15 +52,15 @@
 			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
 				<div class="row align-items-center">
 					<div class="col-xl-8 order-2 order-xl-1">
-
+						
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
 
-						<a href="javascript:;" (click)="onAddFees()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<a href="javascript:;" (click)="onAddCategory()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 							<span>
 								<i class="la la-cart-plus"></i>
 								<span>
-									Add Fee
+									Add Categories
 								</span>
 							</span>
 						</a>
@@ -70,36 +70,22 @@
 			</div>
 			<!--end: Search Form -->
 			<!--begin: Datatable -->
-
-			<p-dataTable [value]="feesList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-				<p-column field="FeeHeadId" header="Fee Head Id"></p-column>
-				<p-column field="SchoolId" header="School Id"></p-column>
-				<p-column field="FrequencyId" header="Frequency Id"></p-column>
-				<p-column field="FeeHeadCharges" header="Fee Head Charges"></p-column>
-				<p-column header="IsAddHoc?">
-					<ng-template let-fee="rowData" pTemplate type="body">
-						{{fee.IsAddHoc == true ? "Yes" : "No"}}
-					</ng-template>
-				</p-column>
-				<p-column field="StandardId" header="Standard Id"></p-column>
+			
+			<p-dataTable [value]="categoriesList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
 				<p-column field="CategoryId" header="Category Id"></p-column>
-				<p-column header="IsApproved?">
-					<ng-template let-fee="rowData" pTemplate type="body">
-						{{fee.IsApproved ? "Yes" : "No"}}
-					</ng-template>
-				</p-column>
-				<p-column field="IsApprovedBy" header="Approved By"></p-column>
-				<p-column field="CurrencyId" header="Currency Id"></p-column>
+				<p-column field="SchoolId" header="SchoolId"></p-column>
+				<p-column field="CategoryName" header="Category Name"></p-column>
+				<p-column field="CategoryDescription" header="Category Description"></p-column>
 				<p-column header="Edit">
-					<ng-template let-fee="rowData" pTemplate type="body">
-						<a href="javascript:;" (click)="onManageFeeClick(fee)" class="m-link m-link--focus m-login__account-link">
+					<ng-template let-category="rowData" pTemplate type="body">
+						<a href="javascript:;" (click)="onManageCategoryClick(category)" class="m-link m-link--focus m-login__account-link">
 							Edit
 						</a>
 					</ng-template>
 				</p-column>
 				<p-column header="Delete">
-					<ng-template let-fee="rowData" pTemplate type="body">
-						<a href="javascript:;" (click)="onFeeDeleteClick(fee)" class="m-link m-link--focus m-login__account-link">
+					<ng-template let-category="rowData" pTemplate type="body">
+						<a href="javascript:;" (click)="onCategoryDeleteClick(category)" class="m-link m-link--focus m-login__account-link">
 							Delete
 						</a>
 					</ng-template>

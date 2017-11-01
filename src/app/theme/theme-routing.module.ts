@@ -38,6 +38,22 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
       {
+        "path": "features\/masterManagement",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
+      },
+      {
+        "path": "features\/configuration",
+        "loadChildren": ".\/pages\/default\/features\/configuration\/configuration.module#ConfigurationModule"
+      },
+      {
+        "path": "features\/archival",
+        "loadChildren": ".\/pages\/default\/features\/archival\/archival.module#ArchivalModule"
+      },
+      {
+        "path": "features\/feeProcessing",
+        "loadChildren": ".\/pages\/default\/features\/fee_processing\/fee_processing.module#FeeProcessingModule"
+      },
+      {
         "path": "angular\/ng-bootstrap",
         "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
       },
@@ -290,6 +306,7 @@ const routes: Routes = [
   },
    {
     "path": "changePassword",
+    "canActivate": [AuthGuard],
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
   },
   {
