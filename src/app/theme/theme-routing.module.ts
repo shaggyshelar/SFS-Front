@@ -54,6 +54,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/fee_processing\/fee_processing.module#FeeProcessingModule"
       },
       {
+        "path": "header/changePassword",
+        "loadChildren": ".\/pages\/default\/features\/changePassword\/changePassword.module#ChangePasswordModule"
+      },
+      {
         "path": "index",
         "loadChildren": ".\/pages\/default\/index\/index.module#IndexModule"
       },
@@ -72,7 +76,7 @@ const routes: Routes = [
       }
     ]
   },
-   {
+  {
     "path": "changePassword",
     "canActivate": [AuthGuard],
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
