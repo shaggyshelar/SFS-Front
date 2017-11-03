@@ -10,6 +10,6 @@ export class FeatureService {
   }
 
   getAllFeatures() {   
-   return this.http.get(AppSettings.API_ENDPOINT + 'features', AppSettings.requestOptions()).map((response: Response) => response.json());  
+   return this.http.get(AppSettings.API_ENDPOINT + 'featurelists', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
 }

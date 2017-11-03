@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
-import { UserService } from '../../_services/index';
+import { UserService, RoleService, UserRoleService  } from '../../_services/index';
 import { UsersComponent } from './users.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserRoleComponent } from './user-role/user-role.component';
@@ -57,6 +57,8 @@ const routes: Routes = [
   ],
   providers: [
     UserService,
+    RoleService,
+    UserRoleService,
   ],
 })
 export class UsersModule {

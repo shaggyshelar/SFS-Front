@@ -73,7 +73,7 @@
 								</div>
 							</div>						
 							<p-dataTable [value]="userList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-								<p-column field="UserName" header="UserName"></p-column>
+								<p-column field="username" header="UserName"></p-column>
 								<p-column header="Manage Role">
 									<ng-template let-role="rowData" pTemplate type="body">
 										<a href="javascript:;" (click)="onManageRoleClick(role)" class="m-link m-link--focus m-login__account-link">

@@ -59,18 +59,18 @@
 							<label for="userName">
 								User Name
 							</label>
-							<input type="text" formControlName="UserName" name="userName" id="userName" class="form-control m-input" placeholder="User Name">
-							<div class="alert alert-danger" *ngIf="userForm.get('UserName').hasError('required') && userForm.get('UserName').touched">
+							<input type="text" formControlName="username" name="userName" id="userName" class="form-control m-input" placeholder="User Name">
+							<div class="alert alert-danger" *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
 								Please enter UserName
 							</div>
 						</div>
 						<div class="form-group m-form__group">
-							<label for="password">
-								Password
+							<label for="email">
+								Email
 							</label>
-							<input type="text" formControlName="Password" name="password" class="form-control"  placeholder="Password">
-							<div class="alert alert-danger" *ngIf="userForm.get('Password').hasError('required') && userForm.get('Password').touched">
-								Please enter Password
+							<input type="text" formControlName="email" name="email" class="form-control"  placeholder="Email">
+							<div class="alert alert-danger" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
+								Please enter Email
 							</div>
 						</div>	
 					</div>
