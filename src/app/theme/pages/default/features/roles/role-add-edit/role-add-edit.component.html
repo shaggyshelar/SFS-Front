@@ -61,8 +61,8 @@
 												<div class="form-group">
 													<label class="col-md-2 control-label">Name</label>
 													<div class="col-md-10">
-														<input type="text" formControlName="name" name="roleName" class="form-control">
-														<div class="alert alert-danger" *ngIf="roleForm.get('name').hasError('required') && roleForm.get('name').touched">
+														<input type="text" formControlName="displayName" name="roleName" class="form-control">
+														<div class="alert alert-danger" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
 															Please enter Role Name
 														</div>
 													</div>
@@ -75,7 +75,7 @@
 												</div>
 												<div class="form-group">
 													<div class="col-md-offset-2 col-md-10">
-														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid"></button>
+														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid" [isAuthorize]="['role.Create', 'role.Update']"></button>
 														<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
 													</div>
 												</div>
@@ -106,7 +106,7 @@
 													<div class="col-md-6">
 														<select class="form-control" [(ngModel)]="selectedFeature" (ngModelChange)="getFeaturePermissions($event)">
 															<option [ngValue]="null" >Select</option>
-															<option *ngFor="let feature of featureList" [ngValue]="feature">{{feature.FeatureName}}</option>
+															<option *ngFor="let feature of featureList" [ngValue]="feature">{{feature.menuName}}</option>
 														</select>
 													</div>
 												</div>

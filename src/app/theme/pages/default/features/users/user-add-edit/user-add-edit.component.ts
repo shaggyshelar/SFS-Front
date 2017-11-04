@@ -33,7 +33,7 @@ export class UserAddEditComponent implements OnInit {
             id: [],
             username: ['', [Validators.required]],
             email: ['', [Validators.required]],
-            password: ['test'],
+            password: ['opensesane'],
         });
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];

@@ -40,9 +40,11 @@ export class RoleAddEditComponent implements OnInit {
     ngOnInit() {
         this.filteredPermissionList = [];
         this.permissionList = [];
+        this.featureList = [];
         this.roleForm = this.formBuilder.group({
             id: [],
-            name: ['', [Validators.required]],
+            displayName : ['',[Validators.required]],
+            name: [''],
             description: [''],
         });
         this.route.params.forEach((params: Params) => {
@@ -55,8 +57,9 @@ export class RoleAddEditComponent implements OnInit {
                         this.roleName = results.name;
                         this.roleForm.setValue({
                             id: results.id,
+                            displayName : results.displayName,
                             name: results.name,
-                            description: 'Test'
+                            description:'description'
                         });
                     }, error => {
                         this.globalErrorHandler.handleError(error);
@@ -77,6 +80,7 @@ export class RoleAddEditComponent implements OnInit {
                     this.globalErrorHandler.handleError(error);
                 });
         } else {
+            value.name = value.displayName;
             this.roleService.createRole(value)
                 .subscribe(
                 results => {
@@ -91,7 +95,7 @@ export class RoleAddEditComponent implements OnInit {
 
     onAddPermission() {
         let params = {
-            permission: this.selectedPermission.key,
+            permission: this.selectedPermission.permissionName,
             principalName: this.roleName,
             principalId: this.params
         }
@@ -137,7 +141,7 @@ export class RoleAddEditComponent implements OnInit {
                 this.rolePermissionList = results.permissions ? results.permissions : [];
                 this.updatePermissionList(this.rolePermissionList);
                 this.featureList = this.getFilteredFeatureList();
-                this.getfilteredPermissions()
+                this.getfilteredPermissions(null);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -155,7 +159,18 @@ export class RoleAddEditComponent implements OnInit {
     }
 
     private getAllFeatures() {
-        this.featureService.getAllFeatures()
+        // this.featureService.getAllFeatures()
+        //     .subscribe(
+        //     results => {
+        //         this.featureList = results;
+        //     },
+        //     error => {
+        //         this.globalErrorHandler.handleError(error);
+        //     });
+
+        
+
+        this.permissionService.getMenus()
             .subscribe(
             results => {
                 this.featureList = results;
@@ -169,7 +184,7 @@ export class RoleAddEditComponent implements OnInit {
         let featureList = [];
         for (var index = 0; index < this.featureList.length; index++) {
             let count = _.filter(this.rolePermissionList, { featureName: this.featureList[index].FeatureName }).length;
-            if (count != 4) {
+            if (count != this.featureList[index].permissions.length) {
                 featureList.push(this.featureList[index]);
             }
         }
@@ -178,32 +193,38 @@ export class RoleAddEditComponent implements OnInit {
 
     getFeaturePermissions(feature) {
         let permissionsList = [];
-        permissionsList.push({
-            key: feature.ModelName + ".Create",
-            text: "Can Create " + feature.FeatureName
-        });
-        permissionsList.push({
-            key: feature.ModelName + ".Read",
-            text: "Can Read " + feature.FeatureName
-        });
-        permissionsList.push({
-            key: feature.ModelName + ".Update",
-            text: "Can Update " + feature.FeatureName
-        });
-        permissionsList.push({
-            key: feature.ModelName + ".Delete",
-            text: "Can Delete " + feature.FeatureName
-        })
-        this.permissionList = permissionsList;
-        this.getfilteredPermissions()
+        // permissionsList.push({
+        //     key: feature.ModelName + ".Create",
+        //     text: "Can Create " + feature.FeatureName
+        // });
+        // permissionsList.push({
+        //     key: feature.ModelName + ".Read",
+        //     text: "Can Read " + feature.FeatureName
+        // });
+        // permissionsList.push({
+        //     key: feature.ModelName + ".Update",
+        //     text: "Can Update " + feature.FeatureName
+        // });
+        // permissionsList.push({
+        //     key: feature.ModelName + ".Delete",
+        //     text: "Can Delete " + feature.FeatureName
+        // })
+        this.permissionList = feature.permissions;
+        this.getfilteredPermissions(feature.menuName)
     }
 
-    private getfilteredPermissions(){
+    private getfilteredPermissions(menuName) {
         this.filteredPermissionList = [];
         for (let i = 0; i < this.permissionList.length; i++) {
             let permission = this.permissionList[i];
-            let rolePermissionData = _.find(this.rolePermissionList, { permission: permission.key })
+            let rolePermissionData = _.find(this.rolePermissionList, { permission: permission.permissionName })
             if (rolePermissionData == null) {
+                if (menuName) {
+                    let permissionName = permission.permissionName.split(".");
+                    if (permissionName.length > 1) {
+                        permission.text = "Can " + permissionName[1] + " " + menuName;
+                    }
+                }
                 this.filteredPermissionList.push(permission);
             }
         }

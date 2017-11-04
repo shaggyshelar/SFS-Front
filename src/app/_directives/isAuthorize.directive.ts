@@ -45,11 +45,7 @@ export class IsAuthorizeDirective {
             }
             if (!userHasPermissions) {
                 this._element.style.display = 'none';
-            } else {
-                this._element.style.display = 'block';
             }
-        } else {
-            this._element.style.display = 'none';
-        }
+        } 
     }
 }

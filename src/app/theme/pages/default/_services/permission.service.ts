@@ -41,4 +41,13 @@ export class PermissionService {
         requestOptions.params = params;
         return this.http.get(AppSettings.API_ENDPOINT +'roles/' + id, requestOptions ).map((response: Response) => response.json());
     }
+    getMenus() {
+       // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let params: URLSearchParams = new URLSearchParams();
+        // params.set('access_token', currentUser.token);
+        params.set('filter[include]', "permissions");
+        let requestOptions = AppSettings.requestOptions();
+        requestOptions.params = params;
+        return this.http.get(AppSettings.API_ENDPOINT +'menus/', requestOptions ).map((response: Response) => response.json());
+    }
 }

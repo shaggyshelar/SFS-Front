@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
+import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { UserService, RoleService, UserRoleService  } from '../../_services/index';
 import { UsersComponent } from './users.component';
 import { UsersListComponent } from './users-list/users-list.component';
@@ -27,7 +28,14 @@ const routes: Routes = [
         path: "",
         component: UsersComponent,
         children: [
-          { path: 'list', component: UsersListComponent },
+          {
+            path: 'list',
+            component: UsersListComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['user.Read']
+            }
+          },
           { path: 'manage-role/:id', component: UserRoleComponent },
           { path: 'add', component: UserAddEditComponent },
           { path: 'edit/:userId', component: UserAddEditComponent },

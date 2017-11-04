@@ -82,6 +82,10 @@ const routes: Routes = [
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
   },
   {
+    "path": "forbidden",
+    "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/unautherizedAccess\/unautherizedAccess.module#UnAutherizedAccessModule"
+  },
+  {
     "path": "**",
     "redirectTo": "404",
     "pathMatch": "full"
