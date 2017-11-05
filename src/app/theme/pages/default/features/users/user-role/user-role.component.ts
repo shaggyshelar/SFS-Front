@@ -1,9 +1,13 @@
 /** Angular Dependencies */
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import * as _ from 'lodash/index';
+
+import { RoleService, UserRoleService } from '../../../_services/index';
+import { Role } from "../../../_models/role";
 
 /** Component Declaration */
-@Component({ 
+@Component({
     selector: 'app-user-role',
     templateUrl: './user-role.component.html',
 })
@@ -14,13 +18,16 @@ export class UserRoleComponent implements OnInit {
     userName: string = '';
     roleList: any;
     roleDropdown: any;
-    selectedRole: any=null;
+    selectedRole: any = null;
 
     constructor(
-     private route: ActivatedRoute,
-     private router: Router) {}
+        private route: ActivatedRoute,
+        private roleService: RoleService,
+        private userRoleService: UserRoleService,
+        private router: Router) { }
 
     ngOnInit() {
+        this.userRole = [];
         this.route.params.forEach((params: Params) => {
             this.params = Number(params['id']);
             this.getAllRoles();
@@ -28,202 +35,68 @@ export class UserRoleComponent implements OnInit {
     }
 
     getAllRoles() {
-        this.roleList = [
-            {
-                ID: 1,
-                Name: 'SuperAdmin',
-                Permissions: [
-                    {
-                        ID: 1,
-                        Key: 'DASHBOARD.READ',
-                        Text: 'Can read Dasboard'
-                    },
-                    {
-                        ID: 2,
-                        Key: 'PROFILE.MANAGE',
-                        Text: 'Can manage Profile'
-                    },
-                    {
-                        ID: 3,
-                        Key: 'PROFILE.ALLPROFILES.READ',
-                        Text: 'Can read ALL Profile'
-                    }]
-            },
-            {
-                ID: 2,
-                Name: 'Management Team',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            },
-            {
-                ID: 3,
-                Name: 'Recruitment Head',
-                Permissions: [
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    },
-                    {
-                        ID: 8,
-                        Key: 'RRF.MYRRF.READ',
-                        Text: 'Can read MY RRF '
-                    },
-                    {
-                        ID: 9,
-                        Key: 'RRF.RRFAPPROVAL.READ',
-                        Text: 'Can read RRF Approval'
-                    }]
-            },
-            {
-                ID: 4,
-                Name: 'Delivery Manager',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            },
-            {
-                ID: 5,
-                Name: 'Project Manager',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            },
-            {
-                ID: 6,
-                Name: 'HR Team',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            },
-            {
-                ID: 7,
-                Name: 'HR Head',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            },
-            {
-                ID: 8,
-                Name: 'ESPL Employees',
-                Permissions: [
-                    {
-                        ID: 5,
-                        Key: 'PROFILE.RECENTPROFILES.READ',
-                        Text: 'Can read Recent Profile'
-                    },
-                    {
-                        ID: 6,
-                        Key: 'PROFILE.MYPROFILES.READ',
-                        Text: 'Can read My Profile'
-                    },
-                    {
-                        ID: 7,
-                        Key: 'RRF.MANAGE',
-                        Text: 'Can manage RRF'
-                    }]
-            }
-        ];
-        this.getUserRole();
+        this.roleService.getAllRoles()
+            .subscribe(
+            results => {
+                this.roleDropdown = <any>results;
+                this.getUserRole();
+            });
     }
 
     getUserRole() {
-        this.userName = 'admin';
-        this.userRole = [
-            {
-                ID: 1,
-                Name: 'SuperAdmin'
-            },
-            {
-                ID: 2,
-                Name: 'Employees'
-            }];
-        this.setRoleDropdown();
+        this.userRoleService.getUserRole(this.params)
+            .subscribe(
+            (results: any) => {
+                //this.userName = results.UserName;
+                this.userName = results.username;
+                this.userRole = results.roles;
+                if( this.userRole.length > 0){
+                     this.selectedRole = _.find(this.roleDropdown,{id :this.userRole[0].id });
+                }
+               // this.setRoleDropdown();
+            });
     }
 
     onAssignRole() {
+        if (this.selectedRole !== '' && this.selectedRole !== null) {
+            let params  =  {
+                principalType: "USER",
+                principalId: this.params,
+                roleId: this.selectedRole.id
+            }
+            this.userRoleService.addUserRole(params)
+                .subscribe(
+                results => {
+                    this.selectedRole = null;
+                    this.getUserRole();
+                });
+        }
     }
 
-    onRevokeRole(role:any) {
+    onRevokeRole(role: any) {
+        // role.userId = this.params;
+        // this.userRoleService.revokeUserRole(role)
+        //     .subscribe(
+        //     results => {
+        //         this.getUserRole();
+        //     });
     }
 
     private setRoleDropdown() {
         var flag = false;
-        this.roleDropdown = [
-            {
-                ID: 1,
-                Name: 'Management Team',
-            },
-            {
-                ID: 2,
-                Name: 'HR Team',
-            }];      
+        this.roleDropdown = [];
+        for (var i = 0; i < this.roleList.length; i++) {
+            for (var j = 0; j < this.userRole.length; j++) {
+                if (this.roleList[i].name === this.userRole[j].name) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                this.roleDropdown.push(this.roleList[i]);
+            }
+            flag = false;
+        }
     }
 }
 

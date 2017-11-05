@@ -60,7 +60,7 @@
 										</div>
 									</div>
 									<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-										<a routerLink="/features/users/add" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+										<a routerLink="/features/users/add" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" [isAuthorize]="['user.Create']">
 											<span>
 												<i class="la la-cart-plus"></i>
 												<span>
@@ -73,7 +73,7 @@
 								</div>
 							</div>						
 							<p-dataTable [value]="userList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-								<p-column field="UserName" header="UserName"></p-column>
+								<p-column field="username" header="UserName"></p-column>
 								<p-column header="Manage Role">
 									<ng-template let-role="rowData" pTemplate type="body">
 										<a href="javascript:;" (click)="onManageRoleClick(role)" class="m-link m-link--focus m-login__account-link">
@@ -83,12 +83,12 @@
 								</p-column>
 								<p-column header="Edit">
 									<ng-template let-user="rowData" pTemplate="body">
-										<button class="btn btn-danger" (click)="onEditClick(user)"><i class="fa fa-edit"></i></button>
+										<button class="btn btn-danger" (click)="onEditClick(user)" [isAuthorize]="['user.Update']"><i class="fa fa-edit"></i></button>
 									</ng-template>
 								</p-column>
 								<p-column header="Delete">
 									<ng-template let-user="rowData" pTemplate="body">
-										<button class="btn btn-danger" (click)="onDelete(user)"><i class="fa fa-trash"></i></button>
+										<button class="btn btn-danger" (click)="onDelete(user)" [isAuthorize]="['user.Delete']"><i class="fa fa-trash"></i></button>
 									</ng-template>
 								</p-column>
 							</p-dataTable> 

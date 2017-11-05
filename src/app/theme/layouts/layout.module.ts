@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HrefPreventDefaultDirective } from '../../_directives/href-prevent-default.directive';
 import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
+import { IsAuthorizeDirective } from '../../_directives/isAuthorize.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
     ScrollTopComponent,
     HrefPreventDefaultDirective,
     UnwrapTagDirective,
+    IsAuthorizeDirective,
   ],
   exports: [
     LayoutComponent,
@@ -29,6 +31,7 @@ import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
     FooterComponent,
     ScrollTopComponent,
     HrefPreventDefaultDirective,
+    IsAuthorizeDirective,
   ],
   imports: [
     CommonModule,

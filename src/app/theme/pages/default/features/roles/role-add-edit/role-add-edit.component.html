@@ -61,8 +61,8 @@
 												<div class="form-group">
 													<label class="col-md-2 control-label">Name</label>
 													<div class="col-md-10">
-														<input type="text" formControlName="RoleName" name="roleName" class="form-control">
-														<div class="alert alert-danger" *ngIf="roleForm.get('RoleName').hasError('required') && roleForm.get('RoleName').touched">
+														<input type="text" formControlName="displayName" name="roleName" class="form-control">
+														<div class="alert alert-danger" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
 															Please enter Role Name
 														</div>
 													</div>
@@ -70,12 +70,12 @@
 												<div class="form-group">
 													<label class="col-md-2 control-label">Description</label>
 													<div class="col-md-10">
-														<input type="text" formControlName="RoleDescription" name="roleDescription" class="form-control">														
+														<input type="text" formControlName="description" name="roleDescription" class="form-control">
 													</div>
 												</div>
 												<div class="form-group">
 													<div class="col-md-offset-2 col-md-10">
-														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid"></button>
+														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid" [isAuthorize]="['role.Create', 'role.Update']"></button>
 														<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
 													</div>
 												</div>
@@ -86,7 +86,7 @@
 								<div class="col-md-6" *ngIf='params'>
 									<div class="portlet light bordered">
 										<div class="portlet-body">
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<div class="row">
 													<label class="col-md-2  control-label">Name</label>
 													<div class="col-md-8">
@@ -98,9 +98,39 @@
 														ADD </button>
 													</div>
 												</div>
+											</div> -->
+
+											<div class="form-group">
+												<div class="row">
+													<label class="col-md-3 control-label">Select Feature</label>
+													<div class="col-md-6">
+														<select class="form-control" [(ngModel)]="selectedFeature" (ngModelChange)="getFeaturePermissions($event)">
+															<option [ngValue]="null" >Select</option>
+															<option *ngFor="let feature of featureList" [ngValue]="feature">{{feature.menuName}}</option>
+														</select>
+													</div>
+												</div>
 											</div>
+											<div class="form-group">
+												<div class="row">
+													<label class="col-md-3 control-label">Select Permissions</label>
+													<div class="col-md-6">
+														<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="this.filteredPermissionList.length == 0">
+															<option [ngValue]="null" >Select</option>
+															<option *ngFor="let permission of filteredPermissionList" [ngValue]="permission">{{permission.text}}</option>
+														</select>
+													</div>
+													<div class="col-md-2">
+														<button class="btn btn-default" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
+															ADD 
+														</button>
+													</div>
+												</div>
+											</div>
+											
+											
 											<p-dataTable [value]="rolePermissionList" [responsive]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
-												<p-column field="Text" header="Permissions" [sortable]="true"></p-column>
+												<p-column field="text" header="Permissions" [sortable]="true"></p-column>
 												<p-column header="Revoke">
 													<ng-template pTemplate="body" let-permission="rowData">
 														<a href="javascript:;" class="m-link m-link--focus m-login__account-link" (click)="revokePermission(permission)">Revoke</a>

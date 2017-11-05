@@ -31,8 +31,9 @@ export class UserAddEditComponent implements OnInit {
     ngOnInit() {
         this.userForm = this.formBuilder.group({
             id: [],
-            UserName: ['', [Validators.required]],
-            Password: ['', [Validators.required]],
+            username: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            password: ['opensesane'],
         });
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
@@ -41,7 +42,9 @@ export class UserAddEditComponent implements OnInit {
                     .subscribe((results: User) => {
                         this.userForm.setValue({
                             id: results.id,
-                            UserName: results.UserName
+                            username: results.username,
+                            email: results.email,
+                            password: 'Test',
                         });
                     }, error => {
                         this.globalErrorHandler.handleError(error);
