@@ -21,7 +21,6 @@ export class UserRoleService {
     getUserRole(id: any) {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let params: URLSearchParams = new URLSearchParams();
-        params.set('access_token', currentUser.token);
         params.set('filter[include]', "roles");
         let requestOptions = AppSettings.requestOptions();
         requestOptions.params = params;

@@ -14,9 +14,9 @@ import { UserRoleComponent } from './user-role/user-role.component';
 import { UserAddEditComponent } from './user-add-edit/user-add-edit.component';
 
 import {
-DataTableModule,
-SharedModule,
-ButtonModule,
+  DataTableModule,
+  SharedModule,
+  ButtonModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -36,9 +36,26 @@ const routes: Routes = [
               permissions: ['user.Read']
             }
           },
-          { path: 'manage-role/:id', component: UserRoleComponent },
-          { path: 'add', component: UserAddEditComponent },
-          { path: 'edit/:userId', component: UserAddEditComponent },
+          {
+            path: 'manage-role/:id',
+            component: UserRoleComponent,
+          },
+          {
+            path: 'add',
+            component: UserAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['user.Create']
+            }
+          },
+          {
+            path: 'edit/:userId',
+            component: UserAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['user.Update']
+            }
+          },
         ]
       }
     ]
@@ -56,7 +73,7 @@ const routes: Routes = [
     DataTableModule,
     SharedModule,
     ButtonModule,
-  ], 
+  ],
   declarations: [
     UsersComponent,
     UsersListComponent,

@@ -53,9 +53,8 @@
 					<!--begin::Section-->
 					<div class="m-section">
 						<div class="m-section__content">					
-							<p-dataTable [value]="featureList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-                                <p-column field="ID" header="ID"></p-column>
-								<p-column field="Name" header="Name"></p-column>
+							<p-dataTable [value]="featureList | async" [responsive]="true" [rows]="4" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
+								<p-column field="FeatureName" header="Name"></p-column>
 							</p-dataTable> 
 						</div>
 					</div>

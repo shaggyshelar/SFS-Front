@@ -3,6 +3,7 @@ import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as _ from 'lodash/index';
 
+import { MessageService } from '../../../../../../_services/message.service';
 import { RoleService, UserRoleService } from '../../../_services/index';
 import { Role } from "../../../_models/role";
 
@@ -23,6 +24,7 @@ export class UserRoleComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private roleService: RoleService,
+        private messageService: MessageService,
         private userRoleService: UserRoleService,
         private router: Router) { }
 
@@ -47,19 +49,17 @@ export class UserRoleComponent implements OnInit {
         this.userRoleService.getUserRole(this.params)
             .subscribe(
             (results: any) => {
-                //this.userName = results.UserName;
                 this.userName = results.username;
                 this.userRole = results.roles;
-                if( this.userRole.length > 0){
-                     this.selectedRole = _.find(this.roleDropdown,{id :this.userRole[0].id });
+                if (this.userRole.length > 0) {
+                    this.selectedRole = _.find(this.roleDropdown, { id: this.userRole[0].id });
                 }
-               // this.setRoleDropdown();
             });
     }
 
     onAssignRole() {
         if (this.selectedRole !== '' && this.selectedRole !== null) {
-            let params  =  {
+            let params = {
                 principalType: "USER",
                 principalId: this.params,
                 roleId: this.selectedRole.id
@@ -67,6 +67,7 @@ export class UserRoleComponent implements OnInit {
             this.userRoleService.addUserRole(params)
                 .subscribe(
                 results => {
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Role assigned to user Successfully' });
                     this.selectedRole = null;
                     this.getUserRole();
                 });
@@ -80,23 +81,6 @@ export class UserRoleComponent implements OnInit {
         //     results => {
         //         this.getUserRole();
         //     });
-    }
-
-    private setRoleDropdown() {
-        var flag = false;
-        this.roleDropdown = [];
-        for (var i = 0; i < this.roleList.length; i++) {
-            for (var j = 0; j < this.userRole.length; j++) {
-                if (this.roleList[i].name === this.userRole[j].name) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                this.roleDropdown.push(this.roleList[i]);
-            }
-            flag = false;
-        }
     }
 }
 

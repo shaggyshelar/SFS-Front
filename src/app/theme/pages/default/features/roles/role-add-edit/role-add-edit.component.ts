@@ -43,7 +43,7 @@ export class RoleAddEditComponent implements OnInit {
         this.featureList = [];
         this.roleForm = this.formBuilder.group({
             id: [],
-            displayName : ['',[Validators.required]],
+            displayName: ['', [Validators.required]],
             name: [''],
             description: [''],
         });
@@ -51,16 +51,18 @@ export class RoleAddEditComponent implements OnInit {
             this.params = params['roleId'];
             if (this.params) {
                 this.roleService.getRoleById(this.params)
-                    .subscribe((results: Role) => {
+                    .subscribe((results: any) => {
                         this.getAllFeatures();
-                        this.getPermissionsByRole();
+                        // this.getPermissionsByRole();
                         this.roleName = results.name;
                         this.roleForm.setValue({
                             id: results.id,
-                            displayName : results.displayName,
+                            displayName: results.displayName,
                             name: results.name,
-                            description:'description'
+                            description: results.description
                         });
+                        this.rolePermissionList = results.permissions ? results.permissions : [];
+                        this.updatePermissionList(this.rolePermissionList);
                     }, error => {
                         this.globalErrorHandler.handleError(error);
                     })
@@ -103,25 +105,11 @@ export class RoleAddEditComponent implements OnInit {
             .subscribe(
             results => {
                 this.getPermissionsByRole();
-                //this.getfilteredPermissions();
                 this.selectedPermission = null;
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Permission Added' });
             });
     }
 
-    // filterPermission(event: any) {
-    //     let query = event.query;
-    //     this.filteredPermissionList = [];
-    //     for (let i = 0; i < this.permissionList.length; i++) {
-    //         let permission = this.permissionList[i];
-    //         let rolePermissionData = _.find(this.rolePermissionList, { permission: permission.Key })
-    //         if (rolePermissionData == null) {
-    //             if (permission.Text.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-    //                 this.filteredPermissionList.push(permission);
-    //             }
-    //         }
-    //     }
-    // }
     revokePermission(permission: any) {
         this.permissionService.revokePermission(permission.id).subscribe(
             results => {
@@ -159,21 +147,11 @@ export class RoleAddEditComponent implements OnInit {
     }
 
     private getAllFeatures() {
-        // this.featureService.getAllFeatures()
-        //     .subscribe(
-        //     results => {
-        //         this.featureList = results;
-        //     },
-        //     error => {
-        //         this.globalErrorHandler.handleError(error);
-        //     });
-
-        
-
         this.permissionService.getMenus()
             .subscribe(
             results => {
                 this.featureList = results;
+                this.featureList = this.getFilteredFeatureList();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -193,22 +171,6 @@ export class RoleAddEditComponent implements OnInit {
 
     getFeaturePermissions(feature) {
         let permissionsList = [];
-        // permissionsList.push({
-        //     key: feature.ModelName + ".Create",
-        //     text: "Can Create " + feature.FeatureName
-        // });
-        // permissionsList.push({
-        //     key: feature.ModelName + ".Read",
-        //     text: "Can Read " + feature.FeatureName
-        // });
-        // permissionsList.push({
-        //     key: feature.ModelName + ".Update",
-        //     text: "Can Update " + feature.FeatureName
-        // });
-        // permissionsList.push({
-        //     key: feature.ModelName + ".Delete",
-        //     text: "Can Delete " + feature.FeatureName
-        // })
         this.permissionList = feature.permissions;
         this.getfilteredPermissions(feature.menuName)
     }

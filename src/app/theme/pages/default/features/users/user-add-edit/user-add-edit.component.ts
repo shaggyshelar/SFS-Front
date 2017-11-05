@@ -44,7 +44,7 @@ export class UserAddEditComponent implements OnInit {
                             id: results.id,
                             username: results.username,
                             email: results.email,
-                            password: 'Test',
+                            password: 'opensesane',
                         });
                     }, error => {
                         this.globalErrorHandler.handleError(error);

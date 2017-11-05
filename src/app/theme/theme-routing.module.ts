@@ -58,6 +58,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/changePassword\/changePassword.module#ChangePasswordModule"
       },
       {
+        "path": "features\/featureList",
+        "loadChildren": ".\/pages\/default\/features\/feature\/feature.module#FeatureModule"
+      },
+      {
         "path": "index",
         "loadChildren": ".\/pages\/default\/index\/index.module#IndexModule"
       },

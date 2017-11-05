@@ -56,7 +56,7 @@
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
 
-						<a href="javascript:;" (click)="onAddCategory()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<a href="javascript:;" (click)="onAddCategory()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" [isAuthorize]="['Category.Create']">
 							<span>
 								<i class="la la-cart-plus"></i>
 								<span>
@@ -78,14 +78,14 @@
 				<p-column field="CategoryDescription" header="Category Description"></p-column>
 				<p-column header="Edit">
 					<ng-template let-category="rowData" pTemplate type="body">
-						<a href="javascript:;" (click)="onManageCategoryClick(category)" class="m-link m-link--focus m-login__account-link">
+						<a href="javascript:;" (click)="onManageCategoryClick(category)" class="m-link m-link--focus m-login__account-link" [isAuthorize]="['Category.Update']">
 							Edit
 						</a>
 					</ng-template>
 				</p-column>
 				<p-column header="Delete">
 					<ng-template let-category="rowData" pTemplate type="body">
-						<a href="javascript:;" (click)="onCategoryDeleteClick(category)" class="m-link m-link--focus m-login__account-link">
+						<a href="javascript:;" (click)="onCategoryDeleteClick(category)" class="m-link m-link--focus m-login__account-link" [isAuthorize]="['Category.Delete']">
 							Delete
 						</a>
 					</ng-template>

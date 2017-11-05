@@ -6,24 +6,9 @@ import { Directive, ElementRef, Renderer, Input } from '@angular/core';
 })
 export class IsAuthorizeDirective {
 
-    // @Input('isAuthorize') permission: string;
-    // permissions: any;
-    // constructor(private el: ElementRef, private renderer: Renderer) {
-    // }
-    // ngOnInit() {
-    //     console.log('this.permission', this.permission);
-    //     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    //     if (currentUser && currentUser.permissions) {
-    //         // Use renderer to render the element with styles
-    //         if (!currentUser.permissions.includes(this.permission)) {
-    //             this.renderer.setElementStyle(this.el.nativeElement, 'display', 'none');
-    //         }
-    //     }
-    // }
-
- @Input() isAuthorize: Array<string>;
+    @Input() isAuthorize: Array<string>;
     private _element: HTMLElement;
-    constructor( _element: ElementRef) {
+    constructor(_element: ElementRef) {
         this._element = _element.nativeElement;
     }
 
@@ -38,7 +23,7 @@ export class IsAuthorizeDirective {
             for (var i = 0; i < this.isAuthorize.length; i++) {
                 if (currentUser.permissions.indexOf(this.isAuthorize[i]) === -1) {
                     userHasPermissions = false;
-                //    break;
+                    //    break;
                 } else {
                     userHasPermissions = true;
                 }
@@ -46,6 +31,6 @@ export class IsAuthorizeDirective {
             if (!userHasPermissions) {
                 this._element.style.display = 'none';
             }
-        } 
+        }
     }
 }
