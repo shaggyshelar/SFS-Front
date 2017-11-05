@@ -62,21 +62,27 @@
                             <div class="form-group">
                                 <div class="row">
                                 <label class="col-md-3 control-label">Select Role</label>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <!--<p-dropdown [options]="billTypes" [style]="{'width':'100%'}" [(ngModel)]="selectedRole" name=""></p-dropdown>-->
-                                    <select class="form-control" [(ngModel)]="selectedRole">
+                                    <select class="form-control" [(ngModel)]="selectedRole" [disabled]="this.userRole.length != 0">
                                         <option [ngValue]="null" >Select</option>
-                                        <option *ngFor="let role of roleDropdown" [ngValue]="role">{{role.Name}}</option>
+                                        <option *ngFor="let role of roleDropdown" [ngValue]="role">{{role.name}}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn" (click)="onAssignRole()">
+                                <div class="col-md-4">
+                                    <button class="btn" (click)="onAssignRole()" [disabled]="this.userRole.length != 0">
                                         Assign
+									</button>
+									<button class="btn" (click)="onRevokeRole()" [disabled]="this.userRole.length == 0">
+                                        Revoke
                                     </button>
-                                </div>
+								</div>
+								<!-- <div class="col-md-2">
+
+                                </div> -->
                                 </div>
                             </div>
-                            <table class="table table-bordered table-striped">
+                            <!-- <table class="table table-bordered table-striped">
                                 <tbody>
                                 <tr>
                                     <th> # </th>
@@ -85,13 +91,13 @@
                                 </tr>
                                 <tr *ngFor="let item of userRole; let index = index">
                                     <td>{{index+1}} </td>
-                                    <td>{{item.Name}}</td>
+                                    <td>{{item.name}}</td>
                                     <td>
                                     <a href="javascript:;" class="m-link m-link--focus m-login__account-link" (click)="onRevokeRole(item)" title="Revoke Permission">Revoke</a>
                                     </td>
                                 </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
 						</div>
 					</div>
 					<!--end::Section-->

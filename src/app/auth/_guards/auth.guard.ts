@@ -11,31 +11,23 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-      if (currentUser.token)
-        return true;
-      else {
-        this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-        return false;
-      }
-    } else {
+    if (!this._userService.verify()) {
       this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
     }
-    // return this._userService.verify().map(
-    //   data => {
-    //     if (data !== null) {
-    //       // logged in so return true
-    //       return true;
-    //     }
-    //     // error when verify so redirect to login page with the return url
-    //     this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    //     return false;
-    //   },
-    //   error => {
-    //     // error when verify so redirect to login page with the return url
-    //     this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    //     return false;
-    //   });
+
+    if (route.data['permissions']) {
+      if (currentUser && currentUser.permissions) {
+        for (var i = 0; i < route.data['permissions'].length; i++) {
+          if (currentUser.permissions.indexOf(route.data['permissions'][i]) === -1) {
+            this._router.navigate(['/forbidden']);
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

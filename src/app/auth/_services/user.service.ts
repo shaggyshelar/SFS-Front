@@ -9,7 +9,12 @@ export class UserService {
   }
 
   verify() {
-    return this.http.get('/api/verify', this.jwt()).map((response: Response) => response.json());
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.token) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   forgotPassword(email: string) {

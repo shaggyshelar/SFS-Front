@@ -58,6 +58,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/changePassword\/changePassword.module#ChangePasswordModule"
       },
       {
+        "path": "features\/featureList",
+        "loadChildren": ".\/pages\/default\/features\/feature\/feature.module#FeatureModule"
+      },
+      {
         "path": "index",
         "loadChildren": ".\/pages\/default\/index\/index.module#IndexModule"
       },
@@ -80,6 +84,10 @@ const routes: Routes = [
     "path": "changePassword",
     "canActivate": [AuthGuard],
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/changePassword\/changePassword.module#ChangePasswordModule"
+  },
+  {
+    "path": "forbidden",
+    "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/unautherizedAccess\/unautherizedAccess.module#UnAutherizedAccessModule"
   },
   {
     "path": "**",
