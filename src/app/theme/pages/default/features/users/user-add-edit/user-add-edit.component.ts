@@ -6,7 +6,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 
-import { UserService } from '../../../_services/user.service';
+import { UserService , InstitutesService, RoleService } from '../../../_services/index';
 import { User } from "../../../_models/user";
 
 /** Component Declaration */
@@ -19,22 +19,45 @@ export class UserAddEditComponent implements OnInit {
     errorMessage: any;
     params: number;
     userForm: FormGroup;
+    userRole : string;
+    instituteList: any;
+    schoolList: any;
+    selectedInstitute: any;
+    roleList: any;
 
     constructor(
         private formBuilder: FormBuilder,
         private globalErrorHandler: GlobalErrorHandler,
         private userService: UserService,
+        private roleService: RoleService,
+        private institutesService: InstitutesService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService) {
     }
     ngOnInit() {
+        this.instituteList = [];
+        this.schoolList = [];
+        this.roleList = [];
+         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+         if(currentUser && currentUser.Roles && currentUser.Roles.length > 0 ){
+           this.userRole = currentUser.Roles[0].name;
+         }
+
+        if(this.userRole == 'SystemAdmin'){
+          this.instituteList = this.institutesService.getAllInstitutes();
+        }
+
+        if(this.userRole == 'SchoolAdmin'){
+            this.schoolList = this.institutesService.getSchoolsByInstitute(1);
+        }
         this.userForm = this.formBuilder.group({
             id: [],
             username: ['', [Validators.required]],
-            email: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.email]],
             password: ['opensesane'],
         });
+
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
             if (this.params) {
@@ -77,8 +100,24 @@ export class UserAddEditComponent implements OnInit {
         }
     }
 
+   getAllRoles() {
+    this.roleService.getAllRoles()
+        .subscribe(
+        results => {
+            this.roleList = <any>results;
+        });
+    }
+
     onCancel() {
         this.router.navigate(['/features/users/list']);
+    }
+
+    onChangeInstitutes() {
+        if(this.selectedInstitute){
+            this.schoolList = this.institutesService.getSchoolsByInstitute(this.selectedInstitute.id);
+        }else {
+            this.schoolList = [];
+        }
     }
 }
 

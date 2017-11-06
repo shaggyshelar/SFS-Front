@@ -4,3 +4,4 @@ export * from './school';
 export * from './categories';
 export * from './fees';
 export * from './feature';
+export * from './institutes';

@@ -3,3 +3,213 @@
     position: absolute;
     z-index: -1;
 }
+
+.error {
+    color: red;
+}
+
+/*** D. 2 Nov 2017 - Chaitanya ***/
+.m-login.m-login--1 .m-login__content .m-login__welcome {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+.m-login.m-login--1 .m-login__content .m-login__msg {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 200;
+    letter-spacing: 1px;
+}
+.m-portlet .m-portlet__body {
+    padding: 15px;
+}
+
+/*Change password screen*/
+
+.changePassBox{
+	margin: 0 auto;
+    margin-top: 6em;
+}
+.alertMsg{
+	position: absolute;
+    color: #f4516c;
+    font-size: 11px;
+    margin-top: 3px;
+    font-weight: 500;
+    letter-spacing: 0px;
+}
+.changePassBox .form-group {
+    margin-bottom: 2rem;
+}
+.changePassBox .m-section {
+    margin: 0!important;
+}
+.changePassIcon{
+	font-size: 25px!important;
+    margin-bottom: 5px!important;
+    vertical-align: middle!important;
+    margin-right: 5px!important;
+}
+
+/**** color of links in sidebar ***/
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-text {
+    color: #c5c5c7!important;
+    font-size: 13px!important;
+}
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-icon {
+    color: #868788!important;
+}
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item .m-menu__submenu .m-menu__item>.m-menu__link .m-menu__link-text {
+    color: #989898!important;
+    font-size: 13px!important;
+}
+.m-menu__item m-menu__item--active .m-menu__link .m-menu__link-text{
+	color: #716aca!important;
+}
+
+
+/**** For static table ***/
+
+.staticTable tr th{
+	padding: 16px 10px;
+	background: #f4f3fb;
+	font-weight: 600;
+    vertical-align: middle;
+	font-size: 1rem;
+	text-align:left;
+}
+.staticTable tr td{
+	padding: 16px 10px;
+	background: #fff;
+	font-weight: 400;
+    vertical-align: middle;
+	font-size: 1rem;
+	text-align:left;
+	color: #575962;
+}
+.staticSearchRow{
+	margin-bottom:15px;
+}
+.staticTable tr:nth-child(odd) td{
+	background: #fbfbfe;
+}
+.staticTable tr:nth-child(even) td{
+	background: #fff;
+}
+.staticTable tr:hover td{
+	background: #fbfbfe;
+}
+
+.filterDropdown select{
+	background-color: #f4f5f8!important;
+    border-color: #f4f5f8!important;
+    color: #575962!important;
+}
+.filterDropdown select:focus {
+    background-color: #ebedf2!important;
+    border-color: #716aca!important;
+    color: #575962!important;
+}
+.filterDropdown select option{
+	background-color: #fff!important;   
+}
+
+.filterLabel{
+	display: table-cell;
+	margin-right:4px;
+	width: 17%;
+}
+.filterDropdown{
+	padding-left: 7px;
+    display: table-cell;
+    width: 83%;
+}
+
+/**** Pagination ***/
+
+.prev, .next{
+	color: #716aca;
+    background: #edecf8!important;
+	border-color: #edecf8!important;
+	height: 2.25rem;
+    width: 2.25rem;
+	border-radius:50%!important;
+	text-align: center;
+}
+.pagination li a{
+	height: 2.25rem;
+    width: 2.25rem;
+	border-radius:50%!important;
+	margin-right:8px;
+	text-align: center;
+	border-color: transparent!important;
+	color: #898b96;
+}
+.leftIcon{
+	margin-left: -4px;
+}
+.rightIcon{
+	margin-right: -4px;
+}
+.pagination .prev{
+	
+}
+.pagination .next{
+	padding-left: 7px;
+}
+.pagination li a.active{
+	background: #716aca;
+    color: #fff;
+}
+.PaginationBox{
+	margin-top:20px;
+}
+.showRecordsLabel{
+	float: right;
+    padding-top: 8px;
+    padding-right: 0;
+    padding-left: 10px;
+}
+.showRecordsDropdown{
+	padding-left: 0px !important;
+    /* display: table-cell !important; */
+    width: 90px !important;
+    border-radius: 40px !important;
+    float: right;
+}
+.showRecordsBox{
+	text-align:right!important;
+}
+.recordSelect{
+	border-radius:40px!important;
+}
+
+.m-subheader .m-subheader__title {
+	font-family:Poppins!important;
+}
+.ListingHeading{
+	color: #575962;
+    font-family: Roboto;
+    font-size: 1.4rem;
+    padding-top: 10px;
+}
+.headerRowListing{
+	margin-top: 15px;
+	margin-right: -30px;
+    margin-left: -30px;
+}
+
+
+.formPortletBody .form-group {
+	border-bottom: 0px dashed #ebedf2!important;
+}
+
+/*** D. 3 Nov 2017 ***/
+
+.roleFormFoot{
+	background-color: #f7f8fa;
+    border-color: #f7f8fa;
+	padding: 30px;
+}
