@@ -52,7 +52,7 @@ export class AuthComponent implements OnInit {
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.user) {
-          if(currentUser.user.isPasswordChanged=== true){
+          if(currentUser.user.isPasswordChanged === false){
             this._router.navigate(['/changePassword']);
           }else{
             this._router.navigate([this.returnUrl]);
