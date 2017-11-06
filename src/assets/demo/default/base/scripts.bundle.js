@@ -1790,7 +1790,7 @@ jQuery.fn.extend({
 					if (typeof params.url !== 'string') params.url = API.getOption('data.source');
 					params.headers = API.getOption('data.source.read.headers');
 					params.data['datatable'] = $.extend({}, API.getDataSourceParam(), API.getOption('data.source.read.params'));
-					params.method = 'POST';
+					params.method = 'GET';
 					// remove if server params is not enabled
 					if (!API.getOption('data.serverPaging')) {
 						delete params.data['datatable']['pagination'];
@@ -2694,6 +2694,7 @@ jQuery.fn.extend({
 			 * @param int Boolean. Optional. Comparison value parse to integer. Default false
 			 */
 			sortColumn: function (header, sort, int) {
+                debugger;
 				if (typeof sort === 'undefined') sort = 'asc'; // desc
 				if (typeof int === 'undefined') int = false;
 
@@ -2727,6 +2728,7 @@ jQuery.fn.extend({
 			 * Perform sort remote and local
 			 */
 			sorting: function () {
+                debugger;
 				var sortObj = {
 					init: function () {
 						if (options.sortable) {
@@ -2755,7 +2757,8 @@ jQuery.fn.extend({
 						var meta = API.getDataSourceParam('sort');
 						var field = $(this).data('field');
 						var column = dt.getColumnByField(field);
-						// sort is disabled for this column
+                        // sort is disabled for this column
+                        debugger;
 						if (typeof column.sortable !== 'undefined' && column.sortable === false) return;
 
 						$(datatable.tableHead).find('.m-datatable__cell > span > i').remove();

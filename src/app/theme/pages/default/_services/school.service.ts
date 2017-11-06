@@ -9,8 +9,16 @@ export class SchoolService {
   constructor(private http: Http) {
   }
 
-  getAllSchools() {   
-   return this.http.get(AppSettings.API_ENDPOINT + 'schools', AppSettings.requestOptions()).map((response: Response) => response.json());  
+  getSchoolCount(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+
+   getFilterList(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+
+  getAllSchools(url) {   
+   return this.http.get(AppSettings.API_ENDPOINT + 'schools' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
 
   getSchoolById(id: number) {
