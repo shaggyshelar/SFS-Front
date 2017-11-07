@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, RequestOptions, Response } from "@angular/http";
+import { Headers, Http, RequestOptions, Response, URLSearchParams } from "@angular/http";
 
 import { School } from "../_models/School";
 import { AppSettings } from '../../../../app-settings';
@@ -35,5 +35,13 @@ export class SchoolService {
 
   deleteSchool(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT +'schools/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getSchoolsByInstitute(id) {
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('filter[where][instituteId]', id);
+      let requestOptions = AppSettings.requestOptions();
+      requestOptions.params = params;
+      return this.http.get(AppSettings.API_ENDPOINT + 'schools/', requestOptions).map((response: Response) => response.json());
   }
 }

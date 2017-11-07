@@ -86,30 +86,30 @@
 							Contact
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="contact" name="contact" placeholder="Contact">
-						<div class="alertMsg" *ngIf="userForm.get('contact').hasError('required') && userForm.get('contact').touched">
+						<input class="form-control m-input" type="text" formControlName="phone" name="contact" placeholder="Contact">
+						<div class="alertMsg" *ngIf="userForm.get('phone').hasError('required') && userForm.get('phone').touched">
 							Please enter Contact Number
 						</div>
-						<div class="alertMsg" *ngIf="!userForm.get('contact').hasError('required') && userForm.get('contact').hasError('pattern') && userForm.get('contact').touched">
+						<div class="alertMsg" *ngIf="!userForm.get('phone').hasError('required') && userForm.get('phone').hasError('pattern') && userForm.get('phone').touched">
 							Please enter valid phone numeber
 						</div>
 					</div>
 				</div>
-				<div class="form-group m-form__group row" *ngIf="this.userRole == 'admin'">
+				<div class="form-group m-form__group row" *ngIf="this.userRole == 'SuperAdmin'">
 					<label class="col-2 col-form-label" for="example-text-input">
 						Institute
 					</label>
 					<div class="col-7">
 						 <select class="form-control" formControlName="institute" (change)="onChangeInstitutes($event.target.value)">
 							<option [value]="null" >Select</option>
-							<option *ngFor="let institute of instituteList" [value]="institute.InstituteId">{{institute.InstituteName}}</option>
+							<option *ngFor="let institute of instituteList" [value]="institute.id">{{institute.instituteName}}</option>
 						</select>
 						<div class="alertMsg" *ngIf="userForm.get('institute').hasError('required') && userForm.get('institute').touched">
 							Please select institute
 						</div>
 					</div>
 				</div>
-				<div class="form-group m-form__group row"  *ngIf="this.userRole == 'admin'">
+				<div class="form-group m-form__group row"  *ngIf="this.userRole == 'SuperAdmin'">
 					<label class="col-2 col-form-label" for="example-text-input">
 						School
 					</label>
@@ -119,7 +119,7 @@
 								<label class="m-checkbox">
 									<input type="checkbox" [formControl]="school"/>
 									<span></span>
-									{{schoolList[i].SchoolName}}
+									{{schoolList[i].schoolName}}
 								</label>
 							</div>
 							<div class="alertMsg" *ngIf="selectedSchoolsValidationError == true">
@@ -157,7 +157,7 @@
 					<div class="m-form__actions m-form__actions--solid">
 						<div class="row">
 							<div class="col-lg-6">
-								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="userForm.invalid" [isAuthorize]="['user.Update', 'user.Create']">
+								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="userForm.invalid" [isAuthorize]="['User.Update', 'User.Create']">
 										Add User
 								</button>
 								<button type="reset" class="btn btn-secondary" (click)="onCancel()">
