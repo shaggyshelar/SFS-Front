@@ -7,7 +7,7 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
-import { UserService, RoleService, UserRoleService  } from '../../_services/index';
+import { UserService, RoleService, UserRoleService, InstitutesService  } from '../../_services/index';
 import { UsersComponent } from './users.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserRoleComponent } from './user-role/user-role.component';
@@ -84,6 +84,7 @@ const routes: Routes = [
     UserService,
     RoleService,
     UserRoleService,
+    InstitutesService,
   ],
 })
 export class UsersModule {

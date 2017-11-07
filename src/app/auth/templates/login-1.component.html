@@ -3,27 +3,13 @@
 		<div class="m-stack m-stack--hor m-stack--desktop">
 			<div class="m-stack__item m-stack__item--fluid">
 				<div class="m-login__wrapper">
-					<div class="m-login__logo">
-						<a href="#">
-							<img src="./assets/app/media/img/logos/logo-2.png">
-						</a>
-					</div>
+					
 					<div class="m-login__signin">
 						<div class="m-login__head">
 							<h3 class="m-login__title">
-								Sign In To Admin
+								Sign In
 							</h3>
-							<div class="m--margin-top-40 m-alert m-alert--outline m-alert--outline-2x alert alert-success fade show" role="alert">
-								Use username
-								<span style="font-weight: 500;">
-									demo@demo.com
-								</span>
-								and password
-								<span style="font-weight: 500;">
-									demo
-								</span>
-								to continue or singup.
-							</div>
+							
 						</div>
 						<form (ngSubmit)="f.form.valid && signin()" #f="ngForm" class="m-login__form m-form" action="">
 							<ng-template #alertSignin></ng-template>
@@ -140,16 +126,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="m-grid__item m-grid__item--fluid m-grid m-grid--center m-grid--hor m-grid__item--order-tablet-and-mobile-1	m-login__content" style="background-image: url(./assets/app/media/img/bg/bg-4.jpg)">
+	<div class="m-grid__item m-grid__item--fluid m-grid m-grid--center m-grid--hor m-grid__item--order-tablet-and-mobile-1	m-login__content" style="background-image: url(./assets/app/media/img/bg/bgNew.png)">
 		<div class="m-grid__item m-grid__item--middle">
 			<h3 class="m-login__welcome">
-				Join Our Community
+				<i>PhiCommerce</i>
+				
+				<br/><br/>
+				
+				School Fee System
 			</h3>
-			<p class="m-login__msg">
-				Lorem ipsum dolor sit amet, coectetuer adipiscing
-				<br>
-				elit sed diam nonummy et nibh euismod
-			</p>
+			<!--<p class="m-login__msg">
+				Gate No. 3, Symbiosis Viman Nagar Campus, Off., New Airport Rd, Viman Nagar, Pune, Maharashtra 411014
+			</p> -->
 		</div>
 	</div>
 </div>
