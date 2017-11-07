@@ -40,11 +40,11 @@ export class UserAddEditComponent implements OnInit {
         this.schoolList = [];
         this.roleList = [];
          let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-         if(currentUser && currentUser.Roles && currentUser.Roles.length > 0 ){
-           this.userRole = currentUser.Roles[0].name;
+         if(currentUser && currentUser.roles && currentUser.roles.length > 0 ){
+           this.userRole = currentUser.roles[0].displayName;
          }
 
-        if(this.userRole == 'SystemAdmin'){
+        if(this.userRole == 'admin'){
           this.instituteList = this.institutesService.getAllInstitutes();
         }
 
@@ -56,8 +56,11 @@ export class UserAddEditComponent implements OnInit {
             username: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
             password: ['opensesane'],
+            institute : ['', [Validators.required]],
+            role: ['', [Validators.required]],
+            sidekick :[''],
         });
-
+        this.getAllRoles();
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
             if (this.params) {
@@ -76,28 +79,29 @@ export class UserAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, valid }: { value: User, valid: boolean }) {
-        if (this.params) {
-            this.userService.updateUser(value)
-                .subscribe(
-                results => {
-                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                    this.router.navigate(['/features/users/list']);
-                },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        } else {
-            this.userService.createUser(value)
-                .subscribe(
-                results => {
-                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-                    this.router.navigate(['/features/users/list']);
-                },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        }
+    onSubmit({ value, valid }: { value: any, valid: boolean }) {
+        console.log('value', value);
+        // if (this.params) {
+        //     this.userService.updateUser(value)
+        //         .subscribe(
+        //         results => {
+        //             this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+        //             this.router.navigate(['/features/users/list']);
+        //         },
+        //         error => {
+        //             this.globalErrorHandler.handleError(error);
+        //         });
+        // } else {
+        //     this.userService.createUser(value)
+        //         .subscribe(
+        //         results => {
+        //             this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
+        //             this.router.navigate(['/features/users/list']);
+        //         },
+        //         error => {
+        //             this.globalErrorHandler.handleError(error);
+        //         });
+        // }
     }
 
    getAllRoles() {
@@ -112,7 +116,7 @@ export class UserAddEditComponent implements OnInit {
         this.router.navigate(['/features/users/list']);
     }
 
-    onChangeInstitutes() {
+    onChangeInstitutes(value) {
         if(this.selectedInstitute){
             this.schoolList = this.institutesService.getSchoolsByInstitute(this.selectedInstitute.id);
         }else {
