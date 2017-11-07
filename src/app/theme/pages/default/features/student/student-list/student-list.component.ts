@@ -39,6 +39,13 @@ export class StudentListComponent implements OnInit {
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
     nextPageEnable: boolean; //To disable/enable prev page button
+
+    filterValue1: string; //HTML values
+    filterValue2 : string; //HTML values
+    searchValue : string; //HTML values
+    selectedPageSize : number; //HTML values
+
+    myFile : any;
     constructor(private router: Router, private studentService: StudentService,
         private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService) {
     }
