@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
@@ -14,10 +14,10 @@ import { InstitutesComponent } from './institutes/institutes.component';
 
 
 import {
-DataTableModule,
-SharedModule,
-ButtonModule,
-DropdownModule,
+  DataTableModule,
+  SharedModule,
+  ButtonModule,
+  DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -29,18 +29,32 @@ const routes: Routes = [
         path: "",
         component: SchoolComponent,
         children: [
-          { 
-            path: 'list', 
-            component: SchoolListComponent
-            //canActivate: [AuthGuard],
-            //data: {
-              //permissions: ['user.Read']
-            //}
+          {
+            path: 'list',
+            component: SchoolListComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['School.Read']
+            }
           },
-          { path: 'add', component: SchoolAddEditComponent },
-          { path: 'edit/:schoolId', component: SchoolAddEditComponent },
+          {
+            path: 'add',
+            component: SchoolAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['School.Create']
+            }
+          },
+          {
+            path: 'edit/:schoolId',
+            component: SchoolAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['School.Update']
+            }
+          },
           { path: 'institutes', component: InstitutesComponent },
-          
+
         ]
       }
     ]
@@ -58,7 +72,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
-  ], 
+  ],
   declarations: [
     SchoolComponent,
     SchoolListComponent,

@@ -142,11 +142,11 @@
 								<td>{{row.AcademicYear}}</td>
 								<td>
 									<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit">
+									 title="Edit" [isAuthorize]="['Student.Update']"> 
 										<i class="la la-edit"></i>
 									</a>
 									<a href="javascript:;" (click)="onStudentDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete">
+									 title="Delete" [isAuthorize]="['Student.Delete']">
 										<i class="la la-close"></i>
 									</a>
 								</td>
