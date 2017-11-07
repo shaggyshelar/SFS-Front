@@ -55,7 +55,7 @@
 						<div class="col-md-12">
 							<div class="portlet light bordered legends-portlet">
 								<div class="portlet-body">
-									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(schoolForm)" [formGroup]="schoolForm">
+									<!-- <form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(schoolForm)" [formGroup]="schoolForm">
 										<div class="form-group">
 											<label class="col-md-3 control-label">School Name</label>
 											<div class="col-md-9">
@@ -65,15 +65,7 @@
 												</div>
 											</div>
 										</div>
-										<!-- <div class="form-group">
-											<label class="col-md-3 control-label">School Code</label>
-											<div class="col-md-9">
-												<input type="text" formControlName="SchoolCode" name="schoolCode" class="form-control">
-												<div class="alert alert-danger" *ngIf="schoolForm.get('SchoolCode').hasError('required') && schoolForm.get('SchoolCode').touched">
-													Please enter School Code
-												</div>
-											</div>
-										</div> -->
+										
 										<div class="form-group">
 											<label class="col-md-3 control-label">Institute Name</label>
 											<div class="col-md-9">
@@ -121,11 +113,11 @@
 										</div>
 										<div class="form-group">
 											<div class="col-md-offset-2 col-md-10">
-												<button pButton type="submit" label="Save" [disabled]="schoolForm.invalid"></button>
+												<button pButton type="submit" label="Save" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']"></button>
 												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
 											</div>
 										</div>
-									</form>
+									</form> -->
 								</div>
 							</div>
 						</div>
@@ -134,5 +126,182 @@
 			</div>
 			<!--end::Section-->
 		</div>
+	</div>
+
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit School
+					</h3>
+				</div>
+			</div>
+		</div>
+
+		<!--begin::Form-->
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" >
+			<div class="m-portlet__body formPortletBody">
+				<div class="form-group m-form__group m--margin-top-10 m--hide">
+					<div class="alert m-alert m-alert--default" role="alert">
+						The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional
+						classes.
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<div class="col-10 ml-auto">
+						<h3 class="m-form__section">
+							1. Profile Details
+						</h3>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Institute Name
+					</label>
+					<div class="col-7">
+						<select class="form-control m-input">
+							<option disabled selected>Select</option>
+							<option>Institute 1</option>
+							<option>Institute 2</option>
+							<option>Institute 3</option>
+							<option>Institute 4</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						School Name
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" name="schoolName">
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Short Name
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="SIMS">
+						<span class="m-form__help">
+							Short Name will be used for your reference to identify added school & will not be shown publicly.
+						</span>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Logo
+					</label>
+					<div class="col-7">
+						<input type="file" name="file" id="file" class="inputfile" />
+						<label for="file" class="fileUploadBtn btn m-btn--pill m-btn--air btn-primary">Upload Logo</label>
+						<span class="selected-file-name"></span>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Board
+					</label>
+					<div class="col-7">
+						<select class="form-control m-input">
+							<option disabled selected>Select</option>
+							<option>CBSC</option>
+							<option>ICSC</option>
+							<option>SSC</option>
+							<option>HHC</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+				<div class="form-group m-form__group row">
+					<div class="col-10 ml-auto">
+						<h3 class="m-form__section">
+							2. Address Details
+						</h3>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Address
+					</label>
+					<div class="col-7">
+						<textarea class="form-control m-input" rows="3" value="Lavale, Mulshi taluk," style="resize:none;"></textarea>
+
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						City
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="Pune">
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						State
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="Maharashtra">
+					</div>
+				</div>
+
+				<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+				<div class="form-group m-form__group row">
+					<div class="col-10 ml-auto">
+						<h3 class="m-form__section">
+							3. Contact Details
+						</h3>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Email
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="school@gmail.com">
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Phone No.
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="+91 89564 32654">
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Additional Details
+					</label>
+					<div class="col-7">
+						<textarea class="form-control m-input" rows="3" style="resize:none;"></textarea>
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+				<div class="m-form__actions m-form__actions--solid">
+					<div class="row">
+						<div class="col-lg-6">
+							<button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+								Add School
+							</button>
+							<button type="reset" class="btn btn-secondary">
+								Cancel
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+		<!--end::Form-->
+
 	</div>
 </div>

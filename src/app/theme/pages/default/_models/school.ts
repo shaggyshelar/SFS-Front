@@ -2,7 +2,7 @@ export class School {
     id: number;
     SchoolId: number;
     InstituteId: number;
-    SchoolName: string;
+    schoolName: string;
     SchoolCode: string;
     SchoolEmail: string;
     SchoolPhone: string;

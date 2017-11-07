@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
-
+import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { StudentService } from '../../_services/index';
 import { CommonService } from '../../_services/index';
 import { StudentComponent } from './student.component';
@@ -12,10 +12,10 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentAddEditComponent } from './student-add-edit/student-add-edit.component';
 
 import {
-DataTableModule,
-SharedModule,
-ButtonModule,
-DropdownModule,
+  DataTableModule,
+  SharedModule,
+  ButtonModule,
+  DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -27,8 +27,22 @@ const routes: Routes = [
         path: "",
         component: StudentComponent,
         children: [
-          { path: 'list', component: StudentListComponent },
-          { path: 'edit/:studentId', component: StudentAddEditComponent },
+          {
+            path: 'list',
+            component: StudentListComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['Student.Read']
+            }
+          },
+          {
+            path: 'edit/:studentId',
+            component: StudentAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['Student.Read']
+            }
+          },
         ]
       }
     ]
@@ -46,7 +60,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
-  ], 
+  ],
   declarations: [
     StudentComponent,
     StudentListComponent,

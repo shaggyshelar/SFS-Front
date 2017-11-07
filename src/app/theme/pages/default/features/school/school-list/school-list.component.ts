@@ -29,7 +29,10 @@ export class SchoolListComponent implements OnInit {
     arr: number[] = [];    //Array for Number of pages in pagination
     pageSize: any;         //10,20,30,50,100
     ascSortCol1: boolean;  //Sorting for Column1
-    ascSortCol2: boolean;  //Sorting for Column1
+    ascSortCol2: boolean;  //Sorting for Column2
+    ascSortCol3: boolean;  //Sorting for Column3
+    ascSortCol4: boolean;  //Sorting for Column4
+    
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
     filterQuery: string;   //Filter1 Api Query 
@@ -47,9 +50,9 @@ export class SchoolListComponent implements OnInit {
     boundryEnd: number;
 
     filterValue1: string; //HTML values
-    filterValue2 : string; //HTML values
-    searchValue : string; //HTML values
-    selectedPageSize : number; //HTML values
+    filterValue2: string; //HTML values
+    searchValue: string; //HTML values
+    selectedPageSize: number; //HTML values
 
 
     constructor(private router: Router,
@@ -72,7 +75,7 @@ export class SchoolListComponent implements OnInit {
 
         this.filterCol1 = [];
         this.filterCol1.push({ label: '--Select--', value: 'select' });
-        this.filterCol1.push({ label: 'BTPS', value: 'BTPS' });
+        this.filterCol1.push({ label: 'Dayanand Anglo Vedic Public Schools', value: 'BTPS' });
         this.filterCol1.push({ label: 'Don Bosco', value: 'Don Bosco' });
 
         this.filterCol2 = [];
@@ -93,6 +96,8 @@ export class SchoolListComponent implements OnInit {
         this.sortUrl = '&filter[order]=id ASC';
         this.ascSortCol1 = true;
         this.ascSortCol2 = true;
+        this.ascSortCol3 = true;
+        this.ascSortCol4 = true;
         this.filterQuery = '';
         this.filterQuery2 = '';
         this.searchQuery = '';
@@ -106,8 +111,8 @@ export class SchoolListComponent implements OnInit {
         this.prePageEnable = false;
         this.nextPageEnable = true;
         this.boundry = 3;
-        //this.boundryStart = 1;
-        //this.boundryEnd = this.boundry;
+        this.boundryStart = 1;
+        this.boundryEnd = this.boundry;
 
 
         this.getDataCount('');
@@ -123,27 +128,43 @@ export class SchoolListComponent implements OnInit {
     }
     generateCount() {
         this.arr = [];
-        for (var index = 0; index < this.pages; index++) {
-            this.arr[index] = index + 1;
+        // for (var index = 0; index < this.pages; index++) {
+        //     this.arr[index] = index + 1;
+        // }
+        //If number of pages are less than the boundry
+        if (this.pages < this.boundry) {
+            this.boundry = this.pages;
         }
 
-        // for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
-        //     this.arr[index] = j;
-        // }
+        for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
+            this.arr[index] = j;
+        }
 
         //for()
     }
     moreNextPages() {
-        this.boundryStart = this.boundryEnd + 1;
-        this.currentPageNumber = this.boundryStart;
-        if (this.boundryEnd + this.boundry >= this.pages) {
-            this.boundryEnd = this.pages;
-        } else {
-            this.boundryEnd = this.boundryEnd + this.boundry;
+        if (this.boundryEnd + 1 <= this.pages) {
+            this.boundryStart = this.boundryEnd + 1;
+            this.currentPageNumber = this.boundryStart;
+            if (this.boundryEnd + this.boundry >= this.pages) {
+                this.boundryEnd = this.pages;
+            } else {
+                this.boundryEnd = this.boundryEnd + this.boundry;
+            }
+            this.getQueryDataCount();
         }
         //this.generateCount();
 
-        this.getQueryDataCount();
+
+    }
+
+    morePreviousPages() {
+        if (this.boundryStart - this.boundry > 0) {
+            this.boundryStart = this.boundryStart - this.boundry;
+            this.boundryEnd = this.boundryStart + this.boundry - 1;
+            this.currentPageNumber = this.boundryEnd;
+            this.getQueryDataCount();
+        }
     }
 
     pageSizeChanged(size) {
@@ -154,10 +175,15 @@ export class SchoolListComponent implements OnInit {
     }
 
     visitFirsPage() {
-        this.currentPos = 0;
-        this.currentPageNumber = 1;
-        this.setDisplayPageNumberRange();
-        this.getAllSchools();
+        if (this.boundryStart > this.boundry) {
+            this.currentPos = 0;
+            this.currentPageNumber = 1;
+            this.boundryStart = 1;
+            this.boundryEnd = this.boundry;
+            this.generateCount();
+            this.setDisplayPageNumberRange();
+            this.getAllSchools();
+        }
     }
 
     visitLastPage() {
@@ -165,8 +191,21 @@ export class SchoolListComponent implements OnInit {
             this.currentPos += this.perPage;
             this.currentPageNumber++;
         }
-        this.boundryEnd = this.pages;
-        this.boundryStart = this.pages - this.boundry + 1;
+        this.boundryStart = 1;
+        this.boundryEnd = this.boundry;
+        for (var index = 0; this.boundryEnd + 1 <= this.pages; index++) {
+            this.boundryStart = this.boundryEnd + 1;
+
+            if (this.boundryEnd + this.boundry >= this.pages) {
+                this.boundryEnd = this.pages;
+                this.currentPageNumber = this.boundryEnd;
+            } else {
+                this.boundryEnd = this.boundryEnd + this.boundry;
+                this.currentPageNumber = this.boundryEnd;
+            }
+        }
+        //this.boundryEnd = this.pages;
+        //this.boundryStart = this.pages - this.boundry + 1;
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllSchools();
@@ -308,7 +347,7 @@ export class SchoolListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
 
     }
     /* Counting Number of records ends*/
