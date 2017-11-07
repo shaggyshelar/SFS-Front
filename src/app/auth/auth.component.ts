@@ -1,12 +1,15 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScriptLoaderService } from "../_services/script-loader.service";
+import { GlobalErrorHandler } from '../_services/error-handler.service';
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";
 import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
+import { Observable } from 'rxjs/Rx';
+import { UserSchoolDetailsService } from '../theme/pages/default/_services/userschooldetails.service';
 
 @Component({
   selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
@@ -29,6 +32,8 @@ export class AuthComponent implements OnInit {
     private _route: ActivatedRoute,
     private _authService: AuthenticationService,
     private _alertService: AlertService,
+    private _globalErrorHandler: GlobalErrorHandler,
+    private _userSchoolDetailsService: UserSchoolDetailsService,
     private cfr: ComponentFactoryResolver) {
   }
 
@@ -52,12 +57,27 @@ export class AuthComponent implements OnInit {
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.user) {
-          if(currentUser.user.isPasswordChanged === false){
+          if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
-          }else{
-            this._router.navigate([this.returnUrl]);
+          }      
+          else
+          {
+            this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
+            .subscribe(
+              results => {
+                if (results.length>1){
+                  this._router.navigate(['/schoolDashboard']);
+                }
+                else{
+                  localStorage.setItem('schoolId',results[0].UserschoolSchool.id);
+                  this._router.navigate([this.returnUrl]);
+                };
+              },
+              error => {
+                  this._globalErrorHandler.handleError(error);
+              });
           }
-        }       
+        }
       },
       error => {
         this.showAlert('alertSignin');
