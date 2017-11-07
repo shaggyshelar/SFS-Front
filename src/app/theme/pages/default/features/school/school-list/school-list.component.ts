@@ -38,9 +38,19 @@ export class SchoolListComponent implements OnInit {
     countQuery: string;    //Count number of records query
     filter1CountQuery: string;  //Count number of records for filter1CountQuery
     filter2CountQuery: string;  //Count number of records for filter2CountQuery
+    searchCountQuery: string;
     longList: boolean;     //To show now records found message
-    prePageEnable :boolean; //To disable/enable prev page button
-    nextPageEnable :boolean; //To disable/enable prev page button
+    prePageEnable: boolean; //To disable/enable prev page button
+    nextPageEnable: boolean; //To disable/enable prev page button
+    boundry: number;
+    boundryStart: number;
+    boundryEnd: number;
+
+    filterValue1: string; //HTML values
+    filterValue2 : string; //HTML values
+    searchValue : string; //HTML values
+    selectedPageSize : number; //HTML values
+
 
     constructor(private router: Router,
         private schoolService: SchoolService,
@@ -86,6 +96,7 @@ export class SchoolListComponent implements OnInit {
         this.filterQuery = '';
         this.filterQuery2 = '';
         this.searchQuery = '';
+        this.searchCountQuery = '';
         this.countQuery = '?';
         this.filter1CountQuery = '';
         this.filter2CountQuery = '';
@@ -94,16 +105,20 @@ export class SchoolListComponent implements OnInit {
         this.firstPageNumber = 1;
         this.prePageEnable = false;
         this.nextPageEnable = true;
+        this.boundry = 3;
+        //this.boundryStart = 1;
+        //this.boundryEnd = this.boundry;
+
 
         this.getDataCount('');
     }
 
     /*Pagination Function's Starts*/
 
-    currentPageCheck(pageNumber){
-        if(this.currentPageNumber == pageNumber)
+    currentPageCheck(pageNumber) {
+        if (this.currentPageNumber == pageNumber)
             return false;
-        else 
+        else
             return true;
     }
     generateCount() {
@@ -111,6 +126,24 @@ export class SchoolListComponent implements OnInit {
         for (var index = 0; index < this.pages; index++) {
             this.arr[index] = index + 1;
         }
+
+        // for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
+        //     this.arr[index] = j;
+        // }
+
+        //for()
+    }
+    moreNextPages() {
+        this.boundryStart = this.boundryEnd + 1;
+        this.currentPageNumber = this.boundryStart;
+        if (this.boundryEnd + this.boundry >= this.pages) {
+            this.boundryEnd = this.pages;
+        } else {
+            this.boundryEnd = this.boundryEnd + this.boundry;
+        }
+        //this.generateCount();
+
+        this.getQueryDataCount();
     }
 
     pageSizeChanged(size) {
@@ -120,14 +153,37 @@ export class SchoolListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
+    visitFirsPage() {
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.setDisplayPageNumberRange();
+        this.getAllSchools();
+    }
+
+    visitLastPage() {
+        for (var index = 0; this.currentPos + this.perPage < this.total; index++) {
+            this.currentPos += this.perPage;
+            this.currentPageNumber++;
+        }
+        this.boundryEnd = this.pages;
+        this.boundryStart = this.pages - this.boundry + 1;
+        this.generateCount();
+        this.setDisplayPageNumberRange();
+        this.getAllSchools();
+    }
+
     backPage() {
         if (this.currentPos - this.perPage >= 0) {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
+
+            // this.boundryStart--;
+            // this.boundryEnd--;
+            // this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllSchools();
         }
-        else{
+        else {
             this.currentPos = 0;
             this.currentPageNumber = 1;
         }
@@ -136,6 +192,11 @@ export class SchoolListComponent implements OnInit {
         if (this.currentPos + this.perPage < this.total) {
             this.currentPos += this.perPage;
             this.currentPageNumber++;
+            this.boundryStart++;
+            // if (this.boundryStart > this.boundryEnd) {
+            //     this.boundryStart--;
+            //     this.moreNextPages();
+            // }
             this.setDisplayPageNumberRange();
             this.getAllSchools();
         }
@@ -183,8 +244,10 @@ export class SchoolListComponent implements OnInit {
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
+            this.searchCountQuery = '';
         } else {
             this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
         }
         this.getQueryDataCount();
         //this.getAllSchools();
@@ -229,7 +292,7 @@ export class SchoolListComponent implements OnInit {
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery;
+        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -271,11 +334,11 @@ export class SchoolListComponent implements OnInit {
         this.schoolService.deleteSchool(school.id).subscribe(
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if((this.currentPageNumber-1)*this.perPage == (this.total-1)){
-                    this.currentPageNumber --;
+                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                    this.currentPageNumber--;
                 }
                 this.getQueryDataCount();
-                
+
             },
             error => {
                 this.globalErrorHandler.handleError(error);

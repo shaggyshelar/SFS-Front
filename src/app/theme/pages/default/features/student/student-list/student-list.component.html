@@ -85,7 +85,7 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="value" (keyup)="searchString(value)" placeholder="Search..."
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" placeholder="Search..."
 							 id="m_form_search">
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
@@ -94,8 +94,6 @@
 							</span>
 						</div>
 					</div>
-
-
 				</div>
 
 				<div class="table-responsive">

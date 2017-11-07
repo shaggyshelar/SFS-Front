@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
+import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { SchoolService } from '../../_services/index';
 import { SchoolComponent } from './school.component';
 import { SchoolListComponent } from './school-list/school-list.component';
@@ -28,7 +29,14 @@ const routes: Routes = [
         path: "",
         component: SchoolComponent,
         children: [
-          { path: 'list', component: SchoolListComponent },
+          { 
+            path: 'list', 
+            component: SchoolListComponent
+            //canActivate: [AuthGuard],
+            //data: {
+              //permissions: ['user.Read']
+            //}
+          },
           { path: 'add', component: SchoolAddEditComponent },
           { path: 'edit/:schoolId', component: SchoolAddEditComponent },
           { path: 'institutes', component: InstitutesComponent },

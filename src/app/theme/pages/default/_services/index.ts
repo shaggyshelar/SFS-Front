@@ -8,3 +8,4 @@ export * from './feature.service';
 export * from './user-role.service';
 export * from './permission.service';
 export * from './institute.service';
+export * from './common.service';
