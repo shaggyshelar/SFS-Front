@@ -36,58 +36,139 @@
 </div>
 <!-- END: Subheader -->
 <div class="m-content">
-	<div class="row">
-		<div class="col-lg-12">
-		<!--begin::Portlet-->
-			<div class="m-portlet m-portlet--tab">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<span class="m-portlet__head-icon m--hide">
-								<i class="la la-gear"></i>
-							</span>
-							<h3 class="m-portlet__head-text">
-								User Add/Edit
-							</h3>
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit User
+					</h3>
+				</div>
+			</div>
+		</div>
+
+		<!--begin::Form-->
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(userForm)" [formGroup]="userForm">
+			<div class="m-portlet__body formPortletBody">
+				<div class="form-group m-form__group m--margin-top-10 m--hide">
+					<div class="alert m-alert m-alert--default" role="alert">
+						The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional
+						classes.
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+							User Name
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="" formControlName="username" name="userName" id="userName" placeholder="User Name">
+						<div class="alertMsg" *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
+								Please enter User Name
 						</div>
 					</div>
 				</div>
-				<!--begin::Form-->
-				<form class="m-form m-form--fit m-form--label-align-right" role="form" novalidate (ngSubmit)="onSubmit(userForm)" [formGroup]="userForm">
-					<div class="m-portlet__body">
-						<div class="form-group m-form__group">
-							<label for="userName">
-								User Name
-							</label>
-							<input type="text" formControlName="username" name="userName" id="userName" class="form-control m-input" placeholder="User Name">
-							<div class="alert alert-danger" *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
-								Please enter UserName
-							</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+							User Email
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" value="" formControlName="email" name="email" placeholder="Email">
+						<div class="alertMsg" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
+							Please enter Email
 						</div>
-						<div class="form-group m-form__group">
-							<label for="email">
-								Email
-							</label>
-							<input type="text" formControlName="email" name="email" class="form-control"  placeholder="Email">
-							<div class="alert alert-danger" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
-								Please enter Email
-							</div>
-						</div>	
-					</div>
-					<div class="m-portlet__foot m-portlet__foot--fit">
-						<div class="m-form__actions">
-							 <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" [isAuthorize]="['user.Update', 'user.Create']">
-								Submit
-							</button>
-							<button type="button" class="btn btn-secondary" (click)="onCancel()">
-								Cancel
-							</button> 							
+						<div class="alertMsg" *ngIf="!userForm.get('email').hasError('required') && userForm.get('email').hasError('email') && userForm.get('email').touched">
+							Please enter valid Email
 						</div>
 					</div>
-				</form>
-				<!--end::Form-->
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+							Contact
+					</label>
+					<div class="col-7">
+						<input class="form-control m-input" type="text" formControlName="contact" name="contact" placeholder="Contact">
+						<div class="alertMsg" *ngIf="userForm.get('contact').hasError('required') && userForm.get('contact').touched">
+							Please enter Contact Number
+						</div>
+						<div class="alertMsg" *ngIf="!userForm.get('contact').hasError('required') && userForm.get('contact').hasError('pattern') && userForm.get('contact').touched">
+							Please enter valid phone numeber
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row" *ngIf="this.userRole == 'admin'">
+					<label class="col-2 col-form-label" for="example-text-input">
+						Institute
+					</label>
+					<div class="col-7">
+						 <select class="form-control" formControlName="institute" (change)="onChangeInstitutes($event.target.value)">
+							<option [value]="null" >Select</option>
+							<option *ngFor="let institute of instituteList" [value]="institute.InstituteId">{{institute.InstituteName}}</option>
+						</select>
+						<div class="alertMsg" *ngIf="userForm.get('institute').hasError('required') && userForm.get('institute').touched">
+							Please select institute
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row"  *ngIf="this.userRole == 'admin'">
+					<label class="col-2 col-form-label" for="example-text-input">
+						School
+					</label>
+					<div class="col-7">					
+						<div class="row">
+							<div  class="col-6 schoolCheckList" *ngFor="let school of schools.controls; let i=index">
+								<label class="m-checkbox">
+									<input type="checkbox" [formControl]="school"/>
+									<span></span>
+									{{schoolList[i].SchoolName}}
+								</label>
+							</div>
+							<div class="alertMsg" *ngIf="selectedSchoolsValidationError == true">
+								Please select school
+							</div>
+							<div class="alertMsg" *ngIf="schoolList.length == 0">
+								Please select Institute to get schools
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label class="col-2 col-form-label" for="example-text-input">
+						Role
+					</label>
+					<div class="col-7">
+						<select class="form-control" formControlName="role">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let role of roleList" [ngValue]="role.id">{{role.name}}</option>
+						</select>
+					</div>
+				</div> 
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+							Active
+					</label>
+					<div class="col-2" style="padding-top: 5px;">
+						<label class="m-checkbox">
+							<input type="checkbox">												
+							<span></span>
+						</label>
+					</div>
+				</div>
+				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+					<div class="m-form__actions m-form__actions--solid">
+						<div class="row">
+							<div class="col-lg-6">
+								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="userForm.invalid" [isAuthorize]="['user.Update', 'user.Create']">
+										Add User
+								</button>
+								<button type="reset" class="btn btn-secondary" (click)="onCancel()">
+										Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<!--end::Portlet-->
-		</div>
+		</form>
+		<!--end::Form-->
 	</div>
 </div>
