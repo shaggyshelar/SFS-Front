@@ -36,7 +36,7 @@ export class SchoolAddEditComponent implements OnInit {
       id: [],
       InstituteId : [0, [Validators.required]],
       SchoolId : [1],
-      SchoolName: ['', [Validators.required]],
+      schoolName: ['', [Validators.required]],
       SchoolCode: ['', [Validators.required]],
       SchoolEmail: ['', [Validators.required]],
       SchoolPhone: ['', [Validators.required]],
@@ -49,16 +49,17 @@ export class SchoolAddEditComponent implements OnInit {
             this.schoolService.getSchoolById(this.params)
                 .subscribe(
                 (results: School) => {
-                    this.schoolForm.setValue({
-                        id: results.id,
-                        SchoolId: results.SchoolId,
-                        InstituteId: results.InstituteId,
-                        SchoolName: results.SchoolName,
-                        SchoolCode: results.SchoolCode,
-                        SchoolEmail: results.SchoolEmail,
-                        SchoolPhone: results.SchoolPhone,
-                        SchoolAddress: results.SchoolAddress
-                    });
+                    console.log(results);
+                    // this.schoolForm.setValue({
+                    //     id: results.id,
+                    //     SchoolId: results.SchoolId,
+                    //     InstituteId: results.InstituteId,
+                    //     schoolName: results.schoolName,
+                    //     SchoolCode: results.SchoolCode,
+                    //     SchoolEmail: results.SchoolEmail,
+                    //     SchoolPhone: results.SchoolPhone,
+                    //     SchoolAddress: results.SchoolAddress
+                    // });
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
