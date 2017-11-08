@@ -16,6 +16,7 @@ import {
   SharedModule,
   ButtonModule,
   AutoCompleteModule,
+  DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -68,6 +69,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     AutoCompleteModule,
+    DropdownModule,
   ],
   declarations: [
     RolesComponent,
