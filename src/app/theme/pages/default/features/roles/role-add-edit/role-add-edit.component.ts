@@ -26,6 +26,7 @@ export class RoleAddEditComponent implements OnInit {
     roleForm: FormGroup;
     roleName: string;
     featureList: any;
+    selectedFeature: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -175,9 +176,13 @@ export class RoleAddEditComponent implements OnInit {
     }
 
     getFeaturePermissions(feature) {
+        if(feature){
         let permissionsList = [];
         this.permissionList = feature.permissions;
         this.getfilteredPermissions(feature.menuName)
+        }else {
+            this.permissionList = [];
+        }
     }
 
     private getfilteredPermissions(menuName) {
@@ -186,10 +191,10 @@ export class RoleAddEditComponent implements OnInit {
             let permission = this.permissionList[i];
             let rolePermissionData = _.find(this.rolePermissionList, { permissionName: permission.permissionName })
             if (rolePermissionData == null) {
-                if (menuName) {
+                if (permission.permissionName) {
                     let permissionName = permission.permissionName.split(".");
                     if (permissionName.length > 1) {
-                        permission.text = "Can " + permissionName[1] + " " + menuName;
+                        permission.text = "Can " + permissionName[1] + " " + this.selectedFeature.menuName;
                     }
                 }
                 this.filteredPermissionList.push(permission);
