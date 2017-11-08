@@ -70,8 +70,10 @@ export class RoleAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, valid }: { value: Role, valid: boolean }) {
-        if (this.params) {
+    onSubmit({ value, valid }: { value: any, valid: boolean }) {
+      var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+        if (this.params) {           
             this.roleService.updateRole(value)
                 .subscribe(
                 results => {
@@ -83,6 +85,9 @@ export class RoleAddEditComponent implements OnInit {
                 });
         } else {
             value.name = value.displayName;
+            value.schoolId = schoolId;
+            value.createdBy = currentUser.user.username;
+            value.created = new Date();
             this.roleService.createRole(value)
                 .subscribe(
                 results => {
