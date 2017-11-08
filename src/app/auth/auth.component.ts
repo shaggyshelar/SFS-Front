@@ -58,11 +58,11 @@ export class AuthComponent implements OnInit {
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.user) {
-         let _schoolAdmin= _.find(currentUser.roles, { 'name': 'SchoolAdmin' });
+         let _superAdmin= _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
           }      
-          else if(_schoolAdmin)
+          else if(!_superAdmin)
           {
             this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
             .subscribe(
