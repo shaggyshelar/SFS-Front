@@ -6,6 +6,8 @@ import { GlobalErrorHandler } from '../../../../../../_services/error-handler.se
 import { MessageService } from '../../../../../../_services/message.service';
 
 import { SchoolService } from '../../../_services/school.service';
+import { InstitutesService } from '../../../_services/institute.service';
+import { BoardService } from '../../../_services/board.service';
 import { School } from "../../../_models/school";
 
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
@@ -57,6 +59,8 @@ export class SchoolListComponent implements OnInit {
 
     constructor(private router: Router,
         private schoolService: SchoolService,
+        private instituteService: InstitutesService,
+        private boardService: BoardService,
         private messageService: MessageService,
         private globalErrorHandler: GlobalErrorHandler,
         private _script: ScriptLoaderService) {
@@ -73,18 +77,24 @@ export class SchoolListComponent implements OnInit {
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
 
-        this.filterCol1 = [];
-        this.filterCol1.push({ label: '--Select--', value: 'select' });
-        this.filterCol1.push({ label: 'Dayanand Anglo Vedic Public Schools', value: 'BTPS' });
-        this.filterCol1.push({ label: 'Don Bosco', value: 'Don Bosco' });
-
         this.filterCol2 = [];
-        let val = this.schoolService.getFilterList("?filter[fields][InstituteId]=true&filter[fields][id]=true");
+        let val = this.boardService.getAllBoards();
         this.filterCol2.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
             for (let key in response) {
                 if (response.hasOwnProperty(key)) {
-                    this.filterCol2.push({ label: response[key].InstituteId, value: response[key].InstituteId });
+                    this.filterCol2.push({ label: response[key].boardName, value: response[key].id });
+                }
+            }
+        });
+
+        this.filterCol1 = [];
+        val = this.instituteService.getAllInstitutes();
+        this.filterCol1.push({ label: '--Select--', value: 'select' });
+        val.subscribe((response) => {
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    this.filterCol1.push({ label: response[key].instituteName, value: response[key].id });
                 }
             }
         });
@@ -222,10 +232,6 @@ export class SchoolListComponent implements OnInit {
         if (this.currentPos - this.perPage >= 0) {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
-
-            // this.boundryStart--;
-            // this.boundryEnd--;
-            // this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllSchools();
         }
@@ -309,7 +315,9 @@ export class SchoolListComponent implements OnInit {
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
-
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
     }
 
@@ -323,6 +331,9 @@ export class SchoolListComponent implements OnInit {
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
     }
 
