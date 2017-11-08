@@ -1,12 +1,13 @@
 /** Angular Dependencies */
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import * as _ from 'lodash/index';
 
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 
-import { UserService, InstitutesService, RoleService } from '../../../_services/index';
+import { UserService, InstitutesService, RoleService, SchoolService } from '../../../_services/index';
 import { User } from "../../../_models/user";
 
 /** Component Declaration */
@@ -24,7 +25,9 @@ export class UserAddEditComponent implements OnInit {
     schoolList: any;
     selectedInstitute: any;
     roleList: any;
-    selectedSchoolsValidationError: boolean = false
+    selectedSchoolsValidationError: boolean = false;
+    relatedSchoolList: any;
+    currentUser: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -32,6 +35,7 @@ export class UserAddEditComponent implements OnInit {
         private userService: UserService,
         private roleService: RoleService,
         private institutesService: InstitutesService,
+        private schoolService: SchoolService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService) {
@@ -40,66 +44,94 @@ export class UserAddEditComponent implements OnInit {
         this.instituteList = [];
         this.schoolList = [];
         this.roleList = [];
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
-            this.userRole = currentUser.roles[0].displayName;
+        this.relatedSchoolList = [];
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.currentUser && this.currentUser.roles && this.currentUser.roles.length > 0) {
+            this.userRole = this.currentUser.roles[0].name;
         }
 
-        this.userForm = this.formBuilder.group({
-            id: [],
-            username: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            contact: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            password: ['opensesane'],
-            institute: this.userRole == 'admin' ? ['', [Validators.required]] : [''],
-            role: ['', [Validators.required]],
-            schools: this.buildSchools()
-        });
-
-        if (this.userRole == 'admin') {
-            // this.institutesService.getAllInstitutes
-            //     .subscribe((results: any) => {
-            //         this.instituteList = results;
-            //     }, error => {
-            //         this.globalErrorHandler.handleError(error);
-            //     })
-            this.instituteList = this.institutesService.getAllInstitutes();
-        }
-
-        this.userForm = this.formBuilder.group({
-            id: [],
-            username: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            contact: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            password: ['opensesane'],
-            institute: ['', [Validators.required]],
-            role: ['', [Validators.required]],
-            schools: this.buildSchools()
-        });
-        this.getAllRoles();
-
-        //edit
         this.route.params.forEach((params: Params) => {
             this.params = params['userId'];
-            if (this.params) {
-                this.userService.getUserById(this.params)
-                    .subscribe((results: any) => {
-                        this.userForm.setValue({
-                            id: results.id,
-                            username: results.username,
-                            email: results.email,
-                            contact: results.contact,
-                            password: 'opensesane',
-                            institute : 1,
-                            role : 1
-                        });
-                    }, error => {
-                        this.globalErrorHandler.handleError(error);
-                    })
-            }
         });
+
+        this.getAllRoles();
+
+        if (this.userRole == 'SuperAdmin') {
+            this.userForm = this.formBuilder.group({
+                id: [],
+                username: ['', [Validators.required]],
+                email: ['', [Validators.required, Validators.email]],
+                phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+                // password: ['opensesane'],
+                institute: ['', [Validators.required]],
+                role: ['', [Validators.required]],
+                schools: this.buildSchools()
+            });
+
+            this.institutesService.getAllInstitutes()
+                .subscribe((results: any) => {
+                    this.instituteList = results;
+                    if (this.params) {
+                        this.getEditForm();
+                    }
+                }, error => {
+                    this.globalErrorHandler.handleError(error);
+                })
+        } else {
+            this.userForm = this.formBuilder.group({
+                id: [],
+                username: ['', [Validators.required]],
+                email: ['', [Validators.required, Validators.email]],
+                phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+                // password: ['opensesane'],
+                role: ['', [Validators.required]],
+            });
+
+            if (this.params) {
+                this.getEditFormWithoutInstitute();
+            }
+        }
+
     }
 
+    getEditFormWithoutInstitute() {
+        this.userService.getUserById(this.params)
+            .subscribe((results: any) => {
+                this.userForm.setValue({
+                    id: results.id,
+                    username: results.username,
+                    email: results.email,
+                    phone: results.phone,
+                    // password: 'opensesane',
+                    role: results.roleId,
+                });
+            })
+    }
+
+    getEditForm() {
+        this.userService.getUserById(this.params)
+            .subscribe((results: any) => {
+                this.relatedSchoolList = results.schools ? results.schools : [];
+                var instituteId = -1;
+                if (this.relatedSchoolList.length > 0) {
+                    instituteId = this.relatedSchoolList[0].instituteId;
+                }
+                this.userForm.setValue({
+                    id: results.id,
+                    username: results.username,
+                    email: results.email,
+                    phone: results.phone,
+                    // password: 'opensesane',
+                    role: results.roleId,
+                    institute: instituteId,
+                    schools: []
+                });
+                if (this.relatedSchoolList.length > 0) {
+                    this.getSchools(instituteId);
+                }
+            })
+
+    }
     get schools(): FormArray {
         return this.userForm.get('schools') as FormArray;
     };
@@ -113,12 +145,18 @@ export class UserAddEditComponent implements OnInit {
         for (var index = 0; index < this.schoolList.length; index++) {
             var school = this.schoolList[index];
             school.selected = false;
-
+            if (this.relatedSchoolList.length > 0) {
+                let item = _.find(this.relatedSchoolList, { id: school.id })
+                if (item) {
+                    school.selected = true;
+                }
+            }
         }
         return this.schoolList;
     }
+
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
-        if (this.userRole == 'admin') {
+        if (this.userRole == 'SuperAdmin') {
             this.selectedSchoolsValidationError = false
             let selectedSchools = [];
             for (var index = 0; index < value.schools.length; index++) {
@@ -130,13 +168,15 @@ export class UserAddEditComponent implements OnInit {
                 let params = {
                     username: value.username,
                     email: value.email,
-                    contact: value.contact,
+                    phone: value.phone,
                     instituteId: value.institute,
                     roleId: value.role,
-                    selectedSchools: selectedSchools
+                    selectedSchools: selectedSchools,
+                    createdBy: this.currentUser.user.username,
+                    createdOn: new Date()
                 }
                 console.log('params', params);
-               // this.saveUser(params);
+                this.saveUser(params);
             } else {
                 this.selectedSchoolsValidationError = true
             }
@@ -144,12 +184,13 @@ export class UserAddEditComponent implements OnInit {
             let params = {
                 username: value.username,
                 email: value.email,
-                contact: value.contact,
+                phone: value.phone,
                 roleId: value.role,
-                schoolId: '1' //get from local storage.
+                createdBy: this.currentUser.user.username,
+                createdOn: new Date(),
+                schoolId: localStorage.getItem('schoolId') //get from local storage.
             }
-            console.log('params', params);
-           // this.saveUser(params);
+            this.saveUser(params);
         }
     }
 
@@ -190,21 +231,32 @@ export class UserAddEditComponent implements OnInit {
 
     onChangeInstitutes(value) {
         if (value != 'null') {
-            this.schoolList = this.institutesService.getSchoolsByInstitute(value);
-            this.updateSchoolList();
-            // this.institutesService.getSchoolsByInstitute(value)
-            //     .subscribe((results: any) => {
-            //         this.schoolList = results;
-            //         this.schoolList = this.updateSchoolList();
-            //     }, error => {
-            //         this.globalErrorHandler.handleError(error);
-            //     })
-            this.userForm.removeControl('schools');
-            this.userForm.addControl('schools', this.buildSchools());
+            this.schoolService.getSchoolsByInstitute(value)
+                .subscribe((results: any) => {
+                    this.schoolList = results;
+                    this.schoolList = this.updateSchoolList();
+                    this.userForm.removeControl('schools');
+                    this.userForm.addControl('schools', this.buildSchools());
+                }, error => {
+                    this.globalErrorHandler.handleError(error);
+                })
+
         } else {
             this.schoolList = [];
             this.userForm.removeControl('schools');
             this.userForm.addControl('schools', this.buildSchools());
         }
+    }
+
+    getSchools(value) {
+        this.schoolService.getSchoolsByInstitute(value)
+            .subscribe((results: any) => {
+                this.schoolList = results;
+                this.schoolList = this.updateSchoolList();
+                this.userForm.removeControl('schools');
+                this.userForm.addControl('schools', this.buildSchools());
+            }, error => {
+                this.globalErrorHandler.handleError(error);
+            })
     }
 }

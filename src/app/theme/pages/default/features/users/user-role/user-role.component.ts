@@ -74,7 +74,7 @@ export class UserRoleComponent implements OnInit {
         }
     }
 
-    onRevokeRole(role: any) {
+    onRevokeRole() {
         // role.userId = this.params;
         // this.userRoleService.revokeUserRole(role)
         //     .subscribe(
