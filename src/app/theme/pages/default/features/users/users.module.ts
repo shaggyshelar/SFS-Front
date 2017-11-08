@@ -7,7 +7,7 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
-import { UserService, RoleService, UserRoleService, InstitutesService  } from '../../_services/index';
+import { UserService, RoleService, UserRoleService, InstitutesService, SchoolService  } from '../../_services/index';
 import { UsersComponent } from './users.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserRoleComponent } from './user-role/user-role.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
             component: UsersListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['user.Read']
+              permissions: ['User.Read']
             }
           },
           {
@@ -45,7 +45,7 @@ const routes: Routes = [
             component: UserAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['user.Create']
+              permissions: ['User.Create']
             }
           },
           {
@@ -53,7 +53,7 @@ const routes: Routes = [
             component: UserAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['user.Update']
+              permissions: ['User.Update']
             }
           },
         ]
@@ -85,6 +85,7 @@ const routes: Routes = [
     RoleService,
     UserRoleService,
     InstitutesService,
+    SchoolService,
   ],
 })
 export class UsersModule {
