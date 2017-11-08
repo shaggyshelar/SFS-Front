@@ -140,7 +140,8 @@
 		</div>
 
 		<!--begin::Form-->
-		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" >
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(schoolForm)"
+		 [formGroup]="schoolForm">
 			<div class="m-portlet__body formPortletBody">
 				<div class="form-group m-form__group m--margin-top-10 m--hide">
 					<div class="alert m-alert m-alert--default" role="alert">
@@ -160,13 +161,17 @@
 						Institute Name
 					</label>
 					<div class="col-7">
-						<select class="form-control m-input">
+						<p-dropdown [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
+						<div class="alert alert-danger" *ngIf="schoolForm.get('instituteId').hasError('required') && schoolForm.get('instituteId').touched">
+							Please select Institute
+						</div>
+						<!-- <select class="form-control m-input">
 							<option disabled selected>Select</option>
 							<option>Institute 1</option>
 							<option>Institute 2</option>
 							<option>Institute 3</option>
 							<option>Institute 4</option>
-						</select>
+						</select> -->
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -174,7 +179,10 @@
 						School Name
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" name="schoolName">
+						<input class="form-control m-input" type="text" formControlName="schoolName" name="schoolName" id="schoolName" placeholder="School Name">
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolName').hasError('required') && schoolForm.get('schoolName').touched">
+							Please enter School Name
+						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -182,10 +190,13 @@
 						Short Name
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="SIMS">
+						<input class="form-control m-input" type="text" formControlName="schoolCode" name="schoolCode" id="schoolCode" placeholder="School Code">
 						<span class="m-form__help">
 							Short Name will be used for your reference to identify added school & will not be shown publicly.
 						</span>
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolCode').hasError('required') && schoolForm.get('schoolCode').touched">
+							Please enter School Short Name
+						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -226,8 +237,10 @@
 						Address
 					</label>
 					<div class="col-7">
-						<textarea class="form-control m-input" rows="3" value="Lavale, Mulshi taluk," style="resize:none;"></textarea>
-
+						<textarea class="form-control m-input" rows="3" formControlName="schoolAddress" name="schoolAddress" id="schoolAddress" style="resize:none;"></textarea>
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolAddress').hasError('required') && schoolForm.get('schoolAddress').touched">
+							Please enter School Address
+						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -235,7 +248,10 @@
 						City
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="Pune">
+						<input class="form-control m-input" type="text" formControlName="schoolCity" name="schoolCity" id="schoolCity" placeholder="City">
+					</div>
+					<div class="alertMsg" *ngIf="schoolForm.get('schoolCity').hasError('required') && schoolForm.get('schoolCity').touched">
+						Please enter School City
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -243,7 +259,10 @@
 						State
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="Maharashtra">
+						<input class="form-control m-input" type="text" formControlName="schoolState" name="schoolState" id="schoolState" placeholder="State">
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolState').hasError('required') && schoolForm.get('schoolState').touched">
+							Please enter School State
+						</div>
 					</div>
 				</div>
 
@@ -260,7 +279,10 @@
 						Email
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="school@gmail.com">
+						<input class="form-control m-input" type="text" formControlName="schoolEmail" name="schoolEmail" id="schoolEmail" placeholder="Email">
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolEmail').hasError('required') && schoolForm.get('schoolEmail').touched">
+							Please enter School Email
+						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -268,7 +290,10 @@
 						Phone No.
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="+91 89564 32654">
+						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone">
+						<div class="alertMsg" *ngIf="schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').touched">
+							Please enter School Phone
+						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -289,7 +314,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
 								Add School
 							</button>
 							<button type="reset" class="btn btn-secondary">

@@ -1,10 +1,14 @@
 export class School {
     id: number;
-    SchoolId: number;
-    InstituteId: number;
+    boardId: number;
+    instituteId: number;
     schoolName: string;
-    SchoolCode: string;
-    SchoolEmail: string;
-    SchoolPhone: string;
-    SchoolAddress: string;
+    schoolCode: string;
+    schoolEmail: string;
+    schoolPhone: string;
+    schoolAddress: string;
+    schoolCity: string;
+    schoolState: string;
+    schoolLogo:string;
+    schoolHeader: string;
 }
