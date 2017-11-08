@@ -44,4 +44,9 @@ export class SchoolService {
       requestOptions.params = params;
       return this.http.get(AppSettings.API_ENDPOINT + 'schools/', requestOptions).map((response: Response) => response.json());
   }
+
+  getRolesBySchoolId(){
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/Roles', AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
 }
