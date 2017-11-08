@@ -18,11 +18,11 @@ export class UserService {
   }
 
   createUser(user: User) {
-    return this.http.post(AppSettings.API_ENDPOINT +'users', user, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT +'users/createUser', user, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateUser(user: User) {
-    return this.http.put(AppSettings.API_ENDPOINT +'users/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.put(AppSettings.API_ENDPOINT +'users/updateUser' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteUser(id: number) {
@@ -34,4 +34,10 @@ export class UserService {
       .map((response: Response) =>
         response.text());
   }
+  getAllUsersCount(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'users/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+   getAllUsersList(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'users' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
 }

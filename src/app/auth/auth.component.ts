@@ -9,6 +9,7 @@ import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
 import { Observable } from 'rxjs/Rx';
+import * as _ from 'lodash/index';
 import { UserSchoolDetailsService } from '../theme/pages/default/_services/userschooldetails.service';
 
 @Component({
@@ -57,25 +58,30 @@ export class AuthComponent implements OnInit {
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.user) {
+         let _superAdmin= _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
           }      
-          else
+          else if(!_superAdmin)
           {
             this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
             .subscribe(
               results => {
                 if (results.length>1){
-                  this._router.navigate(['/schoolDashboard']);
+                  this._router.navigate(['/selectSchool']);
                 }
                 else{
                   localStorage.setItem('schoolId',results[0].UserschoolSchool.id);
+                  localStorage.setItem('instituteId',results[0].UserschoolSchool.instituteId);
                   this._router.navigate([this.returnUrl]);
                 };
               },
               error => {
                   this._globalErrorHandler.handleError(error);
               });
+          }
+          else{
+            this._router.navigate([this.returnUrl]);
           }
         }
       },
