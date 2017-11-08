@@ -11,4 +11,6 @@ export class School {
     schoolState: string;
     schoolLogo:string;
     schoolHeader: string;
+    createdBy:string;
+    createdOn : string;
 }

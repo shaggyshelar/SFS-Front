@@ -8,6 +8,7 @@ import { LayoutModule } from '../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { SchoolService } from '../../_services/index';
 import { InstitutesService } from '../../_services/institute.service';
+import { BoardService } from '../../_services/board.service';
 import { SchoolComponent } from './school.component';
 import { SchoolListComponent } from './school-list/school-list.component';
 import { SchoolAddEditComponent } from './school-add-edit/school-add-edit.component';
@@ -82,7 +83,8 @@ const routes: Routes = [
   ],
   providers: [
     SchoolService,
-    InstitutesService
+    InstitutesService,
+    BoardService
   ]
 })
 export class SchoolModule {

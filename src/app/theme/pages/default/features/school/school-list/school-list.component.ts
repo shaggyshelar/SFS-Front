@@ -134,6 +134,9 @@ export class SchoolListComponent implements OnInit {
         //If number of pages are less than the boundry
         if (this.pages < this.boundry) {
             this.boundry = this.pages;
+            this.boundryEnd = this.pages;
+        }else{
+            this.boundry = 3;
         }
 
         for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
@@ -171,6 +174,9 @@ export class SchoolListComponent implements OnInit {
         this.perPage = size;
         this.currentPos = 0;
         this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
     }
 
@@ -206,6 +212,7 @@ export class SchoolListComponent implements OnInit {
         }
         //this.boundryEnd = this.pages;
         //this.boundryStart = this.pages - this.boundry + 1;
+        
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllSchools();
@@ -342,7 +349,6 @@ export class SchoolListComponent implements OnInit {
             this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllSchools();
-
         },
         );
     }
