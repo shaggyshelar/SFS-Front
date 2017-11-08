@@ -90,7 +90,7 @@ const routes: Routes = [
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/unautherizedAccess\/unautherizedAccess.module#UnAutherizedAccessModule"
   },
   {
-    "path": "schoolDashboard",
+    "path": "selectSchool",
     "canActivate": [AuthGuard],
     "loadChildren": ".\/pages\/self-layout-blank\/snippets\/pages\/schoolDashboard\/schoolDashboard.module#SchoolDashboardModule"
   },

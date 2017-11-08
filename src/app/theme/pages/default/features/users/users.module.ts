@@ -17,6 +17,7 @@ import {
   DataTableModule,
   SharedModule,
   ButtonModule,
+  DropdownModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -73,6 +74,7 @@ const routes: Routes = [
     DataTableModule,
     SharedModule,
     ButtonModule,
+    DropdownModule
   ],
   declarations: [
     UsersComponent,

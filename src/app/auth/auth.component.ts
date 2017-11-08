@@ -68,7 +68,7 @@ export class AuthComponent implements OnInit {
             .subscribe(
               results => {
                 if (results.length>1){
-                  this._router.navigate(['/schoolDashboard']);
+                  this._router.navigate(['/selectSchool']);
                 }
                 else{
                   localStorage.setItem('schoolId',results[0].UserschoolSchool.id);

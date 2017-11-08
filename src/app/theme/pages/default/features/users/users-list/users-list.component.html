@@ -72,7 +72,7 @@
 									</div>
 								</div>
 							</div>						
-							<p-dataTable [value]="userList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
+							<!-- <p-dataTable [value]="userList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
 								<p-column field="username" header="UserName"></p-column>
 								<p-column header="Manage Role">
 									<ng-template let-role="rowData" pTemplate type="body">
@@ -91,7 +91,109 @@
 										<button class="btn btn-danger" (click)="onDelete(user)" [isAuthorize]="['User.Delete']"><i class="fa fa-trash"></i></button>
 									</ng-template>
 								</p-column>
-							</p-dataTable> 
+							</p-dataTable>  -->
+							<div class="table-responsive">
+								<!--begin: Datatable -->
+								<table class="staticTable" id="" width="100%">
+									<thead>
+										<tr>
+											<th title="Field #1">
+												<a href="#" (click)="sort('username',ascSortCol1 = !ascSortCol1)">
+													User Name
+												</a>
+											</th>
+											<th title="Field #2">
+												Phone
+											</th>
+											<th title="Field #3">
+												Email
+											</th>
+											<th title="Field #4">
+												Actions
+											</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="longList">
+										<tr *ngFor='let row of userList | async'>
+											<td>{{row.username}}</td>
+											<td>{{row.phone}}</td>
+											<td>{{row.email}}</td>			
+											<td>
+												<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Edit" [isAuthorize]="['User.Update']">
+													<i class="la la-edit"></i>
+												</a>
+												<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Delete" [isAuthorize]="['User.Delete']">
+													<i class="la la-close"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="!longList">
+										No Records Found...
+									</tbody>
+			
+								</table>
+								<!-- Pagination -->
+								<div class="PaginationBox">
+			
+									<div class="row">
+										<div class="col-md-6">
+											<nav aria-label="Page navigation example">
+												<ul class="pagination">
+													<li class="page-item">
+														<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+															<i class="la la-angle-double-left leftIcon"></i>
+														</a>
+													</li>
+													<!-- <li class="page-item">
+														<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+															<i class="fa fa-arrows leftIcon"></i>
+														</a>
+													</li> -->
+													<li class="page-item">
+														<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
+															<i class="la la-angle-left leftIcon"></i>
+														</a>
+													</li>
+													<li class="page-item" *ngFor="let item of arr">
+														<!-- <a my-link="false" [ngClass]="{'active' : true, 'page-link' : currentPageCheck(item)}" (click)="pageClick(item)">{{item}}</a> -->
+														<a my-link="false" [ngClass]="{'active' : currentPageCheck(item), 'page-link' : true}" (click)="pageClick(item)">{{item}}</a>
+													</li>
+													<li class="page-item">
+														<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
+															<i class="la la-angle-right rightIcon"></i>
+														</a>
+													</li>
+													<!-- <li class="page-item">
+														<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
+															<i class="fa fa-arrows rightIcon"></i>
+														</a>
+													</li> -->
+													<li class="page-item">
+														<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
+															<i class="la la-angle-double-right rightIcon"></i>
+														</a>
+													</li>
+												</ul>
+											</nav>
+										</div>
+			
+										<div class="col-md-6 showRecordsBox">
+											<div class="showRecordsLabel">
+												<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
+											</div>
+											<div class="showRecordsDropdown">
+												<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+												 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+											</div>
+										</div>
+			
+									</div>
+			
+								</div>
+							</div>
 						</div>
 					</div>
 					<!--end::Section-->
