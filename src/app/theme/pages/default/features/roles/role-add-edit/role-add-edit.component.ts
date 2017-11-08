@@ -41,6 +41,7 @@ export class RoleAddEditComponent implements OnInit {
         this.filteredPermissionList = [];
         this.permissionList = [];
         this.featureList = [];
+        this.rolePermissionList = [];
         this.roleForm = this.formBuilder.group({
             id: [],
             displayName: ['', [Validators.required]],
@@ -52,6 +53,7 @@ export class RoleAddEditComponent implements OnInit {
             if (this.params) {
                 this.roleService.getRoleById(this.params)
                     .subscribe((results: any) => {
+                        this.rolePermissionList = results.permissions ? results.permissions : [];
                         this.getAllFeatures();
                         // this.getPermissionsByRole();
                         this.roleName = results.name;
@@ -60,8 +62,7 @@ export class RoleAddEditComponent implements OnInit {
                             displayName: results.displayName,
                             name: results.name,
                             description: results.description
-                        });
-                        this.rolePermissionList = results.permissions ? results.permissions : [];
+                        });                        
                         this.updatePermissionList(this.rolePermissionList);
                     }, error => {
                         this.globalErrorHandler.handleError(error);
@@ -73,7 +74,8 @@ export class RoleAddEditComponent implements OnInit {
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
       var currentUser = JSON.parse(localStorage.getItem('currentUser'));
       var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-        if (this.params) {           
+        if (this.params) {   
+            value.schoolId = schoolId;        
             this.roleService.updateRole(value)
                 .subscribe(
                 results => {
@@ -86,8 +88,6 @@ export class RoleAddEditComponent implements OnInit {
         } else {
             value.name = value.displayName;
             value.schoolId = schoolId;
-            value.createdBy = currentUser.user.username;
-            value.created = new Date();
             this.roleService.createRole(value)
                 .subscribe(
                 results => {
@@ -102,9 +102,9 @@ export class RoleAddEditComponent implements OnInit {
 
     onAddPermission() {
         let params = {
-            permission: this.selectedPermission.permissionName,
-            principalName: this.roleName,
-            principalId: this.params
+            permissionName: this.selectedPermission.permissionName,
+            permissionId:this.selectedPermission.id,
+            roleId: this.params,
         }
         this.permissionService.addPermissionToRole(params)
             .subscribe(
@@ -144,7 +144,7 @@ export class RoleAddEditComponent implements OnInit {
     private updatePermissionList(rolePermissionList) {
         for (let i = 0; i < rolePermissionList.length; i++) {
             let rolePermission = rolePermissionList[i];
-            let permission = rolePermission.permission.split(".");
+            let permission = rolePermission.permissionName.split(".");
             if (permission.length > 1) {
                 rolePermission.text = "Can " + permission[1] + " " + rolePermission.featureName;
             }
@@ -166,7 +166,7 @@ export class RoleAddEditComponent implements OnInit {
     private getFilteredFeatureList() {
         let featureList = [];
         for (var index = 0; index < this.featureList.length; index++) {
-            let count = _.filter(this.rolePermissionList, { featureName: this.featureList[index].FeatureName }).length;
+            let count = _.filter(this.rolePermissionList, { featureName: this.featureList[index].menuName }).length;
             if (count != this.featureList[index].permissions.length) {
                 featureList.push(this.featureList[index]);
             }
@@ -184,7 +184,7 @@ export class RoleAddEditComponent implements OnInit {
         this.filteredPermissionList = [];
         for (let i = 0; i < this.permissionList.length; i++) {
             let permission = this.permissionList[i];
-            let rolePermissionData = _.find(this.rolePermissionList, { permission: permission.permissionName })
+            let rolePermissionData = _.find(this.rolePermissionList, { permissionName: permission.permissionName })
             if (rolePermissionData == null) {
                 if (menuName) {
                     let permissionName = permission.permissionName.split(".");

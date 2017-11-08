@@ -24,7 +24,7 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__section">
+			<li class="m-menu__section" *ngIf = "userRole=='SuperAdmin'">
 				<h4 class="m-menu__section-text">
 					Admin
 				</h4>
@@ -115,13 +115,13 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__section">
+			<!-- <li class="m-menu__section">
 				<h4 class="m-menu__section-text">
 					Components
 				</h4>
 				<i class="m-menu__section-icon flaticon-more-v3"></i>
-			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
+			</li> -->
+			<!-- <li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
 				<a routerLink="/features/masterManagement" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-user-settings"></i>
 					<span class="m-menu__link-title">
@@ -156,14 +156,14 @@
 						</span>
 					</span>
 				</a>
-			</li>
-			<li class="m-menu__section">
+			</li> -->
+			<li class="m-menu__section" *ngIf = "userRole =='SchoolAdmin'">
 				<h4 class="m-menu__section-text">
 					School Admin
 				</h4>
 				<i class="m-menu__section-icon flaticon-more-v3"></i>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['ProcessFee.Read']">
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['ProcessFee.Read']">
 				<a routerLink="/features/feeProcessing" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-share"></i>
 					<span class="m-menu__link-title">

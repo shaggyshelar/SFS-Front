@@ -14,10 +14,10 @@ export class PermissionService {
     }
 
     addPermissionToRole(permissions: any) {
-        return this.http.post(AppSettings.API_ENDPOINT + 'permissions', permissions, AppSettings.requestOptions()).map((response: Response) => response.json());
+        return this.http.post(AppSettings.API_ENDPOINT + 'RolepermissionDetails', permissions, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
     revokePermission(id: any) {
-        return this.http.delete(AppSettings.API_ENDPOINT + 'permissions/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+        return this.http.delete(AppSettings.API_ENDPOINT + 'RolepermissionDetails/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
     getPermissionsByRole(id: any) {
         return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
