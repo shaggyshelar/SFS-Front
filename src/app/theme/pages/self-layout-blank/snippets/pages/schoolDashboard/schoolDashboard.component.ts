@@ -34,8 +34,9 @@
           });
       }
   
-      onSchoolSelect(id) {
+      onSchoolSelect(id,instituteId) {
         localStorage.setItem('schoolId',id);
+        localStorage.setItem('instituteId',instituteId);
         this.router.navigate(['/']);
       }
   }
