@@ -126,6 +126,7 @@ export class UserAddEditComponent implements OnInit {
                     institute: instituteId,
                     schools: []
                 });
+               // this.userForm.get('role').disable();
                 if (this.relatedSchoolList.length > 0) {
                     this.getSchools(instituteId);
                 }
@@ -166,29 +167,28 @@ export class UserAddEditComponent implements OnInit {
             }
             if (selectedSchools.length > 0) {
                 let params = {
+                    id: value.id,
                     username: value.username,
                     email: value.email,
                     phone: value.phone,
                     instituteId: value.institute,
                     roleId: value.role,
-                    selectedSchools: selectedSchools,
-                    createdBy: this.currentUser.user.username,
-                    createdOn: new Date()
+                    schoolIds: selectedSchools,
                 }
-                console.log('params', params);
                 this.saveUser(params);
             } else {
                 this.selectedSchoolsValidationError = true
             }
         } else {
+            var schoolIds= [];
+            schoolIds.push(localStorage.getItem('schoolId'));
             let params = {
+                id: value.id,
                 username: value.username,
                 email: value.email,
                 phone: value.phone,
                 roleId: value.role,
-                createdBy: this.currentUser.user.username,
-                createdOn: new Date(),
-                schoolId: localStorage.getItem('schoolId') //get from local storage.
+                schoolIds: schoolIds,
             }
             this.saveUser(params);
         }
@@ -222,6 +222,13 @@ export class UserAddEditComponent implements OnInit {
             .subscribe(
             results => {
                 this.roleList = <any>results;
+            //    if (this.userRole == 'SuperAdmin' && !this.params) {
+            //         let role = _.find(this.roleList, {displayName: 'SchoolAdmin'});
+            //         if(role){
+            //           this.userForm.controls['role'].setValue(role.id)
+            //           this.userForm.get('role').disable();
+            //         }
+            //    }
             });
     }
 

@@ -36,117 +36,123 @@
 </div>
 <!-- END: Subheader -->
 <div class="m-content">
-	<div class="row">
-		<div class="col-lg-12">
-			<!--begin::Portlet-->
-			<div class="m-portlet">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<h3 class="m-portlet__head-text">
-								Role Add/Edit
-							</h3>
-						</div>
-					</div>
-				</div>
-				<div class="m-portlet__body">
-					<!--begin::Section-->
-					<div class="m-section">
-						<div class="m-section__content">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="portlet light bordered legends-portlet">
-										<div class="portlet-body">
-											<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(roleForm)" [formGroup]="roleForm">
-												<div class="form-group">
-													<label class="col-md-2 control-label">Name</label>
-													<div class="col-md-10">
-														<input type="text" formControlName="displayName" name="roleName" class="form-control">
-														<div class="alert alert-danger" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
-															Please enter Role Name
-														</div>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-md-2 control-label">Description</label>
-													<div class="col-md-10">
-														<input type="text" formControlName="description" name="roleDescription" class="form-control">
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="col-md-offset-2 col-md-10">
-														<button pButton type="submit" label="Save" [disabled]="roleForm.invalid" [isAuthorize]="['Role.Create', 'Role.Update']"></button>
-														<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6" *ngIf='params'>
-									<div class="portlet light bordered">
-										<div class="portlet-body">
-											<!-- <div class="form-group">
-												<div class="row">
-													<label class="col-md-2  control-label">Name</label>
-													<div class="col-md-8">
-														<p-autoComplete [(ngModel)]="selectedPermission" [suggestions]="filteredPermissionList" (completeMethod)="filterPermission($event)"
-														 field="Text" [size]="30" placeholder="Permissions" [minLength]="1"></p-autoComplete>
-													</div>
-													<div class="col-md-2">
-														<button class="btn btn-default" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
-														ADD </button>
-													</div>
-												</div>
-											</div> -->
-
-											<div class="form-group">
-												<div class="row">
-													<label class="col-md-3 control-label">Select Feature</label>
-													<div class="col-md-6">
-														<select class="form-control" [(ngModel)]="selectedFeature" (ngModelChange)="getFeaturePermissions($event)">
-															<option [ngValue]="null" >Select</option>
-															<option *ngFor="let feature of featureList" [ngValue]="feature">{{feature.menuName}}</option>
-														</select>
-													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="row">
-													<label class="col-md-3 control-label">Select Permissions</label>
-													<div class="col-md-6">
-														<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="this.filteredPermissionList.length == 0">
-															<option [ngValue]="null" >Select</option>
-															<option *ngFor="let permission of filteredPermissionList" [ngValue]="permission">{{permission.text}}</option>
-														</select>
-													</div>
-													<div class="col-md-2">
-														<button class="btn btn-default" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
-															ADD 
-														</button>
-													</div>
-												</div>
-											</div>
-											
-											
-											<p-dataTable [value]="rolePermissionList" [responsive]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
-												<p-column field="text" header="Permissions" [sortable]="true"></p-column>
-												<p-column header="Revoke">
-													<ng-template pTemplate="body" let-permission="rowData">
-														<a href="javascript:;" class="m-link m-link--focus m-login__account-link" (click)="revokePermission(permission)">Revoke</a>
-													</ng-template>
-												</p-column>
-											</p-dataTable>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!--end::Section-->
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit Role
+					</h3>
 				</div>
 			</div>
-			<!--end::Portlet-->
 		</div>
+		
+		<!--begin::Form-->
+		
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(roleForm)" [formGroup]="roleForm">
+			<div class="m-portlet__body formPortletBody">				
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Roll Name
+					</label>
+					<div class="col-5">
+						<input type="text" formControlName="displayName" name="roleName" class="form-control m-input">
+						<div class="alert alert-danger" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
+							Please enter Role Name
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Roll Description
+					</label>
+					<div class="col-5">
+						<textarea class="form-control m-input" rows="3" formControlName="description" name="roleDescription" style="resize:none;"></textarea>						
+					</div>
+				</div>
+				
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						
+					</label>
+					<div class="col-7">
+						<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="roleForm.invalid" [isAuthorize]="['Role.Create', 'Role.Update']">
+							Add Roll
+						</button>
+						<button type="button" class="btn btn-secondary" (click)="onCancel()">
+							Cancel
+						</button>
+					</div>
+				</div>	
+			</div>
+		</form>
+		<div *ngIf='params'> 
+			<div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+				<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+				<div class="form-group m-form__group row">
+					<div class="col-10 ml-auto">
+						<h3 class="m-form__section">
+							Set Permissions for Role
+						</h3>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Select Role
+					</label>
+					<div class="col-5">
+						<select class="form-control m-input" [(ngModel)]="selectedFeature" (ngModelChange)="getFeaturePermissions($event)">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let feature of featureList" [ngValue]="feature">{{feature.menuName}}</option>
+						</select>
+					</div>
+				</div> 
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-2 col-form-label">
+						Select Permission
+					</label>
+					<div class="col-5">
+						<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="this.filteredPermissionList.length == 0">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let permission of filteredPermissionList" [ngValue]="permission">{{permission.text}}</option>
+						</select>
+					</div>
+					<div class="col-3">
+						<button type="submit" class="btn btn-primary" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
+							Add Permissions
+						</button>
+					</div>
+				</div> 
+				
+				<div class="">				
+					<div class="col-md-7" style="padding-bottom: 5px;">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped staticTable">
+								<thead>
+									<tr>
+										<th>Permissions</th>
+										<th>Revoke</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="rolePermissionList.length > 0">
+									<tr *ngFor="let permission of rolePermissionList">
+										<td>{{permission.text}}</td>
+										<td>
+										<a href="javascript:;" class="m-link m-link--focus m-login__account-link" title="Revoke Permission" (click)="revokePermission(permission)"><b>Revoke</b></a>
+										</td>
+									</tr>								
+								</tbody>
+								<tbody *ngIf="rolePermissionList.length == 0">
+									<tr *ngIf="rolePermissionList.length == 0">
+										<td colspan="2">No Permissions</td>								
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		 </div> 
+		<!--end::Form-->                        
 	</div>
 </div>

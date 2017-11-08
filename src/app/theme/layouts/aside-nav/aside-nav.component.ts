@@ -8,13 +8,17 @@ declare let mLayout: any;
   encapsulation: ViewEncapsulation.None,
 })
 export class AsideNavComponent implements OnInit, AfterViewInit {
-
+userRole: string;
 
   constructor() {
 
   }
   ngOnInit() {
-
+     this.userRole = '';
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
+            this.userRole = currentUser.roles[0].name;
+        }
   }
   ngAfterViewInit() {
 
