@@ -26,13 +26,7 @@ export class StudentAddEditComponent implements OnInit {
     boardList: any;
     categoryList: any;
     bloodGroupList: any;
-    genderSelected: string;
-    classSelected: string;
-    categorySelected: string;
-    boardSelected: string;
-    yearSelected: string;
-    bloodGroupSelected : string;
-
+    genderSelected: string;bloodGroupSelected : string;
 
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
@@ -42,6 +36,7 @@ export class StudentAddEditComponent implements OnInit {
 
     ngOnInit() {
 
+        //List of Gender
         let list = this.commonService.getGender();
         this.genderList = [];
 
@@ -49,34 +44,47 @@ export class StudentAddEditComponent implements OnInit {
             this.genderList.push({ label: list[index], value: list[index] });
         }
 
-        list = this.commonService.getClass();
+        //List of Classes
         this.classList = [];
+        let val = this.commonService.getClass();
+        this.classList.push({ label: '--Select--', value: 'select' });
+        val.subscribe((response) => {
 
-        for (var index = 0; index < list.length; index++) {
-            this.classList.push({ label: list[index], value: list[index] });
-        }
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    this.classList.push({ label: response[key].className, value: response[key].id });
+                }
+            }
+        });
 
-        list = this.commonService.getYear();
+        //List of Academic Year
+        val = this.commonService.getYear();
         this.yearList = [];
 
-        for (var index = 0; index < list.length; index++) {
-            this.yearList.push({ label: list[index], value: list[index] });
-        }
+        this.yearList.push({ label: '--Select--', value: 'select' });
+        val.subscribe((response) => {
 
-        list = this.commonService.getBoard();
-        this.boardList = [];
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    this.yearList.push({ label: response[key].academicYear, value: response[key].id });
+                }
+            }
+        });
 
-        for (var index = 0; index < list.length; index++) {
-            this.boardList.push({ label: list[index], value: list[index] });
-        }
-
-        list = this.commonService.getCategory();
+        //List of Categories
         this.categoryList = [];
+        val = this.commonService.getCategory();
+        this.categoryList.push({ label: '--Select--', value: 'select' });
+        val.subscribe((response) => {
 
-        for (var index = 0; index < list.length; index++) {
-            this.categoryList.push({ label: list[index], value: list[index] });
-        }
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    this.categoryList.push({ label: response[key].categoryName, value: response[key].id });
+                }
+            }
+        });
 
+        //List of Blood groups
         list = this.commonService.getBloodGroup();
         this.bloodGroupList = [];
 
@@ -86,37 +94,44 @@ export class StudentAddEditComponent implements OnInit {
 
         this.studentForm = this.formBuilder.group({
             id: [],
-            StudentId: [],
-            StudentCode: [],
-            SchoolId: [],
-            CategoryId: [],
-            FeePlanId: [],
-            StandardId: [],
-            DivisionId: [],
-            ZoneFrequencyId: [],
-            FirstName: ['', [Validators.required]],
-            MiddleName: ['', [Validators.required]],
-            LastName: ['', [Validators.required]],
-            //Email: ['', [Validators.required]],
-            //Phone: ['', [Validators.required]],
-            FatherFirstName: ['', [Validators.required]],
-            FatherLastName: ['', [Validators.required]],
-            FatherMobile: [],
-            MotherFirstName: [],
-            MotherLastName: [],
-            MotherMobile: [],
-            GuardianFirstName: [],
-            GuardianLastName: [],
-            GuardianMobile: [],
-            City: [],
-            State: [],
-            DOB: [],
-            DOJ: [],
-            ContactNumber: [],
-            Age: [],
-            DateOfBirth: [],
-            AdmissionDate: [],
-            AcademicYear: 0,
+            studentFirstName: ['', [Validators.required]],
+            studentMiddleName: ['', [Validators.required]],
+            studentLastName: ['', [Validators.required]],
+            studentGender:['', [Validators.required]],
+            fatherFirstName: ['', [Validators.required]],
+            fatherLastName: ['', [Validators.required]],
+            fatherMobile: [,[Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            motherFirstName: ['', [Validators.required]],
+            motherLastName: ['', [Validators.required]],
+            motherMobile: [,[Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            guardianFirstName: [''],
+            guardianLastName: [''],
+            guardianMobile: [],
+            classId:[,[Validators.required]],
+            categoryId: [,[Validators.required]],
+            academicYear:[,[Validators.required]],
+            city:[,[Validators.required]],
+            state:[,[Validators.required]],
+            phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            dateOfJoining:[,[Validators.required]],
+            studentDateOfBirth:[,[Validators.required]],
+            bloodGroup:[],
+            studentCode: [,[Validators.required]],
+            divisionId:[],
+
+
+            createdBy:[],
+            createdOn:[],
+            // schoolId: [],
+            email: ['', [Validators.required, Validators.email]],
+            
+            
+           
+            
+           
+           
+           
+           
         });
 
         this.route.params.forEach((params: Params) => {
@@ -125,25 +140,44 @@ export class StudentAddEditComponent implements OnInit {
                 this.studentService.getStudentById(this.params)
                     .subscribe(
                     (results: Student) => {
+                        console.log(results);
                         this.studentForm.setValue({
                             id: results.id,
-                            StudentId: results.StudentId,
-                            StudentCode: results.StudentCode,
-                            SchoolId: results.SchoolId,
-                            CategoryId: results.CategoryId,
-                            FeePlanId: results.FeePlanId,
-                            StandardId: results.StandardId,
-                            DivisionId: results.DivisionId,
-                            ZoneFrequencyId: results.ZoneFrequencyId,
-                            FirstName: results.FirstName,
-                            MiddleName: results.MiddleName,
-                            LastName: results.LastName,
-                            Email: results.Email,
-                            Phone: results.Phone,
-                            Age: results.Age,
-                            DateOfBirth: results.DateOfBirth,
-                            AdmissionDate: results.AdmissionDate,
-                            AcademicYear: 0,
+                            
+                            studentFirstName: results.studentFirstName,
+                            studentMiddleName: results.studentMiddleName,
+                            studentLastName: results.studentLastName,
+                            studentGender: results.studentGender,
+                            fatherFirstName :results.fatherFirstName,
+                            fatherLastName: results.fatherLastName,
+                            fatherMobile: results.fatherMobile,
+                            motherFirstName :results.motherFirstName,
+                            motherLastName: results.motherLastName,
+                            motherMobile: results.motherMobile,
+                            guardianFirstName :results.guardianFirstName,
+                            guardianLastName: results.guardianLastName,
+                            guardianMobile: results.guardianMobile,
+                            classId:results.classId,
+                            categoryId: results.categoryId,
+                            academicYear:results.academicYear,
+                            city:results.city,
+                            state:results.state,
+                            phone: results.phone,
+                            dateOfJoining:results.dateOfJoining,
+                            studentDateOfBirth: results.studentDateOfBirth,
+                            bloodGroup: results.bloodGroup,
+                            studentCode : results.studentCode,
+                            divisionId:results.divisionId,
+                            email:results.email,
+
+                            createdBy:results.createdBy,
+                            createdOn:results.createdOn,
+                            /*studentCode: results.studentCode,
+                            schoolId: results.schoolId,
+                            
+                            email: results.email,
+                            
+                            */
                         });
                     },
                     error => {
@@ -155,8 +189,11 @@ export class StudentAddEditComponent implements OnInit {
 
 
     onSubmit({ value, valid }: { value: Student, valid: boolean }) {
-        console.log(value);
+        console.log(value,"Suyash");
         if (this.params) {
+            value.schoolId = localStorage.getItem("schoolId");
+            value.createdBy  = 1;
+            value.createdOn = "08-11-2017";
             this.studentService.updateStudent(value)
                 .subscribe(
                 results => {
