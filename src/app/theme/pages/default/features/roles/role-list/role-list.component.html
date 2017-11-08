@@ -58,7 +58,7 @@
 									<div class="col-xl-8 order-2 order-xl-1">
 										<div class="form-group m-form__group row align-items-center">
 										</div>
-									</div>
+									</div>									
 									<div class="col-xl-4 order-1 order-xl-2 m--align-right">
 										<a routerLink="/features/roles/add" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" [isAuthorize]="['Role.Create']">
 											<span>
@@ -72,19 +72,116 @@
 									</div>
 								</div>
 							</div>	
-                            <p-dataTable [value]="roleList | async" [responsive]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
-								<p-column field="displayName" header="Role Name" [sortable]="true"></p-column>
-								<p-column header="Edit">
-									<ng-template let-role="rowData" pTemplate="body">
-										<button class="btn btn-danger" (click)="onEditClick(role)" [isAuthorize]="['Role.Update']"><i class="fa fa-edit"></i></button>
-									</ng-template>
-								</p-column>
-								<p-column header="Delete">
-									<ng-template let-role="rowData" pTemplate="body">
-										<button class="btn btn-danger" (click)="onDelete(role)" [isAuthorize]="['Role.Delete']"><i class="fa fa-trash"></i></button>
-									</ng-template>
-								</p-column>
-                            </p-dataTable>
+							<!-- <div class="row staticSearchRow">
+								<div class="col-md-3">
+								
+								</div>
+								<div class="col-md-3">
+								
+								</div>
+								<div class="col-md-3">
+			
+								</div>
+			
+								<div class="col-md-3">
+									<div class="m-input-icon m-input-icon--left">
+										<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
+										 placeholder="Search..." id="m_form_search">
+										<span class="m-input-icon__icon m-input-icon__icon--left">
+											<span>
+												<i class="la la-search"></i>
+											</span>
+										</span>
+									</div>
+								</div>
+			
+			
+							</div> -->
+							<div class="table-responsive">
+								<!--begin: Datatable -->
+								<table class="staticTable" id="" width="100%">
+									<thead>
+										<tr>
+											<th title="Field #4">
+												Role Name
+											</th>
+											<th title="Field #4">
+												Role Description
+											</th>
+											<th title="Field #8">
+												Actions
+											</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="longList">
+										<tr *ngFor='let row of roleList | async'>
+											<td>{{row.displayName}}</td>
+											<td>{{row.description}}</td>			
+											<td>
+												<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Edit" [isAuthorize]="['Role.Update']">
+													<i class="la la-edit"></i>
+												</a>
+												<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Delete" [isAuthorize]="['Role.Delete']">
+													<i class="la la-close"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="!longList">
+										No Records Found...
+									</tbody>
+			
+								</table>
+								<!-- Pagination -->
+								<div class="PaginationBox">
+			
+									<div class="row">
+										<div class="col-md-6">
+											<nav aria-label="Page navigation example">
+												<ul class="pagination">
+													<li class="page-item">
+														<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirstPage()">
+															<i class="la la-angle-double-left leftIcon"></i>
+														</a>
+													</li>
+													<li class="page-item">
+														<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
+															<i class="la la-angle-left leftIcon"></i>
+														</a>
+													</li>
+													<li class="page-item" *ngFor="let item of arr">
+														<a my-link="false" [ngClass]="{'active' : true, 'page-link' : currentPageCheck(item)}" (click)="pageClick(item)">{{item}}</a>
+													</li>
+													<li class="page-item">
+														<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
+															<i class="la la-angle-right rightIcon"></i>
+														</a>
+													</li>
+													<li class="page-item">
+														<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
+															<i class="la la-angle-double-right rightIcon"></i>
+														</a>
+													</li>
+												</ul>
+											</nav>
+										</div>
+			
+										<div class="col-md-6 showRecordsBox">
+											<div class="showRecordsLabel">
+												<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
+											</div>
+											<div class="showRecordsDropdown">
+												<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+												 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+											</div>
+										</div>
+			
+									</div>
+			
+								</div>
+							</div>
 						</div>
 					</div>
 					<!--end::Section-->

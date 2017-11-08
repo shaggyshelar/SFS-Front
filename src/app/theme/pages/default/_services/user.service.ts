@@ -34,4 +34,10 @@ export class UserService {
       .map((response: Response) =>
         response.text());
   }
+  getAllUsersCount(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'users/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+   getAllUsersList(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'users' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
 }
