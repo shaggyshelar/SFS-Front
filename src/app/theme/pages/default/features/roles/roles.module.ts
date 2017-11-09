@@ -6,7 +6,7 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 
-import { RoleService, FeatureService, PermissionService } from '../../_services/index';
+import { RoleService, FeatureService, PermissionService,SchoolService } from '../../_services/index';
 import { RolesComponent } from './roles.component';
 import { RoleListComponent } from './role-list/role-list.component';
 import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
@@ -80,6 +80,7 @@ const routes: Routes = [
     RoleService,
     FeatureService,
     PermissionService,
+    SchoolService
   ],
 })
 export class RolesModule {
