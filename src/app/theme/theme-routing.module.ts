@@ -26,6 +26,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/school\/school.module#SchoolModule"
       },
       {
+        "path": "features\/institute",
+        "loadChildren": ".\/pages\/default\/features\/institute\/institute.module#InstituteModule"
+      },
+      {
         "path": "features\/categories",
         "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
       },

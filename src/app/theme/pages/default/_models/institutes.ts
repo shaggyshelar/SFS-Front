@@ -1,5 +1,9 @@
 export class Institutes {
   id: number;
   InstituteId: number;
-  InstituteName: string;
+  instituteName: string;
+  instituteDescription:string;
+  phone:number;
+  email:string;
+  address:string;
 }
