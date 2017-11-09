@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Headers, Http, RequestOptions, Response } from "@angular/http";
 
 import { User } from "../_models/index";
+import { AppSettings } from '../../app-settings';
 
 @Injectable()
 export class UserService {
@@ -17,8 +18,8 @@ export class UserService {
     }
   }
 
-  forgotPassword(email: string) {
-    return this.http.post('/api/forgot-password', JSON.stringify({ email }), this.jwt()).map((response: Response) => response.json());
+  forgotPassword(email: any) {
+    return this.http.post(AppSettings.API_ENDPOINT +'users/reset', email , AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAll() {

@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							add-edit
+							{{ params ? 'edit' : 'add' }}
 						</span>
 					</a>
 				</li>
@@ -41,7 +41,7 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit Role
+						{{ params ? 'Edit Role' : 'Add Role' }}
 					</h3>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 					</label>
 					<div class="col-7">
 						<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="roleForm.invalid" [isAuthorize]="['Role.Create', 'Role.Update']">
-							Add Roll
+							{{ params ? 'Update Roll' : 'Add Role' }}
 						</button>
 						<button type="button" class="btn btn-secondary" (click)="onCancel()">
 							Cancel

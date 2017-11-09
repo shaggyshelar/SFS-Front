@@ -70,7 +70,7 @@
 /**** For static table ***/
 
 .staticTable tr th{
-	padding: 16px 10px;
+	//padding: 16px 10px;
 	background: #f4f3fb;
 	font-weight: 600;
     vertical-align: middle;
@@ -403,4 +403,12 @@
     background-color: #f7f8fa;
     border-color: #f7f8fa;
 	padding: 30px;
+}
+
+//Active class override for active menu
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item .m-menu__submenu .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-text, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item .m-menu__submenu .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-text {
+    color: #716aca !important;
+}
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-text, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-text {
+    color: #716aca !important;
 }

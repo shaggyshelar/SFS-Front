@@ -223,7 +223,7 @@ export class UserAddEditComponent implements OnInit {
         }
     }
     getRolesBySchoolId() {
-        this.schoolService.getRolesBySchoolId()
+        this.schoolService.getRolesBySchoolId('')
             .subscribe(
             results => {
                 this.roleList = <any>results;
@@ -234,6 +234,8 @@ export class UserAddEditComponent implements OnInit {
                 //           this.userForm.get('role').disable();
                 //         }
                 //    }
+            }, error => {
+                this.globalErrorHandler.handleError(error);
             });
     }
 

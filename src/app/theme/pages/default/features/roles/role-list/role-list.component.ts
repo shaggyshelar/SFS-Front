@@ -6,6 +6,7 @@ import { GlobalErrorHandler } from '../../../../../../_services/error-handler.se
 import { MessageService } from '../../../../../../_services/message.service';
 
 import { RoleService } from '../../../_services/role.service';
+import { SchoolService } from '../../../_services/school.service';
 import { Role } from "../../../_models/role";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
 
@@ -42,12 +43,13 @@ export class RoleListComponent implements OnInit {
 
     constructor(private router: Router,
         private roleService: RoleService,
+        private schoolService:SchoolService,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService) {
     }
 
     ngOnInit() {
-        this.getAllRoles();
+        
                 //Page Size Array
                 this.pageSize = [];
                 this.pageSize.push({ label: '5', value: 5 });
@@ -81,6 +83,7 @@ export class RoleListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.getDataCount('');
+        this.getAllRoles();
     }
 
      /*Pagination Function's Starts*/
@@ -251,7 +254,7 @@ export class RoleListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][displayName][ilike]=' + searchString;
+            this.searchQuery = '&filter[where][displayName][like]=' + searchString;
             this.searchCountQuery = '&[where][displayName][like]=' + searchString;
         }
         this.getQueryDataCount();
@@ -269,19 +272,21 @@ export class RoleListComponent implements OnInit {
 
      /* Counting Number of records starts*/
      getQueryDataCount() {
-        this.countQuery ='';// '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?' + this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
     getDataCount(url) {
-        this.roleService.getRolesCount(url).subscribe((response) => {
+        this.schoolService.getRolesCountBySchoolId(url).subscribe((response) => {
             this.total = response.count;
             this.pages = Math.ceil(this.total / this.perPage);
             this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllRoles();
         },
-        );
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
     }
     getUrl() {
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos  + this.sortUrl + this.searchQuery;
@@ -290,9 +295,12 @@ export class RoleListComponent implements OnInit {
 
     getAllRoles() {
         this.getUrl();
-        this.roleList = this.roleService.getAllRolesList(this.url);
+        this.roleList = this.schoolService.getRolesBySchoolId(this.url);
         this.roleList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+        },
+        error => {
+          this.globalErrorHandler.handleError(error);
         });
     }
 
