@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
-
+import { SchoolService } from '../../../_services/school.service';
 import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
@@ -46,6 +46,7 @@ export class UsersListComponent implements OnInit {
   selectedPageSize: number; //HTML values
   constructor(private userService: UserService,
     private router: Router,
+    private schoolService:SchoolService,
     private globalErrorHandler: GlobalErrorHandler,
     private messageService: MessageService) {
   }
@@ -91,9 +92,11 @@ export class UsersListComponent implements OnInit {
 
   getAllUsers() {
     this.getUrl();
-    this.userList = this.userService.getAllUsersList(this.url);
+    this.userList = this.schoolService.getUsersBySchoolId(this.url);
     this.userList.subscribe((response) => {
         this.longList = response.length > 0 ? true : false;
+    }, error => {
+        this.globalErrorHandler.handleError(error);
     });
   }
   onManageRoleClick(user: User) {
@@ -286,8 +289,8 @@ searchString(searchString) {
       this.searchQuery = '';
       this.searchCountQuery = '';
   } else {
-      this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-      this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+      this.searchQuery = '&filter[where][username][like]=' + searchString;
+      this.searchCountQuery = '&[where][username][like]=' + searchString;
   }
   this.getQueryDataCount();
   this.getAllUsers();
@@ -300,14 +303,16 @@ searchString(searchString) {
 
 }
 getDataCount(url) {
-    this.userService.getAllUsersCount(url).subscribe((response) => {
+    this.schoolService.getUsersCountBySchoolId(url).subscribe((response) => {
         this.total = response.count;
         this.pages = Math.ceil(this.total / this.perPage);
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllUsers();
     },
-    );
+    error => {
+      this.globalErrorHandler.handleError(error);
+    });
 }
 
 getUrl() {

@@ -45,8 +45,23 @@ export class SchoolService {
       return this.http.get(AppSettings.API_ENDPOINT + 'schools/', requestOptions).map((response: Response) => response.json());
   }
 
-  getRolesBySchoolId(){
+  getRolesBySchoolId(url){
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/Roles', AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/Roles'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getRolesCountBySchoolId(url){
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/Roles/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getUsersBySchoolId(url){
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/SchoolUsers'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getUsersCountBySchoolId(url){
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/SchoolUsers/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }
