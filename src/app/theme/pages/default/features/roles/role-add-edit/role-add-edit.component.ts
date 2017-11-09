@@ -113,6 +113,8 @@ export class RoleAddEditComponent implements OnInit {
                 this.getPermissionsByRole();
                 this.selectedPermission = null;
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Permission Added' });
+            },error => {
+                this.globalErrorHandler.handleError(error);
             });
     }
 
