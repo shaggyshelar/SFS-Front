@@ -53,34 +53,33 @@ export class AuthComponent implements OnInit {
 
   signin() {
     this.loading = true;
-    this._authService.login(this.model.email, this.model.password)
+    this._authService.login(this.model.username, this.model.password)
       .subscribe(
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.user) {
-         let _superAdmin= _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+          let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
-          }      
-          else if(!_superAdmin)
-          {
+          }
+          else if (!_superAdmin) {
             this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
-            .subscribe(
+              .subscribe(
               results => {
-                if (results.length>1){
+                if (results.length > 1) {
                   this._router.navigate(['/selectSchool']);
                 }
-                else{
-                  localStorage.setItem('schoolId',results[0].UserschoolSchool.id);
-                  localStorage.setItem('instituteId',results[0].UserschoolSchool.instituteId);
+                else {
+                  localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
+                  localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
                   this._router.navigate([this.returnUrl]);
                 };
               },
               error => {
-                  this._globalErrorHandler.handleError(error);
+                this._globalErrorHandler.handleError(error);
               });
           }
-          else{
+          else {
             this._router.navigate([this.returnUrl]);
           }
         }
@@ -112,7 +111,10 @@ export class AuthComponent implements OnInit {
 
   forgotPass() {
     this.loading = true;
-    this._userService.forgotPassword(this.model.email)
+    let email = {
+      email: this.model.email
+    };
+    this._userService.forgotPassword(email)
       .subscribe(
       data => {
         this.showAlert('alertSignin');
@@ -123,7 +125,7 @@ export class AuthComponent implements OnInit {
       },
       error => {
         this.showAlert('alertForgotPass');
-        this._alertService.error(error);
+        this._alertService.error(error.json().error.message);
         this.loading = false;
       });
   }
