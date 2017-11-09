@@ -40,4 +40,12 @@ export class UserService {
    getAllUsersList(url) {   
     return this.http.get(AppSettings.API_ENDPOINT + 'users' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
    }
+
+   getUsersForSuperuser(url){
+    return this.http.get(AppSettings.API_ENDPOINT + 'users/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getUsersCountForSuperuser(url){
+    return this.http.get(AppSettings.API_ENDPOINT + 'users'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
 }

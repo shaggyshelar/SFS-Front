@@ -223,7 +223,7 @@ export class UserAddEditComponent implements OnInit {
         }
     }
     getRolesBySchoolId() {
-        this.schoolService.getRolesBySchoolId()
+        this.schoolService.getRolesBySchoolId('')
             .subscribe(
             results => {
                 this.roleList = <any>results;
