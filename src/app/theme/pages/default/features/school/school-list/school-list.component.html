@@ -88,8 +88,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
-							 placeholder="Search..." id="m_form_search">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -118,7 +118,9 @@
 									</a>
 								</th> -->
 								<th title="Field #4">
-									Institute
+									<a href="#" (click)="sort('instituteId',ascSortCol6 = !ascSortCol6)">
+										Institute
+									</a>
 								</th>
 								<th title="Field #5">
 									<a href="#" (click)="sort('SchoolName',ascSortCol1 = !ascSortCol1)">
@@ -126,7 +128,9 @@
 									</a>
 								</th>
 								<th title="Field #6">
-									Board
+									<a href="#" (click)="sort('boardId',ascSortCol5 = !ascSortCol5)">
+										Board
+									</a>
 								</th>
 								<th title="Field #6">
 									<a href="#" (click)="sort('schoolAddress',ascSortCol2 = !ascSortCol2)">

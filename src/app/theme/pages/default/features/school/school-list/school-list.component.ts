@@ -34,6 +34,8 @@ export class SchoolListComponent implements OnInit {
     ascSortCol2: boolean;  //Sorting for Column2
     ascSortCol3: boolean;  //Sorting for Column3
     ascSortCol4: boolean;  //Sorting for Column4
+    ascSortCol5: boolean;  //Sorting for Column4
+    ascSortCol6: boolean;  //Sorting for Column4
     
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
@@ -108,6 +110,8 @@ export class SchoolListComponent implements OnInit {
         this.ascSortCol2 = true;
         this.ascSortCol3 = true;
         this.ascSortCol4 = true;
+        this.ascSortCol5 = true;
+        this.ascSortCol6 = true;
         this.filterQuery = '';
         this.filterQuery2 = '';
         this.searchQuery = '';
@@ -132,9 +136,9 @@ export class SchoolListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -364,7 +368,7 @@ export class SchoolListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl ;//+ this.searchQuery;
 
     }
     /* Counting Number of records ends*/
@@ -376,6 +380,9 @@ export class SchoolListComponent implements OnInit {
         this.schoolList = this.schoolService.getAllSchools(this.url);
         this.schoolList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+        },
+        error => {
+            this.globalErrorHandler.handleError(error);
         });
     }
 

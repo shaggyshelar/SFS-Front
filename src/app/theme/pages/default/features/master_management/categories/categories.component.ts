@@ -37,7 +37,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   onManageCategoryClick(data: Categories) {
-    debugger;
     this.router.navigate(['/features/masterManagement/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {
