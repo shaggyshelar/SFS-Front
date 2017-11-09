@@ -49,7 +49,7 @@ export class RoleListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getAllRoles();
+        
                 //Page Size Array
                 this.pageSize = [];
                 this.pageSize.push({ label: '5', value: 5 });
@@ -83,6 +83,7 @@ export class RoleListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.getDataCount('');
+        this.getAllRoles();
     }
 
      /*Pagination Function's Starts*/
