@@ -17,6 +17,8 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (error) {
       if (error.statusCode === 401) {
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('instituteId');
+        localStorage.removeItem('schoolId');
         this._router.navigate(['/login']);
       } else {
         errMsg = error.message;

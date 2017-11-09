@@ -387,9 +387,9 @@ export class StudentListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?filter[include]=StudentClass&filter[include]=StudentCategory&filter[include]=StudentDivision&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+        this.url = '?filter[include]=StudentClass&filter[include]=StudentCategory&filter[include]=StudentDivision&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl; //+ this.searchQuery;
 
-    } 
+    }
     /* Counting Number of records ends*/
 
 
@@ -398,7 +398,6 @@ export class StudentListComponent implements OnInit {
         this.getUrl();
         this.studentList = this.studentService.getAllStudents(this.url);
         this.studentList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
         },
             error => {
@@ -410,7 +409,14 @@ export class StudentListComponent implements OnInit {
         let fd = new FormData();
         fd.append('csvdata', fileInput[0]);
         this.studentService.addStudents(fd).subscribe((response) => {
-            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'File Uploaded Successfully...' });
+            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Successfully Uploaded Students : ' + response.SavedStudents + ' <br/> Students Failed to Upload : ' + response.FailedStudents });
+            this.currentPos = 0;
+            this.currentPageNumber = 1;
+            this.boundryStart = 1;
+            this.boundryEnd = this.boundry;
+            this.generateCount();
+            this.setDisplayPageNumberRange();
+            this.getAllStudents();
         },
             error => {
                 this.globalErrorHandler.handleError(error);

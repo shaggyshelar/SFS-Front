@@ -14,7 +14,6 @@ export class FeesService {
   }
 
   getFeeById(id: number) {
-    debugger;
     return this.http.get(AppSettings.API_ENDPOINT +'feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 

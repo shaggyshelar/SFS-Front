@@ -5,7 +5,7 @@ import { SelectItem } from 'primeng/primeng';
 
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
-
+import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
 import { StudentService } from '../../../_services/student.service';
 import { CommonService } from '../../../_services/common.service';
 import { Student } from "../../../_models/Student";
@@ -26,12 +26,20 @@ export class StudentAddEditComponent implements OnInit {
     boardList: any;
     categoryList: any;
     bloodGroupList: any;
-    genderSelected: string;bloodGroupSelected : string;
-
+    genderSelected: string; bloodGroupSelected: string;
+    dateOfBirth : string;
+    dateOfJoining : string;
+    
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
-        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService
+        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService
     ) {
+    }
+
+    ngAfterViewInit() {
+        this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+            'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+
     }
 
     ngOnInit() {
@@ -97,41 +105,33 @@ export class StudentAddEditComponent implements OnInit {
             studentFirstName: ['', [Validators.required]],
             studentMiddleName: ['', [Validators.required]],
             studentLastName: ['', [Validators.required]],
-            studentGender:['', [Validators.required]],
+            studentGender: ['', [Validators.required]],
             fatherFirstName: ['', [Validators.required]],
             fatherLastName: ['', [Validators.required]],
-            fatherMobile: [,[Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            fatherMobile: [, [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
             motherFirstName: ['', [Validators.required]],
             motherLastName: ['', [Validators.required]],
-            motherMobile: [,[Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            motherMobile: [, [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
             guardianFirstName: [''],
             guardianLastName: [''],
             guardianMobile: [],
-            classId:[,[Validators.required]],
-            categoryId: [,[Validators.required]],
-            academicYear:[,[Validators.required]],
-            city:[,[Validators.required]],
-            state:[,[Validators.required]],
+            classId: [, [Validators.required]],
+            categoryId: [, [Validators.required]],
+            academicYear: [, [Validators.required]],
+            city: [, [Validators.required]],
+            state: [, [Validators.required]],
             phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            dateOfJoining:[,[Validators.required]],
-            studentDateOfBirth:[,[Validators.required]],
-            bloodGroup:[],
-            studentCode: [,[Validators.required]],
-            divisionId:[],
+            dateOfJoining: [],
+            studentDateOfBirth: [],
+            bloodGroup: [],
+            studentCode: [, [Validators.required]],
+            divisionId: [],
 
 
-            createdBy:[],
-            createdOn:[],
+            createdBy: [],
+            createdOn: [],
             // schoolId: [],
             email: ['', [Validators.required, Validators.email]],
-            
-            
-           
-            
-           
-           
-           
-           
         });
 
         this.route.params.forEach((params: Params) => {
@@ -140,38 +140,37 @@ export class StudentAddEditComponent implements OnInit {
                 this.studentService.getStudentById(this.params)
                     .subscribe(
                     (results: Student) => {
-                        console.log(results);
                         this.studentForm.setValue({
                             id: results.id,
-                            
+
                             studentFirstName: results.studentFirstName,
                             studentMiddleName: results.studentMiddleName,
                             studentLastName: results.studentLastName,
                             studentGender: results.studentGender,
-                            fatherFirstName :results.fatherFirstName,
+                            fatherFirstName: results.fatherFirstName,
                             fatherLastName: results.fatherLastName,
                             fatherMobile: results.fatherMobile,
-                            motherFirstName :results.motherFirstName,
+                            motherFirstName: results.motherFirstName,
                             motherLastName: results.motherLastName,
                             motherMobile: results.motherMobile,
-                            guardianFirstName :results.guardianFirstName,
+                            guardianFirstName: results.guardianFirstName,
                             guardianLastName: results.guardianLastName,
                             guardianMobile: results.guardianMobile,
-                            classId:results.classId,
+                            classId: results.classId,
                             categoryId: results.categoryId,
-                            academicYear:results.academicYear,
-                            city:results.city,
-                            state:results.state,
+                            academicYear: results.academicYear,
+                            city: results.city,
+                            state: results.state,
                             phone: results.phone,
-                            dateOfJoining:results.dateOfJoining,
+                            dateOfJoining: results.dateOfJoining,
                             studentDateOfBirth: results.studentDateOfBirth,
                             bloodGroup: results.bloodGroup,
-                            studentCode : results.studentCode,
-                            divisionId:results.divisionId,
-                            email:results.email,
+                            studentCode: results.studentCode,
+                            divisionId: results.divisionId,
+                            email: results.email,
 
-                            createdBy:results.createdBy,
-                            createdOn:results.createdOn,
+                            createdBy: results.createdBy,
+                            createdOn: results.createdOn,
                             /*studentCode: results.studentCode,
                             schoolId: results.schoolId,
                             
@@ -189,11 +188,14 @@ export class StudentAddEditComponent implements OnInit {
 
 
     onSubmit({ value, valid }: { value: Student, valid: boolean }) {
-        console.log(value,"Suyash");
         if (this.params) {
             value.schoolId = localStorage.getItem("schoolId");
-            value.createdBy  = 1;
-            value.createdOn = "08-11-2017";
+            //value.createdBy = 1;
+            //value.createdOn = "08-11-2017";
+            if(this.dateOfBirth != null && this.dateOfBirth != '')
+                value.studentDateOfBirth = this.dateOfBirth;
+            if(this.dateOfJoining != null && this.dateOfJoining != '')
+                value.dateOfJoining = this.dateOfJoining;
             this.studentService.updateStudent(value)
                 .subscribe(
                 results => {
@@ -209,6 +211,13 @@ export class StudentAddEditComponent implements OnInit {
     }
     onCancel() {
         this.router.navigate(['/features/student/list']);
+    }
+
+    setDateOfBirth(date){
+        this.dateOfBirth = date;
+    }
+    setDateOfJoining(date){
+        this.dateOfJoining = date;
     }
 }
 
