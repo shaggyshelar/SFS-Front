@@ -234,6 +234,8 @@ export class UserAddEditComponent implements OnInit {
                 //           this.userForm.get('role').disable();
                 //         }
                 //    }
+            }, error => {
+                this.globalErrorHandler.handleError(error);
             });
     }
 

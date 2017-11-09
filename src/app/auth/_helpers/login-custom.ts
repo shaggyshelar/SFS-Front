@@ -5,9 +5,8 @@ export class LoginCustom {
       let form = $(this).closest('form');
       form.validate({
         rules: {
-          email: {
+          username: {
             required: true,
-            email: true
           },
           password: {
             required: true
