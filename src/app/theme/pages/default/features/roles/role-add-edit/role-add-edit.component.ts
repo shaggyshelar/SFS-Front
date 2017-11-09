@@ -169,7 +169,7 @@ export class RoleAddEditComponent implements OnInit {
     private getFilteredFeatureList() {
         let featureList = [];
         for (var index = 0; index < this.featureList.length; index++) {
-            let count = _.filter(this.rolePermissionList, { featureName: this.featureList[index].menuName }).length;
+            let count = _.filter(this.rolePermissionList, { menuId: this.featureList[index].id }).length;
             if (count != this.featureList[index].permissions.length) {
                 featureList.push(this.featureList[index]);
             }
@@ -184,6 +184,7 @@ export class RoleAddEditComponent implements OnInit {
         this.getfilteredPermissions(feature.menuName)
         }else {
             this.permissionList = [];
+            this.filteredPermissionList = [];
         }
     }
 

@@ -136,7 +136,7 @@
 						Role
 					</label>
 					<div class="col-7">
-						<select class="form-control" formControlName="role">
+						<select class="form-control" formControlName="role" [attr.disabled]="userRole == 'SuperAdmin'? 'true' : null">
 							<option [ngValue]="null" >Select</option>
 							<option *ngFor="let role of roleList" [ngValue]="role.id">{{role.displayName}}</option>
 						</select>
