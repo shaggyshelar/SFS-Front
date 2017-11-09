@@ -69,16 +69,16 @@
 							<label>Institute</label>
 						</div>
 						<div class="filterDropdown">
-							<p-dropdown class="form-control" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('schoolName',filterValue1)"
+							<p-dropdown class="form-control" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('instituteId',filterValue1)"
 							 name="instituteId"></p-dropdown>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="filterLabel">
-							<label>University</label>
+							<label>Board</label>
 						</div>
 						<div class="filterDropdown">
-							<p-dropdown class="form-control" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2('InstituteId',filterValue2)"
+							<p-dropdown class="form-control" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2('boardId',filterValue2)"
 							 name="university"></p-dropdown>
 						</div>
 					</div>

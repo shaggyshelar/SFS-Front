@@ -33,6 +33,7 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
+         this.isConfirmPasswordSame = true;
         if (value.confirmPassword === value.newPassword) {
             this.loading = true;
             this.isConfirmPasswordSame = true;
@@ -50,6 +51,7 @@ export class ChangePasswordComponent implements OnInit {
                 error => {
                     this.changePasswordForm.reset();
                     this.loading = false;
+                    this.isConfirmPasswordSame = true;
                     this.globalErrorHandler.handleError(error);
                 });
         } else {

@@ -14,6 +14,7 @@ import { UserService } from '../../../../default/_services/user.service';
 export class ChangePasswordComponent implements OnInit {
     changePasswordForm: FormGroup;
     loading = false;
+    isConfirmPasswordSame: boolean = true;
     constructor(
         private formBuilder: FormBuilder,
         private globalErrorHandler: GlobalErrorHandler,
@@ -26,10 +27,13 @@ export class ChangePasswordComponent implements OnInit {
         this.changePasswordForm = this.formBuilder.group({
             oldPassword: ['', [Validators.required]],
             newPassword: ['', [Validators.required]],
+            confirmPassword: ['', [Validators.required]],
         });
     }
 
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
+        this.isConfirmPasswordSame = true;
+        if (value.confirmPassword === value.newPassword) {
         this.loading = true;
         this.userService.changePassword(value)
             .subscribe(
@@ -41,7 +45,11 @@ export class ChangePasswordComponent implements OnInit {
             error => {
                 this.loading = false;
                 this.globalErrorHandler.handleError(error);
+                this.isConfirmPasswordSame = true;
             });
+         } else {
+            this.isConfirmPasswordSame = false;
+        }
     }
     onCancel() {
         localStorage.removeItem('currentUser');
