@@ -6,12 +6,10 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
-import { SchoolService } from '../../_services/index';
 import { InstitutesService } from '../../_services/institute.service';
-import { BoardService } from '../../_services/board.service';
-import { SchoolComponent } from './school.component';
-import { SchoolListComponent } from './school-list/school-list.component';
-import { SchoolAddEditComponent } from './school-add-edit/school-add-edit.component';
+import { InstituteComponent } from './institute.component';
+import { InstitutesListComponent } from './institutes-list/institutes-list.component';
+import { InstituteAddEditComponent } from './institutes-add-edit/institutes-add-edit.component';
 
 import {
   DataTableModule,
@@ -27,30 +25,30 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: SchoolComponent,
+        component: InstituteComponent,
         children: [
           {
             path: 'list',
-            component: SchoolListComponent,
+            component: InstitutesListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['School.Read']
+              permissions: ['Institute.Read']
             }
           },
           {
             path: 'add',
-            component: SchoolAddEditComponent,
+            component:InstituteAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['School.Create']
+              permissions: ['Institute.Create']
             }
           },
           {
-            path: 'edit/:schoolId',
-            component: SchoolAddEditComponent,
+            path: 'edit/:instituteId',
+            component: InstituteAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['School.Update']
+              permissions: ['Institute.Update']
             }
           },
         ]
@@ -72,15 +70,13 @@ const routes: Routes = [
     DropdownModule,
   ],
   declarations: [
-    SchoolComponent,
-    SchoolListComponent,
-    SchoolAddEditComponent,
+    InstituteComponent,
+    InstitutesListComponent,
+    InstituteAddEditComponent
   ],
   providers: [
-    SchoolService,
     InstitutesService,
-    BoardService
   ]
 })
-export class SchoolModule {
+export class InstituteModule {
 }
