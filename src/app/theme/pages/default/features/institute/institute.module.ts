@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
-import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 
-import { RoleService, FeatureService, PermissionService,SchoolService } from '../../_services/index';
-import { RolesComponent } from './roles.component';
-import { RoleListComponent } from './role-list/role-list.component';
-import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
+import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
+import { InstitutesService } from '../../_services/institute.service';
+import { InstituteComponent } from './institute.component';
+import { InstitutesListComponent } from './institutes-list/institutes-list.component';
+import { InstituteAddEditComponent } from './institutes-add-edit/institutes-add-edit.component';
 
 import {
   DataTableModule,
   SharedModule,
   ButtonModule,
-  AutoCompleteModule,
   DropdownModule,
 } from 'primeng/primeng';
 
@@ -26,30 +25,30 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: RolesComponent,
+        component: InstituteComponent,
         children: [
           {
             path: 'list',
-            component: RoleListComponent,
+            component: InstitutesListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Role.Read']
+              permissions: ['Institute.Read']
             }
           },
           {
             path: 'add',
-            component: RoleAddEditComponent,
+            component:InstituteAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Role.Create']
+              permissions: ['Institute.Create']
             }
           },
           {
-            path: 'edit/:roleId',
-            component: RoleAddEditComponent,
+            path: 'edit/:instituteId',
+            component: InstituteAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Role.Update']
+              permissions: ['Institute.Update']
             }
           },
         ]
@@ -68,20 +67,16 @@ const routes: Routes = [
     DataTableModule,
     SharedModule,
     ButtonModule,
-    AutoCompleteModule,
     DropdownModule,
   ],
   declarations: [
-    RolesComponent,
-    RoleListComponent,
-    RoleAddEditComponent,
+    InstituteComponent,
+    InstitutesListComponent,
+    InstituteAddEditComponent
   ],
   providers: [
-    RoleService,
-    FeatureService,
-    PermissionService,
-    SchoolService
-  ],
+    InstitutesService,
+  ]
 })
-export class RolesModule {
+export class InstituteModule {
 }
