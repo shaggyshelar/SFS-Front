@@ -2,20 +2,20 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
-import { SchoolService } from '../../../_services/school.service';
-import { UserService } from '../../../_services/user.service';
-import { User } from "../../../_models/user";
-import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
-import * as _ from 'lodash/index';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
+import { Boards } from "../../../../_models/index";
+import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { BoardService } from '../../../../_services/index';
+
 @Component({
-    selector: "app-users-list",
-    templateUrl: "./users-list.component.html",
-    encapsulation: ViewEncapsulation.None,
+  selector: "app-board-list",
+  templateUrl: "./board-list.component.html",
+  encapsulation: ViewEncapsulation.None,
 })
-export class UsersListComponent implements OnInit {
-    userList: Observable<User[]>;
+
+export class BoardListComponent implements OnInit {
+    boardList: Observable<Boards[]>;
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -45,11 +45,11 @@ export class UsersListComponent implements OnInit {
     boundryEnd: number;
     searchValue: string; //HTML values
     selectedPageSize: number; //HTML values
-    constructor(private userService: UserService,
-        private router: Router,
-        private schoolService: SchoolService,
+    constructor(private router: Router,
+        private messageService: MessageService,
+        private boardService: BoardService,
         private globalErrorHandler: GlobalErrorHandler,
-        private messageService: MessageService) {
+        private _script: ScriptLoaderService) {
     }
 
     ngOnInit() {
@@ -87,45 +87,37 @@ export class UsersListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
 
-        this.getAllUsers();
+        this.getAllBoards();
         this.getDataCount('');
     }
 
-    getAllUsers() {
+    getAllBoards() {
         this.getUrl();
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
-        if (!_superAdmin) {
-        this.userList = this.schoolService.getUsersBySchoolId(this.url);
-        }
-        else{
-            this.url=this.url+"&filter[where][roleId]=2";
-            this.userList = this.userService.getUsersForSuperuser(this.url);
-        }
-        this.userList.subscribe((response) => {
+
+        this.boardList = this.boardService.getAllBoards();
+
+        this.boardList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
         });
     }
-    onManageRoleClick(user: User) {
-        this.router.navigate(['/features/users/manage-role', user.id]);
+
+    onEditBoardClick(board: Boards) {
+        this.router.navigate(['/features/board/edit', board.id]);
     }
-    onEditClick(user: User) {
-        this.router.navigate(['/features/users/edit', user.id]);
-    }
-    onDelete(user: User) {
-        this.userService.deleteUser(user.id).subscribe(
+    onBoardDeleteClick(board: Boards) {
+        this.boardService.deleteBoard(board.id).subscribe(
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllUsers();
+                this.getAllBoards();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
             })
     }
-    onAddClick() {
-        this.router.navigate(['/features/users/add']);
+    onAddBoard() {
+        this.router.navigate(['/features/board/add']);
     }
 
     /*Pagination Function's Starts*/
@@ -198,7 +190,7 @@ export class UsersListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllBoards();
         }
     }
 
@@ -222,7 +214,7 @@ export class UsersListComponent implements OnInit {
         }
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllUsers();
+        this.getAllBoards();
     }
 
     backPage() {
@@ -234,7 +226,7 @@ export class UsersListComponent implements OnInit {
             // this.boundryEnd--;
             // this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllBoards();
         }
         else {
             this.currentPos = 0;
@@ -251,7 +243,7 @@ export class UsersListComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllBoards();
         }
     }
 
@@ -259,7 +251,7 @@ export class UsersListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllUsers();
+        this.getAllBoards();
     }
 
     noPrevPage() {
@@ -298,11 +290,11 @@ export class UsersListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][username][like]=' + searchString;
-            this.searchCountQuery = '&[where][username][like]=' + searchString;
+            this.searchQuery = '&filter[where][boardName][like]=' + searchString;
+            this.searchCountQuery = '&[where][boardName][like]=' + searchString;
         }
         this.getQueryDataCount();
-        this.getAllUsers();
+        this.getAllBoards();
     }
 
     /* Counting Number of records starts*/
@@ -312,34 +304,16 @@ export class UsersListComponent implements OnInit {
 
     }
     getDataCount(url) {
-
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
-        if (!_superAdmin) {
-            this.schoolService.getUsersCountBySchoolId(url).subscribe((response) => {
-                this.total = response.count;
-                this.pages = Math.ceil(this.total / this.perPage);
-                this.generateCount();
-                this.setDisplayPageNumberRange();
-                this.getAllUsers();
-            },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        }
-        else{
-            url="?filter[where][roleId]=2";
-            this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
-                this.total = response.count;
-                this.pages = Math.ceil(this.total / this.perPage);
-                this.generateCount();
-                this.setDisplayPageNumberRange();
-                this.getAllUsers();
-            },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        }
+        this.boardService.getBoardCount(url).subscribe((response) => {
+            this.total = response.count;
+            this.pages = Math.ceil(this.total / this.perPage);
+            this.generateCount();
+            this.setDisplayPageNumberRange();
+            this.getAllBoards();
+        },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     getUrl() {
@@ -352,6 +326,6 @@ export class UsersListComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllUsers();
+        this.getAllBoards();
     }
 }

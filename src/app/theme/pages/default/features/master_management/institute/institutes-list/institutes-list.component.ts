@@ -2,20 +2,19 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
-import { SchoolService } from '../../../_services/school.service';
-import { UserService } from '../../../_services/user.service';
-import { User } from "../../../_models/user";
-import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
-import * as _ from 'lodash/index';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
+import { Institutes } from "../../../../_models/institutes";
+import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { InstitutesService } from '../../../../_services/institute.service';
+
 @Component({
-    selector: "app-users-list",
-    templateUrl: "./users-list.component.html",
+    selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
+    templateUrl: "./institutes-list.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UsersListComponent implements OnInit {
-    userList: Observable<User[]>;
+export class InstitutesListComponent implements OnInit {
+    instituteList: Observable<Institutes[]>;
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -45,11 +44,11 @@ export class UsersListComponent implements OnInit {
     boundryEnd: number;
     searchValue: string; //HTML values
     selectedPageSize: number; //HTML values
-    constructor(private userService: UserService,
-        private router: Router,
-        private schoolService: SchoolService,
+    constructor(private router: Router,
+        private messageService: MessageService,
+        private institutesService: InstitutesService,
         private globalErrorHandler: GlobalErrorHandler,
-        private messageService: MessageService) {
+        private _script: ScriptLoaderService) {
     }
 
     ngOnInit() {
@@ -87,45 +86,37 @@ export class UsersListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
 
-        this.getAllUsers();
+        this.getAllInstitutes();
         this.getDataCount('');
     }
 
-    getAllUsers() {
+    getAllInstitutes() {
         this.getUrl();
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
-        if (!_superAdmin) {
-        this.userList = this.schoolService.getUsersBySchoolId(this.url);
-        }
-        else{
-            this.url=this.url+"&filter[where][roleId]=2";
-            this.userList = this.userService.getUsersForSuperuser(this.url);
-        }
-        this.userList.subscribe((response) => {
+
+        this.instituteList = this.institutesService.getAllInstitutes();
+
+        this.instituteList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
         });
     }
-    onManageRoleClick(user: User) {
-        this.router.navigate(['/features/users/manage-role', user.id]);
+
+    onEditInstituteClick(institute: Institutes) {
+        this.router.navigate(['/features/institute/edit', institute.id]);
     }
-    onEditClick(user: User) {
-        this.router.navigate(['/features/users/edit', user.id]);
-    }
-    onDelete(user: User) {
-        this.userService.deleteUser(user.id).subscribe(
+    onInstituteDeleteClick(institute: Institutes) {
+        this.institutesService.deleteInstitute(institute.id).subscribe(
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllUsers();
+                this.getAllInstitutes();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
             })
     }
-    onAddClick() {
-        this.router.navigate(['/features/users/add']);
+    onAddInstitutes() {
+        this.router.navigate(['/features/institute/add']);
     }
 
     /*Pagination Function's Starts*/
@@ -198,7 +189,7 @@ export class UsersListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllInstitutes();
         }
     }
 
@@ -222,7 +213,7 @@ export class UsersListComponent implements OnInit {
         }
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllUsers();
+        this.getAllInstitutes();
     }
 
     backPage() {
@@ -234,7 +225,7 @@ export class UsersListComponent implements OnInit {
             // this.boundryEnd--;
             // this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllInstitutes();
         }
         else {
             this.currentPos = 0;
@@ -251,7 +242,7 @@ export class UsersListComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllUsers();
+            this.getAllInstitutes();
         }
     }
 
@@ -259,7 +250,7 @@ export class UsersListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllUsers();
+        this.getAllInstitutes();
     }
 
     noPrevPage() {
@@ -298,11 +289,11 @@ export class UsersListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][username][like]=' + searchString;
-            this.searchCountQuery = '&[where][username][like]=' + searchString;
+            this.searchQuery = '&filter[where][instituteName][like]=' + searchString;
+            this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
         }
         this.getQueryDataCount();
-        this.getAllUsers();
+        this.getAllInstitutes();
     }
 
     /* Counting Number of records starts*/
@@ -312,34 +303,16 @@ export class UsersListComponent implements OnInit {
 
     }
     getDataCount(url) {
-
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
-        if (!_superAdmin) {
-            this.schoolService.getUsersCountBySchoolId(url).subscribe((response) => {
-                this.total = response.count;
-                this.pages = Math.ceil(this.total / this.perPage);
-                this.generateCount();
-                this.setDisplayPageNumberRange();
-                this.getAllUsers();
-            },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        }
-        else{
-            url="?filter[where][roleId]=2";
-            this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
-                this.total = response.count;
-                this.pages = Math.ceil(this.total / this.perPage);
-                this.generateCount();
-                this.setDisplayPageNumberRange();
-                this.getAllUsers();
-            },
-                error => {
-                    this.globalErrorHandler.handleError(error);
-                });
-        }
+        this.institutesService.getInstituteCount(url).subscribe((response) => {
+            this.total = response.count;
+            this.pages = Math.ceil(this.total / this.perPage);
+            this.generateCount();
+            this.setDisplayPageNumberRange();
+            this.getAllInstitutes();
+        },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     getUrl() {
@@ -352,6 +325,6 @@ export class UsersListComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllUsers();
+        this.getAllInstitutes();
     }
 }

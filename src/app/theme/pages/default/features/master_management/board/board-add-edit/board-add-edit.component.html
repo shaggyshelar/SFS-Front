@@ -1,0 +1,93 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Board
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Board
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							{{ params ? 'edit' : 'add' }}
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            {{ params ? 'Edit Board' : 'Add Board' }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--begin::Form-->
+            <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(boardForm)" [formGroup]="boardForm">
+                <div class="m-portlet__body formPortletBody">
+                    
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label" for="example-text-input">
+                            Board Name
+                        </label>
+                        <div class="col-5">
+                            <input class="form-control m-input" type="text" formControlName="boardName" name="boardName">											
+                            <div class="alert alert-danger" *ngIf="boardForm.get('boardName').hasError('required') && boardForm.get('boardName').touched">
+							Please enter Board Name
+						</div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label" for="example-text-input">
+                            Board Description
+                        </label>
+                        <div class="col-5">
+                            <textarea class="form-control m-input" rows="3" style="resize:none;" formControlName="boardDescription" name="boardDescription"></textarea>
+                        </div>
+                    </div>  
+                </div>
+                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="boardForm.invalid" [isAuthorize]="['Board.Create', 'Board.Update']">
+                                   {{ params ? 'Update board' : 'Add Board' }}
+                                </button>
+                                <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--end::Form-->        
+    </div>
+</div>
