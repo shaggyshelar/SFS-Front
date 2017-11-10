@@ -13,6 +13,9 @@ export class CategoriesService {
    return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
 
+  getAllCategoriesList(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'categories'+url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
   getCategoryById(id: number) {
     return this.http.get(AppSettings.API_ENDPOINT +'categories/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
@@ -22,10 +25,13 @@ export class CategoriesService {
   }
 
   updateCategory(categories: Categories) {
-    return this.http.put(AppSettings.API_ENDPOINT +'categories/' + categories.id, categories, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'categories/' + categories.id, categories, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteCategory(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT +'categories/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  getCategoryCount(url){
+    return this.http.get(AppSettings.API_ENDPOINT + 'categories/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());      
   }
 }
