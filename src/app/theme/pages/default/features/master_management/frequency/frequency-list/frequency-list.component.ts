@@ -2,19 +2,19 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
-import { Institutes } from "../../../_models/institutes";
-import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
-import { InstitutesService } from '../../../_services/institute.service';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
+import { Frequencies } from "../../../../_models/Frequencies";
+import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { FrequencyService } from '../../../../_services/frequency.service';
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
-    templateUrl: "./institutes-list.component.html",
+    templateUrl: "./Frequency-list.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class InstitutesListComponent implements OnInit {
-    instituteList: Observable<Institutes[]>;
+export class FrequenciesListComponent implements OnInit {
+    frequencyList: Observable<Frequencies[]>;
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -46,7 +46,7 @@ export class InstitutesListComponent implements OnInit {
     selectedPageSize: number; //HTML values
     constructor(private router: Router,
         private messageService: MessageService,
-        private institutesService: InstitutesService,
+        private FrequencyService: FrequencyService,
         private globalErrorHandler: GlobalErrorHandler,
         private _script: ScriptLoaderService) {
     }
@@ -86,37 +86,37 @@ export class InstitutesListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
 
-        this.getAllInstitutes();
+        this.getAllFrequency();
         this.getDataCount('');
     }
 
-    getAllInstitutes() {
+    getAllFrequency() {
         this.getUrl();
 
-        this.instituteList = this.institutesService.getAllInstitutes();
+        this.frequencyList = this.FrequencyService.getAllFrequency();
 
-        this.instituteList.subscribe((response) => {
+        this.frequencyList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
         });
     }
 
-    onEditInstituteClick(institute: Institutes) {
-        this.router.navigate(['/features/institute/edit', institute.id]);
+    onEditFrequencyClick(frequency: Frequencies) {
+        this.router.navigate(['/features/masterManagement/frequencies/edit', frequency.id]);
     }
-    onInstituteDeleteClick(institute: Institutes) {
-        this.institutesService.deleteInstitute(institute.id).subscribe(
+    onFrequencyDeleteClick(frequency: Frequencies) {
+        this.FrequencyService.deleteFrequency(frequency.id).subscribe(
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllInstitutes();
+                this.getAllFrequency();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
             })
     }
-    onAddInstitutes() {
-        this.router.navigate(['/features/institute/add']);
+    onAddFrequency() {
+        this.router.navigate(['/features/masterManagement/frequencies/add']);
     }
 
     /*Pagination Function's Starts*/
@@ -189,7 +189,7 @@ export class InstitutesListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllInstitutes();
+            this.getAllFrequency();
         }
     }
 
@@ -213,7 +213,7 @@ export class InstitutesListComponent implements OnInit {
         }
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllInstitutes();
+        this.getAllFrequency();
     }
 
     backPage() {
@@ -225,7 +225,7 @@ export class InstitutesListComponent implements OnInit {
             // this.boundryEnd--;
             // this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllInstitutes();
+            this.getAllFrequency();
         }
         else {
             this.currentPos = 0;
@@ -242,7 +242,7 @@ export class InstitutesListComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllInstitutes();
+            this.getAllFrequency();
         }
     }
 
@@ -250,7 +250,7 @@ export class InstitutesListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllInstitutes();
+        this.getAllFrequency();
     }
 
     noPrevPage() {
@@ -293,7 +293,7 @@ export class InstitutesListComponent implements OnInit {
             this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
         }
         this.getQueryDataCount();
-        this.getAllInstitutes();
+        this.getAllFrequency();
     }
 
     /* Counting Number of records starts*/
@@ -303,12 +303,12 @@ export class InstitutesListComponent implements OnInit {
 
     }
     getDataCount(url) {
-        this.institutesService.getInstituteCount(url).subscribe((response) => {
+        this.FrequencyService.getFrequencyCount(url).subscribe((response) => {
             this.total = response.count;
             this.pages = Math.ceil(this.total / this.perPage);
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllInstitutes();
+            this.getAllFrequency();
         },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -325,6 +325,6 @@ export class InstitutesListComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllInstitutes();
+        this.getAllFrequency();
     }
 }

@@ -27,11 +27,15 @@ const routes: Routes = [
       },
       {
         "path": "features\/institute",
-        "loadChildren": ".\/pages\/default\/features\/institute\/institute.module#InstituteModule"
+        "loadChildren": ".\/pages\/default\/features/\master_management/institute\/institute.module#InstituteModule"
       },
       {
-        "path": "features\/categories",
-        "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
+        "path": "features\/masterManagement\/categories",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/categories\/categories.module#CategoriesModule"
+      },
+      {
+        "path": "features\/masterManagement\/frequencies",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/frequency\/frequency.module#FrequencyModule"
       },
       {
         "path": "features\/fees",

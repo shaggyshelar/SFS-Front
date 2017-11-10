@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 import { UserService } from '../../../../default/_services/user.service';
-
+import * as _ from 'lodash/index';
+import { UserSchoolDetailsService } from '../../../../.../../default/_services/userschooldetails.service';
 
 @Component({
     selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
@@ -20,6 +21,7 @@ export class ChangePasswordComponent implements OnInit {
         private globalErrorHandler: GlobalErrorHandler,
         private router: Router,
         private userService: UserService,
+        private userSchoolDetailsService:UserSchoolDetailsService,
         private messageService: MessageService) {
     }
 
@@ -40,7 +42,28 @@ export class ChangePasswordComponent implements OnInit {
             results => {
                 this.loading = false;
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Password Updated Successfully' });
-                this.router.navigate(['/']);
+                let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+                if (!_superAdmin) {
+                    this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
+                      .subscribe(
+                      results => {
+                        if (results.length > 1) {
+                          this.router.navigate(['/selectSchool']);
+                        }
+                        else {
+                          localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
+                          localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
+                          this.router.navigate(['/']);
+                        };
+                      },
+                      error => {
+                        this.globalErrorHandler.handleError(error);
+                      });
+                  }
+                  else {
+                    this.router.navigate(['/']);
+                  }
             },
             error => {
                 this.loading = false;
