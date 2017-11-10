@@ -1649,17 +1649,25 @@ jQuery.fn.extend({
 			 */
 			dataRender: function (action) {
 				$(datatable.table).siblings('.m-datatable__pager').removeClass('m-datatable--paging-loaded');
-
+                debugger;
 				var buildMeta = function () {
 					dt.localDataUpdate();
 					// local pagination meta
-					var meta = API.getDataSourceParam('pagination');
-					if (meta.perpage === 0) {
-						meta.perpage = options.data.pageSize || 10;
-					}
-					meta.total = datatable.jsonData.length;
-					var start = Math.max(meta.perpage * (meta.page - 1), 0);
-					var end = Math.min(start + meta.perpage, meta.total);
+                    var meta = API.getDataSourceParam('pagination');
+                    debugger;
+					// if (meta.perpage === 0) {
+					// 	meta.perpage = options.data.pageSize || 10;
+					// }
+					// meta.total = datatable.jsonData.length;
+					
+                    // meta.page = 1;
+                    // meta.pages = 1;
+                    // meta.perpage = 10;
+                    // meta.total = 10;
+                    // meta.sort = "asc";
+                    // meta.field = "ShipDate";
+                    var start = Math.max(meta.perpage * (meta.page - 1), 0);
+                    var end = Math.min(start + meta.perpage, meta.total);
 					datatable.jsonData = $(datatable.jsonData).slice(start, end);
 					return meta;
 				};
@@ -1669,10 +1677,20 @@ jQuery.fn.extend({
 					// pagination enabled
 					if (options.pagination) {
 						if (options.data.serverPaging && options.data.type !== 'local') {
-							// server pagination
-							dt.paging(dt.getObject('meta', result || null));
+                            // server pagination
+                            debugger;
+                            meta = [];
+                            meta.page = 1;
+                            meta.pages = 3;
+                            meta.perpage = 5;
+                            meta.total = 11;
+                            meta.sort = "asc";
+                            meta.field = "ShipDate";
+                            //dt.paging(dt.getObject('meta', result || null));
+                            dt.paging(meta);
 						} else {
-							// local pagination can be used by remote data also
+                            // local pagination can be used by remote data also
+                            debugger;
 							dt.paging(buildMeta(), function (ctx, meta) {
 								if (!$(ctx.pager).hasClass('m-datatable--paging-loaded')) {
 									$(ctx.pager).remove();
@@ -1709,7 +1727,8 @@ jQuery.fn.extend({
 					return;
 				}
 
-				// getting data from remote only
+                // getting data from remote only
+                debugger;
 				dt.getData().done(afterGetData);
 			},
 
@@ -1797,11 +1816,13 @@ jQuery.fn.extend({
 					}
 					if (!API.getOption('data.serverSorting')) {
 						delete params.data['datatable']['sort'];
-					}
+                    }
+                    debugger;
 				}
 
 				return $.ajax(params)
 					.done(function (data, textStatus, jqXHR) {
+                        debugger;
 						// extendible data map callback for custom datasource in future
 						datatable.jsonData = dt.dataMapCallback(data);
 						$(datatable).trigger('m-datatable--on-ajax-done', [datatable.jsonData]);
@@ -1828,8 +1849,15 @@ jQuery.fn.extend({
 					pagerLayout: {pagination: null, info: null},
 					callback: null,
 					init: function (meta) {
+                        debugger;
+                        // meta = [];
+                        // meta.page = 1;
+                        // meta.pages = 1;
+                        // meta.perpage = 5;
+                        // meta.total = 11;
+                        // meta.sort = "asc";
+                        // meta.field = "ShipDate";
 						pg.meta = meta;
-
 						// always recount total pages
 						pg.meta.pages = Math.max(Math.ceil(pg.meta.total / pg.meta.perpage), 1);
 
@@ -1867,9 +1895,21 @@ jQuery.fn.extend({
 						$(window).resize(pg.pagingBreakpoint);
 					},
 					serverCallback: function (ctx, meta) {
+                        // meta.page = 1;
+                        // meta.pages = 1;
+                        // meta.perpage = 10;
+                        // meta.total = 10;
+                        // meta.sort = "asc";
+                        // meta.field = "ShipDate";
 						dt.dataRender();
 					},
 					populate: function () {
+                        // meta.page = 1;
+                        // meta.pages = 1;
+                        // meta.perpage = 10;
+                        // meta.total = 10;
+                        // meta.sort = "asc";
+                        // meta.field = "ShipDate";
 						var icons = API.getOption('layout.icons.pagination');
 						var title = API.getOption('translate.toolbar.pagination.items.default');
 						// pager root element
@@ -2021,7 +2061,7 @@ jQuery.fn.extend({
 					openPage: function (page) {
 						// currentPage is 1-based index
 						pg.meta.page = parseInt(page);
-
+                        debugger;
 						$(datatable).trigger(pg.paginateEvent, pg.meta);
 						pg.callback(pg, pg.meta);
 
@@ -2059,27 +2099,34 @@ jQuery.fn.extend({
 					addPaginateEvent: function (e) {
 						// pagination event
 						$(datatable).off(pg.paginateEvent).on(pg.paginateEvent, function (e, meta) {
-							dt.spinnerCallback(true);
-
+                            dt.spinnerCallback(true);
+                            // meta = [];
+                            // meta.page = 1;
+                            // meta.pages = 1;
+                            // meta.perpage = 5;
+                            // meta.total = 11;
+                            // meta.sort = "asc";
+                            // meta.field = "ShipDate";
+                            debugger;
 							pg.pager = $(datatable.table).siblings('.m-datatable__pager');
 							var pagerNumber = $(pg.pager).find('.m-datatable__pager-nav');
 
 							// set sync active page class
 							$(pagerNumber).find('.m-datatable__pager-link--active').removeClass('m-datatable__pager-link--active');
-							$(pagerNumber).find('.m-datatable__pager-link-number[data-page="' + meta.page + '"]')
+							$(pagerNumber).find('.m-datatable__pager-link-number[data-page="' + pg.meta.page + '"]')
 								.addClass('m-datatable__pager-link--active');
 
 							// set next and previous link page number
-							$(pagerNumber).find('.m-datatable__pager-link--prev').attr('data-page', Math.max(meta.page - 1, 1));
-							$(pagerNumber).find('.m-datatable__pager-link--next').attr('data-page', Math.min(meta.page + 1, meta.pages));
+							$(pagerNumber).find('.m-datatable__pager-link--prev').attr('data-page', Math.max(pg.meta.page - 1, 1));
+							$(pagerNumber).find('.m-datatable__pager-link--next').attr('data-page', Math.min(pg.meta.page + 1, pg.meta.pages));
 
 							// current page input value sync
 							$(pg.pager).each(function () {
-								$(this).find('.m-pager-input[type="text"]').prop('value', meta.page);
+								$(this).find('.m-pager-input[type="text"]').prop('value', pg.meta.page);
 							});
 
 							$(pg.pager).find('.m-datatable__pager-nav').show();
-							if (meta.pages <= 1) {
+							if (pg.meta.pages <= 1) {
 								// hide pager if has 1 page
 								$(pg.pager).find('.m-datatable__pager-nav').hide();
 							}
@@ -2087,7 +2134,7 @@ jQuery.fn.extend({
 							// update datasource params
 							API.setDataSourceParam('pagination', pg.meta);
 
-							$(pg.pager).find('select.m-datatable__pager-size').val(meta.perpage).attr('data-selected', meta.perpage);
+							$(pg.pager).find('select.m-datatable__pager-size').val(pg.meta.perpage).attr('data-selected', pg.meta.perpage);
 
 							// clear active rows
 							$(datatable.table).find('.m-checkbox > [type="checkbox"]').prop('checked', false);
@@ -2216,7 +2263,13 @@ jQuery.fn.extend({
 						if (!nav.next) $(pagerNext).remove();
 						if (!nav.last) $(pagerLast).remove();
 					}
-				};
+                };
+                //meta.page = 1;
+                //meta.pages = 1;
+                //meta.perpage = 10;
+                //meta.total = 10;
+                //meta.sort = "asc";
+                //meta.field = "ShipDate";
 				pg.init(meta);
 				return pg;
 			},
@@ -2755,7 +2808,7 @@ jQuery.fn.extend({
 						var meta = API.getDataSourceParam('sort');
 						var field = $(this).data('field');
 						var column = dt.getColumnByField(field);
-                        // sort is disabled for this column
+						// sort is disabled for this column
 						if (typeof column.sortable !== 'undefined' && column.sortable === false) return;
 
 						$(datatable.tableHead).find('.m-datatable__cell > span > i').remove();
@@ -3245,6 +3298,7 @@ jQuery.fn.extend({
 			 * @param columns. Optional list of columns to be filtered.
 			 */
 			search: function (value, columns) {
+                debugger;
 				if (typeof columns !== 'undefined') columns = $.makeArray(columns);
 				var delay = (function () {
 					return function (callback, ms) {
@@ -3308,7 +3362,8 @@ jQuery.fn.extend({
 			 * @param param
 			 */
 			getDataSourceParam: function (param) {
-				var defaultSort = dt.getDefaultSortColumn();
+                var defaultSort = dt.getDefaultSortColumn();
+                debugger;
 				datatable.API.params = $.extend({}, {
 					pagination: {page: 1, perpage: API.getOption('data.pageSize')},
 					sort: {sort: defaultSort.sort, field: defaultSort.field},
@@ -3386,7 +3441,8 @@ jQuery.fn.extend({
 
 			// merge default and user defined options
 			options = $.extend(true, {}, $.fn.mDatatable.defaults, options);
-			$(datatable).data('options', options);
+            $(datatable).data('options', options);
+            debugger;
 			$(datatable).trigger('m-datatable--on-init', options);
 
 			// init plugin process
@@ -6837,9 +6893,7 @@ var mLayout = function() {
 
         closeMobileAsideMenuOffcanvas: function() {
             if (mUtil.isMobileDevice()) {
-                if(asideMenuOffcanvas){
-                    asideMenuOffcanvas.hide();
-                }
+                asideMenuOffcanvas.hide();
             }
         },
 
