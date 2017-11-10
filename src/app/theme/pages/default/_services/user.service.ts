@@ -26,7 +26,7 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    return this.http.put(AppSettings.API_ENDPOINT + 'users/updateUser' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.put(AppSettings.API_ENDPOINT + 'users/updateUser/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteUser(id: number) {
