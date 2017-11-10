@@ -37,10 +37,10 @@ const routes: Routes = [
         "path": "features\/division",
         "loadChildren": ".\/pages\/default\/features\/master_management\/division\/division.module#DivisionModule"
       },
-      {
-        "path": "features\/categories",
-        "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
-      },
+      // {
+      //   "path": "features\/categories",
+      //   "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
+      // },
       {
         "path": "features\/masterManagement\/categories",
         "loadChildren": ".\/pages\/default\/features\/master_management\/categories\/categories.module#CategoriesModule"
