@@ -25,6 +25,7 @@ export class RoleAddEditComponent implements OnInit {
     rolePermissionList: any;
     roleForm: FormGroup;
     roleName: string;
+    menuList: any;
     featureList: any;
     selectedFeature: any;
 
@@ -63,8 +64,7 @@ export class RoleAddEditComponent implements OnInit {
                             displayName: results.displayName,
                             name: results.name,
                             description: results.description
-                        });                        
-                        this.updatePermissionList(this.rolePermissionList);
+                        });  
                     }, error => {
                         this.globalErrorHandler.handleError(error);
                     })
@@ -149,7 +149,8 @@ export class RoleAddEditComponent implements OnInit {
             let rolePermission = rolePermissionList[i];
             let permission = rolePermission.permissionName.split(".");
             if (permission.length > 1) {
-                rolePermission.text = "Can " + permission[1] + " " + rolePermission.featureName;
+               let feature = _.find( this.menuList, { id : rolePermission.menuId});
+                rolePermission.text = "Can " + permission[1] + " " + feature.menuName;
             }
         }
     }
@@ -159,7 +160,9 @@ export class RoleAddEditComponent implements OnInit {
             .subscribe(
             results => {
                 this.featureList = results;
-                this.featureList = this.getFilteredFeatureList();
+                this.menuList = results;
+                this.updatePermissionList(this.rolePermissionList);
+                this.featureList = this.getFilteredFeatureList();               
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -168,10 +171,10 @@ export class RoleAddEditComponent implements OnInit {
 
     private getFilteredFeatureList() {
         let featureList = [];
-        for (var index = 0; index < this.featureList.length; index++) {
-            let count = _.filter(this.rolePermissionList, { menuId: this.featureList[index].id }).length;
-            if (count != this.featureList[index].permissions.length) {
-                featureList.push(this.featureList[index]);
+        for (var index = 0; index < this.menuList.length; index++) {
+            let count = _.filter(this.rolePermissionList, { menuId: this.menuList[index].id }).length;
+            if (count != this.menuList[index].permissions.length) {
+                featureList.push(this.menuList[index]);
             }
         }
         return featureList;
