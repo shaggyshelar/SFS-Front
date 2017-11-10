@@ -9,8 +9,8 @@ import { MessageService } from '../../../../../../_services/message.service';
 import { SchoolService } from '../../../_services/school.service';
 import { InstitutesService } from '../../../_services/institute.service';
 import { BoardService } from '../../../_services/board.service';
-
 import { School } from "../../../_models/School";
+import { ViewChild } from '@angular/core';
 
 @Component({
     selector: "app-users-list",
@@ -25,12 +25,16 @@ export class SchoolAddEditComponent implements OnInit {
     boards: SelectItem[];
     myLogo: any;
     success:number;
+    @ViewChild('fileupload')
+    myInputVariable: any;
 
     constructor(
         private formBuilder: FormBuilder, private schoolService: SchoolService, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private instituteService: InstitutesService, private boardService: BoardService
     ) {
     }
+
+  
 
     ngOnInit() {
         this.institutes = [];
@@ -80,7 +84,6 @@ export class SchoolAddEditComponent implements OnInit {
                 this.schoolService.getSchoolById(this.params)
                     .subscribe(
                     (results: School) => {
-                        console.log(results);
                         this.schoolForm.setValue({
                             id: results.id,
                             boardId: results.boardId,
@@ -106,7 +109,6 @@ export class SchoolAddEditComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: School, valid: boolean }) {
-        debugger;
         if (this.params) {
             this.schoolService.updateSchool(value)
                 .subscribe(
@@ -118,8 +120,6 @@ export class SchoolAddEditComponent implements OnInit {
                     this.globalErrorHandler.handleError(error);
                 });
         } else {
-            value.createdBy = "1";
-            value.createdOn = "08-11-2017";
             this.schoolService.createSchool(value)
                 .subscribe(
                 results => {
@@ -135,27 +135,27 @@ export class SchoolAddEditComponent implements OnInit {
         this.router.navigate(['/features/school/list']);
     }
     onUploadLogo(fileInput: any) {
-        // var fr = new FileReader;
-        // var success = 0;
-        // fr.readAsDataURL(fileInput[0]);
-        // fr.onload = function () {
-        //     var img = new Image;
+        var rec = this;
+        var fr = new FileReader;
+        
+        fr.readAsDataURL(fileInput[0]);
+        var img = new Image;
+        var success = 0;
+        fr.onload = function () {
+            success = 1;
+            img.onload = function () {
+                if (img.height <= 50 && img.width <= 160) {
+                    success = 1;
+                }
+                else {
+                    success = 0;
+                    rec.messageService.addMessage({ severity: 'fail', summary: 'Fail', detail: 'Image Resolution not should be greater than 160 * 50 px ' });
+                    rec.myInputVariable.nativeElement.value = "";
+                }
 
-        //     img.onload = function () {
-        //         if (img.height <= 50 && img.width <= 160) {
-        //             success = 1;
-        //         }
-        //         else {
-        //             success = 0;
-        //             alert(img.width);
-        //             alert(img.height);
-
-        //         }
-        //     };
-        //     img.src = fr.result;
-        // };
-        // if (success == 0)
-        //     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
+            };
+            img.src = fr.result;
+        };
     }
 
 

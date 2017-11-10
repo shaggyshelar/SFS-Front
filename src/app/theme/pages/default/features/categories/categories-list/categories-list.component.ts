@@ -34,7 +34,6 @@ export class CategoriesListComponent implements OnInit {
   }
 
   onManageCategoryClick(data: Categories) {
-    debugger;
     this.router.navigate(['/features/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {

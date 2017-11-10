@@ -85,8 +85,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
-							 placeholder="Search..." id="m_form_search">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -152,8 +152,8 @@
 								<td>{{row.StudentCategory.categoryCode}}</td>
 								<td>{{row.StudentClass.className}}</td>
 								<td>{{row.StudentDivision.divisionName}}</td>
-								<td>{{row.studentDateOfBirth | date:'dd/mm/yyyy'}}</td>
-								<td>{{row.dateOfJoining | date:'dd/mm/yyyy'}}</td>
+								<td>{{row.studentDateOfBirth | date:'yyyy-mm-dd'}}</td>
+								<td>{{row.dateOfJoining | date:'yyyy-mm-dd'}}</td>
 								<td>
 									<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 									 title="Edit" [isAuthorize]="['Student.Update']">

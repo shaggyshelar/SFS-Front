@@ -53,6 +53,8 @@ export class ChangePasswordComponent implements OnInit {
     }
     onCancel() {
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('instituteId');
+        localStorage.removeItem('schoolId');
         this.router.navigate(['/login']);
     }
 }

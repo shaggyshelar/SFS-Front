@@ -15,7 +15,7 @@ export class StudentService {
     return this.http.post(AppSettings.API_ENDPOINT +'uploadcsv/' ,file, reqObj).map((response: Response) => response.json());
   }
   getStudentCount(url) {   
-    return this.http.get(AppSettings.API_ENDPOINT + 'students/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Students/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
    }
 
    getFilterList(url) {   
