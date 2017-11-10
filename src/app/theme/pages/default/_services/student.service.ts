@@ -27,12 +27,12 @@ export class StudentService {
   }
 
   getStudentById(id: number) {
-    return this.http.get(AppSettings.API_ENDPOINT +'students/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Students/'+ id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 
-  updateStudent(school: Student) {
-    return this.http.put(AppSettings.API_ENDPOINT +'students/' + school.id, school, AppSettings.requestOptions()).map((response: Response) => response.json());
+  updateStudent(student: Student) {
+    return this.http.put(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Students/'+ student.id, student, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteStudent(id: number) {

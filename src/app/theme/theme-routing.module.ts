@@ -82,6 +82,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/components\/fileUpload\/uploads\/uploads.module#UploadsComponentModule"
       },
       {
+        "path": "features\/board",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/board\/board.module#BoardModule"
+      },    
+      {
         "path": "",
         "redirectTo": "index",
         "pathMatch": "full"
