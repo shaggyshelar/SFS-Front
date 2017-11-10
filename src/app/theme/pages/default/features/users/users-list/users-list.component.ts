@@ -99,6 +99,7 @@ export class UsersListComponent implements OnInit {
         this.userList = this.schoolService.getUsersBySchoolId(this.url);
         }
         else{
+            this.url="?filter[where][roleId]=2";
             this.userList = this.userService.getUsersForSuperuser(this.url);
         }
         this.userList.subscribe((response) => {
@@ -327,6 +328,7 @@ export class UsersListComponent implements OnInit {
                 });
         }
         else{
+            url="?filter[where][roleId]=2";
             this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);
