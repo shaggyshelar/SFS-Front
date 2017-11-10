@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MasterManagementComponent } from './master_management.component';
 import { AcademicYearComponent } from './academic_year/academic_year.component';
-import { BoardComponent } from './board/board.component';
 import { ClassComponent } from './class/class.component';
 import { PaymentFrequencyComponent } from './payment_frequency/payment_frequency.component';
 import { CategoriesComponent } from './categories/categories.component';
@@ -31,7 +30,6 @@ const routes: Routes = [
         component: MasterManagementComponent,
         children: [
           { path: 'academicYear', component: AcademicYearComponent },
-          { path: 'board', component: BoardComponent },
           { path: 'class', component: ClassComponent },
           { path: 'paymentFrequency', component: PaymentFrequencyComponent },
           { path: 'categories', component: CategoriesComponent },
@@ -57,7 +55,6 @@ const routes: Routes = [
   ], declarations: [
     MasterManagementComponent,
     AcademicYearComponent,
-    BoardComponent,
     ClassComponent,
     PaymentFrequencyComponent,
     CategoriesComponent,

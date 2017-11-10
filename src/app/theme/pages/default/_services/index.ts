@@ -9,3 +9,4 @@ export * from './user-role.service';
 export * from './permission.service';
 export * from './institute.service';
 export * from './common.service';
+export * from './board.service';
