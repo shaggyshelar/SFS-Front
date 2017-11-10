@@ -18,7 +18,7 @@ export class UserService {
     params.set('filter[include]', "school");
     let requestOptions = AppSettings.requestOptions();
     requestOptions.params = params;
-    return this.http.get(AppSettings.API_ENDPOINT + 'users/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'users/' + id, requestOptions).map((response: Response) => response.json());
   }
 
   createUser(user: User) {
