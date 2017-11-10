@@ -1,0 +1,104 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Master Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Classes
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Add/Edit Class
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+<!--*********************************************************************-->
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit Class
+					</h3>
+				</div>
+			</div>
+		</div>
+
+		<!--begin::Form-->
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(classForm)"
+		 [formGroup]="classForm">
+			<div class="m-portlet__body formPortletBody">
+
+				<div class="form-group m-form__group row">
+					<label class="col-2 col-form-label" for="example-text-input">
+						Class Code
+					</label>
+					<div class="col-5">
+						<input class="form-control m-input" type="text" formControlName="classCode" name="classCode" id="classCode" placeholder="Class Code">
+						<div class="alertMsg" *ngIf="classForm.get('classCode').hasError('required') && classForm.get('classCode').touched">
+							Please enter Class Code
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group m-form__group row">
+					<label class="col-2 col-form-label" for="example-text-input">
+						Class Name
+					</label>
+					<div class="col-5">
+						<input class="form-control m-input" formControlName="className" type="text" placeholder="Class Name">
+						<div class="alertMsg" *ngIf="classForm.get('className').hasError('required') && classForm.get('className').touched">
+							Please enter Class Name
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+
+			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+				<div class="m-form__actions m-form__actions--solid">
+					<div class="row">
+						<div class="col-lg-6">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+								Save
+							</button>
+							<button type="button" (click)="onCancel()" class="btn btn-secondary">
+								Cancel
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+		<!--end::Form-->
+
+	</div>
+</div>

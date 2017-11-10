@@ -30,6 +30,14 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/institute\/institute.module#InstituteModule"
       },
       {
+        "path": "features\/class",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/class\/class.module#ClassModule"
+      },
+      {
+        "path": "features\/division",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/division\/division.module#DivisionModule"
+      },
+      {
         "path": "features\/categories",
         "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
       },
@@ -41,10 +49,10 @@ const routes: Routes = [
         "path": "features\/reports",
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
-      {
-        "path": "features\/masterManagement",
-        "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
-      },
+      // {
+      //   "path": "features\/masterManagement",
+      //   "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
+      // },
       {
         "path": "features\/configuration",
         "loadChildren": ".\/pages\/default\/features\/configuration\/configuration.module#ConfigurationModule"
