@@ -67,12 +67,11 @@ export class UserAddEditComponent implements OnInit {
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
                 phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-                // password: ['opensesane'],
                 institute: ['', [Validators.required]],
                 role: ['', [Validators.required]],
                 schools: this.buildSchools()
             });
-
+            this.userForm.controls['role'].setValue(2);
             this.institutesService.getAllInstitutes()
                 .subscribe((results: any) => {
                     this.instituteList = results;
@@ -88,7 +87,6 @@ export class UserAddEditComponent implements OnInit {
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
                 phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-                // password: ['opensesane'],
                 role: ['', [Validators.required]],
             });
 
@@ -107,7 +105,6 @@ export class UserAddEditComponent implements OnInit {
                     username: results.username,
                     email: results.email,
                     phone: results.phone,
-                    // password: 'opensesane',
                     role: results.roleId,
                 });
             })
@@ -126,12 +123,10 @@ export class UserAddEditComponent implements OnInit {
                     username: results.username,
                     email: results.email,
                     phone: results.phone,
-                    // password: 'opensesane',
                     role: results.roleId,
                     institute: instituteId,
                     schools: []
                 });
-                // this.userForm.get('role').disable();
                 if (this.relatedSchoolList.length > 0) {
                     this.getSchools(instituteId);
                 }
@@ -227,13 +222,6 @@ export class UserAddEditComponent implements OnInit {
             .subscribe(
             results => {
                 this.roleList = <any>results;
-                //    if (this.userRole == 'SuperAdmin' && !this.params) {
-                //         let role = _.find(this.roleList, {displayName: 'SchoolAdmin'});
-                //         if(role){
-                //           this.userForm.controls['role'].setValue(role.id)
-                //           this.userForm.get('role').disable();
-                //         }
-                //    }
             }, error => {
                 this.globalErrorHandler.handleError(error);
             });
