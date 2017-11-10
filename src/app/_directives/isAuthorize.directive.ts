@@ -26,10 +26,11 @@ export class IsAuthorizeDirective {
                     //    break;
                 } else {
                     userHasPermissions = true;
+                    break;
                 }
             }
             if (!userHasPermissions) {
-                this._element.style.display = 'none';
+               this._element.style.display = 'none';
             }
         }
     }
