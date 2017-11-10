@@ -2,6 +2,7 @@ export class Categories {
   id: number;
   CategoryId: number;
   SchoolId: number;
-  CategoryName: string;
-  CategoryDescription: string;
+  categoryName: string;
+  categoryDescription: string;
+  categoryCode:string;
 }

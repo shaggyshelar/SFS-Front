@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
+import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 
 import { CategoriesComponent } from './categories.component';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoriesAddEditComponent } from './categories-add-edit/categories-add-edit.component';
-import { DefaultComponent } from '../../default.component';
-import { LayoutModule } from '../../../../layouts/layout.module';
-import { CategoriesService } from '../../_services/index';
+import { DefaultComponent } from '../../../default.component';
+import { LayoutModule } from '../../../../../layouts/layout.module';
+import { CategoriesService } from '../../../_services/index';
 
 import {
   DataTableModule,

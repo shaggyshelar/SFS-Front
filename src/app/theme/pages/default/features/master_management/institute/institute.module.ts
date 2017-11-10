@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { DefaultComponent } from '../../default.component';
-import { LayoutModule } from '../../../../layouts/layout.module';
+import { DefaultComponent } from '../../../default.component';
+import { LayoutModule } from '../../../../../layouts/layout.module';
 
-import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
-import { InstitutesService } from '../../_services/institute.service';
+import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
+import { InstitutesService } from '../../../_services/institute.service';
 import { InstituteComponent } from './institute.component';
 import { InstitutesListComponent } from './institutes-list/institutes-list.component';
 import { InstituteAddEditComponent } from './institutes-add-edit/institutes-add-edit.component';

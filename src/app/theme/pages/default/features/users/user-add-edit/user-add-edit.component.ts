@@ -113,7 +113,7 @@ export class UserAddEditComponent implements OnInit {
     getEditForm() {
         this.userService.getUserById(this.params)
             .subscribe((results: any) => {
-                this.relatedSchoolList = results.schools ? results.schools : [];
+                this.relatedSchoolList = results.school ? results.school : [];
                 var instituteId = -1;
                 if (this.relatedSchoolList.length > 0) {
                     instituteId = this.relatedSchoolList[0].instituteId;

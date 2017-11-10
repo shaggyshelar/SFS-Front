@@ -3,10 +3,10 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
 
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
-import { InstitutesService } from '../../../_services/institute.service';
-import { Institutes } from "../../../_models/Institutes";
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
+import { InstitutesService } from '../../../../_services/institute.service';
+import { Institutes } from "../../../../_models/Institutes";
 
 @Component({
     selector: "app-institute-list",
@@ -28,7 +28,7 @@ export class InstituteAddEditComponent implements OnInit {
 
     ngOnInit() {
         this.instituteForm = this.formBuilder.group({
-            id: [0],
+            id: [],
             instituteName: ['', [Validators.required]],
             instituteDescription: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],

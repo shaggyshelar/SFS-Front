@@ -11,3 +11,4 @@ export * from './institute.service';
 export * from './common.service';
 export * from './class.service';
 export * from './division.service';
+export * from './board.service';

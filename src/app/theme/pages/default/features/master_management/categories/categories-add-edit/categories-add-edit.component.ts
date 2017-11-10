@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { CategoriesService } from '../../../_services/categories.service';
-import { Categories } from "../../../_models/categories";
+import { CategoriesService } from '../../../../_services/categories.service';
+import { Categories } from "../../../../_models/categories";
 import { Observable } from 'rxjs/Rx';
 import { SelectItem } from 'primeng/primeng';
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
 
 @Component({
   selector: "app-users-list",
@@ -39,10 +39,9 @@ export class CategoriesAddEditComponent implements OnInit {
 
     this.categoriesForm = this.formBuilder.group({
       id: [],
-      SchoolId: [0, [Validators.required]],
-      CategoryId: [0, [Validators.required]],
-      CategoryName: ['', [Validators.required]],
-      CategoryDescription: ['', [Validators.required]],
+      categoryName: ['', [Validators.required]],
+      categoryDescription: ['', [Validators.required]],
+      categoryCode:['', [Validators.required]]
     });
 
     this.route.params.forEach((params: Params) => {
@@ -51,10 +50,9 @@ export class CategoriesAddEditComponent implements OnInit {
         this.categorieslService.getCategoryById(this.params)
           .subscribe((results: Categories) => {
             this.categoriesForm.setValue({
-              CategoryId: results.CategoryId,
-              SchoolId: results.SchoolId,
-              CategoryName: results.CategoryName,
-              CategoryDescription: results.CategoryDescription,
+              categoryName: results.categoryName,
+              categoryDescription: results.categoryDescription,
+              categoryCode: results.categoryCode,
               id: results.id
             });
           })
@@ -68,7 +66,7 @@ export class CategoriesAddEditComponent implements OnInit {
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-          this.router.navigate(['/features/masterManagement/categories']);
+          this.router.navigate(['/features/masterManagement/categories/list']);
         },
         error => {
           this.globalErrorHandler.handleError(error);
@@ -78,7 +76,7 @@ export class CategoriesAddEditComponent implements OnInit {
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-          this.router.navigate(['/features/masterManagement/categories']);
+          this.router.navigate(['/features/masterManagement/categories/list']);
         },
         error => {
           this.globalErrorHandler.handleError(error);
@@ -86,6 +84,6 @@ export class CategoriesAddEditComponent implements OnInit {
     }
   }
   onCancel() {
-    this.router.navigate(['/features/masterManagement/categories']);
+    this.router.navigate(['/features/masterManagement/categories/list']);
   }
 }

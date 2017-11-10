@@ -22,7 +22,7 @@ export class RoleService {
   }
 
   updateRole(role: Role) {
-    return this.http.put(AppSettings.API_ENDPOINT +'roles/' + role.id, role, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'roles/' + role.id, role, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteRole(id: number) {

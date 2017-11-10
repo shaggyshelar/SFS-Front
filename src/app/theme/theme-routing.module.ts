@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         "path": "features\/institute",
-        "loadChildren": ".\/pages\/default\/features\/institute\/institute.module#InstituteModule"
+        "loadChildren": ".\/pages\/default\/features/\master_management/institute\/institute.module#InstituteModule"
       },
       {
         "path": "features\/class",
@@ -40,6 +40,15 @@ const routes: Routes = [
       {
         "path": "features\/categories",
         "loadChildren": ".\/pages\/default\/features\/categories\/categories.module#CategoriesModule"
+      },
+      {
+        "path": "features\/masterManagement\/categories",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/categories\/categories.module#CategoriesModule"
+      },
+      {
+        "path": "features\/masterManagement\/frequencies",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/frequency\/frequency.module#FrequencyModule"
+
       },
       {
         "path": "features\/fees",
@@ -85,6 +94,10 @@ const routes: Routes = [
         "path": "components\/fileUpload\/uploads",
         "loadChildren": ".\/pages\/default\/components\/fileUpload\/uploads\/uploads.module#UploadsComponentModule"
       },
+      {
+        "path": "features\/board",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/board\/board.module#BoardModule"
+      },    
       {
         "path": "",
         "redirectTo": "index",
