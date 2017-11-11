@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MasterManagementComponent } from './master_management.component';
-import { AcademicYearComponent } from './academic_year/academic_year.component';
 import { ClassComponent } from './class/class.component';
 
 import { DefaultComponent } from '../../default.component';
@@ -26,7 +25,6 @@ const routes: Routes = [
         path: "",
         component: MasterManagementComponent,
         children: [
-          { path: 'academicYear', component: AcademicYearComponent },
           { path: 'class', component: ClassComponent },
           //{ path: 'paymentFrequency', component: PaymentFrequencyComponent },
         ]
@@ -48,7 +46,6 @@ const routes: Routes = [
     DropdownModule
   ], declarations: [
     MasterManagementComponent,
-    AcademicYearComponent,
     ClassComponent,
    // PaymentFrequencyComponent,
   ],
