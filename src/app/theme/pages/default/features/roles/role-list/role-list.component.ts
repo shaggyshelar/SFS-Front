@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 
@@ -43,22 +44,23 @@ export class RoleListComponent implements OnInit {
 
     constructor(private router: Router,
         private roleService: RoleService,
-        private schoolService:SchoolService,
+        private schoolService: SchoolService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private messageService: MessageService) {
     }
 
     ngOnInit() {
-        
-                //Page Size Array
-                this.pageSize = [];
-                this.pageSize.push({ label: '5', value: 5 });
-                this.pageSize.push({ label: '10', value: 10 });
-                this.pageSize.push({ label: '20', value: 20 });
-                this.pageSize.push({ label: '30', value: 30 });
-                this.pageSize.push({ label: '50', value: 50 });
-                this.pageSize.push({ label: '100', value: 100 });
-                //Default variable initialization
+
+        //Page Size Array
+        this.pageSize = [];
+        this.pageSize.push({ label: '5', value: 5 });
+        this.pageSize.push({ label: '10', value: 10 });
+        this.pageSize.push({ label: '20', value: 20 });
+        this.pageSize.push({ label: '30', value: 30 });
+        this.pageSize.push({ label: '50', value: 50 });
+        this.pageSize.push({ label: '100', value: 100 });
+        //Default variable initialization
         this.perPage = 5;
         this.currentPos = 0;
         this.url = '';
@@ -86,9 +88,9 @@ export class RoleListComponent implements OnInit {
         this.getAllRoles();
     }
 
-     /*Pagination Function's Starts*/
+    /*Pagination Function's Starts*/
 
-     currentPageCheck(pageNumber) {
+    currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
             return false;
         else
@@ -102,7 +104,7 @@ export class RoleListComponent implements OnInit {
         //If number of pages are less than the boundry
         if (this.pages < this.boundry) {
             this.boundry = this.pages;
-            this.boundryEnd=this.boundry;
+            this.boundryEnd = this.boundry;
         }
 
         for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
@@ -270,8 +272,8 @@ export class RoleListComponent implements OnInit {
         this.getAllRoles();
     }
 
-     /* Counting Number of records starts*/
-     getQueryDataCount() {
+    /* Counting Number of records starts*/
+    getQueryDataCount() {
         this.countQuery = '?' + this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
@@ -284,12 +286,12 @@ export class RoleListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllRoles();
         },
-        error => {
-          this.globalErrorHandler.handleError(error);
-        });
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
     getUrl() {
-        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos  + this.sortUrl + this.searchQuery;
+        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
     /* Counting Number of records ends*/
 
@@ -299,26 +301,35 @@ export class RoleListComponent implements OnInit {
         this.roleList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         },
-        error => {
-          this.globalErrorHandler.handleError(error);
-        });
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     onEditClick(role: Role) {
         this.router.navigate(['/features/roles/edit', role.id]);
     }
+
     onDelete(role: Role) {
-        this.roleService.deleteRole(role.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                    this.currentPageNumber--;
-                }
-                this.getQueryDataCount();
-                // this.getAllRoles();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.roleService.deleteRole(role.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
 }

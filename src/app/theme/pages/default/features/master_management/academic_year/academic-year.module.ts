@@ -15,6 +15,8 @@ import { AcademicYearAddEditComponent } from './academic-year-add-edit/academic-
 import {
   DropdownModule,
   CalendarModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -65,6 +67,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     DropdownModule,
     CalendarModule,
+    ConfirmDialogModule,    
   ],
   declarations: [
     AcademicYearComponent,
@@ -73,6 +76,7 @@ const routes: Routes = [
   ],
   providers: [
     AcademicYearService,
+    ConfirmationService
   ],
 })
 export class AcademicYearModule {

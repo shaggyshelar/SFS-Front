@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 import { SchoolService } from '../../../_services/school.service';
@@ -49,6 +50,7 @@ export class UsersListComponent implements OnInit {
         private router: Router,
         private schoolService: SchoolService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService : ConfirmationService,
         private messageService: MessageService) {
     }
 
@@ -96,10 +98,10 @@ export class UsersListComponent implements OnInit {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
         if (!_superAdmin) {
-        this.userList = this.schoolService.getUsersBySchoolId(this.url);
+            this.userList = this.schoolService.getUsersBySchoolId(this.url);
         }
-        else{
-            this.url=this.url+"&filter[where][roleId]=2";
+        else {
+            this.url = this.url + "&filter[where][roleId]=2";
             this.userList = this.userService.getUsersForSuperuser(this.url);
         }
         this.userList.subscribe((response) => {
@@ -115,14 +117,26 @@ export class UsersListComponent implements OnInit {
         this.router.navigate(['/features/users/edit', user.id]);
     }
     onDelete(user: User) {
-        this.userService.deleteUser(user.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllUsers();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.userService.deleteUser(user.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddClick() {
         this.router.navigate(['/features/users/add']);
@@ -327,8 +341,8 @@ export class UsersListComponent implements OnInit {
                     this.globalErrorHandler.handleError(error);
                 });
         }
-        else{
-            url="?where[roleId]=2";
+        else {
+            url = "?where[roleId]=2";
             this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);
