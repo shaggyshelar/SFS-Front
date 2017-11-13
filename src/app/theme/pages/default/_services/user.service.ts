@@ -30,7 +30,7 @@ export class UserService {
   }
 
   deleteUser(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT + 'users/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT + 'users/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   changePassword(data: any) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));

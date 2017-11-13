@@ -14,6 +14,8 @@ import { BoardAddEditComponent } from './board-add-edit/board-add-edit.component
 
 import {
   DropdownModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -63,6 +65,7 @@ const routes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DropdownModule,
+    ConfirmDialogModule
   ],
   declarations: [
     BoardComponent,
@@ -71,6 +74,7 @@ const routes: Routes = [
   ],
   providers: [
     BoardService,
+    ConfirmationService
   ],
 })
 export class BoardModule {

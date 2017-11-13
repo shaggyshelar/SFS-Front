@@ -25,7 +25,7 @@ export class BoardService {
   }
 
   deleteBoard(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'Boards/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Boards/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getBoardCount(url){
     return this.http.get(AppSettings.API_ENDPOINT + 'Boards/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());      
