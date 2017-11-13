@@ -257,28 +257,15 @@
 													Class:
 												</label>
 
-												<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" formControlName="classId" [options]="classList"
+												<p-dropdown placeholder="Select Class" class="form-control recordSelect" [style]="{'width':'100%'}" formControlName="classId" [options]="classList"
 												 name="Class"></p-dropdown>
-												<!-- <select class="form-control m-input" id="exampleSelect1">
-														<option disabled selected>Select Class</option>
-														<option>1st</option>
-														<option>2nd</option>
-														<option>3rd</option>
-													</select>	 -->
 											</div>
 											<div class="col-lg-6">
 												<label class="">
 													Category:
 												</label>
-												<p-dropdown class="form-control m-input" [options]="categoryList" formControlName="categoryId" [style]="{'width':'100%'}"
+												<p-dropdown placeholder="Select Category" class="form-control m-input" [options]="categoryList" formControlName="categoryId" [style]="{'width':'100%'}"
 												 name="class"></p-dropdown>
-												<!-- <select class="form-control m-input" id="exampleSelect1">
-														<option disabled selected>Select Category</option>
-														<option>General</option>
-														<option>RTE</option>
-														<option>Management</option>
-														<option>Staff</option>
-													</select> -->
 											</div>
 										</div>
 										<div class="form-group m-form__group row">
@@ -287,14 +274,10 @@
 												<label class="">
 													Academic Year:
 												</label>
-												<p-dropdown class="form-control m-input" [options]="yearList" [style]="{'width':'100%'}" formControlName="academicYear" name="class"></p-dropdown>
-												<!-- <select class="form-control m-input" id="exampleSelect1">
-														<option disabled selected>Select Year</option>
-														<option>2013</option>
-														<option>2014</option>
-														<option>2015</option>
-														<option>2016</option>
-													</select> -->
+												<p-dropdown placeholder="Select Academic Year" class="form-control m-input" [options]="yearList" [style]="{'width':'100%'}" formControlName="academicYear" name="class"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('academicYear').hasError('required') && studentForm.get('academicYear').touched">
+													Please Academic Year
+												</div>
 											</div>
 										</div>
 									</div>
@@ -329,15 +312,17 @@
 												<label class="">
 													Date of Birth:
 												</label>
-												<input type="text" class="form-control" id="m_datepicker_1" formControlName="studentDateOfBirth" name="studentDateOfBirth"
-												 readonly #datePicker1 placeholder="Date of Birth" (blur)="setDateOfBirth(datePicker1.value)">
+												<p-calendar  dateFormat="yy-mm-dd" formControlName="studentDateOfBirth"></p-calendar>
+												<!-- <input type="text" class="form-control" id="m_datepicker_1" formControlName="studentDateOfBirth" name="studentDateOfBirth"
+												 readonly #datePicker1 placeholder="Date of Birth" > -->
 											</div>
 											<div class="col-lg-6">
 												<label class="">
 													Date of Joining:
 												</label>
-												<input type="text" formControlName="dateOfJoining" name="dateOfJoining" class="form-control" id="m_datepicker_1" placeholder="Date of Joining"
-												 readonly #datePicker2 (blur)="setDateOfJoining(datePicker2.value)">
+												<p-calendar dateFormat="yy-mm-dd" formControlName="dateOfJoining"></p-calendar>
+												<!-- <input type="text" formControlName="dateOfJoining" name="dateOfJoining" class="form-control" id="m_datepicker_1" placeholder="Date of Joining"
+												 readonly #datePicker2 (blur)="setDateOfJoining(datePicker2.value)"> -->
 											</div>
 										</div>
 										<div class="form-group m-form__group row">

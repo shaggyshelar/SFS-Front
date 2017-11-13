@@ -55,7 +55,7 @@ export class StudentAddEditComponent implements OnInit {
         //List of Classes
         this.classList = [];
         let val = this.commonService.getClass();
-        this.classList.push({ label: '--Select--', value: 'select' });
+        //this.classList.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -69,7 +69,7 @@ export class StudentAddEditComponent implements OnInit {
         val = this.commonService.getYear();
         this.yearList = [];
 
-        this.yearList.push({ label: '--Select--', value: 'select' });
+        //this.yearList.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -82,7 +82,7 @@ export class StudentAddEditComponent implements OnInit {
         //List of Categories
         this.categoryList = [];
         val = this.commonService.getCategory();
-        this.categoryList.push({ label: '--Select--', value: 'select' });
+        //this.categoryList.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -162,8 +162,8 @@ export class StudentAddEditComponent implements OnInit {
                             city: results.city,
                             state: results.state,
                             phone: results.phone,
-                            dateOfJoining: results.dateOfJoining,
-                            studentDateOfBirth: results.studentDateOfBirth,
+                            dateOfJoining: new Date(results.dateOfJoining),
+                            studentDateOfBirth: new Date(results.studentDateOfBirth),
                             bloodGroup: results.bloodGroup,
                             studentCode: results.studentCode,
                             divisionId: results.divisionId,
@@ -190,12 +190,12 @@ export class StudentAddEditComponent implements OnInit {
     onSubmit({ value, valid }: { value: Student, valid: boolean }) {
         if (this.params) {
             value.schoolId = localStorage.getItem("schoolId");
-            //value.createdBy = 1;
-            //value.createdOn = "08-11-2017";
-            if(this.dateOfBirth != null && this.dateOfBirth != '')
-                value.studentDateOfBirth = this.dateOfBirth;
-            if(this.dateOfJoining != null && this.dateOfJoining != '')
-                value.dateOfJoining = this.dateOfJoining;
+            value.studentDateOfBirth = this.convertDate(value.studentDateOfBirth);
+            value.dateOfJoining = this.convertDate(value.dateOfJoining);
+            // if(this.dateOfBirth != null && this.dateOfBirth != '')
+            //     value.studentDateOfBirth = this.dateOfBirth;
+            // if(this.dateOfJoining != null && this.dateOfJoining != '')
+            //     value.dateOfJoining = this.dateOfJoining;
             this.studentService.updateStudent(value)
                 .subscribe(
                 results => {
@@ -219,5 +219,17 @@ export class StudentAddEditComponent implements OnInit {
     setDateOfJoining(date){
         this.dateOfJoining = date;
     }
+    convertDate(date) {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth()+1).toString();
+        var dd  = date.getDate().toString();
+      
+        var mmChars = mm.split('');
+        var ddChars = dd.split('');
+        console.log(yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]));
+        return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+        
+      }
+      
 }
 
