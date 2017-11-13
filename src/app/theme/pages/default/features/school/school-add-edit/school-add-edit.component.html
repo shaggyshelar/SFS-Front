@@ -70,7 +70,7 @@
 						Institute Name
 					</label>
 					<div class="col-7">
-						<p-dropdown [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
+						<p-dropdown placeholder="Select Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
 						<div class="alertMsg" *ngIf="schoolForm.get('instituteId').hasError('required') && schoolForm.get('instituteId').touched">
 							Please select Institute
 						</div>
@@ -135,7 +135,7 @@
 					</label>
 					<div class="col-7">
 
-						<p-dropdown [options]="boards" [style]="{'width':'100%'}" formControlName="boardId" name="boardId"></p-dropdown>
+						<p-dropdown placeholder="Select Board" [options]="boards" [style]="{'width':'100%'}" formControlName="boardId" name="boardId"></p-dropdown>
 						<div class="alertMsg" *ngIf="schoolForm.get('boardId').hasError('required') && schoolForm.get('boardId').touched">
 							Please select Board
 						</div>

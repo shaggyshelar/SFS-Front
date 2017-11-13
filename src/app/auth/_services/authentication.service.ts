@@ -33,5 +33,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('instituteId');
     localStorage.removeItem('schoolId');
+    localStorage.removeItem('schoolLogo' );
+    localStorage.removeItem('schoolHeader');
   }
 }

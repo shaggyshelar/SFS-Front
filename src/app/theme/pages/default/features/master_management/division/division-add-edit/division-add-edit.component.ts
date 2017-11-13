@@ -33,7 +33,7 @@ export class DivisionAddEditComponent implements OnInit {
 
         this.classList = [];
         let val = this.classService.getAllClasses();
-        this.classList.push({ label: '--Select--', value: 'select' });
+        //this.classList.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -44,8 +44,8 @@ export class DivisionAddEditComponent implements OnInit {
         });
         this.divisionForm = this.formBuilder.group({
             id: [0],
-            classId: ['', [Validators.required]],
-            schoolId: ['', [Validators.required]],
+            classId: [, [Validators.required]],
+            //schoolId: ['', [Validators.required]],
             divisionName: ['', [Validators.required]],
             divisionCode: ['', [Validators.required]],
         });

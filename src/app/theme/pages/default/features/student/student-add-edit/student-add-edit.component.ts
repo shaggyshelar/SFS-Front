@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../_services/message.service';
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
 import { StudentService } from '../../../_services/student.service';
 import { CommonService } from '../../../_services/common.service';
+import { ClassService } from '../../../_services/class.service';
 import { Student } from "../../../_models/Student";
 
 @Component({
@@ -32,7 +33,8 @@ export class StudentAddEditComponent implements OnInit {
     
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
-        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService
+        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService,
+        private classService: ClassService
     ) {
     }
 
@@ -54,7 +56,7 @@ export class StudentAddEditComponent implements OnInit {
 
         //List of Classes
         this.classList = [];
-        let val = this.commonService.getClass();
+        let val = this.classService.getAllClasses();
         //this.classList.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 

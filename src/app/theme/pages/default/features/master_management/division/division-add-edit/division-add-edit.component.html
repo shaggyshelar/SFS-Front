@@ -58,8 +58,8 @@
 						Class Name
 					</label>
 					<div class="col-7">
-						<p-dropdown [options]="classList" [style]="{'width':'100%'}" formControlName="classId" name="classId"></p-dropdown>
-						<div class="alertMsg" *ngIf="divisionForm.get('classId').hasError('classId') && divisionForm.get('classId').touched">
+						<p-dropdown placeholder="Select Class" [options]="classList" [style]="{'width':'100%'}" formControlName="classId" name="classId"></p-dropdown>
+						<div class="alertMsg" *ngIf="divisionForm.get('classId').hasError('required') && divisionForm.get('classId').touched">
 							Please select Class
 						</div>
 					</div>

@@ -6,6 +6,7 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { StudentService } from '../../_services/index';
+import { ClassService } from '../../_services/index';
 import { CommonService } from '../../_services/index';
 import { StudentComponent } from './student.component';
 import { StudentListComponent } from './student-list/student-list.component';
@@ -70,7 +71,8 @@ const routes: Routes = [
   ],
   providers: [
     StudentService,
-    CommonService
+    CommonService,
+    ClassService
   ]
 })
 export class StudentModule {
