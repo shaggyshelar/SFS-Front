@@ -47,7 +47,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Board
+							Academic Year
 						</span>
 					</a>
 				</li>
@@ -64,15 +64,15 @@
 			<div class="row headerRowListing">
 				<div class="col-xl-8">
 					<h3 class="ListingHeading">
-						Board
+						Academic Year
 					</h3>
 				</div>
 				<div class="col-xl-4">
-                    <a href="javascript:;" (click)="onAddBoard()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right" [isAuthorize]="['Board.Create']">
+                    <a href="javascript:;" (click)="onAddAcademicYear()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right" [isAuthorize]="['AcademicYear.Create']">
                         <span>
                             <i class="m-menu__link-icon flaticon-add"></i>
                             <span>
-                                Add Board
+                                 Add Academic Year
 							</span>
                         </span>
                     </a>               
@@ -112,33 +112,37 @@
 						<thead>
 								<tr>
 									<th title="Field #5">
-										<a href="#" (click)="sort('boardName',ascSortCol1 = !ascSortCol1)">
-											Board Name
+										<a href="#" (click)="sort('startDate',ascSortCol1 = !ascSortCol1)">
+											Start Date
 										</a>
 									</th>
 									<th title="Field #6">
-										Description
+										End Date
 									</th>
 									<th title="Field #7">
-										Created on
+										Year
 									</th>
 									<th title="Field #8">
+										Created on
+									</th>
+									<th title="Field #9">
 										Actions
 									</th>
 								</tr>
 						</thead>
 						<tbody *ngIf="longList">
-							<tr *ngFor='let row of boardList | async'>
-								<td>{{row.boardName}}</td>
-								<td>{{row.boardDescription}}</td>
+							<tr *ngFor='let row of academicYearList | async'>
+								<td>{{row.startDate | date: 'MM/dd/yyyy'}}</td>
+								<td>{{row.endDate | date: 'MM/dd/yyyy' }}</td>
+								<td>{{row.academicYear}}</td>
 								<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>								
 								<td>
-									<a href="javascript:;" (click)="onEditBoardClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									title="Edit" [isAuthorize]="['Board.Update']">
+									<a href="javascript:;" (click)="onEditAcademicYearClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+									title="Edit" [isAuthorize]="['AcademicYear.Update']">
 										<i class="la la-edit"></i>
 									</a>
-									<a href="javascript:;" (click)="onBoardDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									title="Delete" [isAuthorize]="['Board.Delete']">
+									<a href="javascript:;" (click)="onAcademicYearDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+									title="Delete" [isAuthorize]="['AcademicYear.Delete']">
 										<i class="la la-close"></i>
 									</a>
 								</td>

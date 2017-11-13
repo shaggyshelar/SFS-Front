@@ -7,13 +7,14 @@ import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
-import { BoardService  } from '../../../_services/index';
-import { BoardComponent } from './board.component';
-import { BoardListComponent } from './board-list/board-list.component';
-import { BoardAddEditComponent } from './board-add-edit/board-add-edit.component';
+import { AcademicYearService  } from '../../../_services/index';
+import { AcademicYearComponent } from './academic-year.component';
+import { AcademicYearListComponent } from './academic-year-list/academic-year-list.component';
+import { AcademicYearAddEditComponent } from './academic-year-add-edit/academic-year-add-edit.component';
 
 import {
   DropdownModule,
+  CalendarModule,
   ConfirmDialogModule,
   ConfirmationService,
 } from 'primeng/primeng';
@@ -25,30 +26,30 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: BoardComponent,
+        component: AcademicYearComponent,
         children: [
           {
             path: 'list',
-            component: BoardListComponent,
+            component: AcademicYearListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Board.Read']
+              permissions: ['AcademicYear.Read']
             }
           },
           {
             path: 'add',
-            component: BoardAddEditComponent,
+            component: AcademicYearAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Board.Create']
+              permissions: ['AcademicYear.Create']
             }
           },
           {
-            path: 'edit/:boardId',
-            component: BoardAddEditComponent,
+            path: 'edit/:id',
+            component: AcademicYearAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Board.Update']
+              permissions: ['AcademicYear.Update']
             }
           },
         ]
@@ -65,17 +66,18 @@ const routes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DropdownModule,
-    ConfirmDialogModule
+    CalendarModule,
+    ConfirmDialogModule,    
   ],
   declarations: [
-    BoardComponent,
-    BoardListComponent,
-    BoardAddEditComponent,
+    AcademicYearComponent,
+    AcademicYearListComponent,
+    AcademicYearAddEditComponent,
   ],
   providers: [
-    BoardService,
+    AcademicYearService,
     ConfirmationService
   ],
 })
-export class BoardModule {
+export class AcademicYearModule {
 }

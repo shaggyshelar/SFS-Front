@@ -3,21 +3,20 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { ConfirmationService } from 'primeng/primeng';
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
-
-import { RoleService } from '../../../_services/role.service';
-import { SchoolService } from '../../../_services/school.service';
-import { Role } from "../../../_models/role";
-import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
+import { AcademicYear } from "../../../../_models/index";
+import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { AcademicYearService } from '../../../../_services/index';
 
 @Component({
-    selector: "app-role-list",
-    templateUrl: "./role-list.component.html",
+    selector: "app-academic-year-list",
+    templateUrl: "./academic-year-list.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class RoleListComponent implements OnInit {
-    roleList: Observable<Role[]>;
+
+export class AcademicYearListComponent implements OnInit {
+    academicYearList: Observable<AcademicYear[]>;
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -30,8 +29,14 @@ export class RoleListComponent implements OnInit {
     arr: number[] = [];    //Array for Number of pages in pagination
     pageSize: any;         //10,20,30,50,100
     ascSortCol1: boolean;  //Sorting for Column1
+    ascSortCol2: boolean;  //Sorting for Column2
+    ascSortCol3: boolean;  //Sorting for Column3
+    ascSortCol4: boolean;  //Sorting for Column4
+
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
+    filter1CountQuery: string;  //Count number of records for filter1CountQuery
+    filter2CountQuery: string;  //Count number of records for filter2CountQuery
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -41,17 +46,15 @@ export class RoleListComponent implements OnInit {
     boundryEnd: number;
     searchValue: string; //HTML values
     selectedPageSize: number; //HTML values
-
     constructor(private router: Router,
-        private roleService: RoleService,
-        private schoolService: SchoolService,
+        private messageService: MessageService,
+        private academicYearService: AcademicYearService,
         private globalErrorHandler: GlobalErrorHandler,
         private confirmationService: ConfirmationService,
-        private messageService: MessageService) {
+        private _script: ScriptLoaderService) {
     }
 
     ngOnInit() {
-
         //Page Size Array
         this.pageSize = [];
         this.pageSize.push({ label: '5', value: 5 });
@@ -60,22 +63,23 @@ export class RoleListComponent implements OnInit {
         this.pageSize.push({ label: '30', value: 30 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
+
+
+
         //Default variable initialization
         this.perPage = 5;
         this.currentPos = 0;
         this.url = '';
-        this.sortUrl = '&filter[order]=id ASC';
+        this.sortUrl = '&filter[order]=createdOn DESC';
         this.ascSortCol1 = true;
-        // this.ascSortCol2 = true;
-        // this.ascSortCol3 = true;
-        // this.ascSortCol4 = true;
-        // this.filterQuery = '';
-        // this.filterQuery2 = '';
+        this.ascSortCol2 = true;
+        this.ascSortCol3 = true;
+        this.ascSortCol4 = true;
         this.searchQuery = '';
         this.searchCountQuery = '';
         this.countQuery = '?';
-        // this.filter1CountQuery = '';
-        // this.filter2CountQuery = '';
+        this.filter1CountQuery = '';
+        this.filter2CountQuery = '';
         this.lastPage = this.perPage;
         this.currentPageNumber = 1;
         this.firstPageNumber = 1;
@@ -84,8 +88,50 @@ export class RoleListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
+        debugger;
+        this.getAllAcademicYears();
         this.getDataCount('');
-        this.getAllRoles();
+    }
+
+    getAllAcademicYears() {
+        this.getUrl();
+
+        this.academicYearList = this.academicYearService.getAllAcademicYearList(this.url);
+
+        this.academicYearList.subscribe((response) => {
+            this.longList = response.length > 0 ? true : false;
+        }, error => {
+            this.globalErrorHandler.handleError(error);
+        });
+    }
+
+    onEditAcademicYearClick(academicYear: AcademicYear) {
+        this.router.navigate(['/features/academicYear/edit', academicYear.id]);
+    }
+    onAcademicYearDeleteClick(academicYear: AcademicYear) {
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.academicYearService.deleteAcademicYear(academicYear.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
+            },
+            reject: () => {
+            }
+        });
+    }
+    onAddAcademicYear() {
+        this.router.navigate(['/features/academicYear/add']);
     }
 
     /*Pagination Function's Starts*/
@@ -104,7 +150,9 @@ export class RoleListComponent implements OnInit {
         //If number of pages are less than the boundry
         if (this.pages < this.boundry) {
             this.boundry = this.pages;
-            this.boundryEnd = this.boundry;
+            this.boundryEnd = this.pages;
+        } else {
+            this.boundry = 3;
         }
 
         for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
@@ -142,10 +190,13 @@ export class RoleListComponent implements OnInit {
         this.perPage = size;
         this.currentPos = 0;
         this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
     }
 
-    visitFirstPage() {
+    visitFirsPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -153,7 +204,7 @@ export class RoleListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllRoles();
+            this.getAllAcademicYears();
         }
     }
 
@@ -175,11 +226,9 @@ export class RoleListComponent implements OnInit {
                 this.currentPageNumber = this.boundryEnd;
             }
         }
-        //this.boundryEnd = this.pages;
-        //this.boundryStart = this.pages - this.boundry + 1;
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllRoles();
+        this.getAllAcademicYears();
     }
 
     backPage() {
@@ -191,7 +240,7 @@ export class RoleListComponent implements OnInit {
             // this.boundryEnd--;
             // this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllRoles();
+            this.getAllAcademicYears();
         }
         else {
             this.currentPos = 0;
@@ -208,7 +257,7 @@ export class RoleListComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllRoles();
+            this.getAllAcademicYears();
         }
     }
 
@@ -216,7 +265,7 @@ export class RoleListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllRoles();
+        this.getAllAcademicYears();
     }
 
     noPrevPage() {
@@ -250,17 +299,39 @@ export class RoleListComponent implements OnInit {
 
     /* Pagination Function's Ends */
 
-    /* Filtering, Sorting, Search functions Starts*/
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][displayName][like]=' + searchString;
-            this.searchCountQuery = '&[where][displayName][like]=' + searchString;
+            this.searchQuery = '&filter[where][academicYear][like]=' + searchString;
+            this.searchCountQuery = '&[where][academicYear][like]=' + searchString;
         }
         this.getQueryDataCount();
-        //this.getAllSchools();
+        this.getAllAcademicYears();
+    }
+
+    /* Counting Number of records starts*/
+    getQueryDataCount() {
+        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.getDataCount(this.countQuery);
+
+    }
+    getDataCount(url) {
+        this.academicYearService.getAcademicYearCount(url).subscribe((response) => {
+            this.total = response.count;
+            this.pages = Math.ceil(this.total / this.perPage);
+            this.generateCount();
+            this.setDisplayPageNumberRange();
+            this.getAllAcademicYears();
+        },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+
+    getUrl() {
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
 
     sort(column, sortOrder) {
@@ -269,67 +340,6 @@ export class RoleListComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllRoles();
-    }
-
-    /* Counting Number of records starts*/
-    getQueryDataCount() {
-        this.countQuery = '?' + this.searchCountQuery;
-        this.getDataCount(this.countQuery);
-
-    }
-    getDataCount(url) {
-        this.schoolService.getRolesCountBySchoolId(url).subscribe((response) => {
-            this.total = response.count;
-            this.pages = Math.ceil(this.total / this.perPage);
-            this.generateCount();
-            this.setDisplayPageNumberRange();
-            this.getAllRoles();
-        },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            });
-    }
-    getUrl() {
-        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
-    }
-    /* Counting Number of records ends*/
-
-    getAllRoles() {
-        this.getUrl();
-        this.roleList = this.schoolService.getRolesBySchoolId(this.url);
-        this.roleList.subscribe((response) => {
-            this.longList = response.length > 0 ? true : false;
-        },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            });
-    }
-
-    onEditClick(role: Role) {
-        this.router.navigate(['/features/roles/edit', role.id]);
-    }
-
-    onDelete(role: Role) {
-        this.confirmationService.confirm({
-            message: 'Do you want to delete this record?',
-            header: 'Delete Confirmation',
-            icon: 'fa fa-trash',
-            accept: () => {
-                this.roleService.deleteRole(role.id).subscribe(
-                    results => {
-                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                            this.currentPageNumber--;
-                        }
-                        this.getQueryDataCount();
-                    },
-                    error => {
-                        this.globalErrorHandler.handleError(error);
-                    })
-            },
-            reject: () => {
-            }
-        });
+        this.getAllAcademicYears();
     }
 }

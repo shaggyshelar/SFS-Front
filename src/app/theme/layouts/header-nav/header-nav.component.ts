@@ -9,9 +9,10 @@ declare let mLayout: any;
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderNavComponent implements OnInit, AfterViewInit {
+
   schoolHeader : string;
   logoUrl : string;
-
+  userRole: string;
   constructor(private imageUploadService: ImageUploadService) {
     
     
@@ -22,11 +23,18 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     // }else{
     //   this.logoUrl = "./assets/img/phiLogo.png";
     // }
+    this.userRole = '';
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
+        this.userRole = currentUser.roles[0].name;
+
+    }
     this.logoUrl = "./assets/img/phiLogo.png";
     if (localStorage.getItem("schoolHeader") != null) {
       this.schoolHeader = localStorage.getItem("schoolHeader");
     }else{
       this.schoolHeader = "School Fee System";
+
     }
   }
   ngAfterViewInit() {

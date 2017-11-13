@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Boards } from "../../../../_models/index";
@@ -9,9 +10,9 @@ import { ScriptLoaderService } from '../../../../../../../_services/script-loade
 import { BoardService } from '../../../../_services/index';
 
 @Component({
-  selector: "app-board-list",
-  templateUrl: "./board-list.component.html",
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-board-list",
+    templateUrl: "./board-list.component.html",
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class BoardListComponent implements OnInit {
@@ -48,6 +49,7 @@ export class BoardListComponent implements OnInit {
     constructor(private router: Router,
         private messageService: MessageService,
         private boardService: BoardService,
+        private confirmationService: ConfirmationService,
         private globalErrorHandler: GlobalErrorHandler,
         private _script: ScriptLoaderService) {
     }
@@ -94,7 +96,7 @@ export class BoardListComponent implements OnInit {
     getAllBoards() {
         this.getUrl();
 
-        this.boardList = this.boardService.getAllBoards();
+        this.boardList = this.boardService.getAllBoardList(this.url);
 
         this.boardList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
@@ -107,14 +109,26 @@ export class BoardListComponent implements OnInit {
         this.router.navigate(['/features/board/edit', board.id]);
     }
     onBoardDeleteClick(board: Boards) {
-        this.boardService.deleteBoard(board.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllBoards();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.boardService.deleteBoard(board.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddBoard() {
         this.router.navigate(['/features/board/add']);

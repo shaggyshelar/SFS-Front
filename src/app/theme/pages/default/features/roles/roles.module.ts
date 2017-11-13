@@ -17,6 +17,8 @@ import {
   ButtonModule,
   AutoCompleteModule,
   DropdownModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -70,6 +72,7 @@ const routes: Routes = [
     ButtonModule,
     AutoCompleteModule,
     DropdownModule,
+    ConfirmDialogModule
   ],
   declarations: [
     RolesComponent,
@@ -80,7 +83,8 @@ const routes: Routes = [
     RoleService,
     FeatureService,
     PermissionService,
-    SchoolService
+    SchoolService,
+    ConfirmationService
   ],
 })
 export class RolesModule {
