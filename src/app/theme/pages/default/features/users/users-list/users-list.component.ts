@@ -328,7 +328,7 @@ export class UsersListComponent implements OnInit {
                 });
         }
         else{
-            url="?filter[where][roleId]=2";
+            url="?where[roleId]=2";
             this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);
