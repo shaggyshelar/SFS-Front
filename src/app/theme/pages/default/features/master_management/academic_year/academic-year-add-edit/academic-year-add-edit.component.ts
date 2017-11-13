@@ -11,18 +11,21 @@ import { AcademicYearService } from '../../../../_services/index';
 import { Boards } from "../../../../_models/Boards";
 
 @Component({
-  selector: "app-academic-year-add-edit",
-  templateUrl: "./academic-year-add-edit.component.html",
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-academic-year-add-edit",
+    templateUrl: "./academic-year-add-edit.component.html",
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class AcademicYearAddEditComponent implements OnInit {
- params: number;
- academicYearForm: FormGroup;
- startDate: any;
- endDate: any;
+    params: number;
+    academicYearForm: FormGroup;
+    startDate: any;
+    endDate: any;
+    startAcademicYear: any;
+    endAcademicYear: any;
+    minStartDate: any;
 
-     constructor(
+    constructor(
         private formBuilder: FormBuilder,
         private academicYearService: AcademicYearService,
         private route: ActivatedRoute,
@@ -31,39 +34,48 @@ export class AcademicYearAddEditComponent implements OnInit {
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService) {
     }
-  ngOnInit() {
+    ngOnInit() {
+        this.startAcademicYear = '';
+        this.endAcademicYear = '';
+        this.minStartDate = new Date();
         this.academicYearForm = this.formBuilder.group({
             id: [],
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
-            academicYear: [''],
         });
 
-    this.route.params.forEach((params: Params) => {
+        this.route.params.forEach((params: Params) => {
             this.params = params['id'];
             if (this.params) {
                 this.academicYearService.getAcademicYearById(this.params)
                     .subscribe((results: any) => {
                         this.academicYearForm.setValue({
                             id: results.id,
-                            startDate: results.startDate,
-                            endDate: results.endDate,
-                            academicYear: results.academicYear
-                        });  
+                            startDate: new Date(results.startDate),
+                            endDate: new Date(results.endDate),
+                        });
+                        if (results.academicYear) {
+                            let academicYear = results.academicYear.split("-");
+                            this.startAcademicYear = academicYear[0];
+                            this.endAcademicYear = academicYear[1] ? academicYear[1] : '';
+                        }
                     }, error => {
                         this.globalErrorHandler.handleError(error);
                     })
             }
         });
-  }
-
-    ngAfterViewInit() {
-        this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-            'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
-
     }
- onSubmit({ value, valid }: { value: any, valid: boolean }) {
-        if (this.params) {   
+
+    onSubmit({ value, valid }: { value: any, valid: boolean }) {
+        if (this.params) {
+            value.schoolId = localStorage.getItem('schoolId');
+            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
+            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
+            if (this.endAcademicYear != '') {
+                value.academicYear = this.startAcademicYear + ' - ' + this.endAcademicYear;
+            } else {
+                value.academicYear = this.startAcademicYear;
+            }
             this.academicYearService.updateAcademicYear(value)
                 .subscribe(
                 results => {
@@ -74,8 +86,14 @@ export class AcademicYearAddEditComponent implements OnInit {
                     this.globalErrorHandler.handleError(error);
                 });
         } else {
-            console.log('this.startDate', this.startDate);
-            console.log('this.endDate', this.endDate);
+            value.schoolId = localStorage.getItem('schoolId');
+            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
+            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
+            if (this.endAcademicYear != '') {
+                value.academicYear = this.startAcademicYear + ' - ' + this.endAcademicYear;
+            } else {
+                value.academicYear = this.startAcademicYear;
+            }
             this.academicYearService.createAcademicYear(value)
                 .subscribe(
                 results => {
@@ -89,14 +107,19 @@ export class AcademicYearAddEditComponent implements OnInit {
     }
 
     onCancel() {
-       this.router.navigate(['/features/academicYear/list']);
+        this.router.navigate(['/features/academicYear/list']);
     }
 
-    setStartDate(date){
-        this.academicYearForm.controls['startDate'].setValue(date);
+    setStartDate(value) {
+        if (value) {
+            this.startAcademicYear = value.getFullYear();
+        }
     }
-    setEndDate(date){
-        this.academicYearForm.controls['endDate'].setValue(date);
+    setEndDate(value) {
+        if (value) {
+            let endDate = value.getFullYear();
+            if (this.startAcademicYear != endDate)
+                this.endAcademicYear = endDate.toString().substring(2, 4);
+        }
     }
- 
 }

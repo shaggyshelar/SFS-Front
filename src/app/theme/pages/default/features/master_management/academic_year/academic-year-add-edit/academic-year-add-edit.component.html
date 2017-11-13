@@ -54,18 +54,20 @@
                         <label class="col-2 col-form-label" for="example-text-input">
                             Start/End Date
                         </label>
-                        <div class="col-2">
-                            <input type="text" class="form-control" id="m_datepicker_1" formControlName="startDate" name="startDate" data-date-format="DD, MM d" data-date-start-date="0d" data-date-auto-close="true"
-                                    readonly #datePicker1 placeholder="Start Date" (blur)="setStartDate(datePicker1.value)">
+                        <div class="col-2">                         
+                            <p-calendar [style]="{'width':'100%'}" formControlName="startDate" name="startDate" [minDate]="minStartDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"  readonlyInput="true" (onSelect) ="setStartDate($event)" ></p-calendar>
                             <div class="alertMsg" *ngIf="academicYearForm.get('startDate').hasError('required') && academicYearForm.get('startDate').touched">
                                 Please enter start Date
                             </div>
                         </div>
-                        <div class="col-2">
-                             <input type="text" class="form-control" id="m_datepicker_1" formControlName="endDate" name="endDate"
-                                    readonly #datePicker2 placeholder="End Date" (blur)="setEndDate(datePicker2.value)">
-                            <div class="alertMsg" *ngIf="academicYearForm.get('endDate').hasError('required') && academicYearForm.get('endDate').touched">
-                                Please enter end Date
+                       
+                         <div class="col-2" *ngIf="academicYearForm.get('startDate').value == ''">   
+                            <p-calendar [style]="{'width':'100%'}" name="endDate"  readonlyInput="true" disabled= 'true'></p-calendar>                          
+                        </div> 
+                            <div class="col-2"  *ngIf="academicYearForm.get('startDate').value != ''">                            
+                                <p-calendar [style]="{'width':'100%'}" formControlName="endDate" name="endDate"  readonlyInput="true" [minDate]="academicYearForm.get('startDate').value"  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" (onSelect) ="setEndDate($event)"></p-calendar>
+                                <div class="alertMsg" *ngIf="academicYearForm.get('endDate').hasError('required') && academicYearForm.get('endDate').touched">
+                                    Please enter end Date
                             </div>
                         </div>
                     </div>
@@ -74,9 +76,11 @@
                         <label class="col-2 col-form-label" for="example-text-input">
                             Academic Year
                         </label>
-                        <div class="col-6">
-                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">2016-2017</label>
-                        </div>
+                         <div class="col-6">
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{startAcademicYear}}</label>
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;" *ngIf="endAcademicYear != ''"> - </label>
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{endAcademicYear}}</label>
+                        </div> 
                     </div>  
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

@@ -111,8 +111,8 @@
 						</thead>
 						<tbody *ngIf="longList">
 							<tr *ngFor='let row of academicYearList | async'>
-								<td>{{row.startDate}}</td>
-								<td>{{row.endDate}}</td>
+								<td>{{row.startDate | date: 'MM/dd/yyyy'}}</td>
+								<td>{{row.endDate | date: 'MM/dd/yyyy' }}</td>
 								<td>{{row.academicYear}}</td>
 								<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>								
 								<td>

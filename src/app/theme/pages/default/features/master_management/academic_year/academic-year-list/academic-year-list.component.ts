@@ -9,9 +9,9 @@ import { ScriptLoaderService } from '../../../../../../../_services/script-loade
 import { AcademicYearService } from '../../../../_services/index';
 
 @Component({
-  selector: "app-academic-year-list",
-  templateUrl: "./academic-year-list.component.html",
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-academic-year-list",
+    templateUrl: "./academic-year-list.component.html",
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class AcademicYearListComponent implements OnInit {
@@ -68,7 +68,7 @@ export class AcademicYearListComponent implements OnInit {
         this.perPage = 5;
         this.currentPos = 0;
         this.url = '';
-        this.sortUrl = '&filter[order]=id ASC';
+        this.sortUrl = '&filter[order]=createdOn DESC';
         this.ascSortCol1 = true;
         this.ascSortCol2 = true;
         this.ascSortCol3 = true;
@@ -86,7 +86,7 @@ export class AcademicYearListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
+        debugger;
         this.getAllAcademicYears();
         this.getDataCount('');
     }
@@ -94,7 +94,7 @@ export class AcademicYearListComponent implements OnInit {
     getAllAcademicYears() {
         this.getUrl();
 
-        this.academicYearList = this.academicYearService.getAllAcademicYears();
+        this.academicYearList = this.academicYearService.getAllAcademicYearList(this.url);
 
         this.academicYearList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
@@ -290,8 +290,8 @@ export class AcademicYearListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][startDate][like]=' + searchString;
-            this.searchCountQuery = '&[where][startDate][like]=' + searchString;
+            this.searchQuery = '&filter[where][academicYear][like]=' + searchString;
+            this.searchCountQuery = '&[where][academicYear][like]=' + searchString;
         }
         this.getQueryDataCount();
         this.getAllAcademicYears();
