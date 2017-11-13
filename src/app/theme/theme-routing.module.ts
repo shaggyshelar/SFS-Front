@@ -97,7 +97,11 @@ const routes: Routes = [
       {
         "path": "features\/board",
         "loadChildren": ".\/pages\/default\/features\/master_management\/board\/board.module#BoardModule"
-      },    
+      },
+      {
+        "path": "features\/academicYear",
+        "loadChildren": ".\/pages\/default\/features\/master_management\/academic_year\/academic-year.module#AcademicYearModule"
+      },  
       {
         "path": "",
         "redirectTo": "index",
