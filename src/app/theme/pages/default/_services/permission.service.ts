@@ -23,10 +23,11 @@ export class PermissionService {
         return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
     getMenus() {
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let params: URLSearchParams = new URLSearchParams();
         params.set('filter[include]', "permissions");
         let requestOptions = AppSettings.requestOptions();
         requestOptions.params = params;
-        return this.http.get(AppSettings.API_ENDPOINT + 'menus/', requestOptions).map((response: Response) => response.json());
+        return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + currentUser.roles[0].id + '/roleMenu', requestOptions).map((response: Response) => response.json());
     }
 }
