@@ -57,6 +57,9 @@ export class UserAddEditComponent implements OnInit {
             this.getRolesBySchoolId();
         } else {
             this.roleList = [{
+                id: 1,
+                displayName: 'Super Admin'
+            },{
                 id: 2,
                 displayName: 'School Admin'
             }]
@@ -71,7 +74,7 @@ export class UserAddEditComponent implements OnInit {
                 role: ['', [Validators.required]],
                 schools: this.buildSchools()
             });
-            this.userForm.controls['role'].setValue(2);
+            //this.userForm.controls['role'].setValue(2);
             this.institutesService.getAllInstitutes()
                 .subscribe((results: any) => {
                     this.instituteList = results;
