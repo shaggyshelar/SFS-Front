@@ -24,7 +24,8 @@ export class SchoolAddEditComponent implements OnInit {
     institutes: SelectItem[];
     boards: SelectItem[];
     myLogo: any;
-    success:number;
+    success: number;
+    imageFileName: string;
     @ViewChild('fileupload')
     myInputVariable: any;
 
@@ -34,9 +35,10 @@ export class SchoolAddEditComponent implements OnInit {
     ) {
     }
 
-  
+
 
     ngOnInit() {
+        this.imageFileName = null;
         this.institutes = [];
         let val = this.instituteService.getAllInstitutes();
         this.institutes.push({ label: '--Select--', value: 'select' });
@@ -72,9 +74,9 @@ export class SchoolAddEditComponent implements OnInit {
             schoolAddress: ['', [Validators.required]],
             schoolCity: ['', [Validators.required]],
             schoolState: ['', [Validators.required]],
-            schoolLogo: ['logo.png'],
-            schoolHeader: ['',[Validators.required]],
-            createdOn : [''],
+            schoolLogo: [],
+            schoolHeader: ['', [Validators.required]],
+            createdOn: [''],
             createdBy: ['']
         });
 
@@ -100,6 +102,7 @@ export class SchoolAddEditComponent implements OnInit {
                             createdBy: results.createdBy,
                             createdOn: results.createdOn,
                         });
+                        this.imageFileName = results.schoolLogo;
                     },
                     error => {
                         this.globalErrorHandler.handleError(error);
@@ -137,17 +140,28 @@ export class SchoolAddEditComponent implements OnInit {
     onUploadLogo(fileInput: any) {
         var rec = this;
         var fr = new FileReader;
-        
+
         fr.readAsDataURL(fileInput[0]);
+        debugger;
+        
+        let ext = fileInput[0].name.split('.')[1];
+        if (ext != 'jpeg' && ext != 'jpg' && ext != 'png') {
+            this.messageService.addMessage({ severity: 'fail', summary: 'Fail', detail: 'Wrong extention' });
+            this.myInputVariable.nativeElement.value = "";
+            return;
+        }
+        rec.imageFileName = fileInput[0].name;
         var img = new Image;
         var success = 0;
         fr.onload = function () {
             success = 1;
             img.onload = function () {
                 if (img.height <= 50 && img.width <= 160) {
+                    //
                     success = 1;
                 }
                 else {
+                    rec.imageFileName = null;
                     success = 0;
                     rec.messageService.addMessage({ severity: 'fail', summary: 'Fail', detail: 'Image Resolution not should be greater than 160 * 50 px ' });
                     rec.myInputVariable.nativeElement.value = "";
