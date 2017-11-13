@@ -17,12 +17,12 @@ export class InstituteAddEditComponent implements OnInit {
     errorMessage: any;
     params: number;
     instituteForm: FormGroup;
-    success:number;
-
+    success: number;
+    isFormSubmited = false;
     constructor(
         private formBuilder: FormBuilder, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler,
-        private instituteService: InstitutesService, 
+        private instituteService: InstitutesService,
     ) {
     }
 
@@ -59,7 +59,11 @@ export class InstituteAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, valid }: { value: Institutes, valid: boolean }) {
+    onSubmit({ value, invalid }: { value: Institutes, invalid: boolean }) {
+        this.isFormSubmited=true;
+        if (invalid) {
+            return false;
+        }
         debugger;
         if (this.params) {
             this.instituteService.updateInstitute(value)
