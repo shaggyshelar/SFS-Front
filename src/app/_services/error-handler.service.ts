@@ -19,6 +19,8 @@ export class GlobalErrorHandler implements ErrorHandler {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('instituteId');
         localStorage.removeItem('schoolId');
+        localStorage.removeItem('schoolLogo' );
+        localStorage.removeItem('schoolHeader');
         this._router.navigate(['/login']);
       } else {
         errMsg = error.message;

@@ -6,8 +6,10 @@ import { GlobalErrorHandler } from '../../../../../../_services/error-handler.se
 import { MessageService } from '../../../../../../_services/message.service';
 
 import { StudentService } from '../../../_services/student.service';
+import { ClassService } from '../../../_services/class.service';
 import { CommonService } from '../../../_services/common.service';
 import { Student } from "../../../_models/student";
+import { ViewChild } from '@angular/core';
 
 @Component({
     selector: "app-student-list",
@@ -57,10 +59,14 @@ export class StudentListComponent implements OnInit {
 
     classList: any;
     categoryList: any;
+    @ViewChild('fileupload')
+    myInputVariable: any;
 
     myFile: any;
     constructor(private router: Router, private studentService: StudentService,
-        private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService) {
+        private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService,
+        private classService: ClassService
+    ) {
     }
 
     ngOnInit() {
@@ -120,7 +126,7 @@ export class StudentListComponent implements OnInit {
 
         //List of Classes
         this.filterCol1 = [];
-        let val = this.commonService.getClass();
+        let val = this.classService.getAllClasses();
         this.filterCol1.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
@@ -408,20 +414,27 @@ export class StudentListComponent implements OnInit {
     onAddStudent(fileInput: any) {
         let fd = new FormData();
         fd.append('csvdata', fileInput[0]);
-        this.studentService.addStudents(fd).subscribe((response) => {
-            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Successfully Uploaded Students : ' + response.SavedStudents + ' <br/> Students Failed to Upload : ' + response.FailedStudents });
-            this.currentPos = 0;
-            this.currentPageNumber = 1;
-            this.boundryStart = 1;
-            this.boundryEnd = this.boundry;
-            this.generateCount();
-            this.setDisplayPageNumberRange();
-            this.getAllStudents();
-        },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            }
-        );
+        let ext = fileInput[0].name.split('.')[1];
+        if (ext != 'csv') {
+            this.messageService.addMessage({ severity: 'fail', summary: 'Failed', detail: 'CSV Files Only' });
+            this.myInputVariable.nativeElement.value = "";
+            return;
+        } else {
+            this.studentService.addStudents(fd).subscribe((response) => {
+                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Successfully Uploaded Students : ' + response.SavedStudents + ' <br/> Students Failed to Upload : ' + response.FailedStudents });
+                this.currentPos = 0;
+                this.currentPageNumber = 1;
+                this.boundryStart = 1;
+                this.boundryEnd = this.boundry;
+                this.generateCount();
+                this.setDisplayPageNumberRange();
+                this.getAllStudents();
+            },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                }
+            );
+        }
     }
 
     onEditStudentClick(student: Student) {

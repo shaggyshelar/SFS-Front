@@ -7,6 +7,7 @@ import { GlobalErrorHandler } from '../../../../../../_services/error-handler.se
 import { MessageService } from '../../../../../../_services/message.service';
 
 import { SchoolService } from '../../../_services/school.service';
+import { ImageUploadService } from '../../../_services/imageUpload.service';
 import { InstitutesService } from '../../../_services/institute.service';
 import { BoardService } from '../../../_services/board.service';
 import { School } from "../../../_models/School";
@@ -28,10 +29,11 @@ export class SchoolAddEditComponent implements OnInit {
     imageFileName: string;
     @ViewChild('fileupload')
     myInputVariable: any;
+    fileInput : any;
 
     constructor(
         private formBuilder: FormBuilder, private schoolService: SchoolService, private messageService: MessageService,
-        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private instituteService: InstitutesService, private boardService: BoardService
+        private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private instituteService: InstitutesService, private boardService: BoardService, private imageUploadService: ImageUploadService
     ) {
     }
 
@@ -41,7 +43,7 @@ export class SchoolAddEditComponent implements OnInit {
         this.imageFileName = null;
         this.institutes = [];
         let val = this.instituteService.getAllInstitutes();
-        this.institutes.push({ label: '--Select--', value: 'select' });
+        //this.institutes.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -53,7 +55,7 @@ export class SchoolAddEditComponent implements OnInit {
 
         this.boards = [];
         val = this.boardService.getAllBoards();
-        this.boards.push({ label: '--Select--', value: 'select' });
+        //this.boards.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 
             for (let key in response) {
@@ -127,7 +129,32 @@ export class SchoolAddEditComponent implements OnInit {
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-                    this.router.navigate(['/features/school/list']);
+
+                    debugger;
+                    var obj = { "name": results.id.toString() };
+                    //obj["name"] = results.id;
+                    this.imageUploadService.createFolder(JSON.stringify(obj)).subscribe(
+                        response => {
+                            console.log(response);
+                            let fd = new FormData();
+                            fd.append('image', this.fileInput[0]);
+
+                            this.imageUploadService.uploadImage(results.id, fd).subscribe(
+                                imageResponse => {
+                                    this.router.navigate(['/features/school/list']);
+                                },
+                                error => {
+                                    this.globalErrorHandler.handleError(error);
+                                }
+                            );
+
+
+                        },
+                        error => {
+                            this.globalErrorHandler.handleError(error);
+                        }
+                    );
+                    debugger;
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
@@ -143,7 +170,7 @@ export class SchoolAddEditComponent implements OnInit {
 
         fr.readAsDataURL(fileInput[0]);
         debugger;
-        
+        this.fileInput = fileInput;
         let ext = fileInput[0].name.split('.')[1];
         if (ext != 'jpeg' && ext != 'jpg' && ext != 'png') {
             this.messageService.addMessage({ severity: 'fail', summary: 'Fail', detail: 'Wrong extention' });
@@ -159,10 +186,12 @@ export class SchoolAddEditComponent implements OnInit {
                 if (img.height <= 50 && img.width <= 160) {
                     //
                     success = 1;
+                    
                 }
                 else {
                     rec.imageFileName = null;
                     success = 0;
+                    rec.fileInput = null;
                     rec.messageService.addMessage({ severity: 'fail', summary: 'Fail', detail: 'Image Resolution not should be greater than 160 * 50 px ' });
                     rec.myInputVariable.nativeElement.value = "";
                 }

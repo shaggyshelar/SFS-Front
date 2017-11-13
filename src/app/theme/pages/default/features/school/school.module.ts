@@ -8,6 +8,7 @@ import { LayoutModule } from '../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { SchoolService } from '../../_services/index';
 import { InstitutesService } from '../../_services/institute.service';
+import { ImageUploadService } from '../../_services/imageUpload.service';
 import { BoardService } from '../../_services/board.service';
 import { SchoolComponent } from './school.component';
 import { SchoolListComponent } from './school-list/school-list.component';
@@ -79,7 +80,8 @@ const routes: Routes = [
   providers: [
     SchoolService,
     InstitutesService,
-    BoardService
+    BoardService,
+    ImageUploadService
   ]
 })
 export class SchoolModule {
