@@ -28,7 +28,7 @@ export class InstitutesService {
   }
 
   updateInstitute(institute: Institutes) {
-    return this.http.patch(AppSettings.API_ENDPOINT +'Institutes', institute, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'Institutes/' + institute.id, institute, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteInstitute(id: number) {
