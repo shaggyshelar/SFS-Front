@@ -24,7 +24,7 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__section" *ngIf = "userRole=='SuperAdmin'">
+			<li class="m-menu__section" *ngIf="userRole=='SuperAdmin'">
 				<h4 class="m-menu__section-text">
 					Admin
 				</h4>
@@ -91,7 +91,8 @@
 					</ul>
 				</div>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['User.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['User.Read']">
 				<a routerLink="/features/users/list" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-users"></i>
 					<span class="m-menu__link-title">
@@ -103,7 +104,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['Report.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Report.Read']">
 				<a routerLink="/features/reports" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-line-graph"></i>
 					<span class="m-menu__link-title">
@@ -157,13 +159,14 @@
 					</span>
 				</a>
 			</li> -->
-			<li class="m-menu__section" *ngIf = "userRole =='SchoolAdmin'">
+			<li class="m-menu__section" *ngIf="userRole =='SchoolAdmin'">
 				<h4 class="m-menu__section-text">
 					School Admin
 				</h4>
 				<i class="m-menu__section-icon flaticon-more-v3"></i>
 			</li>
-			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['ProcessFee.Read']">
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['ProcessFee.Read']">
 				<a routerLink="/features/feeProcessing" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-share"></i>
 					<span class="m-menu__link-title">
@@ -175,7 +178,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['Role.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Role.Read']">
 				<a routerLink="/features/roles/list" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-users"></i>
 					<span class="m-menu__link-title">
@@ -187,7 +191,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['user.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['user.Read']">
 				<a routerLink="/features/users/list" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-users"></i>
 					<span class="m-menu__link-title">
@@ -268,7 +273,7 @@
 							</a>
 						</li>
 						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Class.Read']">
-							<a routerLink="/features/masterManagement/class" class="m-menu__link">
+							<a routerLink="/features/class/list" class="m-menu__link">
 								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 									<span></span>
 								</i>
@@ -281,6 +286,21 @@
 								</span>
 							</a>
 						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Class.Read']">
+							<a routerLink="/features/division/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Division
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+
 					</ul>
 				</div>
 			</li>
@@ -341,7 +361,8 @@
 					</ul>
 				</div>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['Student.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Student.Read']">
 				<a routerLink="/features/student/list" class="m-menu__link">
 					<i class="m-menu__link-icon	la 	la-gears"></i>
 					<span class="m-menu__link-title">
@@ -353,7 +374,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['Report.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Report.Read']">
 				<a routerLink="/features/reports" class="m-menu__link">
 					<i class="m-menu__link-icon la la-archive"></i>
 					<span class="m-menu__link-title">
@@ -365,7 +387,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true" [isAuthorize]="['Feature.Read']">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Feature.Read']">
 				<a routerLink="/features/featureList" class="m-menu__link">
 					<i class="m-menu__link-icon la la-archive"></i>
 					<span class="m-menu__link-title">
