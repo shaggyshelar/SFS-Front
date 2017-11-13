@@ -2,7 +2,7 @@
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
-				Institute Management
+				Frequency Management
 			</h3>
 			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
 				<li class="m-nav__item m-nav__item--home">
@@ -49,7 +49,7 @@
 		</div>
 
 		<!--begin::Form-->
-		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(frequencyForm)"
+		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(frequencyForm,frequencyForm.invalid)"
 		 [formGroup]="frequencyForm">
 			<div class="m-portlet__body formPortletBody">
 				<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -60,18 +60,18 @@
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="frequencyName" name="frequencyName" id="frequencyName" maxlength="100" placeholder="Frequency Name">
-						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && frequencyForm.get('frequencyName').touched">
+						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && (frequencyForm.get('frequencyName').touched || isFormSubmited)">
 							Please enter Frequency Name
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-7 col-form-label">
-						Frequency Description
+						Frequency Value
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="number" formControlName="frequencyValue" name="frequencyValue" id="frequencyValue"  maxlength="5" placeholder="Frequency Value">
-						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && frequencyForm.get('frequencyValue').touched">
+						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && (frequencyForm.get('frequencyValue').touched || isFormSubmited)">
 							Please enter Frequency Value
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit"  [disabled]="frequencyForm.invalid" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
 								Save
 							</button>
 							<button type="reset" class="btn btn-secondary" (click)="onCancel()">

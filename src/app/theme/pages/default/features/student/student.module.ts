@@ -16,6 +16,7 @@ import {
   SharedModule,
   ButtonModule,
   DropdownModule,
+  CalendarModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
+    CalendarModule
   ],
   declarations: [
     StudentComponent,

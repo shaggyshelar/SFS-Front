@@ -28,7 +28,7 @@ export class FrequencyService {
   }
 
   updateFrequency(Frequency: Frequencies) {
-    return this.http.patch(AppSettings.API_ENDPOINT +'Frequencies', Frequency, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'Frequencies/' + Frequency.id, Frequency, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteFrequency(id: number) {

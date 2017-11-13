@@ -152,8 +152,8 @@
 								<td>{{row.StudentCategory.categoryCode}}</td>
 								<td>{{row.StudentClass.className}}</td>
 								<td>{{row.StudentDivision.divisionName}}</td>
-								<td>{{row.studentDateOfBirth | date:'yyyy-mm-dd'}}</td>
-								<td>{{row.dateOfJoining | date:'yyyy-mm-dd'}}</td>
+								<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
+								<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
 								<td>
 									<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 									 title="Edit" [isAuthorize]="['Student.Update']">

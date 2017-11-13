@@ -17,12 +17,12 @@ export class FrequenciesAddEditComponent implements OnInit {
     errorMessage: any;
     params: number;
     frequencyForm: FormGroup;
-    success:number;
-
+    success: number;
+    isFormSubmited = false;
     constructor(
         private formBuilder: FormBuilder, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler,
-        private frequencyService: FrequencyService, 
+        private frequencyService: FrequencyService,
     ) {
     }
 
@@ -53,8 +53,11 @@ export class FrequenciesAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, valid }: { value: Frequencies, valid: boolean }) {
-        debugger;
+    onSubmit({ value, invalid }: { value: Frequencies, invalid: boolean }) {
+        this.isFormSubmited=true;
+        if (invalid) {
+            return false;
+        }
         if (this.params) {
             this.frequencyService.updateFrequency(value)
                 .subscribe(
