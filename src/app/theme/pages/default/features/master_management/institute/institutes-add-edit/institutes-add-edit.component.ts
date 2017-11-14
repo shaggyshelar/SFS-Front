@@ -59,14 +59,14 @@ export class InstituteAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, invalid }: { value: Institutes, invalid: boolean }) {
+    onSubmit(_institute, invalid) {
         this.isFormSubmited=true;
         if (invalid) {
             return false;
         }
         debugger;
         if (this.params) {
-            this.instituteService.updateInstitute(value)
+            this.instituteService.updateInstitute(_institute._value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
@@ -78,7 +78,7 @@ export class InstituteAddEditComponent implements OnInit {
         } else {
             // value.createdBy = "1";
             // value.createdOn = "08-11-2017";
-            this.instituteService.createInstitute(value)
+            this.instituteService.createInstitute(_institute._value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
