@@ -12,7 +12,7 @@ export class StudentService {
   addStudents(file){
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
-    return this.http.post(AppSettings.API_ENDPOINT +'uploadcsv/' ,file, reqObj).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT +'uploadcsv/',file, reqObj).map((response: Response) => response.json());
   }
   getStudentCount(url) {   
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Students/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
@@ -36,6 +36,6 @@ export class StudentService {
   }
 
   deleteStudent(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'students/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Students/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

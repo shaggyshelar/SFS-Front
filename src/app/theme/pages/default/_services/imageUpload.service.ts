@@ -12,16 +12,20 @@ export class ImageUploadService {
   createFolder(data) {
     return this.http.post(AppSettings.API_ENDPOINT + 'containers', data, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
-  uploadImage(id,image) {
+  uploadImage(id, image) {
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
-    return this.http.post(AppSettings.API_ENDPOINT + 'containers/' + id + '/upload',image, reqObj).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT + 'containers/' + id + '/upload', image, reqObj).map((response: Response) => response.json());
   }
 
-  getImageUrl(){
+  getImageUrl(value) {
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
-    return AppSettings.API_ENDPOINT + "/containers/"+localStorage.getItem("schoolId")+"/download/"+localStorage.getItem("schoolLogo");
+    if (value == "default") {
+      return AppSettings.API_ENDPOINT + "containers/default/download/logo.png";
+    } else {
+      return AppSettings.API_ENDPOINT + "containers/" + localStorage.getItem("schoolId") + "/download/" + localStorage.getItem("schoolLogo");
+    }
   }
 
 }
