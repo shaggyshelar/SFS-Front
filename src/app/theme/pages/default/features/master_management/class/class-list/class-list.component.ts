@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { ClassService } from '../../../../_services/class.service';
@@ -57,7 +57,9 @@ export class ClassListComponent implements OnInit {
         private messageService: MessageService,
         private globalErrorHandler: GlobalErrorHandler,
         private _script: ScriptLoaderService,
-        private classService: ClassService
+        private classService: ClassService,
+        private confirmationService: ConfirmationService,
+        
     ) {
     }
 
@@ -122,17 +124,26 @@ export class ClassListComponent implements OnInit {
         this.router.navigate(['/features/class/edit', schoolClass.id]);
     }
     onClassDeleteClick(schoolClass: SchoolClass) {
-        this.classService.deleteClass(schoolClass.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                    this.currentPageNumber--;
-                }
-                this.getQueryDataCount();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.classService.deleteClass(schoolClass.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddClass() {
         this.router.navigate(['/features/class/add']);

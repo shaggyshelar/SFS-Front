@@ -34,7 +34,7 @@ export class SchoolService {
   }
 
   deleteSchool(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'schools/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'schools/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getSchoolsByInstitute(id) {
