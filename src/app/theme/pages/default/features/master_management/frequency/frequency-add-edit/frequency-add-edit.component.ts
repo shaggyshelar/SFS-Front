@@ -53,13 +53,13 @@ export class FrequenciesAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit({ value, invalid }: { value: Frequencies, invalid: boolean }) {
+    onSubmit(_frequency, invalid) {
         this.isFormSubmited=true;
         if (invalid) {
             return false;
         }
         if (this.params) {
-            this.frequencyService.updateFrequency(value)
+            this.frequencyService.updateFrequency(_frequency._value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
@@ -71,7 +71,7 @@ export class FrequenciesAddEditComponent implements OnInit {
         } else {
             // value.createdBy = "1";
             // value.createdOn = "08-11-2017";
-            this.frequencyService.createFrequency(value)
+            this.frequencyService.createFrequency(_frequency._value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
