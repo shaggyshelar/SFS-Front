@@ -414,6 +414,7 @@ export class StudentListComponent implements OnInit {
     onAddStudent(fileInput: any) {
         let fd = new FormData();
         fd.append('csvdata', fileInput[0]);
+        fd.append('schoolId', localStorage.getItem("schoolId"));
         let ext = fileInput[0].name.split('.')[1];
         if (ext != 'csv') {
             this.messageService.addMessage({ severity: 'fail', summary: 'Failed', detail: 'CSV Files Only' });
