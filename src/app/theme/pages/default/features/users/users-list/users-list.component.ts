@@ -46,6 +46,7 @@ export class UsersListComponent implements OnInit {
     boundryEnd: number;
     searchValue: string; //HTML values
     selectedPageSize: number; //HTML values
+    userRole: string;
     constructor(private userService: UserService,
         private router: Router,
         private schoolService: SchoolService,
@@ -55,6 +56,8 @@ export class UsersListComponent implements OnInit {
     }
 
     ngOnInit() {
+         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+         this.userRole = currentUser.roles && currentUser.roles.length > 0 ? currentUser.roles[0].name : '';
         //Page Size Array
         this.pageSize = [];
         this.pageSize.push({ label: '5', value: 5 });
@@ -357,7 +360,13 @@ export class UsersListComponent implements OnInit {
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+        if (_superAdmin) {
+            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        } else {
+            this.url = '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        }
     }
 
     sort(column, sortOrder) {
