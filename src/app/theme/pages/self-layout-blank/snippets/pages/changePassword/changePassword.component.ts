@@ -21,7 +21,7 @@ export class ChangePasswordComponent implements OnInit {
         private globalErrorHandler: GlobalErrorHandler,
         private router: Router,
         private userService: UserService,
-        private userSchoolDetailsService:UserSchoolDetailsService,
+        private userSchoolDetailsService: UserSchoolDetailsService,
         private messageService: MessageService) {
     }
 
@@ -36,41 +36,43 @@ export class ChangePasswordComponent implements OnInit {
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         this.isConfirmPasswordSame = true;
         if (value.confirmPassword === value.newPassword) {
-        this.loading = true;
-        this.userService.changePassword(value)
-            .subscribe(
-            results => {
-                this.loading = false;
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Password Updated Successfully' });
-                let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
-                if (!_superAdmin) {
-                    this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
-                      .subscribe(
-                      results => {
-                        if (results.length > 1) {
-                          this.router.navigate(['/selectSchool']);
-                        }
-                        else {
-                          localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
-                          localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
-                          this.router.navigate(['/']);
-                        };
-                      },
-                      error => {
-                        this.globalErrorHandler.handleError(error);
-                      });
-                  }
-                  else {
-                    this.router.navigate(['/']);
-                  }
-            },
-            error => {
-                this.loading = false;
-                this.globalErrorHandler.handleError(error);
-                this.isConfirmPasswordSame = true;
-            });
-         } else {
+            this.loading = true;
+            this.userService.changePassword(value)
+                .subscribe(
+                results => {
+                    this.loading = false;
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Password Updated Successfully' });
+                    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+                    if (!_superAdmin) {
+                        this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
+                            .subscribe(
+                            results => {
+                                if (results.length > 1) {
+                                    this.router.navigate(['/selectSchool']);
+                                }
+                                else {
+                                    localStorage.setItem('schoolLogo', results[0].UserschoolSchool.schoolLogo);
+                                    localStorage.setItem('schoolHeader', results[0].UserschoolSchool.schoolHeader);
+                                    localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
+                                    localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
+                                    this.router.navigate(['/']);
+                                };
+                            },
+                            error => {
+                                this.globalErrorHandler.handleError(error);
+                            });
+                    }
+                    else {
+                        this.router.navigate(['/']);
+                    }
+                },
+                error => {
+                    this.loading = false;
+                    this.globalErrorHandler.handleError(error);
+                    this.isConfirmPasswordSame = true;
+                });
+        } else {
             this.isConfirmPasswordSame = false;
         }
     }
@@ -78,6 +80,8 @@ export class ChangePasswordComponent implements OnInit {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('instituteId');
         localStorage.removeItem('schoolId');
+        localStorage.removeItem('schoolLogo' );
+        localStorage.removeItem('schoolHeader');
         this.router.navigate(['/login']);
     }
 }

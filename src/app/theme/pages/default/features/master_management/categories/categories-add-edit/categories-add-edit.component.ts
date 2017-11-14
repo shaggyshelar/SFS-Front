@@ -19,6 +19,7 @@ export class CategoriesAddEditComponent implements OnInit {
   categoriesForm: FormGroup;
   schools: SelectItem[];
   categories: SelectItem[];
+  isFormSubmit = false;
   constructor(
     private formBuilder: FormBuilder, private categorieslService: CategoriesService,
     private route: ActivatedRoute, private router: Router, private messageService: MessageService, private globalErrorHandler: GlobalErrorHandler
@@ -41,7 +42,7 @@ export class CategoriesAddEditComponent implements OnInit {
       id: [],
       categoryName: ['', [Validators.required]],
       categoryDescription: ['', [Validators.required]],
-      categoryCode:['', [Validators.required]]
+      categoryCode: ['', [Validators.required]]
     });
 
     this.route.params.forEach((params: Params) => {
@@ -60,7 +61,11 @@ export class CategoriesAddEditComponent implements OnInit {
     });
   }
 
-  onSubmit({ value, valid }: { value: Categories, valid: boolean }) {
+  onSubmit({ value, invalid }: { value: Categories, invalid: boolean }) {
+    this.isFormSubmit = true;
+    if (invalid) {
+      return false;
+    }
     if (this.params) {
       this.categorieslService.updateCategory(value)
         .subscribe(

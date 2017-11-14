@@ -46,7 +46,7 @@
 					</h3>
 				</div>
 				<div class="col-xl-4">
-					<input type="file" #fileupload [(ngModel)]="myFile" name="file" id="file" class="inputfile" (change)="onAddStudent(fileupload.files)">
+					<input type="file" #fileupload [(ngModel)]="myFile" accept=".csv" name="file" id="file" class="inputfile" (change)="onAddStudent(fileupload.files)">
 					<label for="file" class="fileUploadBtn btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right"
 					 style="line-height: 1.4rem;padding: .75rem 2rem;font-size: 1rem;font-weight: 400!important;font-family: Poppins; text-transform: capitalize;letter-spacing: 0;margin-bottom: 0;">
 						<i style="margin-right: 5px;" class="m-menu__link-icon flaticon-user-add"></i> Add Student</label>
@@ -152,8 +152,8 @@
 								<td>{{row.StudentCategory.categoryCode}}</td>
 								<td>{{row.StudentClass.className}}</td>
 								<td>{{row.StudentDivision.divisionName}}</td>
-								<td>{{row.studentDateOfBirth | date:'yyyy-mm-dd'}}</td>
-								<td>{{row.dateOfJoining | date:'yyyy-mm-dd'}}</td>
+								<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
+								<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
 								<td>
 									<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 									 title="Edit" [isAuthorize]="['Student.Update']">

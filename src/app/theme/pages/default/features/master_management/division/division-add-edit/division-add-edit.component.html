@@ -58,8 +58,8 @@
 						Class Name
 					</label>
 					<div class="col-7">
-						<p-dropdown [options]="classList" [style]="{'width':'100%'}" formControlName="classId" name="classId"></p-dropdown>
-						<div class="alertMsg" *ngIf="divisionForm.get('classId').hasError('classId') && divisionForm.get('classId').touched">
+						<p-dropdown placeholder="Select Class" [options]="classList" [style]="{'width':'100%'}" formControlName="classId" name="classId"></p-dropdown>
+						<div class="alertMsg" *ngIf="divisionForm.get('classId').hasError('required') && divisionForm.get('classId').touched">
 							Please select Class
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="divisionForm.invalid" [isAuthorize]="['Division.Update', 'Division.Create']">
 								Save
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">

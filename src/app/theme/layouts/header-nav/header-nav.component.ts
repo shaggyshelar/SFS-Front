@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../helpers';
+import { ImageUploadService } from '../../pages/default/_services/imageUpload.service';
 
 declare let mLayout: any;
 @Component({
@@ -9,17 +10,35 @@ declare let mLayout: any;
 })
 export class HeaderNavComponent implements OnInit, AfterViewInit {
 
-
-  constructor() {
-
+  schoolHeader : string;
+  logoUrl : string;
+  userRole: string;
+  constructor(private imageUploadService: ImageUploadService) {
+    
+    
   }
   ngOnInit() {
+    // if (localStorage.getItem("schoolLogo") != null) {
+    //   this.logoUrl =  this.imageUploadService.getImageUrl();
+    // }else{
+    //   this.logoUrl = "./assets/img/phiLogo.png";
+    // }
+    this.userRole = '';
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
+        this.userRole = currentUser.roles[0].name;
 
+    }
+    this.logoUrl = "./assets/img/phiLogo.png";
+    if (localStorage.getItem("schoolHeader") != null) {
+      this.schoolHeader = localStorage.getItem("schoolHeader");
+    }else{
+      this.schoolHeader = "School Fee System";
+
+    }
   }
   ngAfterViewInit() {
-
     mLayout.initHeader();
-
   }
 
 }

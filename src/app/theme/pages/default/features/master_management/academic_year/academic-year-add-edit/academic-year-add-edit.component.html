@@ -1,0 +1,103 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Academic Year
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Academic Year
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							{{ params ? 'edit' : 'add' }}
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            {{ params ? 'Edit Academic Year' : 'Add Academic Year' }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--begin::Form-->
+            <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(academicYearForm)" [formGroup]="academicYearForm">
+                <div class="m-portlet__body formPortletBody"> 
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label" for="example-text-input">
+                            Start/End Date
+                        </label>
+                        <div class="col-2">                         
+                            <p-calendar [style]="{'width':'100%'}" formControlName="startDate" name="startDate" [minDate]="minStartDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"  readonlyInput="true" (onSelect) ="setStartDate($event)" ></p-calendar>
+                            <div class="alertMsg" *ngIf="academicYearForm.get('startDate').hasError('required') && academicYearForm.get('startDate').touched">
+                                Please enter start Date
+                            </div>
+                        </div>
+                       
+                         <div class="col-2" *ngIf="academicYearForm.get('startDate').value == ''">   
+                            <p-calendar [style]="{'width':'100%'}" name="endDate"  readonlyInput="true" disabled= 'true'></p-calendar>                          
+                        </div> 
+                            <div class="col-2"  *ngIf="academicYearForm.get('startDate').value != ''">                            
+                                <p-calendar [style]="{'width':'100%'}" formControlName="endDate" name="endDate"  readonlyInput="true" [minDate]="academicYearForm.get('startDate').value"  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" (onSelect) ="setEndDate($event)"></p-calendar>
+                                <div class="alertMsg" *ngIf="academicYearForm.get('endDate').hasError('required') && academicYearForm.get('endDate').touched">
+                                    Please enter end Date
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label" for="example-text-input">
+                            Academic Year
+                        </label>
+                         <div class="col-6">
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{startAcademicYear}}</label>
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;" *ngIf="endAcademicYear != ''"> - </label>
+                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{endAcademicYear}}</label>
+                        </div> 
+                    </div>  
+                </div>
+                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="academicYearForm.invalid" [isAuthorize]="['AcademicYear.Create', 'AcademicYear.Update']">
+                                   {{ params ? 'Update Academic Year' : 'Add Academic Year' }}
+                                </button>
+                                <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--end::Form-->        
+    </div>
+</div>

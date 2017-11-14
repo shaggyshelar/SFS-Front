@@ -15,7 +15,7 @@ export class DivisionService {
   }
 
   getAllDivisions() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes', AppSettings.requestOptions()).map((response: Response) => response.json());
+    //return this.http.get(AppSettings.API_ENDPOINT + 'Institutes', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getDivisionCount(url) {
