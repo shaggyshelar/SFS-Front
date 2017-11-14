@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { StudentService } from '../../../_services/student.service';
 import { ClassService } from '../../../_services/class.service';
 import { CommonService } from '../../../_services/common.service';
@@ -65,7 +65,7 @@ export class StudentListComponent implements OnInit {
     myFile: any;
     constructor(private router: Router, private studentService: StudentService,
         private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService,
-        private classService: ClassService
+        private classService: ClassService,private confirmationService: ConfirmationService,
     ) {
     }
 
@@ -441,15 +441,26 @@ export class StudentListComponent implements OnInit {
         this.router.navigate(['/features/student/edit', student.id]);
     }
     onStudentDeleteClick(student: Student) {
-        this.studentService.deleteStudent(student.id).subscribe(
-            data => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                    this.currentPageNumber--;
-                }
-                this.getQueryDataCount();
-            }, error => {
-                this.globalErrorHandler.handleError(error);
-            });
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.studentService.deleteStudent(student.id).subscribe(
+                    data => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    }, error => {
+                        this.globalErrorHandler.handleError(error);
+                    });
+            },
+            reject: () => {
+            }
+        });
+
+
     }
 }
