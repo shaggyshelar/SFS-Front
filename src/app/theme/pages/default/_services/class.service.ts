@@ -35,7 +35,7 @@ export class ClassService {
   }
 
   deleteClass(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }

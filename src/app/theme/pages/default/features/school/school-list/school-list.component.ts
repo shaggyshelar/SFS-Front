@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 
@@ -36,7 +36,7 @@ export class SchoolListComponent implements OnInit {
     ascSortCol4: boolean;  //Sorting for Column4
     ascSortCol5: boolean;  //Sorting for Column4
     ascSortCol6: boolean;  //Sorting for Column4
-    
+
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
     filterQuery: string;   //Filter1 Api Query 
@@ -65,6 +65,7 @@ export class SchoolListComponent implements OnInit {
         private boardService: BoardService,
         private messageService: MessageService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private _script: ScriptLoaderService) {
     }
 
@@ -149,7 +150,7 @@ export class SchoolListComponent implements OnInit {
         if (this.pages < this.boundry) {
             this.boundry = this.pages;
             this.boundryEnd = this.pages;
-        }else{
+        } else {
             this.boundry = 3;
         }
 
@@ -226,7 +227,7 @@ export class SchoolListComponent implements OnInit {
         }
         //this.boundryEnd = this.pages;
         //this.boundryStart = this.pages - this.boundry + 1;
-        
+
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllSchools();
@@ -368,7 +369,7 @@ export class SchoolListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl ;//+ this.searchQuery;
+        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl;//+ this.searchQuery;
 
     }
     /* Counting Number of records ends*/
@@ -381,9 +382,9 @@ export class SchoolListComponent implements OnInit {
         this.schoolList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         },
-        error => {
-            this.globalErrorHandler.handleError(error);
-        });
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     onAddSchool() {
@@ -394,18 +395,28 @@ export class SchoolListComponent implements OnInit {
         this.router.navigate(['/features/school/edit', school.id]);
     }
     onSchoolDeleteClick(school: School) {
-        this.schoolService.deleteSchool(school.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                    this.currentPageNumber--;
-                }
-                this.getQueryDataCount();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.schoolService.deleteSchool(school.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
 
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    });
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            });
+            reject: () => {
+            }
+        });
+
     }
 
     /*CRUD Operations Ends */
