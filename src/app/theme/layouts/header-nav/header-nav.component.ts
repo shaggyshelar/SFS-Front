@@ -13,6 +13,7 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
   schoolHeader : string;
   logoUrl : string;
   userRole: string;
+  loggedInUser: string;
   constructor(private imageUploadService: ImageUploadService) {
     
     
@@ -25,6 +26,7 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     // }
     this.userRole = '';
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.loggedInUser = currentUser;
     if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
         this.userRole = currentUser.roles[0].name;
 
