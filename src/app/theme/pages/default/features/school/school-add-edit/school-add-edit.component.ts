@@ -185,7 +185,6 @@ export class SchoolAddEditComponent implements OnInit {
         var fr = new FileReader;
 
         fr.readAsDataURL(fileInput[0]);
-        debugger;
         this.fileInput = fileInput;
         let ext = fileInput[0].name.split('.')[1];
         if (ext != 'jpeg' && ext != 'jpg' && ext != 'png') {

@@ -55,7 +55,6 @@ export class ClassAddEditComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: SchoolClass, valid: boolean }) {
-        debugger;
         if (this.params) {
             this.classService.updateClass(value)
                 .subscribe(
