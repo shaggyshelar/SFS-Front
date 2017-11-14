@@ -30,7 +30,6 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
 
     }
     this.logoUrl = "./assets/img/phiLogo.png";
-    debugger;
     if(localStorage.getItem("schoolLogo") != null){
       let logo = localStorage.getItem("schoolLogo");
       if(logo != "" && logo != null){
