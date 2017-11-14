@@ -61,13 +61,13 @@ export class CategoriesAddEditComponent implements OnInit {
     });
   }
 
-  onSubmit({ value, invalid }: { value: Categories, invalid: boolean }) {
+  onSubmit(_category, invalid) {
     this.isFormSubmit = true;
     if (invalid) {
       return false;
     }
     if (this.params) {
-      this.categorieslService.updateCategory(value)
+      this.categorieslService.updateCategory(_category._value)
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
@@ -77,7 +77,7 @@ export class CategoriesAddEditComponent implements OnInit {
           this.globalErrorHandler.handleError(error);
         });
     } else {
-      this.categorieslService.createCategory(value)
+      this.categorieslService.createCategory(_category._value)
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
