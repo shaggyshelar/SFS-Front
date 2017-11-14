@@ -69,7 +69,7 @@ export class UserAddEditComponent implements OnInit {
                 id: [],
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
-                phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+                phone: ['', [Validators.pattern('[7-9]{1}[0-9]{9}')]],
                 institute: ['', [Validators.required]],
                 role: ['', [Validators.required]],
                 schools: this.buildSchools()
@@ -89,7 +89,7 @@ export class UserAddEditComponent implements OnInit {
                 id: [],
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
-                phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+                phone: ['', [Validators.pattern('[7-9]{1}[0-9]{9}')]],
                 role: ['', [Validators.required]],
             });
 
@@ -235,6 +235,7 @@ export class UserAddEditComponent implements OnInit {
     }
 
     onChangeInstitutes(value) {
+        this.selectedSchoolsValidationError = false;
         if (value != 'null') {
             this.schoolService.getSchoolsByInstitute(value)
                 .subscribe((results: any) => {

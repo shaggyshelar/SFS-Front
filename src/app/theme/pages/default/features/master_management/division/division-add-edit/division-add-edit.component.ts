@@ -73,7 +73,6 @@ export class DivisionAddEditComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: Division, valid: boolean }) {
-        debugger;
         if (this.params) {
             this.divisionService.updateDivision(value)
                 .subscribe(

@@ -20,7 +20,6 @@ export class ImageUploadService {
 
   getImageUrl(){
     let reqObj = AppSettings.requestOptions();
-    debugger;
     reqObj.headers["_headers"].delete("content-type");
     return AppSettings.API_ENDPOINT + "/containers/"+localStorage.getItem("schoolId")+"/download/"+localStorage.getItem("schoolLogo");
   }

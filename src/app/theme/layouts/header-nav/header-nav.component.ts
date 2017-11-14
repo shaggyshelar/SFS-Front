@@ -13,10 +13,8 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
   schoolHeader : string;
   logoUrl : string;
   userRole: string;
-  loggedInUser: string;
+  loggedInUser: any;
   constructor(private imageUploadService: ImageUploadService) {
-    
-    
   }
   ngOnInit() {
     // if (localStorage.getItem("schoolLogo") != null) {

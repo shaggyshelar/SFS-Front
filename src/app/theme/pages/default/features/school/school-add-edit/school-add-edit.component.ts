@@ -130,7 +130,6 @@ export class SchoolAddEditComponent implements OnInit {
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
 
-                    debugger;
                     var obj = { "name": results.id.toString() };
                     //obj["name"] = results.id;
                     this.imageUploadService.createFolder(JSON.stringify(obj)).subscribe(
@@ -154,7 +153,6 @@ export class SchoolAddEditComponent implements OnInit {
                             this.globalErrorHandler.handleError(error);
                         }
                     );
-                    debugger;
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
@@ -169,7 +167,6 @@ export class SchoolAddEditComponent implements OnInit {
         var fr = new FileReader;
 
         fr.readAsDataURL(fileInput[0]);
-        debugger;
         this.fileInput = fileInput;
         let ext = fileInput[0].name.split('.')[1];
         if (ext != 'jpeg' && ext != 'jpg' && ext != 'png') {
