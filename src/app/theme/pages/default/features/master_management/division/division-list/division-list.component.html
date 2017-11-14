@@ -2,7 +2,7 @@
 	<p-footer>
 		<button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
 			<span>
-				<i class="fa fa-check"></i>
+				<i class="la la-check"></i>
 				<span>
 					Yes
 				</span>
@@ -10,7 +10,7 @@
 		</button>
 		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
 			<span>
-				<i class="fa fa-close"></i>
+				<i class="la la-close"></i>
 				<span>
 					No
 				</span>
@@ -122,11 +122,11 @@
 					<table class="staticTable" id="" width="100%">
 						<thead>
 							<tr>
-								<th title="">
+								<!-- <th title="">
 									<a href="#" (click)="sort('id',ascSortCol1 = !ascSortCol1)">
 										Id
 									</a>
-								</th>
+								</th> -->
 								<th title="">
 									<a href="#" (click)="sort('classId',ascSortCol2 = !ascSortCol2)">
 										Class Name
@@ -154,9 +154,9 @@
 						</thead>
 						<tbody *ngIf="longList">
 							<tr *ngFor='let row of divisionList | async'>
-								<td>
+								<!-- <td>
 									{{row.id}}
-								</td>
+								</td> -->
 								<td>
 									{{row.classId}}
 								</td>
