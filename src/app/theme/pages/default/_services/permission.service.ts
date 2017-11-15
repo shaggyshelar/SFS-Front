@@ -1,11 +1,14 @@
-import { Injectable } from "@angular/core";
-import { Headers, Http, RequestOptions, Response, URLSearchParams  } from "@angular/http";
-
+import { Injectable, EventEmitter } from "@angular/core";
+import { Headers, Http, RequestOptions, Response, URLSearchParams } from "@angular/http";
+import { Observable } from 'rxjs/Rx';
 import { User, Role } from "../_models/index";
 import { AppSettings } from '../../../../app-settings';
 
 @Injectable()
 export class PermissionService {
+    list1Event: EventEmitter<any> = new EventEmitter();
+    permissionsList: Observable<any[]>;
+    isRequestSent: boolean;
     constructor(private http: Http) {
     }
 
@@ -13,6 +16,16 @@ export class PermissionService {
         return this.http.get(AppSettings.API_ENDPOINT + 'permissions', AppSettings.requestOptions()).map((response: Response) => response.json());
     }
 
+    managePermission(id) {
+        return this.getLoggedInUserPermissionsByRole(id);
+    }
+
+    getperMissionList() {
+        return this.permissionsList;
+    }
+    getLoggedInUserPermissionsByRole(id: any) {
+        return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + id+'/permission', AppSettings.requestOptions()).map((response: Response) => response.json());
+    }
     addPermissionToRole(permissions: any) {
         return this.http.post(AppSettings.API_ENDPOINT + 'RolepermissionDetails', permissions, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
