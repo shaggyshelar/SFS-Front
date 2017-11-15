@@ -26,7 +26,7 @@ export class RoleService {
   }
 
   deleteRole(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'roles/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'roles/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getRolesCount(url){
     return this.http.get(AppSettings.API_ENDPOINT + 'roles/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());      
