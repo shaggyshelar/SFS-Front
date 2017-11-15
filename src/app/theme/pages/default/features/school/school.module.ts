@@ -19,6 +19,8 @@ import {
   SharedModule,
   ButtonModule,
   DropdownModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -71,6 +73,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     SchoolComponent,
@@ -81,7 +84,8 @@ const routes: Routes = [
     SchoolService,
     InstitutesService,
     BoardService,
-    ImageUploadService
+    ImageUploadService,
+    ConfirmationService,
   ]
 })
 export class SchoolModule {

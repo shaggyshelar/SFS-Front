@@ -34,7 +34,7 @@ export class SchoolService {
   }
 
   deleteSchool(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'schools/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Schools/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getSchoolsByInstitute(id) {
@@ -53,11 +53,12 @@ export class SchoolService {
   getRolesCountBySchoolId(url){
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
     return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/Roles/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
-  }
+  } 
 
   getUsersBySchoolId(url){
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/SchoolUsers'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails?filter[include]=UserschoolUser&filter[where][schoolId]=' + schoolId + '&filter[where][createdBy]=' +currentUser.userId + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getUsersCountBySchoolId(url){

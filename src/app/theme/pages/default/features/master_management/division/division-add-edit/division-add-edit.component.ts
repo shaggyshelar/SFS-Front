@@ -56,11 +56,9 @@ export class DivisionAddEditComponent implements OnInit {
                 this.divisionService.getDivisionById(this.params)
                     .subscribe(
                     (results: Division) => {
-                        console.log(results);
                         this.divisionForm.setValue({
                             id: results.id,
                             classId: results.classId,
-                            schoolId: results.schoolId,
                             divisionName: results.divisionName,
                             divisionCode: results.divisionCode
                         });
@@ -73,7 +71,6 @@ export class DivisionAddEditComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: Division, valid: boolean }) {
-        debugger;
         if (this.params) {
             this.divisionService.updateDivision(value)
                 .subscribe(

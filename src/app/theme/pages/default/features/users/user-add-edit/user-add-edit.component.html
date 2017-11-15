@@ -58,8 +58,8 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-							User Name
-					</label>
+							User Name <span class="requiredField">*</span>
+					</label>					
 					<div class="col-7">
 						<input class="form-control m-input" type="text" value="" formControlName="username" name="userName" id="userName" placeholder="User Name">
 						<div class="alertMsg" *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
@@ -69,7 +69,7 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-							User Email
+							User Email <span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" value="" formControlName="email" name="email" placeholder="Email">
@@ -97,7 +97,7 @@
 				</div>
 				<div class="form-group m-form__group row" *ngIf="userRole == 'SuperAdmin'">
 					<label class="col-2 col-form-label" for="example-text-input">
-						Institute
+						Institute <span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						 <select class="form-control" formControlName="institute" (change)="onChangeInstitutes($event.target.value)">
@@ -111,7 +111,7 @@
 				</div>
 				<div class="form-group m-form__group row"  *ngIf="userRole == 'SuperAdmin'">
 					<label class="col-2 col-form-label" for="example-text-input">
-						School
+						School <span class="requiredField">*</span>
 					</label>
 					<div class="col-7">					
 						<div class="row">
@@ -121,19 +121,22 @@
 									<span></span>
 									{{schoolList[i].schoolName}}
 								</label>
-							</div>
-							<div class="alertMsg" *ngIf="selectedSchoolsValidationError == true">
-								Please select school
-							</div>
-							<div class="alertMsg" *ngIf="schoolList.length == 0">
-								Please select Institute to get schools
-							</div>
+							</div>							
+						</div>
+						<div class="alertMsg" *ngIf="selectedSchoolsValidationError == true">
+							Please select at least one school
+						</div>
+						<div class="alertMsg" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value == ''">
+							Please select Institute to get schools
+						</div>
+						<div class="alertMsg" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value != ''">
+							Selected Institute is not having any school
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
 					<label class="col-2 col-form-label" for="example-text-input">
-						Role
+						Role <span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<select class="form-control" formControlName="role">

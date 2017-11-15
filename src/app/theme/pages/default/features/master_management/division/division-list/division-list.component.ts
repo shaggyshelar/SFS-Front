@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { DivisionService } from '../../../../_services/division.service';
@@ -60,6 +60,7 @@ export class DivisionListComponent implements OnInit {
         private _script: ScriptLoaderService,
         private divisionService: DivisionService,
         private classService: ClassService,
+        private confirmationService: ConfirmationService,
     ) {
     }
 
@@ -124,7 +125,6 @@ export class DivisionListComponent implements OnInit {
         this.divisionList = this.divisionService.getAllDivisionList(this.url);
 
         this.divisionList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
@@ -135,17 +135,29 @@ export class DivisionListComponent implements OnInit {
         this.router.navigate(['/features/division/edit', division.id]);
     }
     onDivisionDeleteClick(division: Division) {
-        this.divisionService.deleteDivision(division.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-                    this.currentPageNumber--;
-                }
-                this.getQueryDataCount();
+
+
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.divisionService.deleteDivision(division.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
+
     }
     onAddDivision() {
         this.router.navigate(['/features/division/add']);
@@ -388,7 +400,7 @@ export class DivisionListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
+        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]='+ localStorage.getItem("schoolId") +'&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
 
     }
     /* Counting Number of records ends*/

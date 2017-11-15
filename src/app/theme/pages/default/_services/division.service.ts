@@ -11,7 +11,8 @@ export class DivisionService {
 
     
   getAllDivisionList(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolDivision' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    //return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolDivision' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Divisions' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAllDivisions() {
@@ -35,7 +36,8 @@ export class DivisionService {
   }
 
   deleteDivision(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolDivision/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT + 'Divisions/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    //return this.http.delete(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolDivision/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }

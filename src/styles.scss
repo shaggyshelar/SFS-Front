@@ -396,6 +396,89 @@
 	}
 }
 
+/*Dashboard CSS 14-11-2017*/
+
+.m-widget24 .m-widget24__item .m-widget24__stats {
+    float: none!important;
+    margin-right: 1.8rem!important;
+    margin-left: 1.8rem!important;
+    margin-top: -1.43rem!important;
+    font-size: 1.75rem!important;
+    font-weight: 600!important;
+}
+.m-widget24{
+ height: 168px;
+}
+.m-widget24 .m-widget24__item .m-widget24__desc {
+    color: #9699a2;
+    margin-bottom: 15px;
+}
+.m-menu__link-text h5{
+ font-size: 2rem;
+ margin-bottom: 0;
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    margin: 0!important;
+    float: none!important;
+    font-size: 16px!important;
+    font-weight: 600!important;
+    font-family: Poppins!important;
+}
+
+
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: block!important;
+    margin: 0!important;
+    font-size: 20px!important;
+    color: #5f5f5f!important;
+}
+
+.ui-confirmdialog .ui-dialog-content .ui-confirmdialog-message {
+    vertical-align: middle!important;
+    font-size: 14px!important;
+    font-family: Poppins!important;
+    color: #4e4c4c!important;
+    font-weight: 500!important;
+}
+
+.ui-confirmdialog .ui-dialog-content .fa {
+    font-size: 20px!important;
+    vertical-align: middle!important;
+    margin-right: 5px!important;
+    color: #ea5656!important;
+    margin-top: -2px!important;
+}
+
+body .ui-widget-content {
+    background-color: #fff!important;
+    border: 1px solid #f1f1f1!important;
+}
+
+body .ui-dialog .ui-dialog-titlebar {
+    padding: 1em!important;
+    border-bottom: 1px solid #ececec!important;
+}
+
+.staticTable tr th {
+    padding: 16px 10px!important;
+    background: #f4f3fb!important;
+    font-weight: 600!important;
+    vertical-align: middle!important;
+    font-size: 1rem!important;
+    text-align: left!important;
+}
+.staticTable tr td {
+    padding: 16px 10px!important;
+    background: #fff!important;
+    font-weight: 400!important;
+    vertical-align: middle!important;
+    font-size: 13px!important;
+    text-align: left!important;
+    color: #575962!important;
+ max-width:290px!important;
+}
+
 
 
 
@@ -411,4 +494,8 @@
 }
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-text, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-text {
     color: #716aca !important;
+}
+
+.requiredField{
+   color:red;
 }

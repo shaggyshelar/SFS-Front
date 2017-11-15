@@ -36,6 +36,6 @@ export class StudentService {
   }
 
   deleteStudent(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'students/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Students/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

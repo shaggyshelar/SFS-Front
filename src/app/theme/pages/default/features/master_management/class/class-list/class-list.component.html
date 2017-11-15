@@ -1,3 +1,24 @@
+<p-confirmDialog #cd>
+	<p-footer>
+		<button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
+			<span>
+				<i class="la la-check"></i>
+				<span>
+					Yes
+				</span>
+			</span>
+		</button>
+		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+			<span>
+				<i class="la la-close"></i>
+				<span>
+					No
+				</span>
+			</span>
+		</button>
+	</p-footer>
+</p-confirmDialog>
+
 <div class="m-subheader">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
@@ -95,11 +116,11 @@
 					<table class="staticTable" id="" width="100%">
 						<thead>
 							<tr>
-								<th title="">
+								<!-- <th title="">
 									<a href="#" (click)="sort('id',ascSortCol1 = !ascSortCol1)">
 										Class Id
 									</a>
-								</th>
+								</th> -->
 								<th title="">
 									<a href="#" (click)="sort('classCode',ascSortCol2 = !ascSortCol2)">
 										Class Code
@@ -122,9 +143,9 @@
 						</thead>
 						<tbody *ngIf="longList">
 							<tr *ngFor='let row of classList | async'>
-								<td>
+								<!-- <td>
 									{{row.id}}
-								</td>
+								</td> -->
 								<td>
 									{{row.classCode}}
 								</td>

@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
-
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { ClassService } from '../../../_services/class.service';
 import { ClassComponent } from './class.component';
@@ -16,6 +15,8 @@ import {
   SharedModule,
   ButtonModule,
   DropdownModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -37,7 +38,7 @@ const routes: Routes = [
           },
           {
             path: 'add',
-            component:ClassAddEditComponent,
+            component: ClassAddEditComponent,
             canActivate: [AuthGuard],
             data: {
               permissions: ['Class.Create']
@@ -68,6 +69,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     ClassComponent,
@@ -76,6 +78,7 @@ const routes: Routes = [
   ],
   providers: [
     ClassService,
+    ConfirmationService,
   ]
 })
 export class ClassModule {

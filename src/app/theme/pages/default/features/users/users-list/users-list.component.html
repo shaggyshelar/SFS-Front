@@ -2,7 +2,7 @@
     <p-footer>		
 		<button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
 			<span>
-				<i class="fa fa-check"></i>
+				<i class="la la-close"></i>
 				<span>
 					Yes
 				</span>
@@ -10,7 +10,7 @@
 		</button>
 		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
 			<span>
-				<i class="fa fa-close"></i>
+				<i class="la la-check"></i>
 				<span>
 					No
 				</span>
@@ -132,7 +132,7 @@
 											</th>
 										</tr>
 									</thead>
-									<tbody *ngIf="longList">
+									<tbody *ngIf="longList && userRole == 'SuperAdmin'">
 										<tr *ngFor='let row of userList | async'>
 											<td>{{row.username}}</td>
 											<td>{{row.phone}}</td>
@@ -145,6 +145,26 @@
 													<i class="la la-edit"></i>
 												</a>
 												<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Delete" [isAuthorize]="['User.Delete']">
+													<i class="la la-close"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+
+									<tbody *ngIf="longList && userRole != 'SuperAdmin'">
+										<tr *ngFor='let row of userList | async'>
+											<td>{{row.UserschoolUser.username}}</td>
+											<td>{{row.UserschoolUser.phone}}</td>
+											<td>{{row.UserschoolUser.email}}</td>	
+											<td *ngIf="row.UserschoolUser.isActivate" >Yes</td>
+											<td *ngIf="!row.UserschoolUser.isActivate" >No</td>			
+											<td>
+												<a href="javascript:;" (click)="onEditClick(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 title="Edit" [isAuthorize]="['User.Update']">
+													<i class="la la-edit"></i>
+												</a>
+												<a href="javascript:;" (click)="onDelete(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 												 title="Delete" [isAuthorize]="['User.Delete']">
 													<i class="la la-close"></i>
 												</a>

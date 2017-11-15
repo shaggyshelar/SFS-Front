@@ -67,24 +67,24 @@
 
 				<div class="form-group m-form__group row">
 					<label class="col-2 col-form-label" for="example-text-input">
-						Class Code
+						Division Name
 					</label>
 					<div class="col-5">
 						<input class="form-control m-input" type="text" formControlName="divisionName" name="divisionName" id="divisionName" placeholder="Division Name">
 						<div class="alertMsg" *ngIf="divisionForm.get('divisionName').hasError('required') && divisionForm.get('divisionName').touched">
-							Please enter Class Code
+							Please enter Division Name
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group m-form__group row">
 					<label class="col-2 col-form-label" for="example-text-input">
-						Class Name
+						Division Code
 					</label>
 					<div class="col-5">
 						<input class="form-control m-input" formControlName="divisionCode" type="text" placeholder="Division Code">
 						<div class="alertMsg" *ngIf="divisionForm.get('divisionCode').hasError('required') && divisionForm.get('divisionCode').touched">
-							Please enter Class Name
+							Please enter Division Code
 						</div>
 					</div>
 				</div>

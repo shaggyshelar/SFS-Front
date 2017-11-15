@@ -37,10 +37,11 @@ export class PermissionService {
     }
     getMenus() {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('filter[include]', "permissions");
-        let requestOptions = AppSettings.requestOptions();
-        requestOptions.params = params;
-        return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + currentUser.roles[0].id + '/roleMenu', requestOptions).map((response: Response) => response.json());
+        return this.http.get(AppSettings.API_ENDPOINT + 'roles/' + currentUser.roles[0].id + '/roleMenu', AppSettings.requestOptions()).map((response: Response) => response.json());
+    }
+
+    getPermissionsByMenuId(menuId : number) {
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        return this.http.get(AppSettings.API_ENDPOINT + 'Permissions?&filter[where][roleId]=' + currentUser.roles[0].id + '&filter[where][menuId]=' + menuId, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
 }

@@ -73,7 +73,6 @@ export class AuthComponent implements OnInit {
                   this._router.navigate(['/selectSchool']);
                 }
                 else {
-                  debugger;
                   localStorage.setItem('schoolLogo', results[0].UserschoolSchool.schoolLogo);
                   localStorage.setItem('schoolHeader', results[0].UserschoolSchool.schoolHeader);
                   

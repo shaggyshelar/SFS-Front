@@ -29,7 +29,7 @@ export class SchoolAddEditComponent implements OnInit {
     imageFileName: string;
     @ViewChild('fileupload')
     myInputVariable: any;
-    fileInput : any;
+    fileInput: any;
 
     constructor(
         private formBuilder: FormBuilder, private schoolService: SchoolService, private messageService: MessageService,
@@ -115,10 +115,29 @@ export class SchoolAddEditComponent implements OnInit {
 
     onSubmit({ value, valid }: { value: School, valid: boolean }) {
         if (this.params) {
+            value.schoolLogo = this.imageFileName;
             this.schoolService.updateSchool(value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+                    var obj = { "name": results.id.toString() };
+
+                    let fd = new FormData();
+                    fd.append('image', this.fileInput[0]);
+
+                    this.imageUploadService.uploadImage(results.id, fd).subscribe(
+                        imageResponse => {
+                            this.router.navigate(['/features/school/list']);
+                        },
+                        error => {
+                            this.globalErrorHandler.handleError(error);
+                        }
+                    );
+
+
+
+
+
                     this.router.navigate(['/features/school/list']);
                 },
                 error => {
@@ -129,8 +148,6 @@ export class SchoolAddEditComponent implements OnInit {
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-
-                    debugger;
                     var obj = { "name": results.id.toString() };
                     //obj["name"] = results.id;
                     this.imageUploadService.createFolder(JSON.stringify(obj)).subscribe(
@@ -154,7 +171,6 @@ export class SchoolAddEditComponent implements OnInit {
                             this.globalErrorHandler.handleError(error);
                         }
                     );
-                    debugger;
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
@@ -169,7 +185,6 @@ export class SchoolAddEditComponent implements OnInit {
         var fr = new FileReader;
 
         fr.readAsDataURL(fileInput[0]);
-        debugger;
         this.fileInput = fileInput;
         let ext = fileInput[0].name.split('.')[1];
         if (ext != 'jpeg' && ext != 'jpg' && ext != 'png') {
@@ -186,7 +201,7 @@ export class SchoolAddEditComponent implements OnInit {
                 if (img.height <= 50 && img.width <= 160) {
                     //
                     success = 1;
-                    
+
                 }
                 else {
                     rec.imageFileName = null;

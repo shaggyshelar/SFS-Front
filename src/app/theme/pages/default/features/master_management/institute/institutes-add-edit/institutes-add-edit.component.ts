@@ -64,7 +64,6 @@ export class InstituteAddEditComponent implements OnInit {
         if (invalid) {
             return false;
         }
-        debugger;
         if (this.params) {
             this.instituteService.updateInstitute(_institute._value)
                 .subscribe(

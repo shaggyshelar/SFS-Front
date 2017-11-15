@@ -53,11 +53,11 @@
 			<div class="m-portlet__body formPortletBody">				
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-						Roll Name
+						Roll Name <span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
 						<input type="text" formControlName="displayName" name="roleName" class="form-control m-input">
-						<div class="alert alert-danger" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
+						<div class="alertMsg" *ngIf="roleForm.get('displayName').hasError('required') && roleForm.get('displayName').touched">
 							Please enter Role Name
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-						Select Menu
+						Select Menu <span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
 						<select class="form-control m-input" [(ngModel)]="selectedFeature" (ngModelChange)="getFeaturePermissions($event)">
@@ -109,16 +109,22 @@
 				</div> 
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-						Select Permission
+						Select Permission <span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
-						<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="this.filteredPermissionList.length == 0">
+						<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="filteredPermissionList.length == 0">
 							<option [ngValue]="null" >Select</option>
 							<option *ngFor="let permission of filteredPermissionList" [ngValue]="permission">{{permission.text}}</option>
 						</select>
+						<div class="alertMsg" *ngIf="selectedFeature && !isMenuSelected && permissionList.length == 0">
+							You do not have rights to this permission
+						</div>
+						<div class="alertMsg" *ngIf="selectedFeature && !isMenuSelected  && permissionList.length != 0 && filteredPermissionList.length == 0">
+							 All permissions of selected menu are already assigned to this role
+						</div>
 					</div>
 					<div class="col-3">
-						<button type="submit" class="btn btn-primary" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
+						<button type="submit" class="btn btn-primary" (click)="onAddPermission();" [disabled]="selectedPermission==null || selectedPermission==''">
 							Add Permissions
 						</button>
 					</div>
