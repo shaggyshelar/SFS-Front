@@ -125,7 +125,6 @@ export class DivisionListComponent implements OnInit {
         this.divisionList = this.divisionService.getAllDivisionList(this.url);
 
         this.divisionList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
@@ -401,7 +400,7 @@ export class DivisionListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
+        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]='+ localStorage.getItem("schoolId") +'&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
 
     }
     /* Counting Number of records ends*/
