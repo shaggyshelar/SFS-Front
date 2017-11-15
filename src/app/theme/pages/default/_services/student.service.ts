@@ -12,11 +12,7 @@ export class StudentService {
   addStudents(file){
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
-<<<<<<< HEAD
-    return this.http.post(AppSettings.API_ENDPOINT +'uploadcsv/',file, reqObj).map((response: Response) => response.json());
-=======
     return this.http.post(AppSettings.API_ENDPOINT +'uploadcsv/' ,file, reqObj).map((response: Response) => response.json());
->>>>>>> 108a53369647a8af0722970b6c0859dac16b171b
   }
   getStudentCount(url) {   
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Students/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
