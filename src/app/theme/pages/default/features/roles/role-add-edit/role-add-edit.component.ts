@@ -28,6 +28,7 @@ export class RoleAddEditComponent implements OnInit {
     menuList: any;
     featureList: any;
     selectedFeature: any;
+    isMenuSelected: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -64,7 +65,7 @@ export class RoleAddEditComponent implements OnInit {
                             displayName: results.displayName,
                             name: results.name,
                             description: results.description
-                        });  
+                        });
                     }, error => {
                         this.globalErrorHandler.handleError(error);
                     })
@@ -73,10 +74,10 @@ export class RoleAddEditComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
-      var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-        if (this.params) {   
-            value.schoolId = schoolId;        
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+        if (this.params) {
+            value.schoolId = schoolId;
             this.roleService.updateRole(value)
                 .subscribe(
                 results => {
@@ -104,7 +105,7 @@ export class RoleAddEditComponent implements OnInit {
     onAddPermission() {
         let params = {
             permissionName: this.selectedPermission.permissionName,
-            permissionId:this.selectedPermission.id,
+            permissionId: this.selectedPermission.id,
             roleId: this.params,
         }
         this.permissionService.addPermissionToRole(params)
@@ -113,7 +114,7 @@ export class RoleAddEditComponent implements OnInit {
                 this.getPermissionsByRole();
                 this.selectedPermission = null;
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Permission Added' });
-            },error => {
+            }, error => {
                 this.globalErrorHandler.handleError(error);
             });
     }
@@ -149,7 +150,7 @@ export class RoleAddEditComponent implements OnInit {
             let rolePermission = rolePermissionList[i];
             let permission = rolePermission.permissionName.split(".");
             if (permission.length > 1) {
-               let feature = _.find( this.menuList, { id : rolePermission.menuId});
+                let feature = _.find(this.menuList, { id: rolePermission.menuId });
                 rolePermission.text = "Can " + permission[1] + " " + feature.menuName;
             }
         }
@@ -162,7 +163,7 @@ export class RoleAddEditComponent implements OnInit {
                 this.featureList = results;
                 this.menuList = results;
                 this.updatePermissionList(this.rolePermissionList);
-                this.featureList = this.getFilteredFeatureList();               
+                // this.featureList = this.getFilteredFeatureList();               
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -170,22 +171,42 @@ export class RoleAddEditComponent implements OnInit {
     }
 
     private getFilteredFeatureList() {
-        let featureList = [];
-        for (var index = 0; index < this.menuList.length; index++) {
-            let count = _.filter(this.rolePermissionList, { menuId: this.menuList[index].id }).length;
-            if (count != this.menuList[index].permissions.length) {
-                featureList.push(this.menuList[index]);
+        if (this.selectedFeature) {
+            let featureList = [];
+            for (var index = 0; index < this.menuList.length; index++) {
+                if (this.selectedFeature.id == this.menuList[index].id) {
+                    let count = _.filter(this.rolePermissionList, { menuId: this.menuList[index].id }).length;
+                    if (count != this.permissionList.length) {
+                        featureList.push(this.menuList[index]);
+                    }
+                } else {
+                    featureList.push(this.menuList[index]);
+                }
             }
+            let selectedFeature = _.find(featureList, { id: this.selectedFeature.id });
+            if (!selectedFeature) {
+                this.selectedFeature = null;
+            }
+            return featureList;
+        } else {
+            return this.menuList;
         }
-        return featureList;
     }
 
     getFeaturePermissions(feature) {
-        if(feature){
-        let permissionsList = [];
-        this.permissionList = feature.permissions;
-        this.getfilteredPermissions(feature.menuName)
-        }else {
+        if (feature) {
+            this.isMenuSelected = true
+            this.permissionService.getPermissionsByMenuId(feature.id)
+                .subscribe(
+                results => {
+                    this.isMenuSelected = false;
+                    this.permissionList = results;
+                    this.getfilteredPermissions(feature.menuName)
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                });
+        } else {
             this.permissionList = [];
             this.filteredPermissionList = [];
         }
