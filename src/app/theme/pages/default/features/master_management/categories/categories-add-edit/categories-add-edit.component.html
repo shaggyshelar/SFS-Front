@@ -47,65 +47,58 @@
 				</div>
 			</div>
 		</div>
-		<div class="m-portlet__body">
-			<!--begin::Section-->
-			<div class="m-section">
-				<div class="m-section__content">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="portlet light bordered legends-portlet">
-								<div class="portlet-body">
-									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(categoriesForm,categoriesForm.invalid)" [formGroup]="categoriesForm">
-										<div class="form-group m-form__group">
-											<label for="categoryName" class="col-md-8 control-label">Category Name</label>
-											<div class="col-md-8">
-												<input type="text" formControlName="categoryName" name="categoryName" class="form-control m-input" placeholder="Enter Category Name" maxlength="50">
-												<div class="alertMsg" *ngIf="categoriesForm.get('categoryName').hasError('required') && (categoriesForm.get('categoryName').touched || isFormSubmit)">
-													Please enter Category Name
-												</div>
-											</div>
-										</div>
-										<div class="form-group m-form__group">
-											<label for="categoryDescription" class="col-md-8 control-label">Category Description</label>
-											<div class="col-md-8">
-												<input type="text" formControlName="categoryDescription" name="categoryDescription" class="form-control" placeholder="Enter Category Description" maxlength="50">
-												<div class="alertMsg" *ngIf="categoriesForm.get('categoryDescription').hasError('required') && (categoriesForm.get('categoryDescription').touched || isFormSubmit)">
-													Please enter Category Description
-												</div>
-											</div>
-										</div>
-										<div class="form-group m-form__group">
-											<label for="categoryCode" class="col-md-8 control-label">Category Code</label>
-											<div class="col-md-8">
-												<input type="text" formControlName="categoryCode" name="categoryCode" class="form-control" placeholder="Enter Category Code" maxlength="50">
-												<div class="alertMsg" *ngIf="categoriesForm.get('categoryCode').hasError('required') && (categoriesForm.get('categoryCode').touched || isFormSubmit)">
-													Please enter Category Code
-												</div>
-											</div>
-										</div>
-										<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-											<div class="m-form__actions m-form__actions--solid">
-												<div class="row">
-													<div class="col-lg-6">
-														<button type="submit" [isAuthorize]="['Category.Update', 'Category.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
-															Save
-														</button>
-														<button type="reset" class="btn btn-secondary" (click)="onCancel()">
-															Cancel
-														</button>
-													</div>
-							
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
+
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(categoriesForm,categoriesForm.invalid)"
+		 [formGroup]="categoriesForm">
+			<div class="m-portlet__body formPortletBody">
+				<div class="form-group m-form__group row">
+					<label for="categoryName" class="col-md-2 col-form-label">Name<span class="requiredField">*</span></label>
+					<div class="col-md-7">
+						<input type="text" formControlName="categoryName" name="categoryName" class="form-control m-input" placeholder="Enter Category Name"
+						 maxlength="50">
+						<div class="alertMsg" *ngIf="categoriesForm.get('categoryName').hasError('required') && (categoriesForm.get('categoryName').touched || isFormSubmit)">
+							Please enter Category Name
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="categoryDescription" class="col-md-2 col-form-label">Description<span class="requiredField">*</span></label>
+					<div class="col-md-7">
+						<input type="text" formControlName="categoryDescription" name="categoryDescription" class="form-control" placeholder="Enter Category Description"
+						 maxlength="50">
+						<div class="alertMsg" *ngIf="categoriesForm.get('categoryDescription').hasError('required') && (categoriesForm.get('categoryDescription').touched || isFormSubmit)">
+							Please enter Category Description
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="categoryCode" class="col-md-2 col-form-label">Category Code<span class="requiredField">*</span></label>
+					<div class="col-md-7">
+						<input type="text" formControlName="categoryCode" name="categoryCode" class="form-control" placeholder="Enter Category Code"
+						 maxlength="50">
+						<div class="alertMsg" *ngIf="categoriesForm.get('categoryCode').hasError('required') && (categoriesForm.get('categoryCode').touched || isFormSubmit)">
+							Please enter Category Code
+						</div>
+					</div>
+				</div>
+				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+					<div class="m-form__actions m-form__actions--solid">
+						<div class="row">
+							<div class="col-lg-2">
+								<button type="submit" [isAuthorize]="['Category.Update', 'Category.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+									Save
+								</button>
 							</div>
+							<div class="col-lg-4">
+								<button type="reset" class="btn btn-secondary" (click)="onCancel()">
+									Cancel
+								</button>
+							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
-			<!--end::Section-->
-		</div>
+		</form>
 	</div>
 </div>
