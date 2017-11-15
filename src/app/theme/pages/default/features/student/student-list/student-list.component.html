@@ -119,79 +119,81 @@
 
 				<div class="table-responsive">
 					<!--begin: Datatable -->
-					<table class="staticTable" id="" width="100%">
-						<thead>
-							<tr>
-								<th title="Field #1">
-									#
-								</th>
-								<th title="Field #2">
-									<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">
-										Gr.No.
-									</a>
-								</th>
-								<th title="Field #3">
-									<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
-										Name
-									</a>
-								</th>
-								<th title="Field #4">
-									<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">
-										Category
-									</a>
-								</th>
-								<th title="Field #5">
-									<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">
-										Class
-									</a>
-								</th>
-								<th title="Field #6">
-									<a href="" (click)="sort('divisionId',ascSortCol4 = !ascSortCol4)">
-										Division
-									</a>
-								</th>
-								<th title="Field #7">
-									<a href="" (click)="sort('studentDateOfBirth',ascSortCol5 = !ascSortCol5)">
-										DOB
-									</a>
-								</th>
-								<th title="Field #8">
-									<a href="" (click)="sort('dateOfJoining',ascSortCol6 = !ascSortCol6)">
-										Date of Joining
-									</a>
-								</th>
-								<th title="Field #9">
-									Actions
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of studentList | async'>
-								<td>{{row.id}}</td>
-								<td>{{row.gRNumber}}</td>
-								<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
-								<td>{{row.StudentCategory.categoryCode}}</td>
-								<td>{{row.StudentClass.className}}</td>
-								<td>{{row.StudentDivision.divisionName}}</td>
-								<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
-								<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
-								<td>
-									<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit" [isAuthorize]="['Student.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onStudentDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete" [isAuthorize]="['Student.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<th title="Field #1">
+										#
+									</th>
+									<th title="Field #2">
+										<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">
+											Gr.No.
+										</a>
+									</th>
+									<th title="Field #3">
+										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
+											Name
+										</a>
+									</th>
+									<th title="Field #4">
+										<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">
+											Category
+										</a>
+									</th>
+									<th title="Field #5">
+										<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">
+											Class
+										</a>
+									</th>
+									<th title="Field #6">
+										<a href="" (click)="sort('divisionId',ascSortCol4 = !ascSortCol4)">
+											Division
+										</a>
+									</th>
+									<th title="Field #7">
+										<a href="" (click)="sort('studentDateOfBirth',ascSortCol5 = !ascSortCol5)">
+											DOB
+										</a>
+									</th>
+									<th title="Field #8">
+										<a href="" (click)="sort('dateOfJoining',ascSortCol6 = !ascSortCol6)">
+											Date of Joining
+										</a>
+									</th>
+									<th title="Field #9">
+										Actions
+									</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of studentList | async'>
+									<td>{{row.id}}</td>
+									<td>{{row.gRNumber}}</td>
+									<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
+									<td>{{row.StudentCategory.categoryCode}}</td>
+									<td>{{row.StudentClass.className}}</td>
+									<td>{{row.StudentDivision.divisionName}}</td>
+									<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
+									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
+									<td>
+										<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Edit" [isAuthorize]="['Student.Update']">
+											<i class="la la-edit"></i>
+										</a>
+										<a href="javascript:;" (click)="onStudentDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['Student.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
 
-					</table>
+						</table>
+					</div>
 					<!-- Pagination -->
 					<div class="PaginationBox">
 

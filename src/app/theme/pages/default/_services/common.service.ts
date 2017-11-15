@@ -10,7 +10,7 @@ export class CommonService {
   }
 
   getGender() {
-    let gender = ["--select--", "Male", "Female", "Other"];
+    let gender = ["Male", "Female", "Other"];
     return gender;
     //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
@@ -35,7 +35,7 @@ export class CommonService {
     return this.http.get(AppSettings.API_ENDPOINT + 'Boards', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
   getBloodGroup() {
-    let blooDgroup = ["--select--", "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+    let blooDgroup = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
     return blooDgroup;
     //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }

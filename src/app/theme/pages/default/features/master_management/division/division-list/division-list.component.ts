@@ -333,9 +333,18 @@ export class DivisionListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            //this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+            //this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][divisionCode][like]=%' + searchString + '%&filter[where][or][1][divisionCode][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][or][0][divisionCode][like]=%' + searchString + '%&[where][or][1][divisionCode][like]=%' + searchString + '%';
+
         }
+
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
@@ -397,10 +406,13 @@ export class DivisionListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllDivisions();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
         );
     }
     getUrl() {
-        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]='+ localStorage.getItem("schoolId") +'&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
+        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
 
     }
     /* Counting Number of records ends*/

@@ -28,9 +28,9 @@ export class StudentAddEditComponent implements OnInit {
     categoryList: any;
     bloodGroupList: any;
     genderSelected: string; bloodGroupSelected: string;
-    dateOfBirth : string;
-    dateOfJoining : string;
-    
+    dateOfBirth: string;
+    dateOfJoining: string;
+
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService,
@@ -101,28 +101,28 @@ export class StudentAddEditComponent implements OnInit {
         for (var index = 0; index < list.length; index++) {
             this.bloodGroupList.push({ label: list[index], value: list[index] });
         }
-
+        let emailRegex: any = '^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$';
         this.studentForm = this.formBuilder.group({
             id: [],
             studentFirstName: ['', [Validators.required]],
             studentMiddleName: ['', [Validators.required]],
             studentLastName: ['', [Validators.required]],
             studentGender: ['', [Validators.required]],
-            fatherFirstName: ['', [Validators.required]],
-            fatherLastName: ['', [Validators.required]],
-            fatherMobile: [, [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            motherFirstName: ['', [Validators.required]],
-            motherLastName: ['', [Validators.required]],
-            motherMobile: [, [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            guardianFirstName: [''],
-            guardianLastName: [''],
-            guardianMobile: [],
+            fatherFirstName: [],
+            fatherLastName: [],
+            fatherMobile: [, [Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            motherFirstName: [],
+            motherLastName: [],
+            motherMobile: [, [Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            guardianFirstName: [],
+            guardianLastName: [],
+            guardianMobile: [, [Validators.pattern('[7-9]{1}[0-9]{9}')]],
             classId: [, [Validators.required]],
             categoryId: [, [Validators.required]],
             academicYear: [, [Validators.required]],
-            city: [, [Validators.required]],
-            state: [, [Validators.required]],
-            phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            city: [],
+            state: [],
+            phone: ['', [Validators.pattern('[7-9]{1}[0-9]{9}')]],
             dateOfJoining: [],
             studentDateOfBirth: [],
             bloodGroup: [],
@@ -133,7 +133,8 @@ export class StudentAddEditComponent implements OnInit {
             createdBy: [],
             createdOn: [],
             // schoolId: [],
-            email: ['', [Validators.required, Validators.email]],
+            //email: [null, [ Validators.pattern(emailRegex)]],
+            email: [],
         });
 
         this.route.params.forEach((params: Params) => {
@@ -170,7 +171,6 @@ export class StudentAddEditComponent implements OnInit {
                             studentCode: results.studentCode,
                             divisionId: results.divisionId,
                             email: results.email,
-
                             createdBy: results.createdBy,
                             createdOn: results.createdOn,
                             /*studentCode: results.studentCode,
@@ -215,23 +215,23 @@ export class StudentAddEditComponent implements OnInit {
         this.router.navigate(['/features/student/list']);
     }
 
-    setDateOfBirth(date){
+    setDateOfBirth(date) {
         this.dateOfBirth = date;
     }
-    setDateOfJoining(date){
+    setDateOfJoining(date) {
         this.dateOfJoining = date;
     }
     convertDate(date) {
         var yyyy = date.getFullYear().toString();
-        var mm = (date.getMonth()+1).toString();
-        var dd  = date.getDate().toString();
-      
+        var mm = (date.getMonth() + 1).toString();
+        var dd = date.getDate().toString();
+
         var mmChars = mm.split('');
         var ddChars = dd.split('');
-        console.log(yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]));
-        return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
-        
-      }
-      
+        console.log(yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]));
+        return yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]);
+
+    }
+
 }
 

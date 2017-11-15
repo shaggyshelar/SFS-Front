@@ -10,6 +10,7 @@ import { ClassService } from '../../../_services/class.service';
 import { CommonService } from '../../../_services/common.service';
 import { Student } from "../../../_models/student";
 import { ViewChild } from '@angular/core';
+import { Helpers } from "../../../../../../helpers";
 
 @Component({
     selector: "app-student-list",
@@ -65,7 +66,7 @@ export class StudentListComponent implements OnInit {
     myFile: any;
     constructor(private router: Router, private studentService: StudentService,
         private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService,
-        private classService: ClassService,private confirmationService: ConfirmationService,
+        private classService: ClassService, private confirmationService: ConfirmationService,
     ) {
     }
 
@@ -390,6 +391,10 @@ export class StudentListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllStudents();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
+            }
         );
     }
     getUrl() {
@@ -402,16 +407,21 @@ export class StudentListComponent implements OnInit {
     getAllStudents() {
         //this.studentList = this.studentService.getAllStudents();      
         this.getUrl();
+        Helpers.setLoading(true);
         this.studentList = this.studentService.getAllStudents(this.url);
         this.studentList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
         },
             error => {
                 this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
             }
         );
+        Helpers.setLoading(false);
+
     }
     onAddStudent(fileInput: any) {
+        Helpers.setLoading(true);
         let fd = new FormData();
         fd.append('csvdata', fileInput[0]);
         fd.append('schoolId', localStorage.getItem("schoolId"));
@@ -419,20 +429,27 @@ export class StudentListComponent implements OnInit {
         if (ext != 'csv') {
             this.messageService.addMessage({ severity: 'fail', summary: 'Failed', detail: 'CSV Files Only' });
             this.myInputVariable.nativeElement.value = "";
+            Helpers.setLoading(false);
             return;
         } else {
-            this.studentService.addStudents(fd).subscribe((response) => {
+            let resp = this.studentService.addStudents(fd);
+            this.myInputVariable.nativeElement.value = "";
+            resp.subscribe((response) => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Successfully Uploaded Students : ' + response.SavedStudents + ' <br/> Students Failed to Upload : ' + response.FailedStudents });
+                this.myInputVariable.nativeElement.value = "";
                 this.currentPos = 0;
                 this.currentPageNumber = 1;
                 this.boundryStart = 1;
                 this.boundryEnd = this.boundry;
-                this.generateCount();
-                this.setDisplayPageNumberRange();
-                this.getAllStudents();
+                //this.generateCount();
+                //this.setDisplayPageNumberRange();
+                //this.getAllStudents();
+                this.getQueryDataCount();
+                Helpers.setLoading(false);
             },
                 error => {
                     this.globalErrorHandler.handleError(error);
+                    Helpers.setLoading(false);
                 }
             );
         }
