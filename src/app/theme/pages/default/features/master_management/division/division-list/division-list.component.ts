@@ -401,7 +401,7 @@ export class DivisionListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
+        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]='+ localStorage.getItem("schoolId") +'&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
 
     }
     /* Counting Number of records ends*/

@@ -60,7 +60,6 @@ export class DivisionAddEditComponent implements OnInit {
                         this.divisionForm.setValue({
                             id: results.id,
                             classId: results.classId,
-                            schoolId: results.schoolId,
                             divisionName: results.divisionName,
                             divisionCode: results.divisionCode
                         });
