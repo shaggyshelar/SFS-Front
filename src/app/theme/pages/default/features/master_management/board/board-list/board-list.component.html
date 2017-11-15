@@ -108,47 +108,48 @@
 				</div>
 								
 				<div class="table-responsive">
-					<table class="staticTable" id="" width="100%">	
-						<thead>
-								<tr>
-									<th title="Field #5">
-										<a href="#" (click)="sort('boardName',ascSortCol1 = !ascSortCol1)">
-											Board Name
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">	
+							<thead>
+									<tr>
+										<th title="Field #5">
+											<a href="#" (click)="sort('boardName',ascSortCol1 = !ascSortCol1)">
+												Board Name
+											</a>
+										</th>
+										<th title="Field #6">
+											Description
+										</th>
+										<th title="Field #7">
+											Created on
+										</th>
+										<th title="Field #8">
+											Actions
+										</th>
+									</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of boardList | async'>
+									<td>{{row.boardName}}</td>
+									<td>{{row.boardDescription}}</td>
+									<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>								
+									<td>
+										<a href="javascript:;" (click)="onEditBoardClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										title="Edit" [isAuthorize]="['Board.Update']">
+											<i class="la la-edit"></i>
 										</a>
-									</th>
-									<th title="Field #6">
-										Description
-									</th>
-									<th title="Field #7">
-										Created on
-									</th>
-									<th title="Field #8">
-										Actions
-									</th>
+										<a href="javascript:;" (click)="onBoardDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										title="Delete" [isAuthorize]="['Board.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
 								</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of boardList | async'>
-								<td>{{row.boardName}}</td>
-								<td>{{row.boardDescription}}</td>
-								<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>								
-								<td>
-									<a href="javascript:;" (click)="onEditBoardClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									title="Edit" [isAuthorize]="['Board.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onBoardDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									title="Delete" [isAuthorize]="['Board.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>	
-					</table>
-								
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>	
+						</table>
+					</div>		
 								<!-- Pagination -->								
 					<div class="PaginationBox">
 						<div class="row">
