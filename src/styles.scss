@@ -499,3 +499,22 @@ body .ui-dialog .ui-dialog-titlebar {
 .requiredField{
    color:red;
 }
+
+.m-subheader {
+    padding: 10px 30px 0 30px!important;
+}
+.m-body .m-content {
+    padding-top: 10px!important;
+    padding-bottom: 0!important;
+}
+.staticTable tr td {
+    padding: 8px 10px!important;    
+}
+.staticTable tr td:last-child{
+ min-width:110px!important; 
+}
+.tableBox {
+    height: 320px;
+    overflow-y: auto;
+    min-height: 320px;
+}

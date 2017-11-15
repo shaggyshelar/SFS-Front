@@ -98,7 +98,8 @@
 												<label class="">
 													Gender:
 												</label>
-												<p-dropdown [options]="genderList" formControlName="studentGender" [style]="{'width':'100%'}" name="gender"></p-dropdown>
+												<p-dropdown placeholder="Select Gender" [options]="genderList" formControlName="studentGender" [style]="{'width':'100%'}"
+												 name="gender"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('studentGender').hasError('required') && studentForm.get('studentGender').touched">
 													Please Select Gender
 												</div>
@@ -116,13 +117,13 @@
 												<label>
 													Email
 												</label>
-												<input type="email" formControlName="email" name="email" class="form-control m-input" placeholder="Student Email">
-												<div class="alertMsg" *ngIf="studentForm.get('email').hasError('required') && studentForm.get('email').touched">
+												<input type="text" formControlName="email" name="email" class="form-control m-input" placeholder="Student Email">
+												<!-- <div class="alertMsg" *ngIf="studentForm.get('email').hasError('required') && studentForm.get('email').touched">
 													Please Enter Email:
-												</div>
-												<!-- <div class="alertMsg" *ngIf="!studentForm.get('email').hasError('required') && studentForm.get('email').hasError('email') && schoolForm.get('email').touched">
-													Please enter valid Email
 												</div> -->
+												<div class="alertMsg" *ngIf="studentForm.get('email').hasError('pattern') && studentForm.get('email').touched">
+													Please enter valid Email
+												</div>
 
 											</div>
 										</div>
@@ -144,9 +145,6 @@
 													Father's First Name:
 												</label>
 												<input type="text" formControlName="fatherFirstName" name="fatherFirstName" class="form-control m-input" placeholder="Father's First Name">
-												<div class="alertMsg" *ngIf="studentForm.get('fatherFirstName').hasError('required') && studentForm.get('fatherFirstName').touched">
-													Please Enter Father's First Name:
-												</div>
 
 											</div>
 											<div class="col-lg-6">
@@ -154,9 +152,6 @@
 													Father's Last Name:
 												</label>
 												<input type="text" formControlName="fatherLastName" name="fatherLastName" class="form-control m-input" placeholder="Father's Last Name">
-												<div class="alertMsg" *ngIf="studentForm.get('fatherLastName').hasError('required') && studentForm.get('fatherLastName').touched">
-													Please Enter Father's Last Name:
-												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group row">
@@ -165,9 +160,6 @@
 													Father's Mobile No:
 												</label>
 												<input type="text" formControlName="fatherMobile" name="fatherMobile" class="form-control m-input" placeholder="Father's Mobile">
-												<div class="alertMsg" *ngIf="studentForm.get('fatherMobile').hasError('required') && studentForm.get('fatherMobile').touched">
-													Please Father's Mobile No
-												</div>
 												<div class="alertMsg" *ngIf="!studentForm.get('fatherMobile').hasError('required') && studentForm.get('fatherMobile').hasError('pattern') && studentForm.get('fatherMobile').touched">
 													Please enter valid Father's Mobile No:
 												</div>
@@ -191,9 +183,6 @@
 													Mother's Mobile No:
 												</label>
 												<input type="text" formControlName="motherMobile" name="motherMobile" class="form-control m-input" placeholder="Mother's Mobile">
-												<div class="alertMsg" *ngIf="studentForm.get('motherMobile').hasError('required') && studentForm.get('motherMobile').touched">
-													Please Mother's Mobile No
-												</div>
 												<div class="alertMsg" *ngIf="!studentForm.get('motherMobile').hasError('required') && studentForm.get('motherMobile').hasError('pattern') && studentForm.get('motherMobile').touched">
 													Please enter valid Mother's Mobile No
 												</div>
@@ -231,6 +220,9 @@
 													Guardian's Mobile No:
 												</label>
 												<input type="text" formControlName="guardianMobile" name="guardianMobile" class="form-control m-input" placeholder="Guardian's Mobile">
+												<div class="alertMsg" *ngIf="!studentForm.get('guardianMobile').hasError('required') && studentForm.get('guardianMobile').hasError('pattern') && studentForm.get('guardianMobile').touched">
+													Please enter valid Guardian's Mobile No
+												</div>
 											</div>
 										</div>
 									</div>
@@ -257,15 +249,21 @@
 													Class:
 												</label>
 
-												<p-dropdown placeholder="Select Class" class="form-control recordSelect" [style]="{'width':'100%'}" formControlName="classId" [options]="classList"
-												 name="Class"></p-dropdown>
+												<p-dropdown placeholder="Select Class" class="form-control recordSelect" [style]="{'width':'100%'}" formControlName="classId"
+												 [options]="classList" name="Class"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('classId').hasError('required') && studentForm.get('classId').touched">
+													Please Select Class
+												</div>
 											</div>
 											<div class="col-lg-6">
 												<label class="">
 													Category:
 												</label>
-												<p-dropdown placeholder="Select Category" class="form-control m-input" [options]="categoryList" formControlName="categoryId" [style]="{'width':'100%'}"
-												 name="class"></p-dropdown>
+												<p-dropdown placeholder="Select Category" class="form-control m-input" [options]="categoryList" formControlName="categoryId"
+												 [style]="{'width':'100%'}" name="class"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('categoryId').hasError('required') && studentForm.get('categoryId').touched">
+													Please Select Category
+												</div>
 											</div>
 										</div>
 										<div class="form-group m-form__group row">
@@ -274,7 +272,8 @@
 												<label class="">
 													Academic Year:
 												</label>
-												<p-dropdown placeholder="Select Academic Year" class="form-control m-input" [options]="yearList" [style]="{'width':'100%'}" formControlName="academicYear" name="class"></p-dropdown>
+												<p-dropdown placeholder="Select Academic Year" class="form-control m-input" [options]="yearList" [style]="{'width':'100%'}"
+												 formControlName="academicYear" name="class"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('academicYear').hasError('required') && studentForm.get('academicYear').touched">
 													Please Academic Year
 												</div>
@@ -312,7 +311,7 @@
 												<label class="">
 													Date of Birth:
 												</label>
-												<p-calendar  dateFormat="yy-mm-dd" formControlName="studentDateOfBirth"></p-calendar>
+												<p-calendar dateFormat="yy-mm-dd" formControlName="studentDateOfBirth"></p-calendar>
 												<!-- <input type="text" class="form-control" id="m_datepicker_1" formControlName="studentDateOfBirth" name="studentDateOfBirth"
 												 readonly #datePicker1 placeholder="Date of Birth" > -->
 											</div>
@@ -331,9 +330,6 @@
 													Contact No.:
 												</label>
 												<input type="text" formControlName="phone" name="phone" class="form-control m-input" placeholder="Contact Number">
-												<div class="alertMsg" *ngIf="studentForm.get('phone').hasError('required') && studentForm.get('phone').touched">
-													Please enter Phone Number
-												</div>
 												<div class="alertMsg" *ngIf="!studentForm.get('phone').hasError('required') && studentForm.get('phone').hasError('pattern') && studentForm.get('phone').touched">
 													Please enter valid Phone numeber
 												</div>

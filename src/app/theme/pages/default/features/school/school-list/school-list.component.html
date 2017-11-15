@@ -123,12 +123,13 @@
 				</div>
 
 				<div class="table-responsive">
-					<!--begin: Datatable -->
-					<table class="staticTable" id="" width="100%">
-						<thead>
-							<tr>
+					<div class="tableBox">
+						<!--begin: Datatable -->
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
 
-								<!-- <th title="Field #2">
+									<!-- <th title="Field #2">
 									<a href="#" (click)="sort('SchoolId',ascSortCol1 = !ascSortCol1)">
 										School ID
 									</a>
@@ -138,61 +139,62 @@
 										School Name
 									</a>
 								</th> -->
-								<th title="Field #4">
-									<a href="#" (click)="sort('instituteId',ascSortCol6 = !ascSortCol6)">
-										Institute
-									</a>
-								</th>
-								<th title="Field #5">
-									<a href="#" (click)="sort('SchoolName',ascSortCol1 = !ascSortCol1)">
-										School Name
-									</a>
-								</th>
-								<th title="Field #6">
-									<a href="#" (click)="sort('boardId',ascSortCol5 = !ascSortCol5)">
-										Board
-									</a>
-								</th>
-								<th title="Field #6">
-									<a href="#" (click)="sort('schoolAddress',ascSortCol2 = !ascSortCol2)">
-										Address
-									</a>
-								</th>
-								<th title="Field #7">
-									<a href="#" (click)="sort('schoolCity',ascSortCol3 = !ascSortCol3)">
-										City
-									</a>
-								</th>
-								<th title="Field #8">
-									Actions
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of schoolList | async'>
-								<td>{{row.SchoolInstitute.instituteName}}</td>
-								<td>{{row.schoolName}}</td>
-								<td>{{row.SchoolBoard.boardName}}</td>
-								<td>{{row.schoolAddress}}</td>
-								<td>{{row.schoolCity}}</td>
+									<th title="Field #4">
+										<a href="#" (click)="sort('instituteId',ascSortCol6 = !ascSortCol6)">
+											Institute
+										</a>
+									</th>
+									<th title="Field #5">
+										<a href="#" (click)="sort('SchoolName',ascSortCol1 = !ascSortCol1)">
+											School Name
+										</a>
+									</th>
+									<th title="Field #6">
+										<a href="#" (click)="sort('boardId',ascSortCol5 = !ascSortCol5)">
+											Board
+										</a>
+									</th>
+									<th title="Field #6">
+										<a href="#" (click)="sort('schoolAddress',ascSortCol2 = !ascSortCol2)">
+											Address
+										</a>
+									</th>
+									<th title="Field #7">
+										<a href="#" (click)="sort('schoolCity',ascSortCol3 = !ascSortCol3)">
+											City
+										</a>
+									</th>
+									<th title="Field #8">
+										Actions
+									</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of schoolList | async'>
+									<td>{{row.SchoolInstitute.instituteName}}</td>
+									<td>{{row.schoolName}}</td>
+									<td>{{row.SchoolBoard.boardName}}</td>
+									<td>{{row.schoolAddress}}</td>
+									<td>{{row.schoolCity}}</td>
 
-								<td>
-									<a href="javascript:;" (click)="onEditSchoolClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit" [isAuthorize]="['School.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onSchoolDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete" [isAuthorize]="['School.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>
+									<td>
+										<a href="javascript:;" (click)="onEditSchoolClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Edit" [isAuthorize]="['School.Update']">
+											<i class="la la-edit"></i>
+										</a>
+										<a href="javascript:;" (click)="onSchoolDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['School.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
 
-					</table>
+						</table>
+					</div>
 					<!-- Pagination -->
 					<div class="PaginationBox">
 
