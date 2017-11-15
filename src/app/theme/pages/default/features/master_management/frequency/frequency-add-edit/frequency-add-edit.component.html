@@ -52,25 +52,27 @@
 		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(frequencyForm,frequencyForm.invalid)"
 		 [formGroup]="frequencyForm">
 			<div class="m-portlet__body formPortletBody">
-				<div class="form-group m-form__group m--margin-top-10 m--hide">
-				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 						Frequency Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="frequencyName" name="frequencyName" id="frequencyName" maxlength="100" placeholder="Frequency Name">
+						<input class="form-control m-input" type="text" formControlName="frequencyName" name="frequencyName" id="frequencyName" maxlength="100"
+						 placeholder="Frequency Name">
 						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && (frequencyForm.get('frequencyName').touched || isFormSubmited)">
 							Please enter Frequency Name
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
+					<label for="example-text-input" class="col-md-2  col-form-label">
 						Frequency Value
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="number" formControlName="frequencyValue" name="frequencyValue" id="frequencyValue"  maxlength="5" placeholder="Frequency Value">
+						<input class="form-control m-input" type="number" formControlName="frequencyValue" name="frequencyValue" id="frequencyValue"
+						 maxlength="5" placeholder="Frequency Value">
 						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && (frequencyForm.get('frequencyValue').touched || isFormSubmited)">
 							Please enter Frequency Value
 						</div>
@@ -80,15 +82,16 @@
 			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
-						<div class="col-lg-6">
-							<button type="submit" [isAuthorize]="['Frequency.Update', 'Frequency.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+						<div class="col-lg-2">
+							<button type="submit" [isAuthorize]="['Frequency.Update', 'Frequency.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
 								Save
 							</button>
+						</div>
+						<div class="col-lg-6">
 							<button type="reset" class="btn btn-secondary" (click)="onCancel()">
 								Cancel
 							</button>
 						</div>
-
 					</div>
 				</div>
 			</div>

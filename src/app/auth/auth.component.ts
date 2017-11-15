@@ -5,6 +5,7 @@ import { GlobalErrorHandler } from '../_services/error-handler.service';
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";
+import { StoreService } from "../_services/store.service";
 import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
@@ -35,6 +36,7 @@ export class AuthComponent implements OnInit {
     private _alertService: AlertService,
     private _globalErrorHandler: GlobalErrorHandler,
     private _userSchoolDetailsService: UserSchoolDetailsService,
+    private storeService:StoreService,
     private cfr: ComponentFactoryResolver) {
   }
 
@@ -57,6 +59,7 @@ export class AuthComponent implements OnInit {
       .subscribe(
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.storeService.getPermission();
         if (currentUser && currentUser.user) {
           let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
@@ -128,7 +131,7 @@ export class AuthComponent implements OnInit {
       },
       error => {
         this.showAlert('alertForgotPass');
-        this._alertService.error(error.json().error.message);
+        this._alertService.error(error.json().Message);
         this.loading = false;
       });
   }

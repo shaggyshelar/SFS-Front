@@ -49,14 +49,12 @@
 		</div>
 
 		<!--begin::Form-->
-		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(instituteForm,instituteForm.invalid)"
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(instituteForm,instituteForm.invalid)"
 		 [formGroup]="instituteForm">
 			<div class="m-portlet__body formPortletBody">
-				<div class="form-group m-form__group m--margin-top-10 m--hide">
-				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Institute Name
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						 Name<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="instituteName" name="instituteName" id="instituteName" maxlength="100" placeholder="Institute Name">
@@ -66,8 +64,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Institute Description
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						 Description<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="instituteDescription" name="instituteDescription" id="instituteDescription"  maxlength="100" placeholder="Institute Description">
@@ -77,8 +75,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Phone
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Phone<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="phone" name="phone" id="phone"  maxlength="15" placeholder="Institute Phone">
@@ -91,8 +89,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Email
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Email<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="15" placeholder="Institute email">
@@ -105,8 +103,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Address
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Address<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<textarea class="form-control m-input" rows="3" formControlName="address" name="address" id="address" style="resize:none;"  maxlength="500" ></textarea>
@@ -119,10 +117,12 @@
 			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
-						<div class="col-lg-6">
-							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+						<div class="col-lg-2">
+							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
 								Save
 							</button>
+						</div>
+						<div class="col-lg-6">
 							<button type="reset" class="btn btn-secondary" (click)="onCancel()">
 								Cancel
 							</button>
