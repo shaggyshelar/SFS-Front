@@ -2,11 +2,12 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { UserService } from "../_services/user.service";
 import { Observable } from "rxjs/Rx";
-
+import { StoreService } from "../../_services/store.service";
+import * as _ from 'lodash/index';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private _router: Router, private _userService: UserService) {
+  constructor(private _router: Router, private _userService: UserService,private storeService:StoreService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
@@ -17,16 +18,21 @@ export class AuthGuard implements CanActivate {
     }
 
     if (route.data['permissions']) {
-      if (currentUser && currentUser.permissions) {
-        for (var i = 0; i < route.data['permissions'].length; i++) {
-          if (currentUser.permissions.indexOf(route.data['permissions'][i]) === -1) {
-            this._router.navigate(['/forbidden']);
-            return false;
+
+      this.storeService.permissionsList.subscribe((response) => {
+        if (response) {
+          for (var i = 0; i < route.data['permissions'].length; i++) {
+            if (!_.find(response, ['permissionName',route.data['permissions'][i]])) {
+              this._router.navigate(['/forbidden']);
+              return false;
+            }
           }
+        } else {
+          return false;
         }
-      } else {
-        return false;
-      }
+      }, error => {
+        this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      });
     }
     return true;
   }

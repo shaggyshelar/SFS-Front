@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Institutes } from "../../../../_models/institutes";
@@ -48,6 +48,7 @@ export class InstitutesListComponent implements OnInit {
         private messageService: MessageService,
         private institutesService: InstitutesService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private _script: ScriptLoaderService) {
     }
 
@@ -106,14 +107,23 @@ export class InstitutesListComponent implements OnInit {
         this.router.navigate(['/features/institute/edit', institute.id]);
     }
     onInstituteDeleteClick(institute: Institutes) {
-        this.institutesService.deleteInstitute(institute.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllInstitutes();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.institutesService.deleteInstitute(institute.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        this.getAllInstitutes();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddInstitutes() {
         this.router.navigate(['/features/institute/add']);

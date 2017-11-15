@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Frequencies } from "../../../../_models/Frequencies";
@@ -48,6 +48,7 @@ export class FrequenciesListComponent implements OnInit {
         private messageService: MessageService,
         private FrequencyService: FrequencyService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private _script: ScriptLoaderService) {
     }
 
@@ -106,6 +107,11 @@ export class FrequenciesListComponent implements OnInit {
         this.router.navigate(['/features/masterManagement/frequencies/edit', frequency.id]);
     }
     onFrequencyDeleteClick(frequency: Frequencies) {
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
         this.FrequencyService.deleteFrequency(frequency.id).subscribe(
             results => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
@@ -114,6 +120,10 @@ export class FrequenciesListComponent implements OnInit {
             error => {
                 this.globalErrorHandler.handleError(error);
             })
+        },
+        reject: () => {
+        }
+      });
     }
     onAddFrequency() {
         this.router.navigate(['/features/masterManagement/frequencies/add']);

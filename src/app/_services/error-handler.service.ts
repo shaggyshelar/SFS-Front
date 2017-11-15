@@ -16,12 +16,14 @@ export class GlobalErrorHandler implements ErrorHandler {
     let error = response.json().error
     if (error) {
       if (error.statusCode === 401) {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('instituteId');
-        localStorage.removeItem('schoolId');
-        localStorage.removeItem('schoolLogo' );
-        localStorage.removeItem('schoolHeader');
-        this._router.navigate(['/login']);
+        // localStorage.removeItem('currentUser');
+        // localStorage.removeItem('instituteId');
+        // localStorage.removeItem('schoolId');
+        // localStorage.removeItem('schoolLogo' );
+        // localStorage.removeItem('schoolHeader');
+        // this._router.navigate(['/login']);
+        errMsg = error.message;
+        this.messageService.addMessage({ severity: 'error', summary: 'Failed', detail: errMsg });
       } else {
         errMsg = error.message;
         this.messageService.addMessage({ severity: 'error', summary: 'Failed', detail: errMsg });

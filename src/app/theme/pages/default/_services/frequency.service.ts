@@ -32,7 +32,7 @@ export class FrequencyService {
   }
 
   deleteFrequency(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'Frequencies/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Frequencies/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }

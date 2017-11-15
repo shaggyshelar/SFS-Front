@@ -6,7 +6,7 @@ import { CategoriesService } from '../../../../_services/categories.service';
 import { Categories } from "../../../../_models/categories";
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-
+import { ConfirmationService } from 'primeng/primeng';
 @Component({
   selector: "app-users-list",
   templateUrl: "./categories-list.component.html",
@@ -47,6 +47,7 @@ export class CategoriesListComponent implements OnInit {
     private messageService: MessageService,
     private categoriesService: CategoriesService,
     private globalErrorHandler: GlobalErrorHandler,
+    private confirmationService: ConfirmationService,
     private _script: ScriptLoaderService) {
   }
 
@@ -107,15 +108,24 @@ export class CategoriesListComponent implements OnInit {
     this.router.navigate(['/features/masterManagement/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {
-    this.categoriesService.deleteCategory(data.id)
-      .subscribe(
-      results => {
-        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-        this.getAllCategories();
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.categoriesService.deleteCategory(data.id)
+          .subscribe(
+          results => {
+            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+            this.getAllCategories();
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
       },
-      error => {
-        this.globalErrorHandler.handleError(error);
-      });
+      reject: () => {
+      }
+    });
   }
 
   /* Pagination Function's Ends */

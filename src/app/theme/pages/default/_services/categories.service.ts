@@ -29,7 +29,7 @@ export class CategoriesService {
   }
 
   deleteCategory(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'categories/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'categories/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getCategoryCount(url){
     return this.http.get(AppSettings.API_ENDPOINT + 'categories/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());      
