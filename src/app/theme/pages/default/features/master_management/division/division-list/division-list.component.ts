@@ -125,7 +125,6 @@ export class DivisionListComponent implements OnInit {
         this.divisionList = this.divisionService.getAllDivisionList(this.url);
 
         this.divisionList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
         }, error => {
             this.globalErrorHandler.handleError(error);
