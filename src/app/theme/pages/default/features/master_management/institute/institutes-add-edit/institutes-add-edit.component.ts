@@ -32,7 +32,7 @@ export class InstituteAddEditComponent implements OnInit {
             instituteName: ['', [Validators.required]],
             instituteDescription: [''],
             email: ['', [Validators.email]],
-            phone: ['', [Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            phone: ['', [Validators.pattern('[0-9]{15}')]],
             address: [''],
         });
 
