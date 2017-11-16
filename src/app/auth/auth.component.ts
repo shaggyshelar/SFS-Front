@@ -36,7 +36,7 @@ export class AuthComponent implements OnInit {
     private _alertService: AlertService,
     private _globalErrorHandler: GlobalErrorHandler,
     private _userSchoolDetailsService: UserSchoolDetailsService,
-    private storeService:StoreService,
+    private storeService: StoreService,
     private cfr: ComponentFactoryResolver) {
   }
 
@@ -65,17 +65,17 @@ export class AuthComponent implements OnInit {
           if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
           }
-          else  {
+          else {
             this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
               .subscribe(
               results => {
                 if (results.length > 1) {
                   this._router.navigate(['/selectSchool']);
                 }
-                else {
+                else if (results[0].UserschoolSchool) {
                   localStorage.setItem('schoolLogo', results[0].UserschoolSchool.schoolLogo);
                   localStorage.setItem('schoolHeader', results[0].UserschoolSchool.schoolHeader);
-                  
+
                   localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
                   localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
                   this._router.navigate([this.returnUrl]);

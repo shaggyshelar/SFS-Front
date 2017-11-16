@@ -12,7 +12,7 @@
 					</div>
 					<div class="schoolNameBox">
 						<h4>{{item.UserschoolSchool? item.UserschoolSchool.schoolName:''}}</h4>
-						<p>
+						<p *ngIf="item.UserschoolSchool">
 							{{item.UserschoolSchool?item.UserschoolSchool.schoolAddress:''}},{{item.UserschoolSchool?item.UserschoolSchool.schoolCity:''}},{{item.UserschoolSchool.schoolState}},{{item.UserschoolSchool.schoolCountry}}
 						</p>
 						<button *ngIf="item.UserschoolSchool" (click)="onSchoolSelect(item.UserschoolSchool.id,item.UserschoolSchool.instituteId,item.UserschoolSchool.schoolHeader,item.UserschoolSchool.schoolLogo)" class="btn btn-primary btn-sm">Go to Dashboard <i class="la la-arrow-right"></i></button>								
