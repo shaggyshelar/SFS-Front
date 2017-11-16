@@ -110,72 +110,74 @@
 							</div>
 							<div class="table-responsive">
 								<!--begin: Datatable -->
-								<table class="staticTable" id="" width="100%">
-									<thead>
-										<tr>
-											<th title="Field #1">
-												<a href="#" (click)="sort('username',ascSortCol1 = !ascSortCol1)">
-													User Name
-												</a>
-											</th>
-											<th title="Field #2">
-												Phone
-											</th>
-											<th title="Field #3">
-												Email
-											</th>
-											<th title="Field #3">
-												Status
-											</th>
-											<th title="Field #4">
-												Actions
-											</th>
-										</tr>
-									</thead>
-									<tbody *ngIf="longList && userRole == 'SuperAdmin'">
-										<tr *ngFor='let row of userList | async'>
-											<td>{{row.username}}</td>
-											<td>{{row.phone}}</td>
-											<td>{{row.email}}</td>	
-											<td *ngIf="row.isActivate" >Yes</td>
-											<td *ngIf="!row.isActivate" >No</td>			
-											<td>
-												<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Edit" [isAuthorize]="['User.Update']">
-													<i class="la la-edit"></i>
-												</a>
-												<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Delete" [isAuthorize]="['User.Delete']">
-													<i class="la la-close"></i>
-												</a>
-											</td>
-										</tr>
-									</tbody>
+								<div class="tableBox">
+									<table class="staticTable" id="" width="100%">
+										<thead>
+											<tr>
+												<th title="Field #1">
+													<a href="#" (click)="sort('username',ascSortCol1 = !ascSortCol1)">
+														User Name
+													</a>
+												</th>
+												<th title="Field #2">
+													Phone
+												</th>
+												<th title="Field #3">
+													Email
+												</th>
+												<th title="Field #3">
+													Status
+												</th>
+												<th title="Field #4">
+													Actions
+												</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="longList && userRole == 'SuperAdmin'">
+											<tr *ngFor='let row of userList | async'>
+												<td>{{row.username}}</td>
+												<td>{{row.phone}}</td>
+												<td>{{row.email}}</td>	
+												<td *ngIf="row.isActivate" >Yes</td>
+												<td *ngIf="!row.isActivate" >No</td>			
+												<td>
+													<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Edit" [isAuthorize]="['User.Update']">
+														<i class="la la-edit"></i>
+													</a>
+													<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Delete" [isAuthorize]="['User.Delete']">
+														<i class="la la-close"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
 
-									<tbody *ngIf="longList && userRole != 'SuperAdmin'">
-										<tr *ngFor='let row of userList | async'>
-											<td>{{row.UserschoolUser.username}}</td>
-											<td>{{row.UserschoolUser.phone}}</td>
-											<td>{{row.UserschoolUser.email}}</td>	
-											<td *ngIf="row.UserschoolUser.isActivate" >Yes</td>
-											<td *ngIf="!row.UserschoolUser.isActivate" >No</td>			
-											<td>
-												<a href="javascript:;" (click)="onEditClick(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Edit" [isAuthorize]="['User.Update']">
-													<i class="la la-edit"></i>
-												</a>
-												<a href="javascript:;" (click)="onDelete(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Delete" [isAuthorize]="['User.Delete']">
-													<i class="la la-close"></i>
-												</a>
-											</td>
-										</tr>
-									</tbody>
-									<tbody *ngIf="!longList">
-										No Records Found...
-									</tbody>
-			
-								</table>
+										<tbody *ngIf="longList && userRole != 'SuperAdmin'">
+											<tr *ngFor='let row of userList | async'>
+												<td>{{row.UserschoolUser.username}}</td>
+												<td>{{row.UserschoolUser.phone}}</td>
+												<td>{{row.UserschoolUser.email}}</td>	
+												<td *ngIf="row.UserschoolUser.isActivate" >Yes</td>
+												<td *ngIf="!row.UserschoolUser.isActivate" >No</td>			
+												<td>
+													<a href="javascript:;" (click)="onEditClick(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Edit" [isAuthorize]="['User.Update']">
+														<i class="la la-edit"></i>
+													</a>
+													<a href="javascript:;" (click)="onDelete(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Delete" [isAuthorize]="['User.Delete']">
+														<i class="la la-close"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="!longList">
+											No Records Found...
+										</tbody>
+				
+									</table>
+								</div>
 								<!-- Pagination -->
 								<div class="PaginationBox">
 			

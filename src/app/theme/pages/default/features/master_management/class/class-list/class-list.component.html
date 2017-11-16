@@ -113,65 +113,66 @@
 				</div>
 
 				<div class="table-responsive">
-					<table class="staticTable" id="" width="100%">
-						<thead>
-							<tr>
-								<!-- <th title="">
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<!-- <th title="">
 									<a href="#" (click)="sort('id',ascSortCol1 = !ascSortCol1)">
 										Class Id
 									</a>
 								</th> -->
-								<th title="">
-									<a href="#" (click)="sort('classCode',ascSortCol2 = !ascSortCol2)">
-										Class Code
-									</a>
-								</th>
-								<th title="">
-									<a href="#" (click)="sort('className',ascSortCol3 = !ascSortCol3)">
-										Class Name
-									</a>
-								</th>
-								<th title="">
-									<a href="#" (click)="sort('createdOn',ascSortCol3 = !ascSortCol3)">
-										Created on
-									</a>
-								</th>
-								<th title="">
-									Actions
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of classList | async'>
-								<!-- <td>
+									<th title="">
+										<a href="#" (click)="sort('classCode',ascSortCol2 = !ascSortCol2)">
+											Class Code
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('className',ascSortCol3 = !ascSortCol3)">
+											Class Name
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('createdOn',ascSortCol3 = !ascSortCol3)">
+											Created on
+										</a>
+									</th>
+									<th title="">
+										Actions
+									</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of classList | async'>
+									<!-- <td>
 									{{row.id}}
 								</td> -->
-								<td>
-									{{row.classCode}}
-								</td>
-								<td>
-									{{row.className}}
-								</td>
-								<td>
-									{{row.createdOn | date:"yyyy-MM-dd"}}
-								</td>
-								<td>
-									<a href="javascript:;" (click)="onEditClassClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit" [isAuthorize]="['Class.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onClassDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete" [isAuthorize]="['Class.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>
-					</table>
-
+									<td>
+										{{row.classCode}}
+									</td>
+									<td>
+										{{row.className}}
+									</td>
+									<td>
+										{{row.createdOn | date:"yyyy-MM-dd"}}
+									</td>
+									<td>
+										<a href="javascript:;" (click)="onEditClassClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Edit" [isAuthorize]="['Class.Update']">
+											<i class="la la-edit"></i>
+										</a>
+										<a href="javascript:;" (click)="onClassDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['Class.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
+						</table>
+					</div>
 					<!-- Pagination -->
 					<div class="PaginationBox">
 

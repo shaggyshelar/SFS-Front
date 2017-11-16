@@ -59,7 +59,7 @@ export class ClassListComponent implements OnInit {
         private _script: ScriptLoaderService,
         private classService: ClassService,
         private confirmationService: ConfirmationService,
-        
+
     ) {
     }
 
@@ -387,6 +387,9 @@ export class ClassListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllClasses();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
         );
     }
     getUrl() {

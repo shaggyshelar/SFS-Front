@@ -366,6 +366,9 @@ export class SchoolListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllSchools();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
         );
     }
     getUrl() {

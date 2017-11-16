@@ -108,7 +108,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
+							 (keyup)="searchString(searchValue)">
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -119,73 +120,74 @@
 				</div>
 
 				<div class="table-responsive">
-					<table class="staticTable" id="" width="100%">
-						<thead>
-							<tr>
-								<!-- <th title="">
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<!-- <th title="">
 									<a href="#" (click)="sort('id',ascSortCol1 = !ascSortCol1)">
 										Id
 									</a>
 								</th> -->
-								<th title="">
-									<a href="#" (click)="sort('classId',ascSortCol2 = !ascSortCol2)">
-										Class Name
-									</a>
-								</th>
-								<th title="">
-									<a href="#" (click)="sort('divisionName',ascSortCol3 = !ascSortCol3)">
-										Division Name
-									</a>
-								</th>
-								<th title="">
-									<a href="#" (click)="sort('divisionCode',ascSortCol4 = !ascSortCol4)">
-										Division Code
-									</a>
-								</th>
-								<th title="">
-									<a href="#" (click)="sort('createdOn',ascSortCol3 = !ascSortCol3)">
-										Created on
-									</a>
-								</th>
-								<th title="">
-									Actions
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of divisionList | async'>
-								<!-- <td>
+									<th title="">
+										<a href="#" (click)="sort('classId',ascSortCol2 = !ascSortCol2)">
+											Class Name
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('divisionName',ascSortCol3 = !ascSortCol3)">
+											Division Name
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('divisionCode',ascSortCol4 = !ascSortCol4)">
+											Division Code
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('createdOn',ascSortCol3 = !ascSortCol3)">
+											Created on
+										</a>
+									</th>
+									<th title="">
+										Actions
+									</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of divisionList | async'>
+									<!-- <td>
 									{{row.id}}
 								</td> -->
-								<td>
-									{{row.DivisionClass.className}}
-								</td>
-								<td>
-									{{row.divisionName}}
-								</td>
-								<td>
-									{{row.divisionCode}}
-								</td>
-								<td>
-									{{row.createdOn | date:'yyyy-MM-dd'}}
-								</td>
-								<td>
-									<a href="javascript:;" (click)="onEditDivisionClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit" [isAuthorize]="['Division.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onDivisionDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete" [isAuthorize]="['Division.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>
-					</table>
-
+									<td>
+										{{row.DivisionClass.className}}
+									</td>
+									<td>
+										{{row.divisionName}}
+									</td>
+									<td>
+										{{row.divisionCode}}
+									</td>
+									<td>
+										{{row.createdOn | date:'yyyy-MM-dd'}}
+									</td>
+									<td>
+										<a href="javascript:;" (click)="onEditDivisionClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Edit" [isAuthorize]="['Division.Update']">
+											<i class="la la-edit"></i>
+										</a>
+										<a href="javascript:;" (click)="onDivisionDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['Division.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
+						</table>
+					</div>
 					<!-- Pagination -->
 					<div class="PaginationBox">
 

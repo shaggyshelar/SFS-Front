@@ -110,41 +110,43 @@
 							</div>
 							<div class="table-responsive">
 								<!--begin: Datatable -->
-								<table class="staticTable" id="" width="100%">
-									<thead>
-										<tr>
-											<th title="Field #4">
-												Role Name
-											</th>
-											<th title="Field #4">
-												Role Description
-											</th>
-											<th title="Field #8">
-												Actions
-											</th>
-										</tr>
-									</thead>
-									<tbody *ngIf="longList">
-										<tr *ngFor='let row of roleList | async'>
-											<td>{{row.displayName}}</td>
-											<td>{{row.description}}</td>			
-											<td>
-												<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Edit" [isAuthorize]="['Role.Update']">
-													<i class="la la-edit"></i>
-												</a>
-												<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-												 title="Delete" [isAuthorize]="['Role.Delete']">
-													<i class="la la-close"></i>
-												</a>
-											</td>
-										</tr>
-									</tbody>
-									<tbody *ngIf="!longList">
-										No Records Found...
-									</tbody>
-			
-								</table>
+								<div class="tableBox">
+									<table class="staticTable" id="" width="100%">
+										<thead>
+											<tr>
+												<th title="Field #4">
+													Role Name
+												</th>
+												<th title="Field #4">
+													Role Description
+												</th>
+												<th title="Field #8">
+													Actions
+												</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="longList">
+											<tr *ngFor='let row of roleList | async'>
+												<td>{{row.displayName}}</td>
+												<td>{{row.description}}</td>			
+												<td>
+													<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Edit" [isAuthorize]="['Role.Update']">
+														<i class="la la-edit"></i>
+													</a>
+													<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Delete" [isAuthorize]="['Role.Delete']">
+														<i class="la la-close"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="!longList">
+											No Records Found...
+										</tbody>
+				
+									</table>
+								</div>
 								<!-- Pagination -->
 								<div class="PaginationBox">
 									
