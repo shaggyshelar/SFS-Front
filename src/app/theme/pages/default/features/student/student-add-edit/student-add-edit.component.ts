@@ -34,6 +34,8 @@ export class StudentAddEditComponent implements OnInit {
     genderSelected: string; bloodGroupSelected: string;
     dateOfBirth: string;
     dateOfJoining: string;
+    studentName : string;
+    studentCode : string;
 
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
@@ -50,6 +52,9 @@ export class StudentAddEditComponent implements OnInit {
 
     ngOnInit() {
 
+        this.studentCode = '';
+        this.studentName = '';
+
         this.studentForm = this.formBuilder.group({
             id: [],
             studentFirstName: ['', [Validators.required]],
@@ -64,6 +69,7 @@ export class StudentAddEditComponent implements OnInit {
             motherMobile: [, [Validators.pattern('[7-9]{1}[0-9]{9}')]],
             guardianFirstName: [],
             guardianLastName: [],
+            gRNumber:[],
             guardianMobile: [, [Validators.pattern('[7-9]{1}[0-9]{9}')]],
             classId: [, [Validators.required]],
             categoryId: [, [Validators.required]],
@@ -133,9 +139,10 @@ export class StudentAddEditComponent implements OnInit {
                             this.studentService.getStudentById(this.params)
                                 .subscribe(
                                 (results: Student) => {
+                                    this.studentCode = results.studentCode;
+                                    this.studentName = results.studentFirstName + ' ' + results.studentLastName;
                                     this.studentForm.setValue({
                                         id: results.id,
-
                                         studentFirstName: results.studentFirstName,
                                         studentMiddleName: results.studentMiddleName,
                                         studentLastName: results.studentLastName,
@@ -163,6 +170,7 @@ export class StudentAddEditComponent implements OnInit {
                                         email: results.email,
                                         createdBy: results.createdBy,
                                         createdOn: results.createdOn,
+                                        gRNumber: results.gRNumber,
                                         /*studentCode: results.studentCode,
                                         schoolId: results.schoolId,
                                         
