@@ -9,6 +9,10 @@ import { ScriptLoaderService } from '../../../../../../_services/script-loader.s
 import { StudentService } from '../../../_services/student.service';
 import { CommonService } from '../../../_services/common.service';
 import { ClassService } from '../../../_services/class.service';
+import { AcademicYearService } from '../../../_services/academic-year.service';
+import { CategoriesService } from '../../../_services/categories.service';
+
+
 import { Student } from "../../../_models/Student";
 
 @Component({
@@ -34,7 +38,7 @@ export class StudentAddEditComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService,
-        private classService: ClassService
+        private classService: ClassService, private academicYearService: AcademicYearService, private categoryService: CategoriesService
     ) {
     }
 
@@ -46,62 +50,6 @@ export class StudentAddEditComponent implements OnInit {
 
     ngOnInit() {
 
-        //List of Gender
-        let list = this.commonService.getGender();
-        this.genderList = [];
-
-        for (var index = 0; index < list.length; index++) {
-            this.genderList.push({ label: list[index], value: list[index] });
-        }
-
-        //List of Classes
-        this.classList = [];
-        let val = this.classService.getAllClasses();
-        //this.classList.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.classList.push({ label: response[key].className, value: response[key].id });
-                }
-            }
-        });
-
-        //List of Academic Year
-        val = this.commonService.getYear();
-        this.yearList = [];
-
-        //this.yearList.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.yearList.push({ label: response[key].academicYear, value: response[key].id });
-                }
-            }
-        });
-
-        //List of Categories
-        this.categoryList = [];
-        val = this.commonService.getCategory();
-        //this.categoryList.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.categoryList.push({ label: response[key].categoryName, value: response[key].id });
-                }
-            }
-        });
-
-        //List of Blood groups
-        list = this.commonService.getBloodGroup();
-        this.bloodGroupList = [];
-
-        for (var index = 0; index < list.length; index++) {
-            this.bloodGroupList.push({ label: list[index], value: list[index] });
-        }
-        let emailRegex: any = '^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$';
         this.studentForm = this.formBuilder.group({
             id: [],
             studentFirstName: ['', [Validators.required]],
@@ -128,8 +76,6 @@ export class StudentAddEditComponent implements OnInit {
             bloodGroup: [],
             studentCode: [, [Validators.required]],
             divisionId: [],
-
-
             createdBy: [],
             createdOn: [],
             // schoolId: [],
@@ -137,67 +83,118 @@ export class StudentAddEditComponent implements OnInit {
             email: [],
         });
 
-        this.route.params.forEach((params: Params) => {
-            this.params = params['studentId'];
-            if (this.params) {
-                this.studentService.getStudentById(this.params)
-                    .subscribe(
-                    (results: Student) => {
-                        this.studentForm.setValue({
-                            id: results.id,
+        //List of Gender
+        let list = this.commonService.getGender();
+        this.genderList = [];
 
-                            studentFirstName: results.studentFirstName,
-                            studentMiddleName: results.studentMiddleName,
-                            studentLastName: results.studentLastName,
-                            studentGender: results.studentGender,
-                            fatherFirstName: results.fatherFirstName,
-                            fatherLastName: results.fatherLastName,
-                            fatherMobile: results.fatherMobile,
-                            motherFirstName: results.motherFirstName,
-                            motherLastName: results.motherLastName,
-                            motherMobile: results.motherMobile,
-                            guardianFirstName: results.guardianFirstName,
-                            guardianLastName: results.guardianLastName,
-                            guardianMobile: results.guardianMobile,
-                            classId: results.classId,
-                            categoryId: results.categoryId,
-                            academicYear: results.academicYear,
-                            city: results.city,
-                            state: results.state,
-                            phone: results.phone,
-                            dateOfJoining: new Date(results.dateOfJoining),
-                            studentDateOfBirth: new Date(results.studentDateOfBirth),
-                            bloodGroup: results.bloodGroup,
-                            studentCode: results.studentCode,
-                            divisionId: results.divisionId,
-                            email: results.email,
-                            createdBy: results.createdBy,
-                            createdOn: results.createdOn,
-                            /*studentCode: results.studentCode,
-                            schoolId: results.schoolId,
-                            
-                            email: results.email,
-                            
-                            */
-                        });
-                    },
-                    error => {
-                        this.globalErrorHandler.handleError(error);
-                    });
+        for (var index = 0; index < list.length; index++) {
+            this.genderList.push({ label: list[index], value: list[index] });
+        }
+
+        //List of Classes
+        this.classList = [];
+        let val = this.classService.getAllClasses();
+        //this.classList.push({ label: '--Select--', value: 'select' });
+        val.subscribe((response) => {
+
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    this.classList.push({ label: response[key].className, value: response[key].id });
+                }
             }
-        });
-    }
 
+            //List of Academic Year
+            val = this.academicYearService.getAllAcademicYears();
+            this.yearList = [];
+
+            //this.yearList.push({ label: '--Select--', value: 'select' });
+            val.subscribe((response) => {
+
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        this.yearList.push({ label: response[key].academicYear, value: response[key].id });
+                    }
+                }
+
+                //List of Categories
+                this.categoryList = [];
+                val = this.categoryService.getAllCategories();
+                //this.categoryList.push({ label: '--Select--', value: 'select' });
+                val.subscribe((response) => {
+
+                    for (let key in response) {
+                        if (response.hasOwnProperty(key)) {
+                            this.categoryList.push({ label: response[key].categoryName, value: response[key].id });
+                        }
+                    }
+                    this.route.params.forEach((params: Params) => {
+                        this.params = params['studentId'];
+                        if (this.params) {
+                            this.studentService.getStudentById(this.params)
+                                .subscribe(
+                                (results: Student) => {
+                                    this.studentForm.setValue({
+                                        id: results.id,
+
+                                        studentFirstName: results.studentFirstName,
+                                        studentMiddleName: results.studentMiddleName,
+                                        studentLastName: results.studentLastName,
+                                        studentGender: results.studentGender,
+                                        fatherFirstName: results.fatherFirstName,
+                                        fatherLastName: results.fatherLastName,
+                                        fatherMobile: results.fatherMobile,
+                                        motherFirstName: results.motherFirstName,
+                                        motherLastName: results.motherLastName,
+                                        motherMobile: results.motherMobile,
+                                        guardianFirstName: results.guardianFirstName,
+                                        guardianLastName: results.guardianLastName,
+                                        guardianMobile: results.guardianMobile,
+                                        classId: results.classId,
+                                        categoryId: results.categoryId,
+                                        academicYear: results.academicYear,
+                                        city: results.city,
+                                        state: results.state,
+                                        phone: results.phone,
+                                        dateOfJoining: new Date(results.dateOfJoining),
+                                        studentDateOfBirth: new Date(results.studentDateOfBirth),
+                                        bloodGroup: results.bloodGroup,
+                                        studentCode: results.studentCode,
+                                        divisionId: results.divisionId,
+                                        email: results.email,
+                                        createdBy: results.createdBy,
+                                        createdOn: results.createdOn,
+                                        /*studentCode: results.studentCode,
+                                        schoolId: results.schoolId,
+                                        
+                                        email: results.email,
+                                        
+                                        */
+                                    });
+                                },
+                                error => {
+                                    this.globalErrorHandler.handleError(error);
+                                });
+                        }
+                    });
+
+                });
+            });
+        });
+        //List of Blood groups
+        list = this.commonService.getBloodGroup();
+        this.bloodGroupList = [];
+
+        for (var index = 0; index < list.length; index++) {
+            this.bloodGroupList.push({ label: list[index], value: list[index] });
+        }
+        let emailRegex: any = '^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$';
+    }
 
     onSubmit({ value, valid }: { value: Student, valid: boolean }) {
         if (this.params) {
             value.schoolId = localStorage.getItem("schoolId");
             value.studentDateOfBirth = this.convertDate(value.studentDateOfBirth);
             value.dateOfJoining = this.convertDate(value.dateOfJoining);
-            // if(this.dateOfBirth != null && this.dateOfBirth != '')
-            //     value.studentDateOfBirth = this.dateOfBirth;
-            // if(this.dateOfJoining != null && this.dateOfJoining != '')
-            //     value.dateOfJoining = this.dateOfJoining;
             this.studentService.updateStudent(value)
                 .subscribe(
                 results => {
@@ -207,10 +204,9 @@ export class StudentAddEditComponent implements OnInit {
                 error => {
                     this.globalErrorHandler.handleError(error);
                 });
-        } else {
-
         }
     }
+    
     onCancel() {
         this.router.navigate(['/features/student/list']);
     }
@@ -218,20 +214,19 @@ export class StudentAddEditComponent implements OnInit {
     setDateOfBirth(date) {
         this.dateOfBirth = date;
     }
+
     setDateOfJoining(date) {
         this.dateOfJoining = date;
     }
+
     convertDate(date) {
         var yyyy = date.getFullYear().toString();
         var mm = (date.getMonth() + 1).toString();
         var dd = date.getDate().toString();
-
         var mmChars = mm.split('');
         var ddChars = dd.split('');
         console.log(yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]));
         return yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]);
-
     }
-
 }
 
