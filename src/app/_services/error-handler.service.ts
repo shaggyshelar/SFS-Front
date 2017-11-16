@@ -2,11 +2,11 @@ import { Injectable, ErrorHandler } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from 'rxjs/Rx';
 import { MessageService } from '../_services/message.service';
-
+import { StoreService } from '../_services/store.service';
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
 
-  constructor(private _router: Router, private messageService: MessageService) {
+  constructor(private _router: Router, private messageService: MessageService, private storeService: StoreService) {
   }
   /**
     * Method For handling Error in Http request
@@ -23,6 +23,21 @@ export class GlobalErrorHandler implements ErrorHandler {
         // localStorage.removeItem('schoolHeader');
         // this._router.navigate(['/login']);
         errMsg = error.message;
+        this.storeService.getPermission();
+        this.storeService.permissionsList.subscribe((response) => {
+          if (response) {
+
+          }
+        }, error => {
+          console.log("Auth Fail");
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('instituteId');
+          localStorage.removeItem('schoolId');
+          localStorage.removeItem('schoolLogo');
+          localStorage.removeItem('schoolHeader');
+          this._router.navigate(['/login']);
+          // this.globalErrorHandler.handleError(error);
+        });
         this.messageService.addMessage({ severity: 'error', summary: 'Failed', detail: errMsg });
       } else {
         errMsg = error.message;
