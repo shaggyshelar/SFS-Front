@@ -92,9 +92,9 @@ export class RoleListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -256,9 +256,14 @@ export class RoleListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][displayName][like]=' + searchString;
-            this.searchCountQuery = '&[where][displayName][like]=' + searchString;
+            this.searchQuery = '&filter[where][displayName][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][displayName][like]=' + searchString + '%';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
