@@ -36,7 +36,7 @@ export class IsAuthorizeDirective {
                     this._element.style.display = 'none';
                 }
                 else {
-                    this._element.style.display = 'inline-block';
+                    this._element.style.display = 'block';
                 }
             }
         }, error => {
