@@ -155,12 +155,11 @@
 
 										<tbody *ngIf="longList && userRole != 'SuperAdmin'">
 											<tr *ngFor='let row of userList | async'>
-												<td>{{row.UserschoolUser.username}}</td>
-												<td>{{row.UserschoolUser.phone}}</td>
-												<td>{{row.UserschoolUser.email}}</td>	
-												<td *ngIf="row.UserschoolUser.isActivate" >Yes</td>
-												<td *ngIf="!row.UserschoolUser.isActivate" >No</td>			
-												<td>
+												<td>{{row.UserschoolUser ? row.UserschoolUser.username : ''}}</td>
+												<td>{{row.UserschoolUser ?  row.UserschoolUser.phone : ''}}</td>
+												<td>{{row.UserschoolUser ?  row.UserschoolUser.email : ''}}</td>	
+												<td>{{row.UserschoolUser ?  row.UserschoolUser.isActivate  ? 'Yes' : 'No' : ''}}</td>
+												<td *ngIf="row.UserschoolUser">
 													<a href="javascript:;" (click)="onEditClick(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													title="Edit" [isAuthorize]="['User.Update']">
 														<i class="la la-edit"></i>
@@ -170,6 +169,7 @@
 														<i class="la la-close"></i>
 													</a>
 												</td>
+												<td *ngIf="!row.UserschoolUser"> </td>
 											</tr>
 										</tbody>
 										<tbody *ngIf="!longList">
