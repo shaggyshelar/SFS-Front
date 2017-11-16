@@ -170,9 +170,9 @@
 								<td>{{row.id}}</td>
 								<td>{{row.gRNumber}}</td>
 								<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
-								<td>{{row.StudentCategory.categoryCode}}</td>
-								<td>{{row.StudentClass.className}}</td>
-								<td>{{row.StudentDivision.divisionName}}</td>
+								<td>{{row.StudentCategory ? row.StudentCategory.categoryCode : ''}}</td>
+								<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
+								<td>{{row.StudentDivision ? row.StudentDivision.divisionName : ''}}</td>
 								<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
 								<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
 								<td>
