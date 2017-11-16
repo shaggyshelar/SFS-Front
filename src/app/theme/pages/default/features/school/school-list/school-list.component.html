@@ -57,7 +57,7 @@
 </div>
 <!-- END: Subheader -->
 
-<div class="m-content">
+<div class="m-content" [isAuthorize]="['School.Read']" style="display:none;">
 
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
@@ -90,7 +90,7 @@
 							<label>Institute</label>
 						</div>
 						<div class="filterDropdown">
-							<p-dropdown class="form-control" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('instituteId',filterValue1)"
+							<p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('instituteId',filterValue1)"
 							 name="instituteId"></p-dropdown>
 						</div>
 					</div>
@@ -99,7 +99,7 @@
 							<label>Board</label>
 						</div>
 						<div class="filterDropdown">
-							<p-dropdown class="form-control" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2('boardId',filterValue2)"
+							<p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2('boardId',filterValue2)"
 							 name="university"></p-dropdown>
 						</div>
 					</div>
@@ -171,9 +171,9 @@
 							</thead>
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of schoolList | async'>
-									<td>{{row.SchoolInstitute.instituteName}}</td>
+									<td>{{row.SchoolInstitute ? row.SchoolInstitute.instituteName : ""}}</td>
 									<td>{{row.schoolName}}</td>
-									<td>{{row.SchoolBoard.boardName}}</td>
+									<td>{{row.SchoolBoard ? row.SchoolBoard.boardName : ""}}</td>
 									<td>{{row.schoolAddress}}</td>
 									<td>{{row.schoolCity}}</td>
 
@@ -245,7 +245,7 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
 									 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>

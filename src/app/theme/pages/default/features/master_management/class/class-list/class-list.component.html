@@ -58,7 +58,7 @@
 <!-- END: Subheader -->
 
 
-<div class="m-content">
+<div class="m-content" [isAuthorize]="['Class.Read']" style="display:none;">
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
@@ -223,7 +223,7 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
 									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>

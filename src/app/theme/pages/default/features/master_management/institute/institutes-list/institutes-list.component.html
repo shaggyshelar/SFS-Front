@@ -96,8 +96,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
-							 placeholder="Search..." id="m_form_search">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -111,55 +111,57 @@
 
 				<div class="table-responsive">
 					<!--begin: Datatable -->
-					<table class="staticTable" id="" width="100%">
-						<thead>
-							<tr>
-								<th title="Field #5">
-									<a href="#" (click)="sort('instituteName',ascSortCol1 = !ascSortCol1)">
-										Institute Name
-									</a>
-								</th>
-								<th title="Field #6">
-									Institute Description
-								</th>
-								<th title="Field #6">
-									Phone
-								</th>
-								<th title="Field #7">
-									Email
-								</th>
-								<th title="Field #7">
-									Address
-								</th>
-								<th title="Field #8">
-									Actions
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf="longList">
-							<tr *ngFor='let row of instituteList | async'>
-								<td>{{row.instituteName}}</td>
-								<td>{{row.instituteDescription}}</td>
-								<td>{{row.phone}}</td>
-								<td>{{row.email}}</td>
-								<td>{{row.address}}</td>
-								<td>
-									<a href="javascript:;" (click)="onEditInstituteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Edit" [isAuthorize]="['Institute.Update']">
-										<i class="la la-edit"></i>
-									</a>
-									<a href="javascript:;" (click)="onInstituteDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-									 title="Delete" [isAuthorize]="['Institute.Delete']">
-										<i class="la la-close"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-						<tbody *ngIf="!longList">
-							No Records Found...
-						</tbody>
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<th title="Field #5">
+										<a href="#" (click)="sort('instituteName',ascSortCol1 = !ascSortCol1)">
+											Institute Name
+										</a>
+									</th>
+									<th title="Field #6">
+										Institute Description
+									</th>
+									<th title="Field #6">
+										Phone
+									</th>
+									<th title="Field #7">
+										Email
+									</th>
+									<th title="Field #7">
+										Address
+									</th>
+									<th title="Field #8">
+										Actions
+									</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="longList">
+								<tr *ngFor='let row of instituteList | async'>
+									<td>{{row.instituteName}}</td>
+									<td>{{row.instituteDescription}}</td>
+									<td>{{row.phone}}</td>
+									<td>{{row.email}}</td>
+									<td>{{row.address}}</td>
+									<td>
+										<a href="javascript:;" (click)="onEditInstituteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Edit" [isAuthorize]="['Institute.Update']">
+											<i class="la la-edit"></i>
+										</a>
+										<a href="javascript:;" (click)="onInstituteDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['Institute.Delete']">
+											<i class="la la-close"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
 
-					</table>
+						</table>
+					</div>
 					<!-- Pagination -->
 					<div class="PaginationBox">
 
@@ -173,10 +175,10 @@
 											</a>
 										</li>
 										<!-- <li class="page-item">
-											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
-												<i class="fa fa-arrows leftIcon"></i>
-											</a>
-										</li> -->
+																		<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+																			<i class="fa fa-arrows leftIcon"></i>
+																		</a>
+																	</li> -->
 										<li class="page-item">
 											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
 												<i class="la la-angle-left leftIcon"></i>
@@ -192,10 +194,10 @@
 											</a>
 										</li>
 										<!-- <li class="page-item">
-											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
-												<i class="fa fa-arrows rightIcon"></i>
-											</a>
-										</li> -->
+																		<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
+																			<i class="fa fa-arrows rightIcon"></i>
+																		</a>
+																	</li> -->
 										<li class="page-item">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
 												<i class="la la-angle-double-right rightIcon"></i>
@@ -210,8 +212,8 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
-									 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize" name="CategoryId"
+									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
 

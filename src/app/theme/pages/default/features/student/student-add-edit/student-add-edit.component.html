@@ -67,6 +67,7 @@
 											<div class="col-lg-6">
 												<label>
 													First Name:
+													<span class="requiredField">*</span>
 												</label>
 												<input formControlName="studentFirstName" name="studentFirstName" type="text" class="form-control m-input" placeholder="Student First Name">
 												<div class="alertMsg" *ngIf="studentForm.get('studentFirstName').hasError('required') && studentForm.get('studentFirstName').touched">
@@ -76,6 +77,7 @@
 											<div class="col-lg-6">
 												<label class="">
 													Middle Name:
+													<span class="requiredField">*</span>
 												</label>
 												<input type="text" formControlName="studentMiddleName" name="studentMiddleName" class="form-control m-input" placeholder="Student Middle Name">
 												<div class="alertMsg" *ngIf="studentForm.get('studentMiddleName').hasError('required') && studentForm.get('studentMiddleName').touched">
@@ -87,6 +89,7 @@
 											<div class="col-lg-6">
 												<label>
 													Last Name:
+													<span class="requiredField">*</span>
 												</label>
 												<input type="text" formControlName="studentLastName" name="studentLastName" class="form-control m-input" placeholder="Student Last Name">
 												<div class="alertMsg" *ngIf="studentForm.get('studentLastName').hasError('required') && studentForm.get('studentLastName').touched">
@@ -97,18 +100,13 @@
 											<div class="col-lg-6">
 												<label class="">
 													Gender:
+													<span class="requiredField">*</span>
 												</label>
 												<p-dropdown placeholder="Select Gender" [options]="genderList" formControlName="studentGender" [style]="{'width':'100%'}"
 												 name="gender"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('studentGender').hasError('required') && studentForm.get('studentGender').touched">
 													Please Select Gender
 												</div>
-												<!-- <select class="form-control m-input" id="exampleSelect1">
-														<option disabled selected>Select Gender</option>
-														<option>Male</option>
-														<option>Female</option>
-														<option>Other</option>
-													</select> -->
 											</div>
 
 										</div>
@@ -247,9 +245,10 @@
 											<div class="col-lg-6">
 												<label class="">
 													Class:
+													<span class="requiredField">*</span>
 												</label>
 
-												<p-dropdown placeholder="Select Class" class="form-control recordSelect" [style]="{'width':'100%'}" formControlName="classId"
+												<p-dropdown placeholder="Select Class" class="recordSelect" [style]="{'width':'100%'}" formControlName="classId"
 												 [options]="classList" name="Class"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('classId').hasError('required') && studentForm.get('classId').touched">
 													Please Select Class
@@ -258,8 +257,9 @@
 											<div class="col-lg-6">
 												<label class="">
 													Category:
+													<span class="requiredField">*</span>
 												</label>
-												<p-dropdown placeholder="Select Category" class="form-control m-input" [options]="categoryList" formControlName="categoryId"
+												<p-dropdown placeholder="Select Category" class="m-input" [options]="categoryList" formControlName="categoryId"
 												 [style]="{'width':'100%'}" name="class"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('categoryId').hasError('required') && studentForm.get('categoryId').touched">
 													Please Select Category
@@ -271,11 +271,12 @@
 											<div class="col-lg-6">
 												<label class="">
 													Academic Year:
+													<span class="requiredField">*</span>
 												</label>
-												<p-dropdown placeholder="Select Academic Year" class="form-control m-input" [options]="yearList" [style]="{'width':'100%'}"
+												<p-dropdown placeholder="Select Academic Year" class="m-input" [options]="yearList" [style]="{'width':'100%'}"
 												 formControlName="academicYear" name="class"></p-dropdown>
 												<div class="alertMsg" *ngIf="studentForm.get('academicYear').hasError('required') && studentForm.get('academicYear').touched">
-													Please Academic Year
+													Please Select Academic Year
 												</div>
 											</div>
 										</div>
@@ -312,16 +313,12 @@
 													Date of Birth:
 												</label>
 												<p-calendar dateFormat="yy-mm-dd" formControlName="studentDateOfBirth"></p-calendar>
-												<!-- <input type="text" class="form-control" id="m_datepicker_1" formControlName="studentDateOfBirth" name="studentDateOfBirth"
-												 readonly #datePicker1 placeholder="Date of Birth" > -->
 											</div>
 											<div class="col-lg-6">
 												<label class="">
 													Date of Joining:
 												</label>
 												<p-calendar dateFormat="yy-mm-dd" formControlName="dateOfJoining"></p-calendar>
-												<!-- <input type="text" formControlName="dateOfJoining" name="dateOfJoining" class="form-control" id="m_datepicker_1" placeholder="Date of Joining"
-												 readonly #datePicker2 (blur)="setDateOfJoining(datePicker2.value)"> -->
 											</div>
 										</div>
 										<div class="form-group m-form__group row">
@@ -338,15 +335,8 @@
 												<label class="">
 													Blood Group:
 												</label>
-												<p-dropdown class="form-control m-input" [options]="bloodGroupList" formControlName="bloodGroup" [style]="{'width':'100%'}"
+												<p-dropdown class="m-input" [options]="bloodGroupList" formControlName="bloodGroup" [style]="{'width':'100%'}"
 												 name="bloodGroup"></p-dropdown>
-												<!-- <select class="form-control m-input" id="exampleSelect1">
-														<option disabled selected>Select Blood Group</option>
-														<option>A +</option>
-														<option>O +</option>
-														<option>B +</option>
-														<option>AB +</option>
-													</select> -->
 											</div>
 										</div>
 									</div>

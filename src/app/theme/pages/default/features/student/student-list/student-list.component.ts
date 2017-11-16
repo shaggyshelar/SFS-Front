@@ -7,6 +7,7 @@ import { MessageService } from '../../../../../../_services/message.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { StudentService } from '../../../_services/student.service';
 import { ClassService } from '../../../_services/class.service';
+import { CategoriesService } from '../../../_services/categories.service';
 import { CommonService } from '../../../_services/common.service';
 import { Student } from "../../../_models/student";
 import { ViewChild } from '@angular/core';
@@ -66,7 +67,7 @@ export class StudentListComponent implements OnInit {
     myFile: any;
     constructor(private router: Router, private studentService: StudentService,
         private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService,
-        private classService: ClassService, private confirmationService: ConfirmationService,
+        private classService: ClassService, private confirmationService: ConfirmationService, private categoriesService: CategoriesService
     ) {
     }
 
@@ -78,22 +79,6 @@ export class StudentListComponent implements OnInit {
         this.pageSize.push({ label: '30', value: 30 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
-
-        // this.filterCol1 = [];
-        // this.filterCol1.push({ label: '--Select--', value: 'select' });
-        // this.filterCol1.push({ label: 'Suyash', value: 'Suyash' });
-        // this.filterCol1.push({ label: 'Nikhil', value: 'Nikhil' });
-
-        // this.filterCol2 = [];
-        // let val = this.studentService.getFilterList("?filter[fields][AcademicYear]=true&filter[fields][id]=true");
-        // this.filterCol2.push({ label: '--Select--', value: 'select' });
-        // val.subscribe((response) => {
-        //     for (let key in response) {
-        //         if (response.hasOwnProperty(key)) {
-        //             this.filterCol2.push({ label: response[key].AcademicYear, value: response[key].AcademicYear });
-        //         }
-        //     }
-        // });
 
         //Default variable initialization
         this.perPage = 5;
@@ -140,7 +125,7 @@ export class StudentListComponent implements OnInit {
 
         //List of Categories
         this.filterCol2 = [];
-        val = this.commonService.getCategory();
+        val = this.categoriesService.getAllCategories();
         this.filterCol2.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
 

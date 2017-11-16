@@ -19,7 +19,7 @@
     </p-footer>
 </p-confirmDialog>
 
-<div class="m-subheader">
+<div class="m-subheader"  [isAuthorize]="['AcademicYear.Read']" style="display:none;">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
@@ -97,7 +97,8 @@
 					</div>								
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -191,7 +192,7 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
 									 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>

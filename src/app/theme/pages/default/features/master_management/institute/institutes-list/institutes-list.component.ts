@@ -87,14 +87,14 @@ export class InstitutesListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
 
-        this.getAllInstitutes();
+
         this.getDataCount('');
     }
 
     getAllInstitutes() {
         this.getUrl();
 
-        this.instituteList = this.institutesService.getAllInstitutes();
+        this.instituteList = this.institutesService.getAllInstitutesList(this.url);
 
         this.instituteList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
@@ -129,13 +129,11 @@ export class InstitutesListComponent implements OnInit {
         this.router.navigate(['/features/institute/add']);
     }
 
-    /*Pagination Function's Starts*/
-
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -221,6 +219,9 @@ export class InstitutesListComponent implements OnInit {
                 this.currentPageNumber = this.boundryEnd;
             }
         }
+        //this.boundryEnd = this.pages;
+        //this.boundryStart = this.pages - this.boundry + 1;
+
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllInstitutes();
@@ -230,10 +231,6 @@ export class InstitutesListComponent implements OnInit {
         if (this.currentPos - this.perPage >= 0) {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
-
-            // this.boundryStart--;
-            // this.boundryEnd--;
-            // this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllInstitutes();
         }
@@ -294,21 +291,34 @@ export class InstitutesListComponent implements OnInit {
 
     /* Pagination Function's Ends */
 
+    /* Filtering, Sorting, Search functions Starts*/
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][instituteName][like]=' + searchString;
-            this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
+            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
         }
         this.getQueryDataCount();
+        //this.getAllSchools();
+    }
+
+    
+
+    sort(column, sortOrder) {
+        if (sortOrder) {
+            this.sortUrl = '&filter[order]=' + column + ' DESC';
+        } else {
+            this.sortUrl = '&filter[order]=' + column + ' ASC';
+        }
         this.getAllInstitutes();
     }
+    /* Filtering, Sorting, Search functions Ends*/
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?';//  this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -322,19 +332,12 @@ export class InstitutesListComponent implements OnInit {
         },
             error => {
                 this.globalErrorHandler.handleError(error);
-            });
+            }
+        );
     }
-
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
-    }
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl ;//+ this.searchQuery;
 
-    sort(column, sortOrder) {
-        if (sortOrder) {
-            this.sortUrl = '&filter[order]=' + column + ' DESC';
-        } else {
-            this.sortUrl = '&filter[order]=' + column + ' ASC';
-        }
-        this.getAllInstitutes();
     }
+    /* Counting Number of records ends*/
 }
