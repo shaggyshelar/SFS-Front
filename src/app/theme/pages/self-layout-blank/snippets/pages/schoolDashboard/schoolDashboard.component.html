@@ -8,14 +8,14 @@
 			<div *ngFor="let item of schoolList" class="col-md-6">			
 				<div class="landingSchoolBox">
 					<div class="schoolImgBox">
-						<img src="item.UserschoolSchool.schoolLogo" />
+						<img src="{{item.UserschoolSchool?item.UserschoolSchool.schoolLogo:''}}" />
 					</div>
 					<div class="schoolNameBox">
-						<h4>{{item.UserschoolSchool.schoolName}}</h4>
-						<p>
-							{{item.UserschoolSchool.schoolAddress}},{{item.UserschoolSchool.schoolCity}},{{item.UserschoolSchool.schoolState}},{{item.UserschoolSchool.schoolCountry}}
+						<h4>{{item.UserschoolSchool? item.UserschoolSchool.schoolName:''}}</h4>
+						<p *ngIf="item.UserschoolSchool">
+							{{item.UserschoolSchool?item.UserschoolSchool.schoolAddress:''}},{{item.UserschoolSchool?item.UserschoolSchool.schoolCity:''}},{{item.UserschoolSchool.schoolState}},{{item.UserschoolSchool.schoolCountry}}
 						</p>
-						<button (click)="onSchoolSelect(item.UserschoolSchool.id,item.UserschoolSchool.instituteId,item.UserschoolSchool.schoolHeader,item.UserschoolSchool.schoolLogo)" class="btn btn-primary btn-sm">Go to Dashboard <i class="la la-arrow-right"></i></button>								
+						<button *ngIf="item.UserschoolSchool" (click)="onSchoolSelect(item.UserschoolSchool.id,item.UserschoolSchool.instituteId,item.UserschoolSchool.schoolHeader,item.UserschoolSchool.schoolLogo)" class="btn btn-primary btn-sm">Go to Dashboard <i class="la la-arrow-right"></i></button>								
 					</div>						
 				</div>					
 			</div>
