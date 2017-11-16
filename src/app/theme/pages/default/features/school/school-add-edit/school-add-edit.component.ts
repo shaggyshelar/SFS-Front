@@ -150,22 +150,12 @@ export class SchoolAddEditComponent implements OnInit {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                     var obj = { "name": results.id.toString() };
                     //obj["name"] = results.id;
-                    this.imageUploadService.createFolder(JSON.stringify(obj)).subscribe(
-                        response => {
-                            console.log(response);
-                            let fd = new FormData();
-                            fd.append('image', this.fileInput[0]);
+                    let fd = new FormData();
+                    fd.append('image', this.fileInput[0]);
 
-                            this.imageUploadService.uploadImage(results.id, fd).subscribe(
-                                imageResponse => {
-                                    this.router.navigate(['/features/school/list']);
-                                },
-                                error => {
-                                    this.globalErrorHandler.handleError(error);
-                                }
-                            );
-
-
+                    this.imageUploadService.uploadImage(results.id, fd).subscribe(
+                        imageResponse => {
+                            this.router.navigate(['/features/school/list']);
                         },
                         error => {
                             this.globalErrorHandler.handleError(error);
