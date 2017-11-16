@@ -303,9 +303,14 @@ export class SchoolListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][schoolName][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][schoolName][like]=%' + searchString + "%";
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
@@ -372,7 +377,7 @@ export class SchoolListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl;//+ this.searchQuery;
+        this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
 
     }
     /* Counting Number of records ends*/

@@ -106,8 +106,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
-							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)">
+							
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -131,6 +131,11 @@
 											Gr.No.
 										</a>
 									</th>
+									<th title="Field #2">
+										<a href="" (click)="sort('studentCode',ascSortCol5 = !ascSortCol5)">
+											Student Code
+										</a>
+									</th>
 									<th title="Field #3">
 										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
 											Name
@@ -151,7 +156,7 @@
 											Division
 										</a>
 									</th>
-									<th title="Field #7">
+									<!-- <th title="Field #7">
 										<a href="" (click)="sort('studentDateOfBirth',ascSortCol5 = !ascSortCol5)">
 											DOB
 										</a>
@@ -160,7 +165,7 @@
 										<a href="" (click)="sort('dateOfJoining',ascSortCol6 = !ascSortCol6)">
 											Date of Joining
 										</a>
-									</th>
+									</th> -->
 									<th title="Field #9">
 										Actions
 									</th>
@@ -170,12 +175,13 @@
 								<tr *ngFor='let row of studentList | async'>
 									<td>{{row.id}}</td>
 									<td>{{row.gRNumber}}</td>
+									<td>{{row.studentCode}}</td>
 									<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
 									<td>{{row.StudentCategory ? row.StudentCategory.categoryName : ''}}</td>
 									<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
 									<td>{{row.StudentDivision ? row.StudentDivision.divisionName : ''}}</td>
-									<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
-									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
+									<!-- <td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
+									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td> -->
 									<td>
 										<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Student.Update']">
@@ -244,8 +250,8 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
-									 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize" name="CategoryId"
+									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
 

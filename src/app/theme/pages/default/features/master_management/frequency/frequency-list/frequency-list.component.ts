@@ -305,9 +305,14 @@ export class FrequenciesListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][frequencyName][like]=%' + searchString + "%" + '&filter[where][or][1][frequencyValue][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][frequencyName][like]=%' + searchString + "%" + '&[where][or][1][frequencyValue][like]=%' + searchString + "%";
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
@@ -344,6 +349,6 @@ export class FrequenciesListComponent implements OnInit {
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl; //+ this.searchQuery;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
 }

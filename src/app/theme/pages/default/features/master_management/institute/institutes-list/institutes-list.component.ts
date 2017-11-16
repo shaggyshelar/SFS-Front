@@ -297,14 +297,19 @@ export class InstitutesListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][instituteName][like]=%' + searchString + "%" + '&filter[where][or][1][address][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][instituteName][like]=%' + searchString + "%" + '&[where][or][1][address][like]=%' + searchString + "%";
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
 
-    
+
 
     sort(column, sortOrder) {
         if (sortOrder) {
@@ -318,7 +323,7 @@ export class InstitutesListComponent implements OnInit {
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?';//  this.searchCountQuery;
+        this.countQuery = '?' +  this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -336,7 +341,7 @@ export class InstitutesListComponent implements OnInit {
         );
     }
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl ;//+ this.searchQuery;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
 
     }
     /* Counting Number of records ends*/
