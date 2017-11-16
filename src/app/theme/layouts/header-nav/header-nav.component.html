@@ -256,7 +256,7 @@
 															</span>
 														</a>
 													</li>
-													<li class="m-nav__item"  *ngIf="userRole =='SchoolAdmin'">
+													<li class="m-nav__item"  *ngIf="userRole =='SchoolAdmin' || userRole =='SuperAdmin'">
 														<a routerLink="/selectSchool" class="m-nav__link">
 															<i class="m-nav__link-icon flaticon-share"></i>
 															<span class="m-nav__link-text">

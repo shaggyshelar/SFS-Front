@@ -65,25 +65,19 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-md-2 col-form-label">
-						 Description<span class="requiredField">*</span>
+						 Description
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="instituteDescription" name="instituteDescription" id="instituteDescription"  maxlength="100" placeholder="Institute Description">
-						<div class="alertMsg" *ngIf="instituteForm.get('instituteDescription').hasError('required') && (instituteForm.get('instituteDescription').touched || isFormSubmited)">
-							Please enter Institute Description
-						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-md-2 col-form-label">
-						Phone<span class="requiredField">*</span>
+						Phone
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="phone" name="phone" id="phone"  maxlength="15" placeholder="Institute Phone">
-						<div class="alertMsg" *ngIf="instituteForm.get('phone').hasError('required') && (instituteForm.get('phone').touched || isFormSubmited)">
-							Please enter Phone
-						</div>
-						<div class="alertMsg" *ngIf="!instituteForm.get('phone').hasError('required') && instituteForm.get('phone').hasError('pattern') && (instituteForm.get('phone').touched || isFormSubmited)">
+						<div class="alertMsg" *ngIf="instituteForm.get('phone').hasError('pattern') && (instituteForm.get('phone').touched || isFormSubmited)">
 							Please enter valid phone numeber
 						</div>
 					</div>
@@ -104,13 +98,10 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-md-2 col-form-label">
-						Address<span class="requiredField">*</span>
+						Address
 					</label>
 					<div class="col-7">
 						<textarea class="form-control m-input" rows="3" formControlName="address" name="address" id="address" style="resize:none;"  maxlength="500" ></textarea>
-						<div class="alertMsg" *ngIf="instituteForm.get('address').hasError('required') && (instituteForm.get('address').touched || isFormSubmited)">
-							Please enter institute address
-						</div>
 					</div>
 				</div>
 			</div>
@@ -118,7 +109,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-2">
-							<button type="submit" [disabled]="instituteForm.invalid" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
 								Save
 							</button>
 						</div>
