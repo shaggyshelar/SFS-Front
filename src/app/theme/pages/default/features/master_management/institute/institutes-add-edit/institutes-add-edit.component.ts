@@ -30,10 +30,10 @@ export class InstituteAddEditComponent implements OnInit {
         this.instituteForm = this.formBuilder.group({
             id: [],
             instituteName: ['', [Validators.required]],
-            instituteDescription: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            address: ['', [Validators.required]],
+            instituteDescription: [''],
+            email: ['', [Validators.email]],
+            phone: ['', [Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            address: [''],
         });
 
         this.route.params.forEach((params: Params) => {
@@ -60,7 +60,7 @@ export class InstituteAddEditComponent implements OnInit {
     }
 
     onSubmit(_institute, invalid) {
-        this.isFormSubmited=true;
+        this.isFormSubmited = true;
         if (invalid) {
             return false;
         }
