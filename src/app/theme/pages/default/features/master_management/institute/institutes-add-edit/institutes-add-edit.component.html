@@ -93,7 +93,7 @@
 						Email<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="15" placeholder="Institute email">
+						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="50" placeholder="Institute email">
 						<div class="alertMsg" *ngIf="instituteForm.get('email').hasError('required') && (instituteForm.get('email').touched || isFormSubmited)">
 							Please enter Email
 						</div>
@@ -118,7 +118,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-2">
-							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+							<button type="submit" [disabled]="instituteForm.invalid" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
 								Save
 							</button>
 						</div>

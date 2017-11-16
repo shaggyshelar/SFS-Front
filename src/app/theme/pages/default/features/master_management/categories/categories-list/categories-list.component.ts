@@ -117,7 +117,10 @@ export class CategoriesListComponent implements OnInit {
           .subscribe(
           results => {
             this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-            this.getAllCategories();
+            if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+              this.currentPageNumber--;
+            }
+            this.getQueryDataCount();
           },
           error => {
             this.globalErrorHandler.handleError(error);
@@ -126,51 +129,6 @@ export class CategoriesListComponent implements OnInit {
       reject: () => {
       }
     });
-  }
-
-  /* Pagination Function's Ends */
-
-  /* Filtering, Sorting, Search functions Starts*/
-  searchString(searchString) {
-    if (searchString == '') {
-      this.searchQuery = '';
-      this.searchCountQuery = '';
-    } else {
-      this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-      this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
-    }
-    this.getQueryDataCount();
-    //this.getAllCategories();
-  }
-
-  sort(column, sortOrder) {
-    if (sortOrder) {
-      this.sortUrl = '&filter[order]=' + column + ' DESC';
-    } else {
-      this.sortUrl = '&filter[order]=' + column + ' ASC';
-    }
-    this.getAllCategories();
-  }
-  /* Filtering, Sorting, Search functions Ends*/
-
-  /* Counting Number of records starts*/
-  getQueryDataCount() {
-    this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
-    this.getDataCount(this.countQuery);
-
-  }
-  getDataCount(url) {
-    this.categoriesService.getCategoryCount(url).subscribe((response) => {
-      this.total = response.count;
-      this.pages = Math.ceil(this.total / this.perPage);
-      this.generateCount();
-      this.setDisplayPageNumberRange();
-      this.getAllCategories();
-    },
-    );
-  }
-  getUrl() {
-    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl;//+ this.searchQuery;
   }
 
   /*Pagination Function's Starts*/
@@ -334,4 +292,53 @@ export class CategoriesListComponent implements OnInit {
     }
     return false;
   }
+
+  /* Pagination Function's Ends */
+
+  /* Filtering, Sorting, Search functions Starts*/
+  searchString(searchString) {
+    if (searchString == '') {
+      this.searchQuery = '';
+      this.searchCountQuery = '';
+    } else {
+      this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+      this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+    }
+    this.getQueryDataCount();
+  }
+
+  sort(column, sortOrder) {
+    if (sortOrder) {
+      this.sortUrl = '&filter[order]=' + column + ' DESC';
+    } else {
+      this.sortUrl = '&filter[order]=' + column + ' ASC';
+    }
+    this.getAllCategories();
+  }
+  /* Filtering, Sorting, Search functions Ends*/
+
+  /* Counting Number of records starts*/
+  getQueryDataCount() {
+    this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+    this.getDataCount(this.countQuery);
+
+  }
+  getDataCount(url) {
+    this.categoriesService.getCategoryCount(url).subscribe((response) => {
+      this.total = response.count;
+      this.pages = Math.ceil(this.total / this.perPage);
+      this.generateCount();
+      this.setDisplayPageNumberRange();
+      this.getAllCategories();
+    },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      }
+    );
+  }
+  getUrl() {
+    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl;//+ this.searchQuery;
+
+  }
+  /* Counting Number of records ends*/
 }

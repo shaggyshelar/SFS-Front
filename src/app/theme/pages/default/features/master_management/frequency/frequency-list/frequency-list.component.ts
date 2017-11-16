@@ -87,14 +87,13 @@ export class FrequenciesListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
 
-        this.getAllFrequency();
         this.getDataCount('');
     }
 
     getAllFrequency() {
         this.getUrl();
 
-        this.frequencyList = this.FrequencyService.getAllFrequency();
+        this.frequencyList = this.FrequencyService.getAllFrequencyList(this.url);
 
         this.frequencyList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
@@ -112,18 +111,21 @@ export class FrequenciesListComponent implements OnInit {
             header: 'Delete Confirmation',
             icon: 'fa fa-trash',
             accept: () => {
-        this.FrequencyService.deleteFrequency(frequency.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllFrequency();
+                this.FrequencyService.deleteFrequency(frequency.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
-        },
-        reject: () => {
-        }
-      });
+            reject: () => {
+            }
+        });
     }
     onAddFrequency() {
         this.router.navigate(['/features/masterManagement/frequencies/add']);
@@ -133,9 +135,9 @@ export class FrequenciesListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -221,6 +223,9 @@ export class FrequenciesListComponent implements OnInit {
                 this.currentPageNumber = this.boundryEnd;
             }
         }
+        //this.boundryEnd = this.pages;
+        //this.boundryStart = this.pages - this.boundry + 1;
+
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllFrequency();
@@ -294,21 +299,33 @@ export class FrequenciesListComponent implements OnInit {
 
     /* Pagination Function's Ends */
 
+    /* Filtering, Sorting, Search functions Starts*/
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][instituteName][like]=' + searchString;
-            this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
+            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
         }
         this.getQueryDataCount();
+        //this.getAllSchools();
+    }
+
+
+    sort(column, sortOrder) {
+        if (sortOrder) {
+            this.sortUrl = '&filter[order]=' + column + ' DESC';
+        } else {
+            this.sortUrl = '&filter[order]=' + column + ' ASC';
+        }
         this.getAllFrequency();
     }
+    /* Filtering, Sorting, Search functions Ends*/
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?' + this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -322,19 +339,11 @@ export class FrequenciesListComponent implements OnInit {
         },
             error => {
                 this.globalErrorHandler.handleError(error);
-            });
+            }
+        );
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
-    }
-
-    sort(column, sortOrder) {
-        if (sortOrder) {
-            this.sortUrl = '&filter[order]=' + column + ' DESC';
-        } else {
-            this.sortUrl = '&filter[order]=' + column + ' ASC';
-        }
-        this.getAllFrequency();
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl; //+ this.searchQuery;
     }
 }

@@ -68,24 +68,19 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Institute Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<p-dropdown placeholder="Select Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
 						<div class="alertMsg" *ngIf="schoolForm.get('instituteId').hasError('required') && schoolForm.get('instituteId').touched">
 							Please select Institute
 						</div>
-						<!-- <select class="form-control m-input">
-							<option disabled selected>Select</option>
-							<option>Institute 1</option>
-							<option>Institute 2</option>
-							<option>Institute 3</option>
-							<option>Institute 4</option>
-						</select> -->
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						School Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolName" name="schoolName" id="schoolName" placeholder="School Name">
@@ -97,6 +92,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Short Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolHeader" name="schoolHeader" id="schoolHeader" placeholder="School Short Name">
@@ -111,6 +107,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						School Code
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolCode" name="schoolCode" id="schoolCode" placeholder="School Code">
@@ -132,6 +129,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Board
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 
@@ -153,6 +151,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Address
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<textarea class="form-control m-input" rows="3" formControlName="schoolAddress" name="schoolAddress" id="schoolAddress" style="resize:none;"></textarea>
@@ -164,6 +163,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						City
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolCity" name="schoolCity" id="schoolCity" placeholder="City">
@@ -176,6 +176,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						State
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolState" name="schoolState" id="schoolState" placeholder="State">
@@ -196,6 +197,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Email
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolEmail" name="schoolEmail" id="schoolEmail" placeholder="Email">
@@ -210,6 +212,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Phone No.
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone">

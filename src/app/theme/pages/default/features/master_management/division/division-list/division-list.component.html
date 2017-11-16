@@ -58,7 +58,7 @@
 <!-- END: Subheader -->
 
 
-<div class="m-content">
+<div class="m-content" [isAuthorize]="['Division.Read']" style="display:none;">
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
@@ -95,7 +95,7 @@
 							<label>Class</label>
 						</div>
 						<div class="filterDropdown">
-							<p-dropdown class="form-control" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('classId',filterValue1)"
+							<p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('classId',filterValue1)"
 							 name="classId"></p-dropdown>
 						</div>
 					</div>
@@ -108,8 +108,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
-							 (keyup)="searchString(searchValue)">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -160,7 +160,7 @@
 									{{row.id}}
 								</td> -->
 									<td>
-										{{row.DivisionClass.className}}
+										{{row.DivisionClass ? row.DivisionClass.className : ""}}
 									</td>
 									<td>
 										{{row.divisionName}}
@@ -238,7 +238,7 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="form-control recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
 									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
