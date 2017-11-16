@@ -23,7 +23,8 @@ export class AcademicYearAddEditComponent implements OnInit {
     endDate: any;
     startAcademicYear: any;
     endAcademicYear: any;
-    minStartDate: any;
+    minEndDate: any;
+    isEndYearSameAsStarYear :boolean = false
 
     constructor(
         private formBuilder: FormBuilder,
@@ -37,7 +38,7 @@ export class AcademicYearAddEditComponent implements OnInit {
     ngOnInit() {
         this.startAcademicYear = '';
         this.endAcademicYear = '';
-        this.minStartDate = new Date();
+        this.minEndDate = new Date();
         this.academicYearForm = this.formBuilder.group({
             id: [],
             startDate: ['', [Validators.required]],
@@ -72,7 +73,7 @@ export class AcademicYearAddEditComponent implements OnInit {
             value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
             value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
             if (this.endAcademicYear != '') {
-                value.academicYear = this.startAcademicYear + ' - ' + this.endAcademicYear;
+                value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
             } else {
                 value.academicYear = this.startAcademicYear;
             }
@@ -90,7 +91,7 @@ export class AcademicYearAddEditComponent implements OnInit {
             value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
             value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
             if (this.endAcademicYear != '') {
-                value.academicYear = this.startAcademicYear + ' - ' + this.endAcademicYear;
+                value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
             } else {
                 value.academicYear = this.startAcademicYear;
             }
@@ -112,6 +113,8 @@ export class AcademicYearAddEditComponent implements OnInit {
 
     setStartDate(value) {
         if (value) {
+            this.isEndYearSameAsStarYear = false;
+            this.minEndDate = value;
             let cloneDate = _.clone(value);
             this.startAcademicYear = value.getFullYear();
             let updatedDate = cloneDate.setMonth(cloneDate.getMonth() + 12)
@@ -123,9 +126,14 @@ export class AcademicYearAddEditComponent implements OnInit {
     }
     setEndDate(value) {
         if (value) {
+            this.isEndYearSameAsStarYear = false;
             let endDate = value.getFullYear();
             if (this.startAcademicYear != endDate)
                 this.endAcademicYear = endDate.toString().substring(2, 4);
+            else {
+                this.endAcademicYear = '';
+                this.isEndYearSameAsStarYear = true
+            }
         }
     }
 }

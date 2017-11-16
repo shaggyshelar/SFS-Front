@@ -64,10 +64,13 @@
                          <div class="col-2" *ngIf="academicYearForm.get('startDate').value == ''">   
                             <p-calendar [style]="{'width':'100%'}" name="endDate" placeholder="End date"  readonlyInput="true" disabled= 'true'></p-calendar>                          
                         </div> 
-                            <div class="col-2"  *ngIf="academicYearForm.get('startDate').value != ''">                            
-                                <p-calendar [style]="{'width':'100%'}" formControlName="endDate" name="endDate" placeholder="End date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" (onSelect) ="setEndDate($event)"></p-calendar>
-                                <div class="alertMsg" *ngIf="academicYearForm.get('endDate').hasError('required') && academicYearForm.get('endDate').touched">
-                                    Please enter end Date
+                        <div class="col-2"  *ngIf="academicYearForm.get('startDate').value != ''">                            
+                            <p-calendar [style]="{'width':'100%'}" formControlName="endDate" name="endDate" [minDate] ='minEndDate' placeholder="End date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" (onSelect) ="setEndDate($event)"></p-calendar>
+                            <div class="alertMsg" *ngIf="academicYearForm.get('endDate').hasError('required') && academicYearForm.get('endDate').touched">
+                                Please enter end Date
+                            </div>
+                             <div class="alertMsg" *ngIf="isEndYearSameAsStarYear">
+                                End Date Year and Start Date Year should not be same. 
                             </div>
                         </div>
                     </div>
@@ -78,7 +81,7 @@
                         </label>
                          <div class="col-6">
                             <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{startAcademicYear}}</label>
-                            <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;" *ngIf="endAcademicYear != ''"> - </label>
+                            <label style="margin-bottom: 0;margin-top: 9px;margin-left: -4px;margin-right: -5px;font-weight: 600;" *ngIf="endAcademicYear != ''">-</label>
                             <label style="margin-bottom: 0;margin-top: 9px;font-weight: 600;">{{endAcademicYear}}</label>
                         </div> 
                     </div>  
@@ -87,7 +90,7 @@
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="academicYearForm.invalid" [isAuthorize]="['AcademicYear.Create', 'AcademicYear.Update']">
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="academicYearForm.invalid || isEndYearSameAsStarYear" [isAuthorize]="['AcademicYear.Create', 'AcademicYear.Update']">
                                    {{ params ? 'Update Academic Year' : 'Add Academic Year' }}
                                 </button>
                                 <button type="button" class="btn btn-secondary" (click)="onCancel()">
