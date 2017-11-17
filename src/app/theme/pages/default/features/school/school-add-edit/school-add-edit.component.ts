@@ -72,7 +72,7 @@ export class SchoolAddEditComponent implements OnInit {
             schoolName: ['', [Validators.required]],
             schoolCode: ['', [Validators.required]],
             schoolEmail: ['', [Validators.required, Validators.email]],
-            schoolPhone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
+            schoolPhone: ['', [Validators.required, Validators.pattern('[0-9]{15}')]],
             schoolAddress: ['', [Validators.required]],
             schoolCity: ['', [Validators.required]],
             schoolState: ['', [Validators.required]],

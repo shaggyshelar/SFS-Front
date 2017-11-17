@@ -45,6 +45,7 @@
                         </h3>
                     </div>
                 </div>
+                <label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
             </div>
 
             <!--begin::Form-->
@@ -57,7 +58,7 @@
                         </label>
                         <div class="col-5">
                             <input class="form-control m-input" type="text" formControlName="boardName" name="boardName">											
-                            <div class="alert alert-danger" *ngIf="boardForm.get('boardName').hasError('required') && boardForm.get('boardName').touched">
+                            <div class="alertMsg" *ngIf="boardForm.get('boardName').hasError('required') && boardForm.get('boardName').touched">
 							Please enter Board Name
 						</div>
                         </div>
@@ -77,8 +78,8 @@
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="boardForm.invalid" [isAuthorize]="['Board.Create', 'Board.Update']">
-                                   {{ params ? 'Update board' : 'Add Board' }}
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="boardForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ boardForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="boardForm.invalid" [isAuthorize]="['Board.Create', 'Board.Update']">
+                                   {{ params ? 'Update' : 'Save' }}
                                 </button>
                                 <button type="button" class="btn btn-secondary" (click)="onCancel()">
                                     Cancel

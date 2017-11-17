@@ -88,7 +88,8 @@ export class AcademicYearListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-        this.getAllAcademicYears();
+        this.longList = true;
+        //this.getAllAcademicYears();
         this.getDataCount('');
     }
 
@@ -195,7 +196,7 @@ export class AcademicYearListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -335,7 +336,8 @@ export class AcademicYearListComponent implements OnInit {
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + currentPos + this.sortUrl + this.searchQuery;
     }
 
     sort(column, sortOrder) {

@@ -107,6 +107,7 @@ export class StudentListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
+        this.longList = true;
 
         this.getDataCount('');
 
@@ -200,7 +201,7 @@ export class StudentListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -388,8 +389,8 @@ export class StudentListComponent implements OnInit {
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?filter[include]=StudentClass&filter[include]=StudentCategory&filter[include]=StudentDivision&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
-
     }
     /* Counting Number of records ends*/
 

@@ -142,7 +142,8 @@
 	margin-right:8px;
 	text-align: center;
 	border-color: transparent!important;
-	color: #898b96;
+    color: #898b96;
+    cursor: pointer;
 }
 .leftIcon{
 	margin-left: -4px;
@@ -150,16 +151,25 @@
 .rightIcon{
 	margin-right: -4px;
 }
-.pagination .prev{
-	
-}
+
 .pagination .next{
 	padding-left: 7px;
 }
 .pagination li a.active{
 	background: #716aca;
-    color: #fff;
+    color: #fff !important;
+    //cursor:not-allowed;
+    pointer-events: none;
 }
+.cursorNone{
+    cursor:not-allowed !important;
+}
+
+.prevPageDisabled{
+    pointer-events: none;
+    cursor: inherit;
+}
+
 .PaginationBox{
 	margin-top:20px;
 }
@@ -600,3 +610,20 @@ body .ui-dialog .ui-dialog-titlebar {
      text-align: center;
     }
    }
+    .requiredFieldNote{
+        float: right;
+        color: red;
+        font-weight: 600;
+        font-size: 12px;
+        padding-top: 28px;
+    }
+    .requiredFieldNote b{
+        font-size: 16px;
+        vertical-align: sub;
+    }
+    .cursorNotAllowed {
+        cursor:not-allowed;
+    }
+    .cursorPointer {
+        cursor:pointer;
+    }

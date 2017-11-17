@@ -102,7 +102,7 @@ export class ClassListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
-
+        this.longList = true;
         this.getAllClasses();
         this.getDataCount('');
     }
@@ -211,7 +211,7 @@ export class ClassListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -393,8 +393,8 @@ export class ClassListComponent implements OnInit {
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
-
     }
     /* Counting Number of records ends*/
 }
