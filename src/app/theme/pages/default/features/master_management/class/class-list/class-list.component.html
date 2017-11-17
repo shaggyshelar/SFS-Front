@@ -180,36 +180,32 @@
 							<div class="col-md-6">
 								<nav aria-label="Page navigation example">
 									<ul class="pagination">
-										<li class="page-item">
-											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+										<li [ngClass]="{'page-item' : true}" title="Go to First Page">
+											<a [ngClass]="{'page-link' : true, 'prev':true}" (click)="visitFirstPage()">
 												<i class="la la-angle-double-left leftIcon"></i>
 											</a>
 										</li>
-										<!-- <li class="page-item">
-																								<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
-																									<i class="fa fa-arrows leftIcon"></i>
-																								</a>
-																							</li> -->
-										<li class="page-item">
+										<li class="page-item" title="Previous">
 											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
 												<i class="la la-angle-left leftIcon"></i>
 											</a>
 										</li>
-										<li class="page-item" *ngFor="let item of arr">
+										<li [ngClass]="{'cursorNone' : currentPageCheck(item), 'page-item' : true}" *ngFor="let item of arr">
 											<!-- <a my-link="false" [ngClass]="{'active' : true, 'page-link' : currentPageCheck(item)}" (click)="pageClick(item)">{{item}}</a> -->
-											<a my-link="false" [ngClass]="{'active' : currentPageCheck(item), 'page-link' : true}" (click)="pageClick(item)">{{item}}</a>
+											<a my-link="false" [ngClass]="{'disabled' : currentPageCheck(item), 'active' : currentPageCheck(item), 'page-link' : true}"
+											 (click)="pageClick(item)">{{item}}</a>
 										</li>
-										<li class="page-item">
+										<li class="page-item" title="Next">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
 												<i class="la la-angle-right rightIcon"></i>
 											</a>
 										</li>
 										<!-- <li class="page-item">
-																								<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
-																									<i class="fa fa-arrows rightIcon"></i>
-																								</a>
-																							</li> -->
-										<li class="page-item">
+																		<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
+																			<i class="fa fa-arrows rightIcon"></i>
+																		</a>
+																	</li> -->
+										<li class="page-item" title="Go to Last Page">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
 												<i class="la la-angle-double-right rightIcon"></i>
 											</a>
@@ -223,7 +219,7 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize" name="CategoryId"
 									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
@@ -231,6 +227,8 @@
 						</div>
 
 					</div>
+
+
 
 
 				</div>

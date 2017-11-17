@@ -88,8 +88,8 @@ export class BoardListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
-        this.getAllBoards();
+        this.longList = true;
+        //this.getAllBoards();
         this.getDataCount('');
     }
 
@@ -196,7 +196,7 @@ export class BoardListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -336,6 +336,7 @@ export class BoardListComponent implements OnInit {
     }
 
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
 
