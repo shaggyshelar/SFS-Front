@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add/Edit School
+							{{ params ? 'Edit School' : 'Add School' }}
 						</span>
 					</a>
 				</li>
@@ -42,10 +42,11 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit School
+						{{ params ? 'Edit School' : 'Add School' }}
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
@@ -242,8 +243,8 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']">
-								Save
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="schoolForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ schoolForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']">
+								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">
 								Cancel

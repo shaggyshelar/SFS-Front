@@ -137,7 +137,7 @@ export class RoleAddEditComponent implements OnInit {
             results => {
                 this.rolePermissionList = results.permissions ? results.permissions : [];
                 this.updatePermissionList(this.rolePermissionList);
-                this.featureList = this.getFilteredFeatureList();
+               // this.featureList = this.getFilteredFeatureList();
                 this.getfilteredPermissions(null);
             },
             error => {

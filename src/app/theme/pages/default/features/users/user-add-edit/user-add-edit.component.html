@@ -45,6 +45,7 @@
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
@@ -160,8 +161,8 @@
 					<div class="m-form__actions m-form__actions--solid">
 						<div class="row">
 							<div class="col-lg-6">
-								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="userForm.invalid" [isAuthorize]="['User.Update', 'User.Create']">
-										{{ params ? 'Update User' : 'Add User' }}
+								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="userForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ userForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [disabled]="userForm.invalid" [isAuthorize]="['User.Update', 'User.Create']">
+										{{ params ? 'Update' : 'Save' }}
 								</button>
 								<button type="reset" class="btn btn-secondary" (click)="onCancel()">
 										Cancel

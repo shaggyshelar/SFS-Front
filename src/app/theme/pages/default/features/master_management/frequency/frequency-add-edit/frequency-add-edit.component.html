@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add/Edit Frequency
+							{{ params ? 'edit' : 'add' }}
 						</span>
 					</a>
 				</li>
@@ -42,14 +42,15 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit Frequency
+						{{ params ? 'Edit Frequency' : 'Add Frequency' }}
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
-		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(frequencyForm,frequencyForm.invalid)"
+		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(frequencyForm)"
 		 [formGroup]="frequencyForm">
 			<div class="m-portlet__body formPortletBody">
 				<div class="form-group m-form__group row">
@@ -60,7 +61,7 @@
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="frequencyName" name="frequencyName" id="frequencyName" maxlength="100"
 						 placeholder="Frequency Name">
-						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && (frequencyForm.get('frequencyName').touched || isFormSubmited)">
+						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && (frequencyForm.get('frequencyName').touched)">
 							Please enter Frequency Name
 						</div>
 					</div>
@@ -73,7 +74,7 @@
 					<div class="col-7">
 						<input class="form-control m-input" type="number" formControlName="frequencyValue" name="frequencyValue" id="frequencyValue"
 						 maxlength="5" placeholder="Frequency Value">
-						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && (frequencyForm.get('frequencyValue').touched || isFormSubmited)">
+						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && (frequencyForm.get('frequencyValue').touched)">
 							Please enter Frequency Value
 						</div>
 					</div>
@@ -82,12 +83,10 @@
 			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
-						<div class="col-lg-2">
-							<button type="submit" [isAuthorize]="['Frequency.Update', 'Frequency.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
-								Save
-							</button>
-						</div>
 						<div class="col-lg-6">
+							<button type="submit" [isAuthorize]="['Frequency.Update', 'Frequency.Create']" [ngClass]="frequencyForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ frequencyForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [disabled]="frequencyForm.invalid" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+								{{ params ? 'Update' : 'Save' }}
+							</button>						
 							<button type="reset" class="btn btn-secondary" (click)="onCancel()">
 								Cancel
 							</button>
