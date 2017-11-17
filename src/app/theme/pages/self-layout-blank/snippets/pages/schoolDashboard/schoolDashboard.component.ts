@@ -34,11 +34,13 @@ export class SchoolDashboardComponent implements OnInit {
             .subscribe(
             results => {
                 this.schoolList = results;
+
             },
             error => {
                 this.globalErrorHandler.handleError(error);
             });
     }
+
 
     onSchoolSelect(id, instituteId, schoolHeader, schoolLogo) {
         localStorage.setItem('schoolId', id);
