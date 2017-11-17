@@ -30,7 +30,7 @@ export class SchoolService {
   }
 
   updateSchool(school: School) {
-    return this.http.put(AppSettings.API_ENDPOINT +'schools/' + school.id, school, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'schools/' + school.id, school, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteSchool(id: number) {
