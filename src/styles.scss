@@ -567,3 +567,21 @@ body .ui-dialog .ui-dialog-titlebar {
         margin-left: -4px;
         margin-right: -5px;
     }
+
+    .requiredFieldNote{
+        float: right;
+        color: red;
+        font-weight: 600;
+        font-size: 12px;
+        padding-top: 28px;
+    }
+    .requiredFieldNote b{
+        font-size: 16px;
+        vertical-align: sub;
+    }
+    .cursorNotAllowed {
+        cursor:not-allowed;
+    }
+    .cursorPointer {
+        cursor:pointer;
+    }

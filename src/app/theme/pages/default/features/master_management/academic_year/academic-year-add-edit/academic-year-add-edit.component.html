@@ -45,6 +45,7 @@
                         </h3>
                     </div>
                 </div>
+                <label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
             </div>
 
             <!--begin::Form-->
@@ -90,8 +91,8 @@
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="academicYearForm.invalid || isEndYearSameAsStarYear" [isAuthorize]="['AcademicYear.Create', 'AcademicYear.Update']">
-                                   {{ params ? 'Update Academic Year' : 'Add Academic Year' }}
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="academicYearForm.invalid || isEndYearSameAsStarYear" [ngClass]="academicYearForm.invalid || isEndYearSameAsStarYear ?'cursorNotAllowed':'cursorPointer'" title="{{ academicYearForm.invalid || isEndYearSameAsStarYear ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['AcademicYear.Create', 'AcademicYear.Update']">
+                                   {{ params ? 'Update' : 'Save' }}
                                 </button>
                                 <button type="button" class="btn btn-secondary" (click)="onCancel()">
                                     Cancel
