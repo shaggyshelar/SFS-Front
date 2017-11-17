@@ -335,7 +335,8 @@ export class AcademicYearListComponent implements OnInit {
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + currentPos + this.sortUrl + this.searchQuery;
     }
 
     sort(column, sortOrder) {

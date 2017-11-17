@@ -55,7 +55,7 @@
 				<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
 					<div class="m-stack__item m-topbar__nav-wrapper">
 						<ul class="m-topbar__nav m-nav m-nav--inline">
-							<li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"	data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
+							<!-- <li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"	data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
 								<a href="#" class="m-nav__link m-dropdown__toggle">
 									<span class="m-nav__link-icon">
 										<i class="flaticon-search-1"></i>
@@ -83,7 +83,7 @@
 										</div>
 									</div>
 								</div>
-							</li>
+							</li> -->
 							<!-- <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click" data-dropdown-persistent="true">
 								<a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
 									<span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
@@ -231,7 +231,7 @@
 															Section
 														</span>
 													</li>
-													<li class="m-nav__item">
+													<!-- <li class="m-nav__item">
 														<a routerLink="/header/profile" class="m-nav__link">
 															<i class="m-nav__link-icon flaticon-profile-1"></i>
 															<span class="m-nav__link-title">
@@ -247,7 +247,7 @@
 																</span>
 															</span>
 														</a>
-													</li>
+													</li> -->
 													<li class="m-nav__item">
 														<a routerLink="/header/changePassword" class="m-nav__link">
 															<i class="m-nav__link-icon flaticon-share"></i>
@@ -264,6 +264,17 @@
 															</span>
 														</a>
 													</li>
+<<<<<<< HEAD
+=======
+													<li class="m-nav__item"  *ngIf="userRole =='SuperAdmin'" (click)="removeSelectedSchool()">
+															<a href="#" class="m-nav__link">
+																<i class="m-nav__link-icon flaticon-analytics"></i>
+																<span class="m-nav__link-text">
+																	Supper Admin Dashboard 
+																</span>
+															</a>
+														</li>
+>>>>>>> develop
 													<!-- <li class="m-nav__item">
 														<a routerLink="/header/profile" class="m-nav__link">
 															<i class="m-nav__link-icon flaticon-share"></i>
