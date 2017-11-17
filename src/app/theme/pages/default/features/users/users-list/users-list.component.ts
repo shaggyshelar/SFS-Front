@@ -51,13 +51,13 @@ export class UsersListComponent implements OnInit {
         private router: Router,
         private schoolService: SchoolService,
         private globalErrorHandler: GlobalErrorHandler,
-        private confirmationService : ConfirmationService,
+        private confirmationService: ConfirmationService,
         private messageService: MessageService) {
     }
 
     ngOnInit() {
-         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-         this.userRole = currentUser.roles && currentUser.roles.length > 0 ? currentUser.roles[0].name : '';
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.userRole = currentUser.roles && currentUser.roles.length > 0 ? currentUser.roles[0].name : '';
         //Page Size Array
         this.pageSize = [];
         this.pageSize.push({ label: '5', value: 5 });
@@ -315,18 +315,28 @@ export class UsersListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][username][like]=' + searchString;
-            this.searchCountQuery = '&[where][username][like]=' + searchString;
+            this.searchQuery = '&filter[where][username][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][username][like]=%' + searchString + '%';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
-        this.getAllUsers();
+        //this.getAllUsers();
     }
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+        if (_superAdmin) {
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        } else {
+            this.countQuery = this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        }
         this.getDataCount(this.countQuery);
-
     }
     getDataCount(url) {
 
@@ -345,7 +355,7 @@ export class UsersListComponent implements OnInit {
                 });
         }
         else {
-            url = "?where[roleId]=2";
+            url = "?where[roleId]=2" + url;
             this.userService.getUsersCountForSuperuser(url).subscribe((response) => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);

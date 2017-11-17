@@ -303,11 +303,16 @@ export class AcademicYearListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][academicYear][like]=' + searchString;
-            this.searchCountQuery = '&[where][academicYear][like]=' + searchString;
+            this.searchQuery = '&filter[where][academicYear][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][academicYear][like]=%' + searchString  + '%';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
-        this.getAllAcademicYears();
+        // this.getAllAcademicYears();
     }
 
     /* Counting Number of records starts*/
