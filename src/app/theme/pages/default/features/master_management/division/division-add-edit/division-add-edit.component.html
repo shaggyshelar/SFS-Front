@@ -101,7 +101,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="divisionForm.invalid" [ngClass]="divisionForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ divisionForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['Division.Update', 'Division.Create']">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="divisionForm.invalid" [ngClass]="divisionForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ divisionForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['Division.Update', 'Division.Create']">
 								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">

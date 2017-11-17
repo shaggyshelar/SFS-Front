@@ -86,7 +86,7 @@
 					<div class="m-form__actions m-form__actions--solid">
 						<div class="row">
 							<div class="col-lg-6">
-								<button type="submit" [isAuthorize]="['Category.Update', 'Category.Create']" [disabled]="categoriesForm.invalid" [ngClass]="categoriesForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ categoriesForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+								<button type="submit" [isAuthorize]="['Category.Update', 'Category.Create']" [disabled]="categoriesForm.invalid" [ngClass]="categoriesForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ categoriesForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
 									 {{ params ? 'Update' : 'Save' }}
 								</button>						
 								<button type="reset" class="btn btn-secondary" (click)="onCancel()">

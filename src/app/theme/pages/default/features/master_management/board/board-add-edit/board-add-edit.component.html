@@ -78,7 +78,7 @@
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="boardForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ boardForm.invalid ? 'Please fill reqiured fields' :  params ? 'Update' : 'Save'}}" [disabled]="boardForm.invalid" [isAuthorize]="['Board.Create', 'Board.Update']">
+                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="boardForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ boardForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="boardForm.invalid" [isAuthorize]="['Board.Create', 'Board.Update']">
                                    {{ params ? 'Update' : 'Save' }}
                                 </button>
                                 <button type="button" class="btn btn-secondary" (click)="onCancel()">
