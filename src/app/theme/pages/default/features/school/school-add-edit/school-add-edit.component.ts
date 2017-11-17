@@ -122,17 +122,19 @@ export class SchoolAddEditComponent implements OnInit {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
                     var obj = { "name": results.id.toString() };
 
-                    let fd = new FormData();
-                    fd.append('image', this.fileInput[0]);
+                    if (this.fileInput != undefined) {
+                        let fd = new FormData();
+                        fd.append('image', this.fileInput[0] ? this.fileInput[0] : null);
 
-                    this.imageUploadService.uploadImage(results.id, fd).subscribe(
-                        imageResponse => {
-                            this.router.navigate(['/features/school/list']);
-                        },
-                        error => {
-                            this.globalErrorHandler.handleError(error);
-                        }
-                    );
+                        this.imageUploadService.uploadImage(results.id, fd).subscribe(
+                            imageResponse => {
+                                this.router.navigate(['/features/school/list']);
+                            },
+                            error => {
+                                this.globalErrorHandler.handleError(error);
+                            }
+                        );
+                    }
                     this.router.navigate(['/features/school/list']);
                 },
                 error => {
@@ -146,17 +148,20 @@ export class SchoolAddEditComponent implements OnInit {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                     var obj = { "name": results.id.toString() };
                     //obj["name"] = results.id;
-                    let fd = new FormData();
-                    fd.append('image', this.fileInput[0]);
+                    if (this.fileInput != undefined) {
+                        let fd = new FormData();
+                        fd.append('image', this.fileInput[0] ? this.fileInput[0] : null);
 
-                    this.imageUploadService.uploadImage(results.id, fd).subscribe(
-                        imageResponse => {
-                            this.router.navigate(['/features/school/list']);
-                        },
-                        error => {
-                            this.globalErrorHandler.handleError(error);
-                        }
-                    );
+                        this.imageUploadService.uploadImage(results.id, fd).subscribe(
+                            imageResponse => {
+                                this.router.navigate(['/features/school/list']);
+                            },
+                            error => {
+                                this.globalErrorHandler.handleError(error);
+                            }
+                        );
+                    }
+                    this.router.navigate(['/features/school/list']);
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
