@@ -10,7 +10,7 @@ import { RoleService } from '../../../_services/role.service';
 import { SchoolService } from '../../../_services/school.service';
 import { Role } from "../../../_models/role";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
-
+import { Helpers } from "../../../../../../helpers";
 @Component({
     selector: "app-role-list",
     templateUrl: "./role-list.component.html",
@@ -303,13 +303,16 @@ export class RoleListComponent implements OnInit {
     /* Counting Number of records ends*/
 
     getAllRoles() {
+        Helpers.setLoading(true);
         this.getUrl();
         this.roleList = this.schoolService.getRolesBySchoolId(this.url);
         this.roleList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         },
             error => {
                 this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
             });
     }
 

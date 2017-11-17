@@ -10,6 +10,7 @@ import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
 import * as _ from 'lodash/index';
+
 @Component({
     selector: "app-users-list",
     templateUrl: "./users-list.component.html",

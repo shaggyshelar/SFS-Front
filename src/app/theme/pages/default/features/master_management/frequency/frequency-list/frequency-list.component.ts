@@ -7,6 +7,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { Frequencies } from "../../../../_models/Frequencies";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { FrequencyService } from '../../../../_services/frequency.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -91,14 +92,17 @@ export class FrequenciesListComponent implements OnInit {
     }
 
     getAllFrequency() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.frequencyList = this.FrequencyService.getAllFrequencyList(this.url);
 
         this.frequencyList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 

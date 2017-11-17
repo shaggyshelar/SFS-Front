@@ -7,6 +7,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { Institutes } from "../../../../_models/institutes";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { InstitutesService } from '../../../../_services/institute.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -91,14 +92,17 @@ export class InstitutesListComponent implements OnInit {
     }
 
     getAllInstitutes() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.instituteList = this.institutesService.getAllInstitutesList(this.url);
 
         this.instituteList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
