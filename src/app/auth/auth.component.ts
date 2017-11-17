@@ -61,18 +61,18 @@ export class AuthComponent implements OnInit {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.storeService.getPermission();
         if (currentUser && currentUser.user) {
-          // let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+          let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
             this._router.navigate(['/changePassword']);
           }
-          else {
+          else if (!_superAdmin) {
             this._userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
               .subscribe(
               results => {
                 if (results.length > 1) {
                   this._router.navigate(['/selectSchool']);
                 }
-                else if (results[0].UserschoolSchool) {
+                else if (results.length == 1 && results[0].UserschoolSchool) {
                   localStorage.setItem('schoolLogo', results[0].UserschoolSchool.schoolLogo);
                   localStorage.setItem('schoolHeader', results[0].UserschoolSchool.schoolHeader);
 
@@ -85,9 +85,9 @@ export class AuthComponent implements OnInit {
                 this._globalErrorHandler.handleError(error);
               });
           }
-          // else {
-          //   this._router.navigate([this.returnUrl]);
-          // }
+          else {
+            this._router.navigate([this.returnUrl]);
+          }
         }
       },
       error => {
