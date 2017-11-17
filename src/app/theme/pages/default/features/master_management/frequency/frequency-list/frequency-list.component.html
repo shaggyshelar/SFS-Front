@@ -18,7 +18,7 @@
 		</button>
 	</p-footer>
 </p-confirmDialog>
-<div class="m-subheader" >
+<div class="m-subheader">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
@@ -56,7 +56,7 @@
 </div>
 <!-- END: Subheader -->
 
-<div class="m-content" [isAuthorize]="['Frequency.Read']" style="display:none;" >
+<div class="m-content" [isAuthorize]="['Frequency.Read']" style="display:none;">
 
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
@@ -96,7 +96,8 @@
 
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
+							 (keyup)="searchString(searchValue)">
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -115,15 +116,15 @@
 							<table class="staticTable" id="" width="100%">
 								<thead>
 									<tr>
-										<th title="Field #5">
+										<th title="">
 											<a href="#" (click)="sort('frequencyName',ascSortCol1 = !ascSortCol1)">
 												Frequency Name
 											</a>
 										</th>
-										<th title="Field #6">
+										<th title="">
 											Frequency Value
 										</th>
-										<th title="Field #8">
+										<th title="">
 											Actions
 										</th>
 									</tr>
@@ -158,36 +159,37 @@
 							<div class="col-md-6">
 								<nav aria-label="Page navigation example">
 									<ul class="pagination">
-										<li class="page-item">
-											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+										<li [ngClass]="{'page-item' : true}" title="Go to First Page">
+											<a [ngClass]="{'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
 												<i class="la la-angle-double-left leftIcon"></i>
 											</a>
 										</li>
 										<!-- <li class="page-item">
-																									<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
-																										<i class="fa fa-arrows leftIcon"></i>
-																									</a>
-																								</li> -->
-										<li class="page-item">
+																		<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+																			<i class="fa fa-arrows leftIcon"></i>
+																		</a>
+																	</li> -->
+										<li class="page-item" title="Previous">
 											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
 												<i class="la la-angle-left leftIcon"></i>
 											</a>
 										</li>
-										<li class="page-item" *ngFor="let item of arr">
+										<li [ngClass]="{'cursorNone' : currentPageCheck(item), 'page-item' : true}" *ngFor="let item of arr">
 											<!-- <a my-link="false" [ngClass]="{'active' : true, 'page-link' : currentPageCheck(item)}" (click)="pageClick(item)">{{item}}</a> -->
-											<a my-link="false" [ngClass]="{'active' : currentPageCheck(item), 'page-link' : true}" (click)="pageClick(item)">{{item}}</a>
+											<a my-link="false" [ngClass]="{'disabled' : currentPageCheck(item), 'active' : currentPageCheck(item), 'page-link' : true}"
+											 (click)="pageClick(item)">{{item}}</a>
 										</li>
-										<li class="page-item">
+										<li class="page-item" title="Next">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
 												<i class="la la-angle-right rightIcon"></i>
 											</a>
 										</li>
 										<!-- <li class="page-item">
-																									<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
-																										<i class="fa fa-arrows rightIcon"></i>
-																									</a>
-																								</li> -->
-										<li class="page-item">
+																		<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
+																			<i class="fa fa-arrows rightIcon"></i>
+																		</a>
+																	</li> -->
+										<li class="page-item" title="Go to Last Page">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
 												<i class="la la-angle-double-right rightIcon"></i>
 											</a>
@@ -201,14 +203,16 @@
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
 								</div>
 								<div class="showRecordsDropdown">
-									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize"
-									 name="CategoryId" (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize" name="CategoryId"
+									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
 
 						</div>
 
 					</div>
+
+
 				</div>
 				<!--end: Datatable -->
 			</div>
