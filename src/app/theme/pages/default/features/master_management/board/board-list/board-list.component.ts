@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { Boards } from "../../../../_models/index";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { BoardService } from '../../../../_services/index';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-board-list",
@@ -94,14 +95,17 @@ export class BoardListComponent implements OnInit {
     }
 
     getAllBoards() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.boardList = this.boardService.getAllBoardList(this.url);
 
         this.boardList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 

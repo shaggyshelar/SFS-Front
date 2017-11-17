@@ -187,7 +187,7 @@
 												<label>
 													Mother's Mobile No:
 												</label>
-												<input type="text" formControlName="motherMobile" name="motherMobile" class="form-control m-input" placeholder="Mother's Mobile">
+												<input type="text" formControlName="motherMobile" name="motherMobile" class="form-control m-input" placeholder="Mother's Mobile" maxlength="15">
 												<div class="alertMsg" *ngIf="!studentForm.get('motherMobile').hasError('required') && studentForm.get('motherMobile').hasError('pattern') && studentForm.get('motherMobile').touched">
 													Please enter valid Mother's Mobile No
 												</div>
@@ -224,7 +224,7 @@
 												<label>
 													Guardian's Mobile No:
 												</label>
-												<input type="text" formControlName="guardianMobile" name="guardianMobile" class="form-control m-input" placeholder="Guardian's Mobile">
+												<input type="text" formControlName="guardianMobile" name="guardianMobile" class="form-control m-input" placeholder="Guardian's Mobile" maxlength="15">
 												<div class="alertMsg" *ngIf="!studentForm.get('guardianMobile').hasError('required') && studentForm.get('guardianMobile').hasError('pattern') && studentForm.get('guardianMobile').touched">
 													Please enter valid Guardian's Mobile No
 												</div>
@@ -339,9 +339,9 @@
 												<label>
 													Contact No.:
 												</label>
-												<input type="text" formControlName="phone" name="phone" class="form-control m-input" placeholder="Contact Number">
+												<input type="text" formControlName="phone" name="phone" class="form-control m-input" placeholder="Contact Number" maxlength="15">
 												<div class="alertMsg" *ngIf="!studentForm.get('phone').hasError('required') && studentForm.get('phone').hasError('pattern') && studentForm.get('phone').touched">
-													Please enter valid Phone numeber
+													Please enter valid Phone number
 												</div>
 											</div>
 											<div class="col-lg-6">

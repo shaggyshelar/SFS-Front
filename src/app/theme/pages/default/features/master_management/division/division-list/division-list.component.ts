@@ -8,6 +8,7 @@ import { DivisionService } from '../../../../_services/division.service';
 import { ClassService } from '../../../../_services/class.service';
 import { Division } from "../../../../_models/division";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -120,14 +121,17 @@ export class DivisionListComponent implements OnInit {
     }
 
     getAllDivisions() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.divisionList = this.divisionService.getAllDivisionList(this.url);
 
         this.divisionList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 

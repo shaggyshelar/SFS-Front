@@ -216,12 +216,12 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone">
+						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone" maxlength="15">
 						<div class="alertMsg" *ngIf="schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').touched">
 							Please enter School Phone
 						</div>
 						<div class="alertMsg" *ngIf="!schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').hasError('pattern') && schoolForm.get('schoolPhone').touched">
-							Please enter valid phone numeber
+							Please enter valid phone number
 						</div>
 					</div>
 				</div>

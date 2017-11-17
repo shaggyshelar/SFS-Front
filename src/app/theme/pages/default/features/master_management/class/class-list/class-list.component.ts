@@ -7,6 +7,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { ClassService } from '../../../../_services/class.service';
 import { SchoolClass } from "../../../../_models/class";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -108,6 +109,7 @@ export class ClassListComponent implements OnInit {
     }
 
     getAllClasses() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.classList = this.classService.getAllClassList(this.url);
@@ -115,8 +117,10 @@ export class ClassListComponent implements OnInit {
         this.classList.subscribe((response) => {
             console.log(response);
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 

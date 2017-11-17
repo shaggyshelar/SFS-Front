@@ -11,6 +11,7 @@ import { BoardService } from '../../../_services/board.service';
 import { School } from "../../../_models/school";
 
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -402,12 +403,15 @@ export class SchoolListComponent implements OnInit {
 
     getAllSchools() {
         this.getUrl();
+        Helpers.setLoading(true);
         this.schoolList = this.schoolService.getAllSchools(this.url);
         this.schoolList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         },
             error => {
                 this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
             });
     }
 

@@ -7,6 +7,7 @@ import { Categories } from "../../../../_models/categories";
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { ConfirmationService } from 'primeng/primeng';
+import { Helpers } from "../../../../../../../helpers";
 @Component({
   selector: "app-users-list",
   templateUrl: "./categories-list.component.html",
@@ -91,13 +92,16 @@ export class CategoriesListComponent implements OnInit {
   }
 
   getAllCategories() {
+    Helpers.setLoading(true);
     this.getUrl();
     this.categoriesList = this.categoriesService.getAllCategoriesList(this.url);
 
     this.categoriesList.subscribe((response) => {
       this.longList = response.length > 0 ? true : false;
+      Helpers.setLoading(false);
     }, error => {
       this.globalErrorHandler.handleError(error);
+      Helpers.setLoading(false);
     });
   }
 

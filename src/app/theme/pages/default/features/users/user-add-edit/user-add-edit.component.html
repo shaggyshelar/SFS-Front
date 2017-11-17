@@ -87,12 +87,12 @@
 							Contact
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="phone" name="contact" placeholder="Contact">
+						<input class="form-control m-input" type="text" formControlName="phone" name="contact" placeholder="Contact" maxlength="15">
 						<div class="alertMsg" *ngIf="userForm.get('phone').hasError('required') && userForm.get('phone').touched">
 							Please enter Contact Number
 						</div>
 						<div class="alertMsg" *ngIf="!userForm.get('phone').hasError('required') && userForm.get('phone').hasError('pattern') && userForm.get('phone').touched">
-							Please enter valid phone numeber
+							Please enter valid phone number
 						</div>
 					</div>
 				</div>

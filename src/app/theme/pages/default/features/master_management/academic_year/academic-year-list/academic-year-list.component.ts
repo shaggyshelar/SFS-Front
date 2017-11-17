@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { AcademicYear } from "../../../../_models/index";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { AcademicYearService } from '../../../../_services/index';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-academic-year-list",
@@ -94,14 +95,17 @@ export class AcademicYearListComponent implements OnInit {
     }
 
     getAllAcademicYears() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.academicYearList = this.academicYearService.getAllAcademicYearList(this.url);
 
         this.academicYearList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
