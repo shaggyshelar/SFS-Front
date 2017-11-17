@@ -404,7 +404,7 @@ export class UsersListComponent implements OnInit {
         this.userService.forgotPassword(email)
             .subscribe(
             data => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'User Unblocked Successfully' });
+                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Reset Password Link Sent To User Successfully.' });
                 this.getAllUsers();
             },
             error => {

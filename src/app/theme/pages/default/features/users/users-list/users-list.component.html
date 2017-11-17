@@ -140,7 +140,7 @@
 										<tbody *ngIf="longList && userRole == 'SuperAdmin'">
 											<tr *ngFor='let row of userList | async'>
 												<td>{{row.username}}</td>
-												<td *ngIf="">{{row.role.displayName}}</td>
+												<td >{{row.role ? row.role.displayName : ''}}</td>
 												<td>{{row.phone}}</td>
 												<td>{{row.email}}</td>
 												<td *ngIf="row.isActivate">
