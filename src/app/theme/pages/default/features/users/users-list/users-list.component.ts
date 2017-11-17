@@ -373,10 +373,42 @@ export class UsersListComponent implements OnInit {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
         if (_superAdmin) {
-            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+            this.url = '?filter[include]=role&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
         } else {
-            this.url = '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+            this.url = 'filter[include]=role&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
         }
+    }
+
+    toggleUserStatus(item, status) {
+        item.isActivate = status;
+        this.userService.updateUserStatus(item)
+            .subscribe(
+            results => {
+                if (status)
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'User Activated Successfully' });
+                else
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'User Deactivated Successfully' });
+
+                this.getAllUsers();
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+
+    unblockuser(model) {
+        let email = {
+            email: model.email
+        };
+        this.userService.forgotPassword(email)
+            .subscribe(
+            data => {
+                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'User Unblocked Successfully' });
+                this.getAllUsers();
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     sort(column, sortOrder) {
