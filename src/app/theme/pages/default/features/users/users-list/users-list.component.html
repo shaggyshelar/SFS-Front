@@ -186,6 +186,10 @@
 													 title="Delete" [isAuthorize]="['User.Delete']">
 														<i class="la la-close"></i>
 													</a>
+													<a href="javascript:;" *ngIf="row.UserschoolUser.isBolocked" (click)="unblockuser(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													title="Unblock user" [isAuthorize]="['User.Update']">
+													   <i class="fa fa-unlock"></i>
+												   </a>
 												</td>
 												<td *ngIf="!row.UserschoolUser"> </td>
 											</tr>
