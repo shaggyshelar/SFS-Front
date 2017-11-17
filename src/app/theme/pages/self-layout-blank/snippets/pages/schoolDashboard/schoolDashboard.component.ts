@@ -29,7 +29,7 @@ export class SchoolDashboardComponent implements OnInit {
         if (!_superAdmin)
             this.welcomeMessage = "Welcome School Admin";
         else
-            this.welcomeMessage = "Welcome Supper Admin";
+            this.welcomeMessage = "Welcome Super Admin";
         this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
             .subscribe(
             results => {
