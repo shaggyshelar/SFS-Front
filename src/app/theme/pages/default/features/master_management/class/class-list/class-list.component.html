@@ -181,15 +181,10 @@
 								<nav aria-label="Page navigation example">
 									<ul class="pagination">
 										<li [ngClass]="{'page-item' : true}" title="Go to First Page">
-											<a [ngClass]="{'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
+											<a [ngClass]="{'page-link' : true, 'prev':true}" (click)="visitFirstPage()">
 												<i class="la la-angle-double-left leftIcon"></i>
 											</a>
 										</li>
-										<!-- <li class="page-item">
-																		<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirsPage()">
-																			<i class="fa fa-arrows leftIcon"></i>
-																		</a>
-																	</li> -->
 										<li class="page-item" title="Previous">
 											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
 												<i class="la la-angle-left leftIcon"></i>
