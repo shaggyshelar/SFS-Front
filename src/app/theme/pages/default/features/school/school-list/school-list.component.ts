@@ -107,6 +107,7 @@ export class SchoolListComponent implements OnInit {
         this.currentPos = 0;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
+        //this.sortUrl = { "order": "propertyName ASC" };
         this.ascSortCol1 = true;
         this.ascSortCol2 = true;
         this.ascSortCol3 = true;
@@ -128,8 +129,7 @@ export class SchoolListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
-
+        this.longList = true;
         this.getDataCount('');
     }
 
@@ -203,7 +203,7 @@ export class SchoolListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllSchools();
+            this.getAllSchools();   
         }
     }
 
@@ -303,7 +303,21 @@ export class SchoolListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
+
             this.searchQuery = '&filter[where][or][0][schoolName][like]=%' + searchString + "%";
+            // let q = {
+            //     where: {
+            //       or: [
+            //         {
+            //             schoolName: {
+            //             like: '%'+searchString+'%'
+            //           }
+            //         }
+            //       ]
+            //     }
+            //   };
+            //   this.searchQuery = '&filter=' + JSON.stringify(q);
+            // console.log(JSON.stringify(q));
             this.searchCountQuery = '&[where][or][0][schoolName][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
@@ -377,7 +391,9 @@ export class SchoolListComponent implements OnInit {
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?filter[include]=SchoolInstitute&filter[include]=SchoolBoard&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+        //this.url = '?' + JSON.stringify(this.url) + this.sortUrl;
 
     }
     /* Counting Number of records ends*/

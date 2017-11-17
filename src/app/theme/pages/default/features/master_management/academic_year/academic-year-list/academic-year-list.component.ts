@@ -88,7 +88,8 @@ export class AcademicYearListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-        this.getAllAcademicYears();
+        this.longList = true;
+        //this.getAllAcademicYears();
         this.getDataCount('');
     }
 

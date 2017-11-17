@@ -91,7 +91,7 @@ export class UsersListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
+        this.longList = true;
         this.getAllUsers();
         this.getDataCount('');
     }
@@ -370,6 +370,7 @@ export class UsersListComponent implements OnInit {
     }
 
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
         if (_superAdmin) {

@@ -103,7 +103,7 @@ export class DivisionListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
-
+        this.longList = true;
         this.filterCol1 = [];
         let val = this.classService.getAllClasses();
         this.filterCol1.push({ label: '--Select--', value: 'select' });
@@ -412,6 +412,7 @@ export class DivisionListComponent implements OnInit {
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?filter[include]=DivisionClass&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
 
     }

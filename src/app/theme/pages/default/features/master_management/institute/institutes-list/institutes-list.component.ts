@@ -86,8 +86,7 @@ export class InstitutesListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
-
+        this.longList = true;
         this.getDataCount('');
     }
 
@@ -341,6 +340,7 @@ export class InstitutesListComponent implements OnInit {
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
 
     }
