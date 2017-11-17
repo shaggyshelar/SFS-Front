@@ -567,3 +567,36 @@ body .ui-dialog .ui-dialog-titlebar {
         margin-left: -4px;
         margin-right: -5px;
     }
+
+    /*** For phi commerce Logo on school admin intermidiate page **/
+
+.landingBrandBox{
+    box-shadow: 0 1px 15px 1px rgba(23, 23, 23, 0.1);
+    background:#fff;
+    padding: 20px 4em;
+   }
+   .landingBrandBox label{
+    margin-bottom: 0;
+       font-size: 24px;
+       font-weight: 600;
+       color: #5867dd;
+       margin: 0 auto;
+       position: absolute;
+       margin-top: -3px;
+       margin-left: 3em;
+   }
+   .schoolNameBox h4 {
+       line-height: 1.3em;
+   }
+
+   @media (max-width:767px){
+    .landingBrandBox label{  
+     position: relative;
+     margin-left: 0;
+     font-size: 22px;
+     margin-top: 15px;
+    }
+    .landingBrandBox {
+     text-align: center;
+    }
+   }
