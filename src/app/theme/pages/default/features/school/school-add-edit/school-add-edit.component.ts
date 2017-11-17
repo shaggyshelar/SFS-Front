@@ -133,17 +133,13 @@ export class SchoolAddEditComponent implements OnInit {
                             this.globalErrorHandler.handleError(error);
                         }
                     );
-
-
-
-
-
                     this.router.navigate(['/features/school/list']);
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
                 });
         } else {
+            value.schoolLogo = this.imageFileName;
             this.schoolService.createSchool(value)
                 .subscribe(
                 results => {
