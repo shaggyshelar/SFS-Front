@@ -69,7 +69,7 @@ export class UserAddEditComponent implements OnInit {
                 id: [],
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
-                phone: ['', [Validators.pattern('^([0-9]*)$')]],
+                phone: ['', [Validators.pattern('^[0-9]{10,15}$')]],
                 institute: ['', [Validators.required]],
                 role: ['', [Validators.required]],
                 schools: this.buildSchools()
@@ -89,7 +89,7 @@ export class UserAddEditComponent implements OnInit {
                 id: [],
                 username: ['', [Validators.required]],
                 email: ['', [Validators.required, Validators.email]],
-                phone: ['', [Validators.pattern('^([0-9]*)$')]],
+                phone: ['', [Validators.pattern('^[0-9]{10,15}$$')]],
                 role: ['', [Validators.required]],
             });
 
