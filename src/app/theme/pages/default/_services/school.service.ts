@@ -63,6 +63,7 @@ export class SchoolService {
 
   getUsersCountBySchoolId(url){
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails/count?where[schoolId]=' + schoolId + '&where[createdBy]=2'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails/count?where[schoolId]=' + schoolId + '&where[createdBy]=' +currentUser.userId + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }
