@@ -39,4 +39,16 @@ export class CommonService {
     return blooDgroup;
     //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
+
+  getZoneList() {
+    //let zoneGroup = ["Zone 1", "Zone 2", "Zone 3"];
+    //return zoneGroup;
+    return this.http.get(AppSettings.API_ENDPOINT + 'Zones', AppSettings.requestOptions()).map((response: Response) => response.json());  
+  }
+
+  getChargeHeader() {
+    let chargeHeads = ["ChargeHead1 ", "ChargeHead2", "ChargeHead3", "ChargeHead4"];
+    return chargeHeads;
+    //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
+  }
 }
