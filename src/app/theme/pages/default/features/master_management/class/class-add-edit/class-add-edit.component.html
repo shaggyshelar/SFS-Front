@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add/Edit Class
+							{{ params ? 'edit' : 'add' }}
 						</span>
 					</a>
 				</li>
@@ -43,10 +43,11 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit Class
+						{{ params ? 'Edit Class' : 'Add Class' }}
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
@@ -57,6 +58,7 @@
 				<div class="form-group m-form__group row">
 					<label class="col-2 col-form-label" for="example-text-input">
 						Class Code
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
 						<input class="form-control m-input" type="text" formControlName="classCode" name="classCode" id="classCode" placeholder="Class Code">
@@ -69,6 +71,7 @@
 				<div class="form-group m-form__group row">
 					<label class="col-2 col-form-label" for="example-text-input">
 						Class Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
 						<input class="form-control m-input" formControlName="className" type="text" placeholder="Class Name">
@@ -86,8 +89,8 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="classForm.invalid" [isAuthorize]="['Class.Update', 'Class.Create']">
-								Save
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="classForm.invalid" [ngClass]="classForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ classForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['Class.Update', 'Class.Create']">
+								 {{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">
 								Cancel

@@ -30,7 +30,7 @@ export class SchoolService {
   }
 
   updateSchool(school: School) {
-    return this.http.put(AppSettings.API_ENDPOINT +'schools/' + school.id, school, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'schools/' + school.id, school, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteSchool(id: number) {
@@ -63,6 +63,7 @@ export class SchoolService {
 
   getUsersCountBySchoolId(url){
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'schools/' + schoolId + '/SchoolUsers/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails/count?where[schoolId]=' + schoolId + '&where[createdBy]=' +currentUser.userId + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

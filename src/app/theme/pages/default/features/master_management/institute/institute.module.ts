@@ -15,6 +15,8 @@ import {
   DataTableModule,
   SharedModule,
   ButtonModule,
+  ConfirmDialogModule,
+  ConfirmationService,
   DropdownModule,
 } from 'primeng/primeng';
 
@@ -68,6 +70,7 @@ const routes: Routes = [
     SharedModule,
     ButtonModule,
     DropdownModule,
+    ConfirmDialogModule
   ],
   declarations: [
     InstituteComponent,
@@ -76,6 +79,7 @@ const routes: Routes = [
   ],
   providers: [
     InstitutesService,
+    ConfirmationService
   ]
 })
 export class InstituteModule {

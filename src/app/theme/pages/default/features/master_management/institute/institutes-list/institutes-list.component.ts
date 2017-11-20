@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Institutes } from "../../../../_models/institutes";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { InstitutesService } from '../../../../_services/institute.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -48,6 +49,7 @@ export class InstitutesListComponent implements OnInit {
         private messageService: MessageService,
         private institutesService: InstitutesService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private _script: ScriptLoaderService) {
     }
 
@@ -85,20 +87,22 @@ export class InstitutesListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
-        this.getAllInstitutes();
+        this.longList = true;
         this.getDataCount('');
     }
 
     getAllInstitutes() {
+        Helpers.setLoading(true);
         this.getUrl();
 
-        this.instituteList = this.institutesService.getAllInstitutes();
+        this.instituteList = this.institutesService.getAllInstitutesList(this.url);
 
         this.instituteList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
@@ -106,26 +110,33 @@ export class InstitutesListComponent implements OnInit {
         this.router.navigate(['/features/institute/edit', institute.id]);
     }
     onInstituteDeleteClick(institute: Institutes) {
-        this.institutesService.deleteInstitute(institute.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllInstitutes();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.institutesService.deleteInstitute(institute.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        this.getAllInstitutes();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddInstitutes() {
         this.router.navigate(['/features/institute/add']);
     }
 
-    /*Pagination Function's Starts*/
-
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -181,7 +192,7 @@ export class InstitutesListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -211,6 +222,9 @@ export class InstitutesListComponent implements OnInit {
                 this.currentPageNumber = this.boundryEnd;
             }
         }
+        //this.boundryEnd = this.pages;
+        //this.boundryStart = this.pages - this.boundry + 1;
+
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllInstitutes();
@@ -220,10 +234,6 @@ export class InstitutesListComponent implements OnInit {
         if (this.currentPos - this.perPage >= 0) {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
-
-            // this.boundryStart--;
-            // this.boundryEnd--;
-            // this.generateCount();
             this.setDisplayPageNumberRange();
             this.getAllInstitutes();
         }
@@ -284,21 +294,39 @@ export class InstitutesListComponent implements OnInit {
 
     /* Pagination Function's Ends */
 
+    /* Filtering, Sorting, Search functions Starts*/
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][instituteName][like]=' + searchString;
-            this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][instituteName][like]=%' + searchString + "%" + '&filter[where][or][1][address][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][instituteName][like]=%' + searchString + "%" + '&[where][or][1][address][like]=%' + searchString + "%";
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
+        //this.getAllSchools();
+    }
+
+
+
+    sort(column, sortOrder) {
+        if (sortOrder) {
+            this.sortUrl = '&filter[order]=' + column + ' DESC';
+        } else {
+            this.sortUrl = '&filter[order]=' + column + ' ASC';
+        }
         this.getAllInstitutes();
     }
+    /* Filtering, Sorting, Search functions Ends*/
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?' +  this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -312,19 +340,13 @@ export class InstitutesListComponent implements OnInit {
         },
             error => {
                 this.globalErrorHandler.handleError(error);
-            });
+            }
+        );
     }
-
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
-    }
 
-    sort(column, sortOrder) {
-        if (sortOrder) {
-            this.sortUrl = '&filter[order]=' + column + ' DESC';
-        } else {
-            this.sortUrl = '&filter[order]=' + column + ' ASC';
-        }
-        this.getAllInstitutes();
     }
+    /* Counting Number of records ends*/
 }

@@ -18,31 +18,7 @@
 						</span>
 					</span>
 				</a>
-			</li>
-			<li class="m-menu__section" *ngIf="userRole=='SuperAdmin'">
-				<h4 class="m-menu__section-text">
-					Admin
-				</h4>
-				<i class="m-menu__section-icon flaticon-more-v3"></i>
-			</li>
-			<li class="m-menu__section">
-				<h4 class="m-menu__section-text">
-					Main Menu
-				</h4>
-				<i class="m-menu__section-icon flaticon-more-v3"></i>
-			</li>
-			<!-- <li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
-				<a routerLink="/features/school/list" class="m-menu__link">
-					<i class="m-menu__link-icon la la-bank"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								School Management
-							</span>
-						</span>
-					</span>
-				</a>
-			</li> -->
+			</li>		
 			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
 			 data-menu-submenu-toggle="hover" [isAuthorize]="['Institute.Read', 'School.Read']">
 				<a href="#" class="m-menu__link m-menu__toggle">
@@ -99,7 +75,7 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			<!-- <li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['Report.Read']">
 				<a routerLink="/features/reports" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -111,55 +87,7 @@
 						</span>
 					</span>
 				</a>
-			</li>
-			<!-- <li class="m-menu__section">
-				<h4 class="m-menu__section-text">
-					Components
-				</h4>
-				<i class="m-menu__section-icon flaticon-more-v3"></i>
 			</li> -->
-			<!-- <li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
-				<a routerLink="/features/masterManagement" class="m-menu__link">
-					<i class="m-menu__link-icon flaticon-user-settings"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								Masters Management
-							</span>
-						</span>
-					</span>
-				</a>
-			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
-				<a routerLink="/features/configuration" class="m-menu__link">
-					<i class="m-menu__link-icon	la 	la-gears"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								Configuration
-							</span>
-						</span>
-					</span>
-				</a>
-			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
-				<a routerLink="/features/archival" class="m-menu__link">
-					<i class="m-menu__link-icon la la-archive"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								Archival
-							</span>
-						</span>
-					</span>
-				</a>
-			</li> -->
-			<li class="m-menu__section" *ngIf="userRole =='SchoolAdmin'">
-				<h4 class="m-menu__section-text">
-					School Admin
-				</h4>
-				<i class="m-menu__section-icon flaticon-more-v3"></i>
-			</li>
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['ProcessFee.Read']">
 				<a routerLink="/features/feeProcessing" class="m-menu__link">
@@ -186,23 +114,10 @@
 					</span>
 				</a>
 			</li>
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
-			 [isAuthorize]="['user.Read']">
-				<a routerLink="/features/users/list" class="m-menu__link">
-					<i class="m-menu__link-icon flaticon-users"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								User Management
-							</span>
-						</span>
-					</span>
-				</a>
-			</li>
 			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
 			 data-menu-submenu-toggle="hover" [isAuthorize]="['Category.Read', 'Frequency.Read', 'AcademicYear.Read', 'Board.Read', 'Class.Read','Division.Read']">
 				<a href="#" class="m-menu__link m-menu__toggle">
-					<i class="m-menu__link-icon la la-bank"></i>
+					<i class="m-menu__link-icon flaticon-user-settings"></i>
 					<span class="m-menu__link-text">
 						Master Management
 					</span>
@@ -233,7 +148,7 @@
 								<span class="m-menu__link-title">
 									<span class="m-menu__link-wrap">
 										<span class="m-menu__link-text">
-											Payment Frequency
+											Frequency
 										</span>
 									</span>
 								</span>
@@ -302,7 +217,7 @@
 			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
 			 data-menu-submenu-toggle="hover" [isAuthorize]="['Feehead.Read', 'Feeplan.Read', 'Transport.Read']">
 				<a href="#" class="m-menu__link m-menu__toggle">
-					<i class="m-menu__link-icon la la-bank"></i>
+					<i class="m-menu__link-icon la la-inr"></i>
 					<span class="m-menu__link-text">
 						Fee Management
 					</span>
@@ -347,7 +262,7 @@
 								<span class="m-menu__link-title">
 									<span class="m-menu__link-wrap">
 										<span class="m-menu__link-text">
-											Transport
+											Zone
 										</span>
 									</span>
 								</span>
@@ -359,7 +274,7 @@
 			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['Student.Read']">
 				<a routerLink="/features/student/list" class="m-menu__link">
-					<i class="m-menu__link-icon	la 	la-gears"></i>
+					<i class="m-menu__link-icon	la la-graduation-cap"></i>
 					<span class="m-menu__link-title">
 						<span class="m-menu__link-wrap">
 							<span class="m-menu__link-text">
@@ -372,7 +287,7 @@
 			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['Report.Read']">
 				<a routerLink="/features/reports" class="m-menu__link">
-					<i class="m-menu__link-icon la la-archive"></i>
+					<i class="m-menu__link-icon  flaticon-line-graph"></i>
 					<span class="m-menu__link-title">
 						<span class="m-menu__link-wrap">
 							<span class="m-menu__link-text">

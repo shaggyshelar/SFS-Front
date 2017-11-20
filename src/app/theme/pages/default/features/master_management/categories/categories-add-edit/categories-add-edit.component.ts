@@ -19,7 +19,6 @@ export class CategoriesAddEditComponent implements OnInit {
   categoriesForm: FormGroup;
   schools: SelectItem[];
   categories: SelectItem[];
-  isFormSubmit = false;
   constructor(
     private formBuilder: FormBuilder, private categorieslService: CategoriesService,
     private route: ActivatedRoute, private router: Router, private messageService: MessageService, private globalErrorHandler: GlobalErrorHandler
@@ -61,13 +60,9 @@ export class CategoriesAddEditComponent implements OnInit {
     });
   }
 
-  onSubmit(_category, invalid) {
-    this.isFormSubmit = true;
-    if (invalid) {
-      return false;
-    }
+  onSubmit({ value, valid }: { value: any, valid: boolean }) {
     if (this.params) {
-      this.categorieslService.updateCategory(_category._value)
+      this.categorieslService.updateCategory(value)
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
@@ -77,7 +72,7 @@ export class CategoriesAddEditComponent implements OnInit {
           this.globalErrorHandler.handleError(error);
         });
     } else {
-      this.categorieslService.createCategory(_category._value)
+      this.categorieslService.createCategory(value)
         .subscribe(
         results => {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });

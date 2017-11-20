@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add/Edit School
+							{{ params ? 'Edit School' : 'Add School' }}
 						</span>
 					</a>
 				</li>
@@ -42,10 +42,11 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit School
+						{{ params ? 'Edit School' : 'Add School' }}
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
@@ -68,24 +69,19 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Institute Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<p-dropdown placeholder="Select Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
 						<div class="alertMsg" *ngIf="schoolForm.get('instituteId').hasError('required') && schoolForm.get('instituteId').touched">
 							Please select Institute
 						</div>
-						<!-- <select class="form-control m-input">
-							<option disabled selected>Select</option>
-							<option>Institute 1</option>
-							<option>Institute 2</option>
-							<option>Institute 3</option>
-							<option>Institute 4</option>
-						</select> -->
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						School Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolName" name="schoolName" id="schoolName" placeholder="School Name">
@@ -97,6 +93,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Short Name
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolHeader" name="schoolHeader" id="schoolHeader" placeholder="School Short Name">
@@ -111,6 +108,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						School Code
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolCode" name="schoolCode" id="schoolCode" placeholder="School Code">
@@ -132,6 +130,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Board
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 
@@ -139,13 +138,6 @@
 						<div class="alertMsg" *ngIf="schoolForm.get('boardId').hasError('required') && schoolForm.get('boardId').touched">
 							Please select Board
 						</div>
-						<!-- <select class="form-control m-input">
-							<option disabled selected>Select</option>
-							<option>CBSC</option>
-							<option>ICSC</option>
-							<option>SSC</option>
-							<option>HHC</option>
-						</select> -->
 					</div>
 				</div>
 
@@ -160,6 +152,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Address
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<textarea class="form-control m-input" rows="3" formControlName="schoolAddress" name="schoolAddress" id="schoolAddress" style="resize:none;"></textarea>
@@ -171,6 +164,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						City
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolCity" name="schoolCity" id="schoolCity" placeholder="City">
@@ -183,6 +177,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						State
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolState" name="schoolState" id="schoolState" placeholder="State">
@@ -203,6 +198,7 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Email
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="schoolEmail" name="schoolEmail" id="schoolEmail" placeholder="Email">
@@ -217,14 +213,15 @@
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Phone No.
+						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone">
+						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone" maxlength="15">
 						<div class="alertMsg" *ngIf="schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').touched">
 							Please enter School Phone
 						</div>
 						<div class="alertMsg" *ngIf="!schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').hasError('pattern') && schoolForm.get('schoolPhone').touched">
-							Please enter valid phone numeber
+							Please enter valid phone number
 						</div>
 					</div>
 				</div>
@@ -246,8 +243,8 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']">
-								Save
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="schoolForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ schoolForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']">
+								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">
 								Cancel

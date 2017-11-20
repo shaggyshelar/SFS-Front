@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Frequencies } from "../../../../_models/Frequencies";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { FrequencyService } from '../../../../_services/frequency.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -48,6 +49,7 @@ export class FrequenciesListComponent implements OnInit {
         private messageService: MessageService,
         private FrequencyService: FrequencyService,
         private globalErrorHandler: GlobalErrorHandler,
+        private confirmationService: ConfirmationService,
         private _script: ScriptLoaderService) {
     }
 
@@ -85,20 +87,22 @@ export class FrequenciesListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-
-        this.getAllFrequency();
+        this.longList = true;
         this.getDataCount('');
     }
 
     getAllFrequency() {
+        Helpers.setLoading(true);
         this.getUrl();
 
-        this.frequencyList = this.FrequencyService.getAllFrequency();
+        this.frequencyList = this.FrequencyService.getAllFrequencyList(this.url);
 
         this.frequencyList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
@@ -106,14 +110,26 @@ export class FrequenciesListComponent implements OnInit {
         this.router.navigate(['/features/masterManagement/frequencies/edit', frequency.id]);
     }
     onFrequencyDeleteClick(frequency: Frequencies) {
-        this.FrequencyService.deleteFrequency(frequency.id).subscribe(
-            results => {
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-                this.getAllFrequency();
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'fa fa-trash',
+            accept: () => {
+                this.FrequencyService.deleteFrequency(frequency.id).subscribe(
+                    results => {
+                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+                        if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+                            this.currentPageNumber--;
+                        }
+                        this.getQueryDataCount();
+                    },
+                    error => {
+                        this.globalErrorHandler.handleError(error);
+                    })
             },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            })
+            reject: () => {
+            }
+        });
     }
     onAddFrequency() {
         this.router.navigate(['/features/masterManagement/frequencies/add']);
@@ -123,9 +139,9 @@ export class FrequenciesListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -181,7 +197,7 @@ export class FrequenciesListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -211,6 +227,9 @@ export class FrequenciesListComponent implements OnInit {
                 this.currentPageNumber = this.boundryEnd;
             }
         }
+        //this.boundryEnd = this.pages;
+        //this.boundryStart = this.pages - this.boundry + 1;
+
         this.generateCount();
         this.setDisplayPageNumberRange();
         this.getAllFrequency();
@@ -284,21 +303,38 @@ export class FrequenciesListComponent implements OnInit {
 
     /* Pagination Function's Ends */
 
+    /* Filtering, Sorting, Search functions Starts*/
     searchString(searchString) {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][instituteName][like]=' + searchString;
-            this.searchCountQuery = '&[where][instituteName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][frequencyName][like]=%' + searchString + "%" + '&filter[where][or][1][frequencyValue][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][frequencyName][like]=%' + searchString + "%" + '&[where][or][1][frequencyValue][like]=%' + searchString + "%";
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
+        //this.getAllSchools();
+    }
+
+
+    sort(column, sortOrder) {
+        if (sortOrder) {
+            this.sortUrl = '&filter[order]=' + column + ' DESC';
+        } else {
+            this.sortUrl = '&filter[order]=' + column + ' ASC';
+        }
         this.getAllFrequency();
     }
+    /* Filtering, Sorting, Search functions Ends*/
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?' + this.searchCountQuery;
         this.getDataCount(this.countQuery);
 
     }
@@ -312,19 +348,12 @@ export class FrequenciesListComponent implements OnInit {
         },
             error => {
                 this.globalErrorHandler.handleError(error);
-            });
+            }
+        );
     }
 
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
-    }
-
-    sort(column, sortOrder) {
-        if (sortOrder) {
-            this.sortUrl = '&filter[order]=' + column + ' DESC';
-        } else {
-            this.sortUrl = '&filter[order]=' + column + ' ASC';
-        }
-        this.getAllFrequency();
     }
 }

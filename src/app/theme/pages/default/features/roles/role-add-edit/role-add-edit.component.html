@@ -45,6 +45,7 @@
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 		
 		<!--begin::Form-->
@@ -76,8 +77,8 @@
 						
 					</label>
 					<div class="col-7">
-						<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="roleForm.invalid" [isAuthorize]="['Role.Create', 'Role.Update']">
-							{{ params ? 'Update Roll' : 'Add Role' }}
+						<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom button_foot" [disabled]="roleForm.invalid" [ngClass]="roleForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ roleForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['Role.Create', 'Role.Update']">
+							{{ params ? 'Update' : 'Save' }}
 						</button>
 						<button type="button" class="btn btn-secondary" (click)="onCancel()">
 							Cancel
@@ -112,13 +113,19 @@
 						Select Permission <span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
-						<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="this.filteredPermissionList.length == 0">
+						<select class="form-control" [(ngModel)]="selectedPermission" [disabled]="filteredPermissionList.length == 0">
 							<option [ngValue]="null" >Select</option>
 							<option *ngFor="let permission of filteredPermissionList" [ngValue]="permission">{{permission.text}}</option>
 						</select>
+						<div class="alertMsg" *ngIf="selectedFeature && !isMenuSelected && permissionList.length == 0">
+							You do not have rights to this permission
+						</div>
+						<div class="alertMsg" *ngIf="selectedFeature && !isMenuSelected  && permissionList.length != 0 && filteredPermissionList.length == 0">
+							 All permissions of selected menu are already assigned to this role
+						</div>
 					</div>
 					<div class="col-3">
-						<button type="submit" class="btn btn-primary" (click)="onAddPermission();" [disabled]="this.selectedPermission==null || this.selectedPermission==''">
+						<button type="submit" class="btn btn-primary" (click)="onAddPermission();" [disabled]="selectedPermission==null || selectedPermission==''">
 							Add Permissions
 						</button>
 					</div>

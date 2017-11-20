@@ -24,7 +24,7 @@ export class DivisionAddEditComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler,
-        private divisionService: DivisionService,private classService: ClassService,
+        private divisionService: DivisionService, private classService: ClassService,
 
     ) {
     }
@@ -41,6 +41,8 @@ export class DivisionAddEditComponent implements OnInit {
                     this.classList.push({ label: response[key].className, value: response[key].id });
                 }
             }
+        }, error => {
+            this.globalErrorHandler.handleError(error);
         });
         this.divisionForm = this.formBuilder.group({
             id: [0],
@@ -56,11 +58,9 @@ export class DivisionAddEditComponent implements OnInit {
                 this.divisionService.getDivisionById(this.params)
                     .subscribe(
                     (results: Division) => {
-                        console.log(results);
                         this.divisionForm.setValue({
                             id: results.id,
                             classId: results.classId,
-                            schoolId: results.schoolId,
                             divisionName: results.divisionName,
                             divisionCode: results.divisionCode
                         });

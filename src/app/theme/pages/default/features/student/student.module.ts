@@ -8,6 +8,8 @@ import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { StudentService } from '../../_services/index';
 import { ClassService } from '../../_services/index';
 import { CommonService } from '../../_services/index';
+import { AcademicYearService } from '../../_services/index';
+import { CategoriesService } from '../../_services/index';
 import { StudentComponent } from './student.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentAddEditComponent } from './student-add-edit/student-add-edit.component';
@@ -77,6 +79,8 @@ const routes: Routes = [
     CommonService,
     ClassService,
     ConfirmationService,
+    AcademicYearService,
+    CategoriesService,
   ]
 })
 export class StudentModule {

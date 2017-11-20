@@ -10,7 +10,7 @@ import { RoleService } from '../../../_services/role.service';
 import { SchoolService } from '../../../_services/school.service';
 import { Role } from "../../../_models/role";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
-
+import { Helpers } from "../../../../../../helpers";
 @Component({
     selector: "app-role-list",
     templateUrl: "./role-list.component.html",
@@ -84,6 +84,7 @@ export class RoleListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
+        this.longList = true;
         this.getDataCount('');
         this.getAllRoles();
     }
@@ -92,9 +93,9 @@ export class RoleListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -256,9 +257,14 @@ export class RoleListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][displayName][like]=' + searchString;
-            this.searchCountQuery = '&[where][displayName][like]=' + searchString;
+            this.searchQuery = '&filter[where][displayName][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][displayName][like]=' + searchString + '%';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
@@ -291,18 +297,22 @@ export class RoleListComponent implements OnInit {
             });
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
     /* Counting Number of records ends*/
 
     getAllRoles() {
+        Helpers.setLoading(true);
         this.getUrl();
         this.roleList = this.schoolService.getRolesBySchoolId(this.url);
         this.roleList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         },
             error => {
                 this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
             });
     }
 

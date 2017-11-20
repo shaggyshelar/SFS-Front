@@ -6,7 +6,8 @@ import { CategoriesService } from '../../../../_services/categories.service';
 import { Categories } from "../../../../_models/categories";
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-
+import { ConfirmationService } from 'primeng/primeng';
+import { Helpers } from "../../../../../../../helpers";
 @Component({
   selector: "app-users-list",
   templateUrl: "./categories-list.component.html",
@@ -47,6 +48,7 @@ export class CategoriesListComponent implements OnInit {
     private messageService: MessageService,
     private categoriesService: CategoriesService,
     private globalErrorHandler: GlobalErrorHandler,
+    private confirmationService: ConfirmationService,
     private _script: ScriptLoaderService) {
   }
 
@@ -84,18 +86,22 @@ export class CategoriesListComponent implements OnInit {
     this.boundry = 3;
     this.boundryStart = 1;
     this.boundryEnd = this.boundry;
-    this.getAllCategories();
+    this.longList = true;
+    //this.getAllCategories();
     this.getDataCount('');
   }
 
   getAllCategories() {
+    Helpers.setLoading(true);
     this.getUrl();
     this.categoriesList = this.categoriesService.getAllCategoriesList(this.url);
 
     this.categoriesList.subscribe((response) => {
       this.longList = response.length > 0 ? true : false;
+      Helpers.setLoading(false);
     }, error => {
       this.globalErrorHandler.handleError(error);
+      Helpers.setLoading(false);
     });
   }
 
@@ -107,60 +113,27 @@ export class CategoriesListComponent implements OnInit {
     this.router.navigate(['/features/masterManagement/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {
-    this.categoriesService.deleteCategory(data.id)
-      .subscribe(
-      results => {
-        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-        this.getAllCategories();
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.categoriesService.deleteCategory(data.id)
+          .subscribe(
+          results => {
+            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+            if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+              this.currentPageNumber--;
+            }
+            this.getQueryDataCount();
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
       },
-      error => {
-        this.globalErrorHandler.handleError(error);
-      });
-  }
-
-  /* Pagination Function's Ends */
-
-  /* Filtering, Sorting, Search functions Starts*/
-  searchString(searchString) {
-    if (searchString == '') {
-      this.searchQuery = '';
-      this.searchCountQuery = '';
-    } else {
-      this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-      this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
-    }
-    this.getQueryDataCount();
-    //this.getAllCategories();
-  }
-
-  sort(column, sortOrder) {
-    if (sortOrder) {
-      this.sortUrl = '&filter[order]=' + column + ' DESC';
-    } else {
-      this.sortUrl = '&filter[order]=' + column + ' ASC';
-    }
-    this.getAllCategories();
-  }
-  /* Filtering, Sorting, Search functions Ends*/
-
-  /* Counting Number of records starts*/
-  getQueryDataCount() {
-    this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
-    this.getDataCount(this.countQuery);
-
-  }
-  getDataCount(url) {
-    this.categoriesService.getCategoryCount(url).subscribe((response) => {
-      this.total = response.count;
-      this.pages = Math.ceil(this.total / this.perPage);
-      this.generateCount();
-      this.setDisplayPageNumberRange();
-      this.getAllCategories();
-    },
-    );
-  }
-  getUrl() {
-    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl;//+ this.searchQuery;
+      reject: () => {
+      }
+    });
   }
 
   /*Pagination Function's Starts*/
@@ -225,7 +198,7 @@ export class CategoriesListComponent implements OnInit {
     this.getQueryDataCount();
   }
 
-  visitFirsPage() {
+  visitFirstPage() {
     if (this.boundryStart > this.boundry) {
       this.currentPos = 0;
       this.currentPageNumber = 1;
@@ -324,4 +297,58 @@ export class CategoriesListComponent implements OnInit {
     }
     return false;
   }
+
+  /* Pagination Function's Ends */
+
+  /* Filtering, Sorting, Search functions Starts*/
+  searchString(searchString) {
+    if (searchString == '') {
+      this.searchQuery = '';
+      this.searchCountQuery = '';
+    } else {
+      this.searchQuery = '&filter[where][or][0][categoryName][like]=%' + searchString + "%" + '&filter[where][or][1][categoryCode][like]=%' + searchString + "%";
+      this.searchCountQuery = '&[where][or][0][categoryName][like]=%' + searchString + "%" + '&[where][or][1][categoryCode][like]=%' + searchString + "%";
+    }
+    this.currentPos = 0;
+    this.currentPageNumber = 1;
+    this.boundryStart = 1;
+    this.boundry = 3;
+    this.boundryEnd = this.boundry;
+    this.getQueryDataCount();
+  }
+
+  sort(column, sortOrder) {
+    if (sortOrder) {
+      this.sortUrl = '&filter[order]=' + column + ' DESC';
+    } else {
+      this.sortUrl = '&filter[order]=' + column + ' ASC';
+    }
+    this.getAllCategories();
+  }
+  /* Filtering, Sorting, Search functions Ends*/
+
+  /* Counting Number of records starts*/
+  getQueryDataCount() {
+    this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+    this.getDataCount(this.countQuery);
+
+  }
+  getDataCount(url) {
+    this.categoriesService.getCategoryCount(url).subscribe((response) => {
+      this.total = response.count;
+      this.pages = Math.ceil(this.total / this.perPage);
+      this.generateCount();
+      this.setDisplayPageNumberRange();
+      this.getAllCategories();
+    },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      }
+    );
+  }
+  getUrl() {
+    let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+  }
+  /* Counting Number of records ends*/
 }

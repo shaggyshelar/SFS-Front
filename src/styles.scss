@@ -142,7 +142,8 @@
 	margin-right:8px;
 	text-align: center;
 	border-color: transparent!important;
-	color: #898b96;
+    color: #898b96;
+    cursor: pointer;
 }
 .leftIcon{
 	margin-left: -4px;
@@ -150,16 +151,25 @@
 .rightIcon{
 	margin-right: -4px;
 }
-.pagination .prev{
-	
-}
+
 .pagination .next{
 	padding-left: 7px;
 }
 .pagination li a.active{
 	background: #716aca;
-    color: #fff;
+    color: #fff !important;
+    //cursor:not-allowed;
+    pointer-events: none;
 }
+.cursorNone{
+    cursor:not-allowed !important;
+}
+
+.prevPageDisabled{
+    pointer-events: none;
+    cursor: inherit;
+}
+
 .PaginationBox{
 	margin-top:20px;
 }
@@ -499,3 +509,127 @@ body .ui-dialog .ui-dialog-titlebar {
 .requiredField{
    color:red;
 }
+
+.float-right{
+    float: right;
+}
+
+.m-subheader {
+    padding: 10px 30px 0 30px!important;
+}
+.m-body .m-content {
+    padding-top: 10px!important;
+    padding-bottom: 0!important;
+}
+.staticTable tr td {
+    padding: 8px 10px!important;    
+}
+.staticTable tr td:last-child{
+ min-width:110px!important; 
+}
+.tableBox {
+    height: 320px;
+    overflow-y: auto;
+    min-height: 320px;
+}
+.staticTable .m-btn--icon.m-btn--icon-only{
+    float:left!important;
+    margin-right:4px;
+   }
+
+.m-portlet__foot button{
+    float:left!important;
+    margin-right:5px;
+}
+
+.button_foot {
+    float:left!important;
+    margin-right:5px;
+}
+
+/** For student name on student edit screen **/
+.studentInfo{
+    font-size: 14px;
+       font-family: Poppins;
+       float: right;
+       margin-bottom: 0;
+       margin-top: 26px;
+       color: #000;
+       font-weight: 500;
+    letter-spacing: 1px;
+   }
+   .studentInfo i{
+    font-size: 28px!important;
+       vertical-align: middle;
+       margin-top: -4px;
+    color:#716aca;
+   }
+   .studentInfo span{
+    font-style:italic;
+    font-size: 12px;
+    letter-spacing: 0px;
+   }
+   .headerRowListing a.btn{
+    display:inline-block!important;
+   }
+
+    .dashMargin {
+        margin-left: -4px;
+        margin-right: -5px;
+    }
+
+    /*** For phi commerce Logo on school admin intermidiate page **/
+
+.landingBrandBox{
+    box-shadow: 0 1px 15px 1px rgba(23, 23, 23, 0.1);
+    background:#fff;
+    padding: 20px 4em;
+   }
+   .landingBrandBox label{
+    margin-bottom: 0;
+       font-size: 24px;
+       font-weight: 600;
+       color: #5867dd;
+       margin: 0 auto;
+       position: absolute;
+       margin-top: -3px;
+       margin-left: 3em;
+   }
+   .schoolNameBox h4 {
+       line-height: 1.3em;
+   }
+
+   @media (max-width:767px){
+    .landingBrandBox label{  
+     position: relative;
+     margin-left: 0;
+     font-size: 22px;
+     margin-top: 15px;
+    }
+    .landingBrandBox {
+     text-align: center;
+    }
+   }
+    .requiredFieldNote{
+        float: right;
+        color: red;
+        font-weight: 600;
+        font-size: 12px;
+        padding-top: 28px;
+    }
+    .requiredFieldNote b{
+        font-size: 16px;
+        vertical-align: sub;
+    }
+    .cursorNotAllowed {
+        cursor:not-allowed;
+    }
+    .cursorPointer {
+        cursor:pointer;
+    }
+    .studentInfo {
+        margin-right: 20px!important;
+    }
+    .panel-collapse .col-lg-6 label{
+       display:block!important;
+    }

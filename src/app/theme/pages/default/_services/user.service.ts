@@ -29,6 +29,10 @@ export class UserService {
     return this.http.put(AppSettings.API_ENDPOINT + 'users/updateUser/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
+  updateUserStatus(user: User) {
+    return this.http.patch(AppSettings.API_ENDPOINT +'users/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  
   deleteUser(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT + 'users/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
@@ -51,5 +55,9 @@ export class UserService {
 
   getUsersCountForSuperuser(url){
     return this.http.get(AppSettings.API_ENDPOINT + 'users/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  forgotPassword(email: any) {
+    return this.http.post(AppSettings.LOGIN_API_ENDPOINT +'request-password-reset', email , AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

@@ -18,7 +18,6 @@ export class InstituteAddEditComponent implements OnInit {
     params: number;
     instituteForm: FormGroup;
     success: number;
-    isFormSubmited = false;
     constructor(
         private formBuilder: FormBuilder, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler,
@@ -30,10 +29,10 @@ export class InstituteAddEditComponent implements OnInit {
         this.instituteForm = this.formBuilder.group({
             id: [],
             instituteName: ['', [Validators.required]],
-            instituteDescription: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.required, Validators.pattern('[7-9]{1}[0-9]{9}')]],
-            address: ['', [Validators.required]],
+            instituteDescription: [''],
+            email: ['', [Validators.email]],
+            phone: ['', [Validators.pattern('^[0-9]{10,15}$')]],
+            address: [''],
         });
 
         this.route.params.forEach((params: Params) => {
@@ -59,13 +58,9 @@ export class InstituteAddEditComponent implements OnInit {
         });
     }
 
-    onSubmit(_institute, invalid) {
-        this.isFormSubmited=true;
-        if (invalid) {
-            return false;
-        }
+   onSubmit({ value, valid }: { value: any, valid: boolean }) {
         if (this.params) {
-            this.instituteService.updateInstitute(_institute._value)
+            this.instituteService.updateInstitute(value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
@@ -77,7 +72,7 @@ export class InstituteAddEditComponent implements OnInit {
         } else {
             // value.createdBy = "1";
             // value.createdOn = "08-11-2017";
-            this.instituteService.createInstitute(_institute._value)
+            this.instituteService.createInstitute(value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });

@@ -7,6 +7,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { ClassService } from '../../../../_services/class.service';
 import { SchoolClass } from "../../../../_models/class";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -59,7 +60,7 @@ export class ClassListComponent implements OnInit {
         private _script: ScriptLoaderService,
         private classService: ClassService,
         private confirmationService: ConfirmationService,
-        
+
     ) {
     }
 
@@ -102,12 +103,13 @@ export class ClassListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
-
+        this.longList = true;
         this.getAllClasses();
         this.getDataCount('');
     }
 
     getAllClasses() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.classList = this.classService.getAllClassList(this.url);
@@ -115,8 +117,10 @@ export class ClassListComponent implements OnInit {
         this.classList.subscribe((response) => {
             console.log(response);
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
@@ -211,7 +215,7 @@ export class ClassListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -387,11 +391,14 @@ export class ClassListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllClasses();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
         );
     }
     getUrl() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
-
     }
     /* Counting Number of records ends*/
 }

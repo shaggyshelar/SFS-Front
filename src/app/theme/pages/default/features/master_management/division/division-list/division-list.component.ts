@@ -8,6 +8,7 @@ import { DivisionService } from '../../../../_services/division.service';
 import { ClassService } from '../../../../_services/class.service';
 import { Division } from "../../../../_models/division";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -103,7 +104,7 @@ export class DivisionListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
-
+        this.longList = true;
         this.filterCol1 = [];
         let val = this.classService.getAllClasses();
         this.filterCol1.push({ label: '--Select--', value: 'select' });
@@ -120,15 +121,17 @@ export class DivisionListComponent implements OnInit {
     }
 
     getAllDivisions() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.divisionList = this.divisionService.getAllDivisionList(this.url);
 
         this.divisionList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
@@ -222,7 +225,7 @@ export class DivisionListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -334,9 +337,18 @@ export class DivisionListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
-            this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            //this.searchQuery = '&filter[where][SchoolName][ilike]=' + searchString;
+            //this.searchCountQuery = '&[where][SchoolName][like]=' + searchString;
+            this.searchQuery = '&filter[where][or][0][divisionCode][like]=%' + searchString + '%&filter[where][or][1][divisionCode][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][or][0][divisionCode][like]=%' + searchString + '%&[where][or][1][divisionCode][like]=%' + searchString + '%';
+
         }
+
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
         //this.getAllSchools();
     }
@@ -398,10 +410,14 @@ export class DivisionListComponent implements OnInit {
             this.setDisplayPageNumberRange();
             this.getAllDivisions();
         },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
         );
     }
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl; //+ this.searchQuery;
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?filter[include]=DivisionClass&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
 
     }
     /* Counting Number of records ends*/

@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { AcademicYear } from "../../../../_models/index";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { AcademicYearService } from '../../../../_services/index';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-academic-year-list",
@@ -88,19 +89,23 @@ export class AcademicYearListComponent implements OnInit {
         this.boundry = 3;
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
-        this.getAllAcademicYears();
+        this.longList = true;
+        //this.getAllAcademicYears();
         this.getDataCount('');
     }
 
     getAllAcademicYears() {
+        Helpers.setLoading(true);
         this.getUrl();
 
         this.academicYearList = this.academicYearService.getAllAcademicYearList(this.url);
 
         this.academicYearList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
+            Helpers.setLoading(false);
         });
     }
 
@@ -137,9 +142,9 @@ export class AcademicYearListComponent implements OnInit {
 
     currentPageCheck(pageNumber) {
         if (this.currentPageNumber == pageNumber)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
     generateCount() {
         this.arr = [];
@@ -195,7 +200,7 @@ export class AcademicYearListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    visitFirsPage() {
+    visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -303,11 +308,16 @@ export class AcademicYearListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][academicYear][like]=' + searchString;
-            this.searchCountQuery = '&[where][academicYear][like]=' + searchString;
+            this.searchQuery = '&filter[where][academicYear][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][academicYear][like]=%' + searchString  + '%';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
         this.getQueryDataCount();
-        this.getAllAcademicYears();
+        // this.getAllAcademicYears();
     }
 
     /* Counting Number of records starts*/
@@ -330,7 +340,8 @@ export class AcademicYearListComponent implements OnInit {
     }
 
     getUrl() {
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + currentPos + this.sortUrl + this.searchQuery;
     }
 
     sort(column, sortOrder) {

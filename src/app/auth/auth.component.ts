@@ -5,6 +5,7 @@ import { GlobalErrorHandler } from '../_services/error-handler.service';
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";
+import { StoreService } from "../_services/store.service";
 import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
@@ -35,6 +36,7 @@ export class AuthComponent implements OnInit {
     private _alertService: AlertService,
     private _globalErrorHandler: GlobalErrorHandler,
     private _userSchoolDetailsService: UserSchoolDetailsService,
+    private storeService: StoreService,
     private cfr: ComponentFactoryResolver) {
   }
 
@@ -57,6 +59,7 @@ export class AuthComponent implements OnInit {
       .subscribe(
       data => {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.storeService.getPermission();
         if (currentUser && currentUser.user) {
           let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
           if (currentUser.user.isPasswordChanged === false) {
@@ -69,10 +72,10 @@ export class AuthComponent implements OnInit {
                 if (results.length > 1) {
                   this._router.navigate(['/selectSchool']);
                 }
-                else {
+                else if (results.length == 1 && results[0].UserschoolSchool) {
                   localStorage.setItem('schoolLogo', results[0].UserschoolSchool.schoolLogo);
                   localStorage.setItem('schoolHeader', results[0].UserschoolSchool.schoolHeader);
-                  
+
                   localStorage.setItem('schoolId', results[0].UserschoolSchool.id);
                   localStorage.setItem('instituteId', results[0].UserschoolSchool.instituteId);
                   this._router.navigate([this.returnUrl]);
@@ -128,7 +131,7 @@ export class AuthComponent implements OnInit {
       },
       error => {
         this.showAlert('alertForgotPass');
-        this._alertService.error(error.json().error.message);
+        this._alertService.error(error.json().Message);
         this.loading = false;
       });
   }

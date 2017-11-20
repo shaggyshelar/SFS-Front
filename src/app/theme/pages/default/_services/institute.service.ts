@@ -32,7 +32,7 @@ export class InstitutesService {
   }
 
   deleteInstitute(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'Institutes/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Institutes/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }

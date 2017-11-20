@@ -26,7 +26,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add/Edit Institute
+							{{ params ? 'edit' : 'add' }}
 						</span>
 					</a>
 				</li>
@@ -42,77 +42,67 @@
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
 					<h3 class="m-portlet__head-text">
-						Add/Edit Institute
+						{{ params ? 'Edit Institute' : 'Add Institute' }}
 					</h3>
 				</div>
 			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
-		<form class="m-form m-form--fit m-form--label-align-left m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(instituteForm,instituteForm.invalid)"
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(instituteForm)"
 		 [formGroup]="instituteForm">
 			<div class="m-portlet__body formPortletBody">
-				<div class="form-group m-form__group m--margin-top-10 m--hide">
-				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Institute Name
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						 Name<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="instituteName" name="instituteName" id="instituteName" maxlength="100" placeholder="Institute Name">
-						<div class="alertMsg" *ngIf="instituteForm.get('instituteName').hasError('required') && (instituteForm.get('instituteName').touched || isFormSubmited)">
+						<div class="alertMsg" *ngIf="instituteForm.get('instituteName').hasError('required') && (instituteForm.get('instituteName').touched)">
 							Please enter Institute Name
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Institute Description
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						 Description
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="instituteDescription" name="instituteDescription" id="instituteDescription"  maxlength="100" placeholder="Institute Description">
-						<div class="alertMsg" *ngIf="instituteForm.get('instituteDescription').hasError('required') && (instituteForm.get('instituteDescription').touched || isFormSubmited)">
-							Please enter Institute Description
-						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 						Phone
 					</label>
 					<div class="col-7">
 						<input class="form-control m-input" type="text" formControlName="phone" name="phone" id="phone"  maxlength="15" placeholder="Institute Phone">
-						<div class="alertMsg" *ngIf="instituteForm.get('phone').hasError('required') && (instituteForm.get('phone').touched || isFormSubmited)">
-							Please enter Phone
-						</div>
-						<div class="alertMsg" *ngIf="!instituteForm.get('phone').hasError('required') && instituteForm.get('phone').hasError('pattern') && (instituteForm.get('phone').touched || isFormSubmited)">
-							Please enter valid phone numeber
+						<div class="alertMsg" *ngIf="instituteForm.get('phone').hasError('pattern') && (instituteForm.get('phone').touched)">
+							Please enter valid phone number
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
-						Email
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Email<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="15" placeholder="Institute email">
-						<div class="alertMsg" *ngIf="instituteForm.get('email').hasError('required') && (instituteForm.get('email').touched || isFormSubmited)">
+						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="50" placeholder="Institute email">
+						<div class="alertMsg" *ngIf="instituteForm.get('email').hasError('required') && (instituteForm.get('email').touched)">
 							Please enter Email
 						</div>
-						<div class="alertMsg" *ngIf="!instituteForm.get('email').hasError('required') && instituteForm.get('email').hasError('email') && (instituteForm.get('email').touched || isFormSubmited)">
+						<div class="alertMsg" *ngIf="!instituteForm.get('email').hasError('required') && instituteForm.get('email').hasError('email') && (instituteForm.get('email').touched)">
 							Please enter valid Email
 						</div>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-7 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 						Address
 					</label>
 					<div class="col-7">
 						<textarea class="form-control m-input" rows="3" formControlName="address" name="address" id="address" style="resize:none;"  maxlength="500" ></textarea>
-						<div class="alertMsg" *ngIf="instituteForm.get('address').hasError('required') && (instituteForm.get('address').touched || isFormSubmited)">
-							Please enter institute address
-						</div>
 					</div>
 				</div>
 			</div>
@@ -120,9 +110,9 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" class="btn btn-accent m-btn m-btn--air m-btn--custom">
-								Save
-							</button>
+							<button type="submit" [isAuthorize]="['Institute.Update', 'Institute.Create']" [ngClass]="instituteForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ instituteForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="instituteForm.invalid" class="btn btn-accent m-btn m-btn--air m-btn--custom float-right">
+								{{ params ? 'Update' : 'Save' }}
+							</button>						
 							<button type="reset" class="btn btn-secondary" (click)="onCancel()">
 								Cancel
 							</button>
