@@ -46,7 +46,8 @@
 					</h3>
 				</div>
 			</div>
-			<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;
+				<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 		</div>
 
 		<!--begin::Form-->
@@ -72,7 +73,8 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<p-dropdown placeholder="Select Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId" name="instituteId"></p-dropdown>
+						<p-dropdown placeholder="Select Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="instituteId"
+						 name="instituteId"></p-dropdown>
 						<div class="alertMsg" *ngIf="schoolForm.get('instituteId').hasError('required') && schoolForm.get('instituteId').touched">
 							Please select Institute
 						</div>
@@ -122,9 +124,13 @@
 						Logo
 					</label>
 					<div class="col-7">
-						<input type="file" #fileupload name="file" id="file" class="inputfile" (change)="onUploadLogo(fileupload.files)"  accept="image/x-png,image/jpeg" />
+						<input type="file" #fileupload name="file" id="file" class="inputfile" (change)="onUploadLogo(fileupload.files)" accept="image/x-png,image/jpeg"
+						/>
 						<label for="file" class="fileUploadBtn btn m-btn--pill m-btn--air btn-primary">Upload Logo</label>
 						<span class="selected-file-name">{{imageFileName}}</span>
+						<span class="m-form__help">
+								Logo need to be .JPEG or .PNG image file with 150 (max width) by 50 (recommended height) pixels.
+						</span>
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
@@ -201,7 +207,7 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="schoolEmail" name="schoolEmail" id="schoolEmail" placeholder="Email">
+						<input class="form-control m-input" type="text" formControlName="schoolEmail" name="schoolEmail" id="schoolEmail" placeholder="Email" maxlength="254">
 						<div class="alertMsg" *ngIf="schoolForm.get('schoolEmail').hasError('required') && schoolForm.get('schoolEmail').touched">
 							Please enter School Email
 						</div>
@@ -216,7 +222,8 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone" maxlength="15">
+						<input class="form-control m-input" type="text" formControlName="schoolPhone" name="schoolPhone" id="schoolPhone" placeholder="Phone"
+						 maxlength="15">
 						<div class="alertMsg" *ngIf="schoolForm.get('schoolPhone').hasError('required') && schoolForm.get('schoolPhone').touched">
 							Please enter School Phone
 						</div>
@@ -243,7 +250,9 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="schoolForm.invalid ?'cursorNotAllowed':'cursorPointer'" title="{{ schoolForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="schoolForm.invalid" [isAuthorize]="['School.Update', 'School.Create']">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="schoolForm.invalid ?'cursorNotAllowed':'cursorPointer'"
+							 title="{{ schoolForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [disabled]="schoolForm.invalid"
+							 [isAuthorize]="['School.Update', 'School.Create']">
 								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" (click)="onCancel()" class="btn btn-secondary">
