@@ -104,7 +104,10 @@ export class SchoolAddEditComponent implements OnInit {
                             createdBy: results.createdBy,
                             createdOn: results.createdOn,
                         });
-                        this.imageFileName = results.schoolLogo;
+                        if (results.schoolLogo) {
+                            let logo = results.schoolLogo.split('/');
+                            this.imageFileName = logo[logo.length - 1];
+                        }
                     },
                     error => {
                         this.globalErrorHandler.handleError(error);
