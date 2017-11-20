@@ -2,22 +2,22 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { FeesService } from '../../../_services/fees.service';
-import { Fees } from "../../../_models/fees";
+import { FeesService } from '../../../../_services/fees.service';
+import { Fees } from "../../../../_models/fees";
 import { Pipe, PipeTransform } from '@angular/core';
-import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
-import { MessageService } from '../../../../../../_services/message.service';
+import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
+import { MessageService } from '../../../../../../../_services/message.service';
 
 
 @Component({
   selector: "app-users-list",
-  templateUrl: "./fees-list.component.html",
+  templateUrl: "./fees-head-list.component.html",
   encapsulation: ViewEncapsulation.None,
 })
 
 
 
-export class FeesListComponent implements OnInit {
+export class FeesHeadListComponent implements OnInit {
   feesList: Observable<Fees[]>;;
   constructor(private router: Router, private feesService: FeesService, private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService) {
   }
@@ -28,7 +28,7 @@ export class FeesListComponent implements OnInit {
     this.feesList = this.feesService.getAllFees();
   }
   onManageFeeClick(data: Fees) {
-    this.router.navigate(['/features/fees/edit', data.id]);
+    this.router.navigate(['/features/fees/feesHead/edit', data.id]);
   }
 
   onFeeDeleteClick(data: Fees) {
@@ -43,6 +43,6 @@ export class FeesListComponent implements OnInit {
   }
 
   onAddFees() {
-    this.router.navigate(['/features/fees/add']);
+    this.router.navigate(['/features/fees/feesHead/add']);
   }
 }
