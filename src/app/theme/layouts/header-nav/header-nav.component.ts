@@ -41,7 +41,7 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     this.logoUrl = this.imageUploadService.getImageUrl("default");
     if (localStorage.getItem("schoolLogo") != null) {
       let logo = localStorage.getItem("schoolLogo");
-      if (logo != "" && logo != null) {
+      if (logo != "" && logo != null && logo != "null") {
         this.logoUrl = this.imageUploadService.getImageUrl("");
       } else {
         this.logoUrl = this.imageUploadService.getImageUrl("default");
