@@ -31,8 +31,7 @@ export class Student {
     studentGender: string;
     studentMiddleName: string;
     studentLastName: string;
-
-
+    zone : string;
     createdBy:number;
     createdOn:string;
 }

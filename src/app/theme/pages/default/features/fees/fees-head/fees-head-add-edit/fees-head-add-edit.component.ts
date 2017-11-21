@@ -27,33 +27,31 @@ export class FeesHeadAddEditComponent implements OnInit {
     private feesService: FeesService,
     private messageService: MessageService,
     private globalErrorHandler: GlobalErrorHandler,
-    private frequencyService : FrequencyService,
-    private commonService : CommonService,
+    private frequencyService: FrequencyService,
+    private commonService: CommonService,
   ) {
   }
 
   ngOnInit() {
 
-
+    if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+    }
     this.frequencyIdList = [];
-    //this.frequencyIdList.push({ label: 'Select', value: null });
-    //this.frequencyIdList.push({ label: 'Feequency1', value: "1" });
-    //this.frequencyIdList.push({ label: 'Feequency2', value: "2" });
-
     let val = this.frequencyService.getAllFrequency();
     val.subscribe((response) => {
-        for (let key in response) {
-            if (response.hasOwnProperty(key)) {
-                this.frequencyIdList.push({ label: response[key].frequencyName, value: response[key].id });
-            }
+      for (let key in response) {
+        if (response.hasOwnProperty(key)) {
+          this.frequencyIdList.push({ label: response[key].frequencyName, value: response[key].id });
         }
+      }
     });
 
     let list = this.commonService.getChargeHeader();
     this.chargeHeaderList = [];
 
     for (var index = 0; index < list.length; index++) {
-        this.chargeHeaderList.push({ label: list[index], value: list[index] });
+      this.chargeHeaderList.push({ label: list[index], value: list[index] });
     }
 
 
@@ -61,7 +59,7 @@ export class FeesHeadAddEditComponent implements OnInit {
     this.feesForm = this.formBuilder.group({
       id: [],
       frequencyId: ['', [Validators.required]],
-      feeHeadName: [0, [Validators.required]],
+      feeHeadName: ['', [Validators.required]],
       feeHeadDescription: ['', [Validators.required]],
       chargeHeadName: ['', [Validators.required]],
     });
@@ -85,6 +83,7 @@ export class FeesHeadAddEditComponent implements OnInit {
 
   onSubmit({ value, valid }: { value: any, valid: boolean }) {
     if (this.params) {
+      value.schoolId = localStorage.getItem("schoolId");
       this.feesService.updateFees(value)
         .subscribe(
         results => {
@@ -95,15 +94,20 @@ export class FeesHeadAddEditComponent implements OnInit {
           this.globalErrorHandler.handleError(error);
         });
     } else {
-      this.feesService.createFees(value)
-        .subscribe(
-        results => {
-          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-          this.router.navigate(['/features/fees/feesHead/list']);
-        },
-        error => {
-          this.globalErrorHandler.handleError(error);
-        });
+      if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+        this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+      } else {
+        value.schoolId = localStorage.getItem("schoolId");
+        this.feesService.createFees(value)
+          .subscribe(
+          results => {
+            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
+            this.router.navigate(['/features/fees/feesHead/list']);
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
+      }
     }
   }
   onCancel() {

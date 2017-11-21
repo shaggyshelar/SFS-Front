@@ -11,12 +11,13 @@ import { LayoutModule } from '../../../../../layouts/layout.module';
 import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
-
 import {
   DataTableModule,
   SharedModule,
   ButtonModule,
   DropdownModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -69,6 +70,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ButtonModule,
     DropdownModule,
+    ConfirmDialogModule,
   ], declarations: [
     FeesHeadComponent,
     FeesHeadListComponent,
@@ -77,7 +79,8 @@ const routes: Routes = [
   providers: [
     FeesService,
     FrequencyService,
-    CommonService
+    CommonService,
+    ConfirmationService
   ],
 })
 export class FeesHeadModule {

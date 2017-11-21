@@ -10,23 +10,31 @@ export class FeesService {
   }
 
   getAllFees() {
-   return this.http.get(AppSettings.API_ENDPOINT + 'feeheads', AppSettings.requestOptions()).map((response: Response) => response.json());  
+   return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
 
+  getAllFeesList(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+
+   getFeesCount(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+
   getFeeById(id: number) {
-    return this.http.get(AppSettings.API_ENDPOINT +'feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT +'Feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   createFees(fees: Fees) {
-    return this.http.post(AppSettings.API_ENDPOINT +'feeheads', fees, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT +'Feeheads', fees, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateFees(fees: Fees) {
-    return this.http.put(AppSettings.API_ENDPOINT +'feeheads/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT +'Feeheads/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteFee(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT +'Feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 
