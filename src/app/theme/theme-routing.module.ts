@@ -55,6 +55,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-head\/fees-head.module#FeesHeadModule"
       },
       {
+        "path": "features\/fees\/feesPlan",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fees-plan\/fees-plan.module#FeesPlanModule"
+      },
+      {
         "path": "features\/reports",
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
