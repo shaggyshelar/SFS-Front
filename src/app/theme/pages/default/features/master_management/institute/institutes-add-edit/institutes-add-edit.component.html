@@ -88,7 +88,7 @@
 						Email<span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="50" placeholder="Institute email">
+						<input class="form-control m-input" type="text" formControlName="email" name="email" id="email"  maxlength="254" placeholder="Institute email">
 						<div class="alertMsg" *ngIf="instituteForm.get('email').hasError('required') && (instituteForm.get('email').touched)">
 							Please enter Email
 						</div>

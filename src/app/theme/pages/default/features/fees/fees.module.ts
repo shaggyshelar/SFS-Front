@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FeesComponent } from './fees.component';
-import { FeesListComponent } from './fees-list/fees-list.component';
-import { FeesAddEditComponent } from './fees-add-edit/fees-add-edit.component';
 import { FeesPlanComponent } from './fees-plan/fees-plan.component';
 import { TransportComponent } from './transport/transport.component';
 import { DefaultComponent } from '../../default.component';
@@ -27,9 +25,6 @@ const routes: Routes = [
         path: "",
         component: FeesComponent,
         children: [
-          { path: 'list', component: FeesListComponent },
-          { path: 'add', component: FeesAddEditComponent },
-          { path: 'edit/:feeId', component: FeesAddEditComponent },
           { path: 'plan', component: FeesPlanComponent },
           { path: 'transport', component: TransportComponent },
         ]
@@ -51,8 +46,6 @@ const routes: Routes = [
     DropdownModule,
   ], declarations: [
     FeesComponent,
-    FeesListComponent,
-    FeesAddEditComponent,
     FeesPlanComponent,
     TransportComponent,
   ],

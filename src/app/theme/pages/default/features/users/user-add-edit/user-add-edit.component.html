@@ -73,7 +73,7 @@
 							User Email <span class="requiredField">*</span>
 					</label>
 					<div class="col-7">
-						<input class="form-control m-input" type="text" value="" formControlName="email" name="email" placeholder="Email">
+						<input class="form-control m-input" type="text" value="" formControlName="email" name="email" placeholder="Email" maxlength="254">
 						<div class="alertMsg" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
 							Please enter Email
 						</div>

@@ -12,8 +12,10 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
 
   schoolHeader: string;
   logoUrl: string;
+  defaultLogo : string;
   userRole: string;
   loggedInUser: any;
+  schoolLogoShow : boolean;
   constructor(private _router: Router, private imageUploadService: ImageUploadService) {
   }
   ngOnInit() {
@@ -27,12 +29,19 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     this.loggedInUser = currentUser;
     if (currentUser && currentUser.roles && currentUser.roles.length > 0) {
       this.userRole = currentUser.roles[0].name;
-
     }
-    this.logoUrl = "./assets/img/phiLogo.png";
+    if(this.userRole == "SuperAdmin"){
+      this.schoolLogoShow = false;
+    }
+    else{
+      this.schoolLogoShow = true;
+    }
+    this.defaultLogo = "./assets/img/phiLogo.png";
+    //this.logoUrl = "./assets/img/phiLogo.png";
+    this.logoUrl = this.imageUploadService.getImageUrl("default");
     if (localStorage.getItem("schoolLogo") != null) {
       let logo = localStorage.getItem("schoolLogo");
-      if (logo != "" && logo != null) {
+      if (logo != "" && logo != null && logo != "null") {
         this.logoUrl = this.imageUploadService.getImageUrl("");
       } else {
         this.logoUrl = this.imageUploadService.getImageUrl("default");
