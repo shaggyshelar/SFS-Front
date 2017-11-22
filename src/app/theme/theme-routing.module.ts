@@ -105,7 +105,11 @@ const routes: Routes = [
       {
         "path": "features\/academicYear",
         "loadChildren": ".\/pages\/default\/features\/master_management\/academic_year\/academic-year.module#AcademicYearModule"
-      },  
+      },
+      {
+        "path": "features\/feePlanAssociation",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fee-plan-association\/fee-plan-association.module#FeePlanAssociationModule"
+      },
       {
         "path": "",
         "redirectTo": "index",

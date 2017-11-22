@@ -1,0 +1,127 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Fee Management
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Fee Association
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Add/Edit Fee Association
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+    <div class="m-portlet">
+        <!--begin::Form-->
+        <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" role="form" novalidate (ngSubmit)="onSubmit(feePlanAssociationForm)"
+            [formGroup]="feePlanAssociationForm">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            Add/Edit Fee Association
+                        </h3>
+
+                    </div>
+                </div>
+                <!--Required Field Note-->
+                <label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+
+            </div>
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                    <label class="col-2 col-form-label" for="example-text-input">
+						 Fee Plan <span class="requiredField">*</span>
+					</label>
+                    <div class="col-7">
+                        <select class="form-control" formControlName="feeplanId">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let feePlan of feePlanList" [ngValue]="feePlan.id">{{feePlan.feePlanName}}</option>
+                        </select>
+                        <div class="alertMsg" *ngIf="feePlanAssociationForm.get('feeplanId').hasError('required') && feePlanAssociationForm.get('feeplanId').touched">
+                            Please select fee Plan
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
+                        Class
+                    </label>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4 schoolCheckList" *ngFor="let class of getArray('classes').controls; let i=index">
+                                <label class="m-checkbox">
+									<input type="checkbox" [formControl]="class"/>
+									<span></span>
+									{{classList[i].className}}
+								</label>
+                            </div>
+                        </div>
+                        <div class="alertMsg" *ngIf="isSubmitted && !isClassSelected">
+                            Please select at least one class
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
+                        Category
+                    </label>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4 schoolCheckList" *ngFor="let category of getArray('categories').controls; let i=index">
+                                <label class="m-checkbox">
+									<input type="checkbox" [formControl]="category"/>
+									<span></span>
+									{{categoryList[i].categoryName}}
+								</label>
+                            </div>
+                        </div>
+                        <div class="alertMsg" *ngIf="isSubmitted && !isCategorySelected">
+                             Please select at least one category
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-md-2">
+                        
+                    </label>
+                    <div class="col-md-5">
+                        <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="feePlanAssociationForm.invalid ?'cursorNotAllowed':'cursorPointer'"
+                            title="{{ feePlanAssociationForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}"
+                            [disabled]="feePlanAssociationForm.invalid" [isAuthorize]="['Feeplanassociation.Create', 'Feeplanassociation.Update']">
+                                {{ params ? 'Update' : 'Save' }}
+                        </button>
+                        <button class="btn btn-secondary" type="button" (click)="onCancel()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
