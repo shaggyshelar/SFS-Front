@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
-import { FeePlanAssociationService, CommonService  } from '../../../_services/index';
+import { FeePlanAssociationService, CommonService } from '../../../_services/index';
 import { FeePlanAssociationComponent } from './fee-plan-association.component';
 import { FeePlanAssociationListComponent } from './fee-plan-association-list/fee-plan-association-list.component';
 import { FeePlanAssociationAddEditComponent } from './fee-plan-association-add-edit/fee-plan-association-add-edit.component';
@@ -31,7 +31,7 @@ const routes: Routes = [
             component: FeePlanAssociationListComponent,
             canActivate: [AuthGuard],
             data: {
-             // permissions: ['Board.Read']
+              permissions: ['Feeplanassociation.Read']
             }
           },
           {
@@ -39,7 +39,7 @@ const routes: Routes = [
             component: FeePlanAssociationAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-             // permissions: ['Board.Create']
+              permissions: ['Feeplanassociation.Create']
             }
           },
           {
@@ -47,7 +47,7 @@ const routes: Routes = [
             component: FeePlanAssociationAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              // permissions: ['Board.Update']
+              permissions: ['Feeplanassociation.Update']
             }
           },
         ]
