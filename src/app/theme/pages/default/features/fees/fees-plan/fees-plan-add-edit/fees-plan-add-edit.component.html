@@ -147,9 +147,9 @@
 						<div class="form-group m-form__group row">											
 								<div class="col-md-3"  *ngFor="let item of frequency;let rowNum=index;let lastRowNum=last">
 									<label for="example-text-input" class="col-form-label" style="width:100%;">
-										Date
+										Date {{rowNum+1}}
 									</label>
-									<p-calendar  placeholder="Select date" name="{{'Date'+rowNum}}"   [monthNavigator]="false" [yearNavigator]="false" yearRange="academicYearRange" [(ngModel)]="item.date"  [maxDate]="maxDate" dateFormat="dd/mm/yy" [minDate]="minDate" readonlyInput="true" (onSelect) ="setDate($event)" ></p-calendar>
+									<p-calendar  placeholder="Due date" name="{{'Date'+rowNum}}"  [required]="true"  [monthNavigator]="false" [yearNavigator]="false" yearRange="academicYearRange" [(ngModel)]="item.date"  [maxDate]="maxDate" dateFormat="dd/mm/yy" disabled [minDate]="minDate" readonlyInput="true"></p-calendar>
 							</div>										
 						</div>
 					</div>

@@ -82,10 +82,6 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.academicYearRange=this.maxDate.getFullYear()+':'+(this.maxDate.getFullYear()+1);
   }
 
-  setDate(event){
-    
-  }
-
   removeFeeHeadDetails(item, rowNum) {
     this.feePlanManagement.splice(rowNum, 1);
   }
