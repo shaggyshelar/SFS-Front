@@ -633,6 +633,25 @@ body .ui-dialog .ui-dialog-titlebar {
     .panel-collapse .col-lg-6 label{
        display:block!important;
     }
+    /*** D. 22 Nov 2017 - For Merchant Creation ***/
+.merchantTable tr th:first-child{
+    width:10%!important; 
+   }
+   .merchantTable tr th:nth-child(2){
+    width:35%!important;
+   }
+   .merchantTable tr th:nth-child(3){
+    width:35%!important;
+   }
+   .merchantTable tr th:nth-child(4){
+    width:20%!important;
+    background: #fff!important;
+   }
+   
+   .merchantTable tr td:nth-child(4){
+    background: #fff!important;
+    text-align:center!important;
+   }
 
 
 //Fee plan

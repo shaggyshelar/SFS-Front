@@ -51,6 +51,10 @@ const routes: Routes = [
 
       },
       {
+        "path": "features\/merchant",
+        "loadChildren": ".\/pages\/default\/features\/merchant\/merchant.module#MerchantModule"
+      },
+      {
         "path": "features\/fees\/feesHead",
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-head\/fees-head.module#FeesHeadModule"
       },

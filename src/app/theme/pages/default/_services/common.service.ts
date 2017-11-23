@@ -47,7 +47,7 @@ export class CommonService {
   }
 
   getChargeHeader() {
-    let chargeHeads = ["ChargeHead1 ", "ChargeHead2", "ChargeHead3", "ChargeHead4"];
+    let chargeHeads = ["chargeHead1 ", "chargeHead2", "chargeHead3", "chargeHead4", "chargeHead5", "chargeHead6", "chargeHead7", "chargeHead8", "chargeHead9", "chargeHead10", "chargeHead11", "chargeHead12"];
     return chargeHeads;
     //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
