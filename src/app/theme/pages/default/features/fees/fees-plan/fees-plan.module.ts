@@ -11,7 +11,7 @@ import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
 import { FeesPlanComponent } from '../fees-plan/fees-plan.component';
-
+import { AcademicYearService } from '../../../_services/index';
 import {
   DataTableModule,
   SharedModule,
@@ -19,6 +19,7 @@ import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
+  CalendarModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -71,7 +72,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     ButtonModule,
     DropdownModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    CalendarModule
   ], declarations: [
     FeesPlanComponent,
     FeesPlanListComponent,
@@ -81,7 +83,8 @@ const routes: Routes = [
     FeesService,
     FrequencyService,
     CommonService,
-    ConfirmationService
+    ConfirmationService,
+    AcademicYearService
   ],
 })
 export class FeesPlanModule {
