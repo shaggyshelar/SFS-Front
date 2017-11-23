@@ -23,7 +23,7 @@
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
-				Fees Management
+				Fee Management
 			</h3>
 			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
 				<li class="m-nav__item m-nav__item--home">
@@ -47,7 +47,7 @@
 				<li class="m-nav__item">
 					<a class="m-nav__link">
 						<span class="m-nav__link-text">
-							Fee Heads
+							Fee Plan Association
 						</span>
 					</a>
 				</li>
@@ -57,50 +57,40 @@
 </div>
 <!-- END: Subheader -->
 
-<div class="m-content" [isAuthorize]="['Feehead.Read']">
+
+<div class="m-content">
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
 				<div class="col-xl-8">
 					<h3 class="ListingHeading">
-						Fee Heads
+						Fee Plan Association
 					</h3>
 				</div>
 				<div class="col-xl-4">
-					<a href="javascript:;" (click)="onAddFees()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right" [isAuthorize]="['Feehead.Create']">
-						<span>
-							<i class="m-menu__link-icon flaticon-add"></i>
-							<span>
-								Add Fee Head
-							</span>
-						</span>
-					</a>
 				</div>
 			</div>
 		</div>
-
 		<div class="m-portlet__body">
+			<!--begin: Datatable 
+			<div class="m_datatable" id="local_data"></div>
+			<!--end: Datatable -->
+
+			<!-- ++++++++++++++++++++++++ Listing Table +++++++++++++++++++++++++++ -->
 			<div class="">
+
+				<!--begin: Datatable -->
 				<div class="row staticSearchRow">
 					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Payment Frequency</label>
-						</div>
-						<div class="filterDropdown">
-							<p-dropdown placeholder="Select Frequency" [options]="frequencyIdList" [style]="{'width':'100%'}" name="frequency" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('frequencyId',filterValue1)"></p-dropdown>
-						</div>
 					</div>
 					<div class="col-md-3">
-
 					</div>
 					<div class="col-md-3">
-
 					</div>
-
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
-							(keyup)="searchString(searchValue)">
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<!-- [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" -->
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -109,81 +99,40 @@
 						</div>
 					</div>
 				</div>
-				<!-- <p-dataTable [value]="feesList | async" [responsive]="true" [rows]="2" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[2,4,6]">
-					<p-column field="FeeHeadId" header="Fee Head Id"></p-column>
-					<p-column field="SchoolId" header="School Id"></p-column>
-					<p-column field="FrequencyId" header="Frequency Id"></p-column>
-					<p-column field="FeeHeadCharges" header="Fee Head Charges"></p-column>
-					<p-column header="IsAddHoc?">
-						<ng-template let-fee="rowData" pTemplate type="body">
-							{{fee.IsAddHoc == true ? "Yes" : "No"}}
-						</ng-template>
-					</p-column>
-					<p-column field="StandardId" header="Standard Id"></p-column>
-					<p-column field="CategoryId" header="Category Id"></p-column>
-					<p-column header="IsApproved?">
-						<ng-template let-fee="rowData" pTemplate type="body">
-							{{fee.IsApproved ? "Yes" : "No"}}
-						</ng-template>
-					</p-column>
-					<p-column field="IsApprovedBy" header="Approved By"></p-column>
-					<p-column field="CurrencyId" header="Currency Id"></p-column>
-					<p-column header="Edit">
-						<ng-template let-fee="rowData" pTemplate type="body">
-							<a href="javascript:;" (click)="onManageFeeClick(fee)" class="m-link m-link--focus m-login__account-link">
-								Edit
-							</a>
-						</ng-template>
-					</p-column>
-					<p-column header="Delete">
-						<ng-template let-fee="rowData" pTemplate type="body">
-							<a href="javascript:;" (click)="onFeeDeleteClick(fee)" class="m-link m-link--focus m-login__account-link">
-								Delete
-							</a>
-						</ng-template>
-					</p-column>
-				</p-dataTable> -->
 
 				<div class="table-responsive">
-					<!--begin: Datatable -->
-					<div class="tableBox">
+					 <div class="tableBox">
 						<table class="staticTable" id="" width="100%">
 							<thead>
 								<tr>
-									<th title="Name">
-										<a href="" (click)="sort('feeHeadName',ascSortCol1 = !ascSortCol1)">
-											Name
+									<th title="">
+										<a href="#" (click)="sort('feePlanName',ascSortCol1 = !ascSortCol1)">
+											Fee Plan
 										</a>
 									</th>
-									<th title="Description">
-										Description
+									<th title="">
+										Class
 									</th>
-									<th title="Payment Frequency">
-										<a href="" (click)="sort('frequencyId',ascSortCol2 = !ascSortCol2)">
-											Payment Frequency
-										</a>
+									<th title="">
+										Category
 									</th>
-									<th title="Charge Head">
-										Charge Head
-									</th>
-									<th title="Field #9">
+									<th title="">
 										Actions
 									</th>
 								</tr>
 							</thead>
 							<tbody *ngIf="longList">
-								<tr *ngFor='let row of feesList | async'>
-									<td>{{row.feeHeadName}}</td>
-									<td>{{row.feeHeadDescription}}</td>
-									<td>{{row.FeeheadsFrequency.frequencyName}}</td>
-									<td>{{row.chargeHeadName}}</td>
+								<tr *ngFor='let row of feePlanAssociationList'>
+									<td>{{row.feePlanName}}</td>
+									<td>{{row.classes}}</td>
+									<td>{{row.categories}}</td>
 									<td>
-										<a href="javascript:;" (click)="onManageFeeClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-										 title="Edit" [isAuthorize]="['Feehead.Update']">
+										<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="!row.isTransactionProcessed"
+										 title="Edit" [isAuthorize]="['Feeplanassociation.Update']">
 											<i class="la la-edit"></i>
 										</a>
-										<a href="javascript:;" (click)="onFeeDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-										 title="Delete" [isAuthorize]="['Feehead.Delete']">
+										<a href="javascript:;" *ngIf="(row.classes != '' && row.categories != '') || !row.isTransactionProcessed" (click)="onDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+										 title="Delete" [isAuthorize]="['Feeplanassociation.Delete']">
 											<i class="la la-close"></i>
 										</a>
 									</td>
@@ -192,11 +141,10 @@
 							<tbody *ngIf="!longList">
 								No Records Found...
 							</tbody>
-
 						</table>
-					</div>
+					</div> 
 					<!-- Pagination -->
-					<div class="PaginationBox">
+					 <div class="PaginationBox">
 
 						<div class="row">
 							<div class="col-md-6">
@@ -220,7 +168,7 @@
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
 												<i class="la la-angle-right rightIcon"></i>
 											</a>
-										</li>
+										</li>										
 										<li class="page-item" title="Go to Last Page">
 											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
 												<i class="la la-angle-double-right rightIcon"></i>
@@ -229,6 +177,7 @@
 									</ul>
 								</nav>
 							</div>
+
 							<div class="col-md-6 showRecordsBox">
 								<div class="showRecordsLabel">
 									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
@@ -239,10 +188,9 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> 
 				</div>
 			</div>
-			<!--end: Datatable -->
 		</div>
 	</div>
 </div>

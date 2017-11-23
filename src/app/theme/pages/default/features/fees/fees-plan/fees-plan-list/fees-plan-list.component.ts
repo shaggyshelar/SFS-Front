@@ -1,25 +1,22 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { ConfirmationService } from 'primeng/primeng';
 import { FeesService } from '../../../../_services/fees.service';
 import { Fees } from "../../../../_models/fees";
 import { Pipe, PipeTransform } from '@angular/core';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-import { SelectItem } from 'primeng/primeng';
-import { FrequencyService } from '../../../../_services/frequency.service';
-
+import { FeePlan } from '../../../../_models/index';
+import { Helpers } from "../../../../../../../helpers";
+import { ConfirmationService } from 'primeng/primeng';
 @Component({
   selector: "app-users-list",
-  templateUrl: "./fees-head-list.component.html",
+  templateUrl: "./fees-plan-list.component.html",
   encapsulation: ViewEncapsulation.None,
 })
 
-
-
-export class FeesHeadListComponent implements OnInit {
-  feesList: Observable<Fees[]>;
+export class FeesPlanListComponent implements OnInit {
+  feesPlanList: Observable<FeePlan[]>;
   total: number;         //Number Of records
   currentPos: number;    //Current Page
   perPage: number;       //Number of records to be displayed per page
@@ -35,14 +32,11 @@ export class FeesHeadListComponent implements OnInit {
   ascSortCol2: boolean;  //Sorting for Column2
   ascSortCol3: boolean;  //Sorting for Column3
   ascSortCol4: boolean;  //Sorting for Column4
-  ascSortCol5: boolean;  //Sorting for Column5
-  ascSortCol6: boolean;  //Sorting for Column6
-  ascSortCol7: boolean;  //Sorting for Column7
-  filterCol1: any;       //Filter1 values 
-  filterQuery: string;   //Filter1 Api Query 
+
   searchQuery: string;   //Search Api Query 
   countQuery: string;    //Count number of records query
   filter1CountQuery: string;  //Count number of records for filter1CountQuery
+  filter2CountQuery: string;  //Count number of records for filter2CountQuery
   searchCountQuery: string;
   longList: boolean;     //To show now records found message
   prePageEnable: boolean; //To disable/enable prev page button
@@ -50,16 +44,17 @@ export class FeesHeadListComponent implements OnInit {
   boundry: number;
   boundryStart: number;
   boundryEnd: number;
-  filterValue1: string; //HTML values
   searchValue: string; //HTML values
   selectedPageSize: number; //HTML values
-
-  frequencyIdList: SelectItem[];
-
-  constructor(private router: Router, private feesService: FeesService, private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private frequencyService: FrequencyService, private confirmationService: ConfirmationService) {
+  constructor(private router: Router,
+    private messageService: MessageService,
+    private feesService: FeesService,
+    private confirmationService: ConfirmationService,
+    private globalErrorHandler: GlobalErrorHandler) {
   }
-  ngOnInit() {
 
+  ngOnInit() {
+    //Page Size Array
     this.pageSize = [];
     this.pageSize.push({ label: '5', value: 5 });
     this.pageSize.push({ label: '10', value: 10 });
@@ -68,16 +63,7 @@ export class FeesHeadListComponent implements OnInit {
     this.pageSize.push({ label: '50', value: 50 });
     this.pageSize.push({ label: '100', value: 100 });
 
-    let val = this.frequencyService.getAllFrequency();
-    this.frequencyIdList = [];
-    this.frequencyIdList.push({ label: '--Select--', value: 'select' });
-    val.subscribe((response) => {
-      for (let key in response) {
-        if (response.hasOwnProperty(key)) {
-          this.frequencyIdList.push({ label: response[key].frequencyName, value: response[key].id });
-        }
-      }
-    });
+
 
     //Default variable initialization
     this.perPage = 5;
@@ -88,13 +74,11 @@ export class FeesHeadListComponent implements OnInit {
     this.ascSortCol2 = true;
     this.ascSortCol3 = true;
     this.ascSortCol4 = true;
-    this.ascSortCol5 = true;
-    this.ascSortCol6 = true;
-    this.ascSortCol7 = true;
-    this.filterQuery = '';
     this.searchQuery = '';
+    this.searchCountQuery = '';
     this.countQuery = '?';
     this.filter1CountQuery = '';
+    this.filter2CountQuery = '';
     this.lastPage = this.perPage;
     this.currentPageNumber = 1;
     this.firstPageNumber = 1;
@@ -103,9 +87,54 @@ export class FeesHeadListComponent implements OnInit {
     this.boundry = 3;
     this.boundryStart = 1;
     this.boundryEnd = this.boundry;
-    this.searchCountQuery = '';
     this.longList = true;
+    //this.getAllCategories();
     this.getDataCount('');
+  }
+
+  getAllCategories() {
+    Helpers.setLoading(true);
+    this.getUrl();
+    this.feesPlanList = this.feesService.getAllFeePlans(this.url);
+
+    this.feesPlanList.subscribe((response) => {
+      this.longList = response.length > 0 ? true : false;
+      Helpers.setLoading(false);
+    }, error => {
+      this.globalErrorHandler.handleError(error);
+      Helpers.setLoading(false);
+    });
+  }
+
+  onAddfees() {
+    this.router.navigate(['/features/fees/feesPlan/add']);
+  }
+
+  onManagefeesClick(data: FeePlan) {
+    this.router.navigate(['/features/fees/feesPlan/edit', data.id]);
+  }
+  onfeesDeleteClick(data: FeePlan) {
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.feesService.deleteFeePlan(data.id)
+          .subscribe(
+          results => {
+            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
+            if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
+              this.currentPageNumber--;
+            }
+            this.getQueryDataCount();
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
+      },
+      reject: () => {
+      }
+    });
   }
 
   /*Pagination Function's Starts*/
@@ -118,6 +147,10 @@ export class FeesHeadListComponent implements OnInit {
   }
   generateCount() {
     this.arr = [];
+    // for (var index = 0; index < this.pages; index++) {
+    //     this.arr[index] = index + 1;
+    // }
+    //If number of pages are less than the boundry
     if (this.pages < this.boundry) {
       this.boundry = this.pages;
       this.boundryEnd = this.pages;
@@ -128,6 +161,8 @@ export class FeesHeadListComponent implements OnInit {
     for (var index = 0, j = this.boundryStart; j <= this.boundryEnd; index++ , j++) {
       this.arr[index] = j;
     }
+
+    //for()
   }
   moreNextPages() {
     if (this.boundryEnd + 1 <= this.pages) {
@@ -140,6 +175,9 @@ export class FeesHeadListComponent implements OnInit {
       }
       this.getQueryDataCount();
     }
+    //this.generateCount();
+
+
   }
 
   morePreviousPages() {
@@ -169,7 +207,7 @@ export class FeesHeadListComponent implements OnInit {
       this.boundryEnd = this.boundry;
       this.generateCount();
       this.setDisplayPageNumberRange();
-      this.getAllFees();
+      this.getAllCategories();
     }
   }
 
@@ -191,9 +229,12 @@ export class FeesHeadListComponent implements OnInit {
         this.currentPageNumber = this.boundryEnd;
       }
     }
+    //this.boundryEnd = this.pages;
+    //this.boundryStart = this.pages - this.boundry + 1;
+
     this.generateCount();
     this.setDisplayPageNumberRange();
-    this.getAllFees();
+    this.getAllCategories();
   }
 
   backPage() {
@@ -201,21 +242,24 @@ export class FeesHeadListComponent implements OnInit {
       this.currentPos -= this.perPage;
       this.currentPageNumber--;
       this.setDisplayPageNumberRange();
-      this.getAllFees();
+      this.getAllCategories();
     }
     else {
       this.currentPos = 0;
       this.currentPageNumber = 1;
     }
   }
-
   nextPage() {
     if (this.currentPos + this.perPage < this.total) {
       this.currentPos += this.perPage;
       this.currentPageNumber++;
       this.boundryStart++;
+      // if (this.boundryStart > this.boundryEnd) {
+      //     this.boundryStart--;
+      //     this.moreNextPages();
+      // }
       this.setDisplayPageNumberRange();
-      this.getAllFees();
+      this.getAllCategories();
     }
   }
 
@@ -223,7 +267,7 @@ export class FeesHeadListComponent implements OnInit {
     this.currentPos = this.perPage * (pageNumber - 1);
     this.currentPageNumber = pageNumber;
     this.setDisplayPageNumberRange();
-    this.getAllFees();
+    this.getAllCategories();
   }
 
   noPrevPage() {
@@ -263,32 +307,14 @@ export class FeesHeadListComponent implements OnInit {
       this.searchQuery = '';
       this.searchCountQuery = '';
     } else {
-      this.searchQuery = '&filter[where][feeHeadName][like]=%' + searchString + "%";
-      this.searchCountQuery = '&[where][feeHeadName][like]=%' + searchString + "%";
+      this.searchQuery = '&filter[where][or][0][feesName][like]=%' + searchString + "%" + '&filter[where][or][1][feesCode][like]=%' + searchString + "%";
+      this.searchCountQuery = '&[where][or][0][feesName][like]=%' + searchString + "%" + '&[where][or][1][feesCode][like]=%' + searchString + "%";
     }
     this.currentPos = 0;
     this.currentPageNumber = 1;
     this.boundryStart = 1;
     this.boundry = 3;
     this.boundryEnd = this.boundry;
-    this.getQueryDataCount();
-    //this.getAllSchools();
-  }
-
-  filterByValue(column, value) {
-    if (value == 'select') {
-      this.filterQuery = '';
-      this.filter1CountQuery = '';
-    } else {
-      this.filterQuery = '&filter[where][' + column + ']=' + value;
-      this.filter1CountQuery = '&where[' + column + '] =' + value;
-    }
-    this.currentPos = 0;
-    this.currentPageNumber = 1;
-    this.boundryStart = 1;
-    this.boundry = 3;
-    this.boundryEnd = this.boundry;
-
     this.getQueryDataCount();
   }
 
@@ -298,98 +324,32 @@ export class FeesHeadListComponent implements OnInit {
     } else {
       this.sortUrl = '&filter[order]=' + column + ' ASC';
     }
-    this.getAllFees();
+    this.getAllCategories();
   }
   /* Filtering, Sorting, Search functions Ends*/
 
   /* Counting Number of records starts*/
   getQueryDataCount() {
-    this.countQuery = '?' + this.filter1CountQuery + this.searchCountQuery;
+    this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
     this.getDataCount(this.countQuery);
 
   }
   getDataCount(url) {
-    if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
-      this.getAllFees();
-    } else {
-      this.feesService.getFeesCount(url).subscribe((response) => {
-        this.total = response.count;
-        this.pages = Math.ceil(this.total / this.perPage);
-        this.generateCount();
-        this.setDisplayPageNumberRange();
-        this.getAllFees();
-      },
-        error => {
-          this.globalErrorHandler.handleError(error);
-          //Helpers.setLoading(false);
-        }
-      );
-    }
-  }
-  getUrl() {
-    if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
-      let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-      this.url = '?&filter[where][schoolId]=0&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
-      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-    } else {
-      let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-      this.url = '?&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
-    }
-  }
-  /* Counting Number of records ends*/
-
-  getAllFees() {
-    //this.feesList = this.feesService.getAllFees();
-    this.getUrl();
-    //Helpers.setLoading(true);
-    this.feesList = this.feesService.getAllFeesList(this.url);
-    this.feesList.subscribe((response) => {
-      this.longList = response.length > 0 ? true : false;
+    this.feesService.getAllFeePlanCount(url).subscribe((response) => {
+      this.total = response.count;
+      this.pages = Math.ceil(this.total / this.perPage);
+      this.generateCount();
+      this.setDisplayPageNumberRange();
+      this.getAllCategories();
     },
       error => {
         this.globalErrorHandler.handleError(error);
-        // Helpers.setLoading(false);
       }
     );
-    //Helpers.setLoading(false);
   }
-  onManageFeeClick(data: Fees) {
-    this.router.navigate(['/features/fees/feesHead/edit', data.id]);
+  getUrl() {
+    let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
   }
-
-  onFeeDeleteClick(data: Fees) {
-    // this.feesService.deleteFee(data.id).subscribe(
-    //   results => {
-    //     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-    //     this.getAllFees();
-    //   },
-    //   error => {
-    //     this.globalErrorHandler.handleError(error);
-    //   });
-
-    this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'fa fa-trash',
-      accept: () => {
-        this.feesService.deleteFee(data.id).subscribe(
-          data => {
-            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
-            if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
-              this.currentPageNumber--;
-            }
-            this.getQueryDataCount();
-          }, error => {
-            this.globalErrorHandler.handleError(error);
-          });
-      },
-      reject: () => {
-      }
-    });
-
-  }
-
-  onAddFees() {
-    this.router.navigate(['/features/fees/feesHead/add']);
-  }
+  /* Counting Number of records ends*/
 }

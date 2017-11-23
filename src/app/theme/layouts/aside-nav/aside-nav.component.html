@@ -18,7 +18,7 @@
 						</span>
 					</span>
 				</a>
-			</li>		
+			</li>
 			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
 			 data-menu-submenu-toggle="hover" [isAuthorize]="['Institute.Read', 'School.Read']">
 				<a href="#" class="m-menu__link m-menu__toggle">
@@ -59,6 +59,20 @@
 								</span>
 							</a>
 						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['School.Read']">
+							<a routerLink="/features/merchant/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Merchant
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</li>
@@ -75,19 +89,6 @@
 					</span>
 				</a>
 			</li>
-			<!-- <li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
-			 [isAuthorize]="['Report.Read']">
-				<a routerLink="/features/reports" class="m-menu__link">
-					<i class="m-menu__link-icon flaticon-line-graph"></i>
-					<span class="m-menu__link-title">
-						<span class="m-menu__link-wrap">
-							<span class="m-menu__link-text">
-								Reports
-							</span>
-						</span>
-					</span>
-				</a>
-			</li> -->
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['ProcessFee.Read']">
 				<a routerLink="/features/feeProcessing" class="m-menu__link">
@@ -215,7 +216,7 @@
 				</div>
 			</li>
 			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
-			 data-menu-submenu-toggle="hover" [isAuthorize]="['Feehead.Read', 'Feeplan.Read', 'Transport.Read']">
+			 data-menu-submenu-toggle="hover" [isAuthorize]="['Feehead.Read', 'Feeplan.Read', 'Transport.Read', 'Feeplanassociation.Read', 'Adhocfee.Read']">
 				<a href="#" class="m-menu__link m-menu__toggle">
 					<i class="m-menu__link-icon la la-inr"></i>
 					<span class="m-menu__link-text">
@@ -241,7 +242,7 @@
 							</a>
 						</li>
 						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplan.Read']">
-							<a routerLink="/features/fees/plan" class="m-menu__link">
+							<a routerLink="/features/fees/feesPlan/list" class="m-menu__link">
 								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 									<span></span>
 								</i>
@@ -249,6 +250,34 @@
 									<span class="m-menu__link-wrap">
 										<span class="m-menu__link-text">
 											Fee Plans
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplanassociation.Read']">
+							<a routerLink="/features/feePlanAssociation/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Fee Plan Association
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Adhocfee.Read']">
+							<a routerLink="/features/adhocFee/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Adhoc Fee
 										</span>
 									</span>
 								</span>

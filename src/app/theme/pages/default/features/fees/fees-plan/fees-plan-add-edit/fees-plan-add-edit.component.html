@@ -1,0 +1,183 @@
+	<!-- BEGIN: Subheader -->
+	<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+				<h3 class="m-subheader__title m-subheader__title--separator">
+					Fee Management
+				</h3>
+				<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+					<li class="m-nav__item m-nav__item--home">
+						<a href="#" class="m-nav__link m-nav__link--icon">
+							<i class="m-nav__link-icon la la-home"></i>
+						</a>
+					</li>
+					<li class="m-nav__separator">
+						-
+					</li>
+					<li class="m-nav__item">
+						<a href="" class="m-nav__link">
+							<span class="m-nav__link-text">
+								Fee Plan
+							</span>
+						</a>
+					</li>
+					<li class="m-nav__separator">
+						-
+					</li>
+					<li class="m-nav__item">
+						<a href="" class="m-nav__link">
+							<span class="m-nav__link-text">
+							   Add/Edit Fee Plan
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- END: Subheader -->
+	<div class="m-content">
+
+		<!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+		<div class="m-portlet">
+		
+			<!--begin::Form-->
+			<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+				<div class="m-portlet__head">
+					<div class="m-portlet__head-caption">
+						<div class="m-portlet__head-title">
+							<h3 class="m-portlet__head-text">
+								Add/Edit Fee Plan													
+							</h3>
+						</div>
+					</div>
+					
+					<!--Required Field Note-->
+					<label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>	
+					
+				</div>
+				 <div class="m-portlet__body">                                  
+				 
+					<div class="form-group m-form__group row">
+						<label for="example-text-input" class="col-md-2 col-form-label">
+							Fee Plan Name
+						</label>
+						<div class="col-md-5">
+							<input class="form-control m-input" type="text" value="">
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<label for="example-text-input" class="col-md-2 col-form-label">
+							Description
+						</label>
+						<div class="col-md-5">
+							<textarea class="form-control m-input" rows="3" style="resize:none;"></textarea>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<label for="example-text-input" class="col-md-2 col-form-label">
+							Academic Year
+						</label>
+						<div class="col-md-2">
+							<p-dropdown class="" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear"	name="acadamicYearDDL" (onChange)="onAcademicYearChange()"></p-dropdown>
+						</div>
+					</div>
+					
+					<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
+					
+					<!--+++++++++++++++++++++++++++++-->
+					<div class="">
+						<div class="form-group m-form__group row">
+							<div class="col-md-5">
+								<h3 class="m-form__section">
+									Fee Plan Management
+								</h3>
+							</div>
+						</div>
+						
+						<!--******************************************-->
+						<div class="form-group m-form__group row lessPadding" *ngFor="let fee of feePlanManagement;let rowNum=index;let lastRowNum=last">
+							
+							<div class="col-md-2">
+								<label for="example-text-input" class="col-form-label">
+									Fee Head
+								</label>
+								<p-dropdown class="" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+rowNum}}" (onChange) ="onFeeHeadChange(fee,rowNum)"></p-dropdown>
+							</div>	
+							<div class="col-md-2">
+								<label for="example-text-input" class="col-form-label">
+									Amount
+								</label>
+								<input class="form-control m-input" type="number" name="{{'amount'+rowNum}}" [(ngModel)]="fee.amount">
+							</div>
+							<div class="col-md-2">
+								<label for="example-text-input" class="col-form-label">
+									Re-enter Amount
+								</label>
+								<input class="form-control m-input" type="number" name="{{'confirmAmount'+rowNum}}" [(ngModel)]="fee.confirmAmount">
+							</div>
+							<div class="col-md-2 feePlanAddBtn">
+								<button type="button" class="btn btn-danger m-btn--pill" *ngIf="!lastRowNum||rowNum>0" (click)="removeFeeHeadDetails(fee,rowNum)" >
+									<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
+								</button>
+								<button type="button" class="btn btn-primary m-btn--pill" *ngIf="lastRowNum"  (click)="addFeeHeadDetails(fee)" >
+									<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
+								</button>
+							</div>
+						</div>
+						<br>	
+						
+						<!--******************************************-->
+						
+						<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>										
+						
+						<div class="form-group m-form__group row">
+															
+							<div class="col-md-2">
+								<label for="example-text-input" class="col-form-label">
+									Due Date
+								</label>
+								<p-calendar [style]="{'width':'100%'}" placeholder="Due date" name="dueDate" [monthNavigator]="false" [yearNavigator]="false" yearRange="1900:2070"  readonlyInput="true" [(ngModel)]="minDate" dateFormat="dd/mm/yy" ng-disabled="true" disabled (onSelect) ="setStartDate($event)" ></p-calendar>
+								<!-- <div class="alertMsg" *ngIf="academicYearForm.get('startDate').hasError('required') && academicYearForm.get('startDate').touched">
+									Please select due date
+								</div> -->
+							</div>
+						</div>
+						
+						<div class="form-group m-form__group row">											
+								<div class="col-md-3"  *ngFor="let item of frequency;let rowNum=index;let lastRowNum=last">
+									<label for="example-text-input" class="col-form-label" style="width:100%;">
+										Date {{rowNum+1}}
+									</label>
+									<p-calendar  placeholder="Due date" name="{{'Date'+rowNum}}"  [required]="true"  [monthNavigator]="false" [yearNavigator]="false" yearRange="academicYearRange" [(ngModel)]="item.date"  [maxDate]="maxDate" dateFormat="dd/mm/yy" disabled [minDate]="minDate" readonlyInput="true"></p-calendar>
+							</div>										
+						</div>
+					</div>
+					<!--+++++++++++++++++++++++++++++-->
+				</div>
+
+
+				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+					<div class="m-form__actions m-form__actions--solid">
+						<div class="row">
+							<div class="col-lg-6">
+								<button type="reset" class="btn btn-accent">
+									Add Fee Plan
+								</button>
+								<button type="reset" class="btn btn-secondary">
+									Preview
+								</button>
+								<button type="reset" class="btn btn-secondary">
+									Cancel
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</form>
+			<!--end::Form-->
+		
+		</div>
+		<!--+++++++++++++++++++++++++++++++++++++++++++ End::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->				
+	</div>

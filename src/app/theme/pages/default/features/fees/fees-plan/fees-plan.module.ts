@@ -2,15 +2,16 @@ import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FeesHeadComponent } from './fees-head.component';
-import { FeesHeadListComponent } from './fees-head-list/fees-head-list.component';
-import { FeesHeadAddEditComponent } from './fees-head-add-edit/fees-head-add-edit.component';
+import { FeesPlanAddEditComponent } from './fees-plan-add-edit/fees-plan-add-edit.component';
+import { FeesPlanListComponent } from './fees-plan-list/fees-plan-list.component';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
+import { FeesPlanComponent } from '../fees-plan/fees-plan.component';
+import { AcademicYearService } from '../../../_services/index';
 import {
   DataTableModule,
   SharedModule,
@@ -18,6 +19,7 @@ import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
+  CalendarModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -27,30 +29,30 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: FeesHeadComponent,
+        component: FeesPlanComponent,
         children: [
           {
             path: 'list',
-            component: FeesHeadListComponent,
+            component: FeesPlanListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feehead.Read']
+              permissions: ['Feeplan.Read']
             }
           },
           {
             path: 'add',
-            component: FeesHeadAddEditComponent,
+            component: FeesPlanAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feehead.Create']
+              permissions: ['Feeplan.Create']
             }
           },
           {
             path: 'edit/:feeId',
-            component: FeesHeadAddEditComponent,
+            component: FeesPlanAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feehead.Update']
+              permissions: ['Feeplan.Update']
             }
           },
         ]
@@ -71,17 +73,19 @@ const routes: Routes = [
     ButtonModule,
     DropdownModule,
     ConfirmDialogModule,
+    CalendarModule
   ], declarations: [
-    FeesHeadComponent,
-    FeesHeadListComponent,
-    FeesHeadAddEditComponent,
+    FeesPlanComponent,
+    FeesPlanListComponent,
+    FeesPlanAddEditComponent,
   ],
   providers: [
     FeesService,
     FrequencyService,
     CommonService,
-    ConfirmationService
+    ConfirmationService,
+    AcademicYearService
   ],
 })
-export class FeesHeadModule {
+export class FeesPlanModule {
 }

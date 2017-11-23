@@ -51,8 +51,16 @@ const routes: Routes = [
 
       },
       {
+        "path": "features\/merchant",
+        "loadChildren": ".\/pages\/default\/features\/merchant\/merchant.module#MerchantModule"
+      },
+      {
         "path": "features\/fees\/feesHead",
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-head\/fees-head.module#FeesHeadModule"
+      },
+      {
+        "path": "features\/fees\/feesPlan",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fees-plan\/fees-plan.module#FeesPlanModule"
       },
       {
         "path": "features\/reports",
@@ -101,7 +109,15 @@ const routes: Routes = [
       {
         "path": "features\/academicYear",
         "loadChildren": ".\/pages\/default\/features\/master_management\/academic_year\/academic-year.module#AcademicYearModule"
-      },  
+      },
+      {
+        "path": "features\/feePlanAssociation",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fee-plan-association\/fee-plan-association.module#FeePlanAssociationModule"
+      },
+      {
+        "path": "features\/adhocFee",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fee-adhoc\/fee-adhoc.module#AdhocFeeModule"
+      },
       {
         "path": "",
         "redirectTo": "index",

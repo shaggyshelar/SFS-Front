@@ -10,3 +10,6 @@ export * from './class';
 export * from './division';
 export * from './frequencies';
 export * from './academicYear';
+export * from './feePlan';
+export * from './merchant';
+export * from './adhocFee';
