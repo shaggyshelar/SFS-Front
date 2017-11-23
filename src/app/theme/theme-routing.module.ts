@@ -51,6 +51,10 @@ const routes: Routes = [
 
       },
       {
+        "path": "features\/merchant",
+        "loadChildren": ".\/pages\/default\/features\/merchant\/merchant.module#MerchantModule"
+      },
+      {
         "path": "features\/fees\/feesHead",
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-head\/fees-head.module#FeesHeadModule"
       },
@@ -105,7 +109,7 @@ const routes: Routes = [
       {
         "path": "features\/academicYear",
         "loadChildren": ".\/pages\/default\/features\/master_management\/academic_year\/academic-year.module#AcademicYearModule"
-      },  
+      },
       {
         "path": "",
         "redirectTo": "index",
