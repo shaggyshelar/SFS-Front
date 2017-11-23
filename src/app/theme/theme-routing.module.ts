@@ -111,6 +111,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/fees\/fee-plan-association\/fee-plan-association.module#FeePlanAssociationModule"
       },
       {
+        "path": "features\/adhocFee",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fee-adhoc\/fee-adhoc.module#AdhocFeeModule"
+      },
+      {
         "path": "",
         "redirectTo": "index",
         "pathMatch": "full"

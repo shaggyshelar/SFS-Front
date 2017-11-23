@@ -44,7 +44,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            Add/Edit Fee Association
+                            Edit Fee Association
                         </h3>
 
                     </div>
@@ -55,19 +55,31 @@
             </div>
             <div class="m-portlet__body">
                 <div class="form-group m-form__group row">
-                    <label class="col-2 col-form-label" for="example-text-input">
-						 Fee Plan <span class="requiredField">*</span>
+                    <label class="col-md-2 col-form-label" for="example-text-input">
+						 Fee Plan
 					</label>
-                    <div class="col-7">
-                        <select class="form-control" formControlName="feeplanId">
-							<option [ngValue]="null" >Select</option>
-							<option *ngFor="let feePlan of feePlanList" [ngValue]="feePlan.id">{{feePlan.feePlanName}}</option>
-                        </select>
-                        <div class="alertMsg" *ngIf="feePlanAssociationForm.get('feeplanId').hasError('required') && feePlanAssociationForm.get('feeplanId').touched">
-                            Please select fee Plan
-                        </div>
+                    <div class="col-md-5">                       
+                        <label class="col-form-label" style="font-weight: bold">
+						     {{feePlanName}}
+                        </label>
                     </div>
                 </div>
+
+                   <div class="form-group m-form__group row">
+                    <label class="col-md-2 col-form-label" for="example-text-input">
+						Academic Year
+					</label>
+                    <div class="col-md-5">                       
+                         <select class="form-control" formControlName="academicYear">
+                             <option [ngValue]="null" >Select</option>						
+							<option *ngFor="let item of academicYearList" [ngValue]="item.academicYear">{{item.academicYear}}</option>
+                        </select>
+                        <div class="alertMsg" *ngIf="feePlanAssociationForm.get('academicYear').hasError('required') && feePlanAssociationForm.get('academicYear').touched">
+                            Please select Academic Year
+                        </div> 
+                    </div>
+                </div>
+
                 <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-md-2 col-form-label">
                         Class
@@ -112,9 +124,9 @@
                     </label>
                     <div class="col-md-5">
                         <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="feePlanAssociationForm.invalid ?'cursorNotAllowed':'cursorPointer'"
-                            title="{{ feePlanAssociationForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}"
+                            title="{{ feePlanAssociationForm.invalid ? 'Please fill in all the required fields' : 'Update'}}"
                             [disabled]="feePlanAssociationForm.invalid" [isAuthorize]="['Feeplanassociation.Create', 'Feeplanassociation.Update']">
-                                {{ params ? 'Update' : 'Save' }}
+                               Update
                         </button>
                         <button class="btn btn-secondary" type="button" (click)="onCancel()">
                             Cancel

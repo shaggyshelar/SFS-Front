@@ -11,3 +11,4 @@ export * from './division';
 export * from './frequencies';
 export * from './academicYear';
 export * from './feePlan';
+export * from './adhocFee';
