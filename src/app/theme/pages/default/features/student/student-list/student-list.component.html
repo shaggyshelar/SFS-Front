@@ -124,35 +124,35 @@
 						<table class="staticTable" id="" width="100%">
 							<thead>
 								<tr>
-									<th title="Field #1">
+									<!-- <th title="Field #1">
 										#
-									</th>
-									<th title="Field #2">
+									</th> -->
+									<th title="">
 										<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">
 											Gr.No.
 										</a>
 									</th>
-									<th title="Field #2">
+									<th title="">
 										<a href="" (click)="sort('studentCode',ascSortCol5 = !ascSortCol5)">
 											Student Code
 										</a>
 									</th>
-									<th title="Field #3">
+									<th title="">
 										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
 											Name
 										</a>
 									</th>
-									<th title="Field #4">
+									<th title="">
 										<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">
 											Category
 										</a>
 									</th>
-									<th title="Field #5">
+									<th title="">
 										<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">
 											Class
 										</a>
 									</th>
-									<th title="Field #6">
+									<th title="">
 										<a href="" (click)="sort('divisionId',ascSortCol4 = !ascSortCol4)">
 											Division
 										</a>
@@ -167,14 +167,14 @@
 											Date of Joining
 										</a>
 									</th> -->
-									<th title="Field #9">
+									<th title="">
 										Actions
 									</th>
 								</tr>
 							</thead>
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of studentList | async'>
-									<td>{{row.id}}</td>
+									<!-- <td>{{row.id}}</td> -->
 									<td>{{row.gRNumber}}</td>
 									<td>{{row.studentCode}}</td>
 									<td>{{row.studentFirstName + " " + row.studentLastName}}</td>

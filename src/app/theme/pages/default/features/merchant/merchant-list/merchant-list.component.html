@@ -1,0 +1,202 @@
+<p-confirmDialog #cd>
+	<p-footer>
+		<button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
+			<span>
+				<i class="la la-check"></i>
+				<span>
+					Yes
+				</span>
+			</span>
+		</button>
+		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+			<span>
+				<i class="la la-close"></i>
+				<span>
+					No
+				</span>
+			</span>
+		</button>
+	</p-footer>
+</p-confirmDialog>
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				School Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							Merchant
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							Add/Edit Merchant
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+
+	<!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+	<div class="m-portlet">
+
+		<!--begin::Form-->
+		<!-- <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"> -->
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						Add/Edit Merchant
+					</h3>
+
+				</div>
+			</div>
+
+			<!--Required Field Note-->
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;
+				<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+
+		</div>
+		<div class="m-portlet__body">
+			<div class="form-group m-form__group row">
+				<div class="col-md-12">
+					<label for="example-text-input" class="col-form-label">
+						Select School
+					</label>
+				</div>
+				<div class="col-md-7">
+					<p-dropdown class="m-input" placeholder="Select School" [options]="schoolList" [style]="{'width':'100%'}" name="Schools"
+					 [disabled]="listDisable" [(ngModel)]="schoolId" (ngModelChange)="onSchoolSelect(schoolId)"></p-dropdown>
+					<!-- (ngModelChange)="pageSizeChanged(selectedPageSize)" -->
+				</div>
+			</div>
+
+			<!-- Table -->
+			<div class="form-group m-form__group row">
+				<div class="col-md-7">
+					<div class="table-responsive">
+						<div class="tableBox">
+							<table class="staticTable merchantTable" id="" width="100%">
+								<thead>
+									<tr>
+										<th title="">
+											Default
+										</th>
+										<th title="">
+											Merchant ID
+										</th>
+										<th title="">
+											Security Key
+										</th>
+										<th title="">
+
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let row of merchantList;let rowNum=index;let lastRowNum=last;">
+										<td>
+											<label class="m-radio">
+												<input type="radio" [disabled] = "row.enable" name="merchantRadio" [checked]="row.isDefault == 1">
+												<span></span>
+											</label>
+										</td>
+										<td>
+											<input type="text" [disabled] = "row.enable" class="form-control m-input" [(ngModel)]="row.merchantId">
+										</td>
+										<td>
+											<input type="text"  [disabled] = "row.enable" class="form-control m-input" [(ngModel)]="row.securityKey">
+										</td>
+										<td>
+											<div class="">
+												<button type="button" class="btn btn-danger m-btn--pill" *ngIf="!lastRowNum||rowNum>0" (click)="onDeleteMerchant(row.id)">
+													<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+												<button type="button" class="btn btn-danger m-btn--pill" (click)="enableEdit(row.id)">
+													<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+												<button type="button" class="btn btn-primary m-btn--pill" *ngIf="lastRowNum" (click)="onEditMerchant(row,isDefaultSelected)">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+
+												<!-- <button type="button" class="btn btn-danger m-btn--pill" *ngIf="!lastRowNum||rowNum>0">
+													<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+												<button type="button" class="btn btn-danger m-btn--pill">
+													<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button> -->
+											</div>
+										</td>
+									</tr>
+									<!-- <tr>
+										<td>
+											<label class="m-radio">
+												<input type="radio" name="merchantRadio">
+												<span></span>
+											</label>
+										</td>
+										<td>
+											<input type="text" class="form-control m-input">
+										</td>
+										<td>
+											<input type="text" class="form-control m-input">
+										</td>
+										<td>
+											<div class="">
+												<button type="button" class="btn btn-primary m-btn--pill">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+
+											</div>
+										</td>
+									</tr> -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row">
+					<div class="col-lg-6">
+						<button type="Submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+							Add Merchant
+						</button>
+						<button type="button" class="btn btn-secondary">
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- </form> -->
+		<!--end::Form-->
+
+	</div>
+	<!--+++++++++++++++++++++++++++++++++++++++++++ End::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+</div>
