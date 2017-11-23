@@ -40,23 +40,27 @@ export class FeesService {
 
   //FeesPlan
 
-  getAllFeePlans() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'feeheads', AppSettings.requestOptions()).map((response: Response) => response.json());  
+  getAllFeePlans(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeplans'+url, AppSettings.requestOptions()).map((response: Response) => response.json());  
    }
  
+   getAllFeePlanCount(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeplans/count'+url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
+
    getFeePlanById(id: number) {
-     return this.http.get(AppSettings.API_ENDPOINT +'feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+     return this.http.get(AppSettings.API_ENDPOINT +'Feeplans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
    }
  
    createFeePlan(fees: FeePlan) {
-     return this.http.post(AppSettings.API_ENDPOINT +'feeheads', fees, AppSettings.requestOptions()).map((response: Response) => response.json());
+     return this.http.post(AppSettings.API_ENDPOINT +'Feeplans', fees, AppSettings.requestOptions()).map((response: Response) => response.json());
    }
  
    updateFeePlan(fees: FeePlan) {
-     return this.http.put(AppSettings.API_ENDPOINT +'feeheads/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
+     return this.http.put(AppSettings.API_ENDPOINT +'Feeplans/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
    }
  
    deleteFeePlan(id: number) {
-     return this.http.delete(AppSettings.API_ENDPOINT +'feeheads/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+     return this.http.delete(AppSettings.API_ENDPOINT +'Feeplans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
    }
 }

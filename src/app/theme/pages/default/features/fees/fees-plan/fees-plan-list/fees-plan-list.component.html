@@ -127,11 +127,11 @@
 											</tr>
 										</thead>
 										<tbody *ngIf="longList">
-											<tr *ngFor='let row of roleList | async'>
+											<tr *ngFor='let row of feesPlanList | async'>
 												<td>{{row.feePlanName}}</td>
 												<td>{{row.feePlanDescription}}</td>
 												<td>
-													<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													<a href="javascript:;" (click)="onManagefeesClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													 title="Edit" [isAuthorize]="['Feeplan.Update']">
 														<i class="la la-edit"></i>
 													</a>
