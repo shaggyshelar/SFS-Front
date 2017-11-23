@@ -633,8 +633,9 @@ body .ui-dialog .ui-dialog-titlebar {
     .panel-collapse .col-lg-6 label{
        display:block!important;
     }
+
     /*** D. 22 Nov 2017 - For Merchant Creation ***/
-.merchantTable tr th:first-child{
+   .merchantTable tr th:first-child{
     width:10%!important; 
    }
    .merchantTable tr th:nth-child(2){
@@ -701,3 +702,101 @@ body .ui-dialog .ui-dialog-titlebar {
 		padding-top:35px;
 	}
 	  
+   /***D. 23 Nov 2017 - IE specific CSS  */
+
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .m-aside-left--skin-dark{
+            float:left;
+            height:100%;
+        }
+        .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
+            float:left;
+            width: 82%;
+        }
+        .pagination li, .page-link{
+           display:inline-block!important;
+        }
+        .headerRowListing a.btn {
+            /*display: inline-block !important;*/
+            float: right;
+        }
+        .row.m-row--col-separator-xl > .col-md-12{
+            display: inline-block!important;
+                max-width: 24%;
+        }
+        .m-subheader .m-subheader__daterange {
+            float: right;
+            margin-top:-40px;
+        }
+        .headerRowListing .col-xl-4{
+            float: right;
+            margin-top:-38px;
+        }
+        .showRecordsBox{
+            float: right;
+            margin-top:-40px;
+        }
+        .staticSearchRow .col-md-3{
+            float: left;
+            margin-right:5px;
+        }       
+        .staticSearchRow {
+            display: block!important;
+            clear: both!important;
+        }
+        .staticSearchRow .col-md-3:last-child{
+            display: block!important;
+            float:right;
+            margin-top:-15px;
+            margin-bottom:15px;
+        }
+         .staticSearchRow .col-md-3:first-child, .staticSearchRow .col-md-3:nth-child(2) {            
+            margin-top:-12px;
+            margin-bottom:15px;
+        }
+        .table-responsive{
+            display: block!important;
+            clear: both!important;
+        }
+        .col-form-label{
+            display: inline-block!important;
+        }
+        .m-form__group.row .col-7, .m-form__group.row .col-2, .m-form__group.row .col-5   {
+            float: left!important;            
+        }
+        .m-form__group.row .col-md-2   {
+            float: left!important;            
+        }
+        .m-form__group.row{
+            display: block!important;
+            clear: both!important; 
+        }
+        .m-portlet__foot--fit{
+            display: block!important;
+            clear: both!important; 
+            margin-top:4em;
+        }
+        .m-grid__item .m-footer{
+            float:left;
+            clear: both!important; 
+        }
+        .m-grid--root .m-page{
+            width:100%!important;
+            float:none!important;
+        }
+        body{
+            width:100%!important;           
+        }
+        .adminLandingContainer .col-md-6{
+            float: left;
+        }
+        .m-login__aside{
+            float:left;
+            min-height:100%;
+
+        }
+        .m-login .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
+            float:left;
+            min-height:100%;
+        }
+    }
