@@ -102,8 +102,8 @@
 					</label>
 					<div class="col-7">
 						 <select class="form-control" formControlName="institute" (change)="onChangeInstitutes($event.target.value)">
-							<option [value]="null" >Select</option>
-							<option *ngFor="let institute of instituteList" [value]="institute.id">{{institute.instituteName}}</option>
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let institute of instituteList" [ngValue]="institute.id">{{institute.instituteName}}</option>
 						</select>
 						<div class="alertMsg" *ngIf="userForm.get('institute').hasError('required') && userForm.get('institute').touched">
 							Please select institute

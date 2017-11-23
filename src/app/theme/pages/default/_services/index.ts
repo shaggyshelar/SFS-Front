@@ -15,3 +15,4 @@ export * from './board.service';
 export * from './imageUpload.service';
 export * from './academic-year.service';
 export * from './fee-plan-association.service';
+export * from './fee-adhoc.service';
