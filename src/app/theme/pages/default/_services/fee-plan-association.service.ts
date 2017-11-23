@@ -14,7 +14,7 @@ export class FeePlanAssociationService {
         return this.http.post(AppSettings.API_ENDPOINT + 'Feeplans/' + id + '/associations', feePlanAssociation, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
     updateFeePlanAssociation(feePlanAssociation: any, id: number) {
-        return this.http.put(AppSettings.API_ENDPOINT + 'Feeplans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+        return this.http.put(AppSettings.API_ENDPOINT + 'Feeplanassociations/updateFeeplanAssociation', feePlanAssociation, AppSettings.requestOptions()).map((response: Response) => response.json());
     }
     deleteFeePlanAssociation(id: number) {
         return this.http.delete(AppSettings.API_ENDPOINT + 'Feeplans/' + id + '/associations', AppSettings.requestOptions()).map((response: Response) => response.json());

@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import * as _ from 'lodash/index';
 
 import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
+import { AdhocFee } from "../../../../_models/index";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
-import { FeePlanAssociationService } from '../../../../_services/index';
+import { AdhocFeeService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({
-    selector: "app-feePlanAccosiation-list",
-    templateUrl: "./fee-plan-association-list.component.html",
+    selector: "app-fee-adhoc-list",
+    templateUrl: "./fee-adhoc-list.component.html",
     encapsulation: ViewEncapsulation.None,
 })
 
-export class FeePlanAssociationListComponent implements OnInit {
-    feePlanAssociationList: any;
+export class AdhocFeeListComponent implements OnInit {
+    adhocFeeList: Observable<AdhocFee[]>;
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -49,7 +49,7 @@ export class FeePlanAssociationListComponent implements OnInit {
     selectedPageSize: number; //HTML values
     constructor(private router: Router,
         private messageService: MessageService,
-        private feePlanAssociationService: FeePlanAssociationService,
+        private adhocFeeService: AdhocFeeService,
         private confirmationService: ConfirmationService,
         private globalErrorHandler: GlobalErrorHandler,
         private _script: ScriptLoaderService) {
@@ -90,53 +90,18 @@ export class FeePlanAssociationListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.longList = true;
+        //this.getAllBoards();
         this.getDataCount('');
     }
 
-    getAllFeePlanAssociation() {
+    getAllAdhocFees() {
         Helpers.setLoading(true);
         this.getUrl();
 
-        this.feePlanAssociationService.getAllFeePlanAssociationList(this.url).subscribe((response) => {
-            this.longList = response.length > 0 ? true : false;
-            this.feePlanAssociationList = [];
-            for (var index = 0; index < response.length; index++) {
-                var item = response[index];
-                this.feePlanAssociationList.push({
-                    feePlanId: item.id,
-                    feePlanName: item.feePlanName,
-                    schoolId: item.schoolId
-                })
-                this.feePlanAssociationList[index].classes = '';
-                this.feePlanAssociationList[index].categories = '';
-                 this.feePlanAssociationList[index].isTransactionProcessed = false;
-                if (item.associations && item.associations.length > 0) {
-                    this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
-                    var uniqueClass = _.uniqBy(item.associations, 'classId');
-                    var uniqueCategory = _.uniqBy(item.associations, 'categoryId');
-                    if (uniqueClass) {                     
-                        for (var count = 0; count < uniqueClass.length; count++) {
-                            var element = uniqueClass[count];
-                            if (count != uniqueClass.length - 1) {
-                                this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + element.FeeplanassociationClass.className + ', ';
-                            } else {
-                                this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + element.FeeplanassociationClass.className;
-                            }
-                        }
-                    }
+        this.adhocFeeList = this.adhocFeeService.getAllAdhocFeeList(this.url);
 
-                    if (uniqueCategory) {                    
-                        for (var count = 0; count < uniqueCategory.length; count++) {
-                            var element = uniqueCategory[count];
-                            if (count != uniqueCategory.length - 1) {
-                                this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName + ', ';
-                            } else {
-                                this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName;
-                            }
-                        }
-                    }                   
-                }
-            }
+        this.adhocFeeList.subscribe((response) => {
+            this.longList = response.length > 0 ? true : false;
             Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
@@ -144,16 +109,16 @@ export class FeePlanAssociationListComponent implements OnInit {
         });
     }
 
-    onEditClick(feePlanAssociation: any) {
-        this.router.navigate(['/features/feePlanAssociation/edit', feePlanAssociation.feePlanId]);
+    onEditAdhocFeeClick(adhocFee: AdhocFee) {
+        this.router.navigate(['/features/adhocFee/edit', adhocFee.id]);
     }
-    onDeleteClick(feePlanAssociation: any) {
+    onAdhocFeeDeleteClick(adhocFee: AdhocFee) {
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',
             header: 'Delete Confirmation',
             icon: 'fa fa-trash',
             accept: () => {
-                this.feePlanAssociationService.deleteFeePlanAssociation(feePlanAssociation.feePlanId).subscribe(
+                this.adhocFeeService.deleteAdhocFee(adhocFee.id).subscribe(
                     results => {
                         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
                         if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
@@ -169,8 +134,8 @@ export class FeePlanAssociationListComponent implements OnInit {
             }
         });
     }
-    onAddFeePlanAssociation() {
-        this.router.navigate(['/features/feePlanAssociation/add']);
+    onAddAdhocFee() {
+        this.router.navigate(['/features/adhocFee/add']);
     }
 
     /*Pagination Function's Starts*/
@@ -243,7 +208,7 @@ export class FeePlanAssociationListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllFeePlanAssociation();
+            this.getAllAdhocFees();
         }
     }
 
@@ -267,7 +232,7 @@ export class FeePlanAssociationListComponent implements OnInit {
         }
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllFeePlanAssociation();
+        this.getAllAdhocFees();
     }
 
     backPage() {
@@ -279,7 +244,7 @@ export class FeePlanAssociationListComponent implements OnInit {
             // this.boundryEnd--;
             // this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllFeePlanAssociation();
+            this.getAllAdhocFees();
         }
         else {
             this.currentPos = 0;
@@ -296,7 +261,7 @@ export class FeePlanAssociationListComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllFeePlanAssociation();
+            this.getAllAdhocFees();
         }
     }
 
@@ -304,7 +269,7 @@ export class FeePlanAssociationListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllFeePlanAssociation();
+        this.getAllAdhocFees();
     }
 
     noPrevPage() {
@@ -343,8 +308,8 @@ export class FeePlanAssociationListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][feePlanName][like]=%' + searchString + '%';
-            this.searchCountQuery = '&[where][feePlanName][like]=%' + searchString + '%';
+            this.searchQuery = '&filter[where][adhocfeeName][like]=%' + searchString + '%';
+            this.searchCountQuery = '&[where][adhocfeeName][like]=%' + searchString + '%';
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -352,6 +317,7 @@ export class FeePlanAssociationListComponent implements OnInit {
         this.boundry = 3;
         this.boundryEnd = this.boundry;
         this.getQueryDataCount();
+        //this.getAllBoards();
     }
 
     /* Counting Number of records starts*/
@@ -361,12 +327,12 @@ export class FeePlanAssociationListComponent implements OnInit {
 
     }
     getDataCount(url) {
-        this.feePlanAssociationService.getFeePlanAssociationCount(url).subscribe((response) => {
+        this.adhocFeeService.getAdhocFeeCount(url).subscribe((response) => {
             this.total = response.count;
             this.pages = Math.ceil(this.total / this.perPage);
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllFeePlanAssociation();
+            this.getAllAdhocFees();
         },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -384,7 +350,6 @@ export class FeePlanAssociationListComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllFeePlanAssociation();
+        this.getAllAdhocFees();
     }
-
 }

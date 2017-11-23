@@ -6,15 +6,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
-import { FeePlanAssociationService, CommonService, AcademicYearService } from '../../../_services/index';
-import { FeePlanAssociationComponent } from './fee-plan-association.component';
-import { FeePlanAssociationListComponent } from './fee-plan-association-list/fee-plan-association-list.component';
-import { FeePlanAssociationAddEditComponent } from './fee-plan-association-add-edit/fee-plan-association-add-edit.component';
+import { AdhocFeeService } from '../../../_services/index';
+import { AdhocFeeComponent } from './fee-adhoc.component';
+import { AdhocFeeListComponent } from './fee-adhoc-list/fee-adhoc-list.component';
+import { AdhocFeeAddEditComponent } from './fee-adhoc-add-edit/fee-adhoc-add-edit.component';
 
 import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
+  CalendarModule,
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -24,30 +25,30 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: FeePlanAssociationComponent,
+        component: AdhocFeeComponent,
         children: [
           {
             path: 'list',
-            component: FeePlanAssociationListComponent,
+            component: AdhocFeeListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feeplanassociation.Read']
+              permissions: ['Adhocfee.Read']
             }
           },
           {
             path: 'add',
-            component: FeePlanAssociationAddEditComponent,
+            component: AdhocFeeAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feeplanassociation.Create']
+              permissions: ['Adhocfee.Create']
             }
           },
           {
             path: 'edit/:id',
-            component: FeePlanAssociationAddEditComponent,
+            component: AdhocFeeAddEditComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['Feeplanassociation.Update']
+              permissions: ['Adhocfee.Update']
             }
           },
         ]
@@ -64,19 +65,18 @@ const routes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DropdownModule,
+    CalendarModule,
     ConfirmDialogModule
   ],
   declarations: [
-    FeePlanAssociationComponent,
-    FeePlanAssociationListComponent,
-    FeePlanAssociationAddEditComponent,
+    AdhocFeeComponent,
+    AdhocFeeListComponent,
+    AdhocFeeAddEditComponent,
   ],
   providers: [
-    FeePlanAssociationService,
+    AdhocFeeService,
     ConfirmationService,
-    CommonService,
-    AcademicYearService
   ],
 })
-export class FeePlanAssociationModule {
+export class AdhocFeeModule {
 }
