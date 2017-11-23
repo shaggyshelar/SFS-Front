@@ -723,4 +723,13 @@ body .ui-dialog .ui-dialog-titlebar {
         .adminLandingContainer .col-md-6{
             float: left;
         }
+        .m-login__aside{
+            float:left;
+            min-height:100%;
+
+        }
+        .m-login .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
+            float:left;
+            min-height:100%;
+        }
     }
