@@ -6,7 +6,7 @@ import { Fees } from "../../../../_models/fees";
 import { Pipe, PipeTransform } from '@angular/core';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-import { AcademicYear } from '../../../../_models/index';
+import { AcademicYear, FeePlan, FeePlanDetails } from '../../../../_models/index';
 import { AcademicYearService } from '../../../../_services/index';
 import * as _ from 'lodash/index';
 
@@ -21,14 +21,17 @@ export class FeesPlanAddEditComponent implements OnInit {
   feeHeadList = [];
   academicYearList = [];
   sequenceNumberArr = [];
+  feePlanDetails = [];
   selectedAcademicYear: string;
   maxsequenceNumber: number;
   academicYearRange: string;
-  minDate:Date;
-  maxDate:Date;
+  planeName: '';
+  planeDesc: '';
+  minDate: Date;
+  maxDate: Date;
   frequency = [{
     sequenceNumber: 1,
-    date: ''
+    date: Date
   }];
   feePlanManagement = [{
     feeHeadList: [],
@@ -68,18 +71,46 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
     this.maxsequenceNumber = _.max(this.sequenceNumberArr);
     this.frequency = [];
-    for (let index = 1; index <= this.maxsequenceNumber; index++) {
-      this.frequency.push({
+    for (let index = 0; index < this.maxsequenceNumber; index++) {
+      let newObj = {
         sequenceNumber: index,
-        date: ''
-      });
+        date: new Date()
+      }
+      this.calculateDate(this.maxsequenceNumber, index, newObj);
     }
   }
+
+  calculateDate(maxsequenceNumber, index, obj) {
+    if (maxsequenceNumber == 1) {
+      obj.date = this.minDate;
+    }
+    else if (maxsequenceNumber == 2) {
+      if (index == 0)
+        obj.date = this.minDate;
+      else
+        obj.date = new Date(new Date(this.minDate).setMonth(this.minDate.getMonth() + 6));
+    }
+    else if (maxsequenceNumber == 4) {
+      if (index == 0)
+        obj.date = this.minDate;
+      else if (index == 1)
+        obj.date = new Date(new Date(this.minDate).setMonth(this.minDate.getMonth() + 3));
+      else if (index == 2)
+        obj.date = new Date(new Date(this.minDate).setMonth(this.minDate.getMonth() + 6));
+      else if (index == 3)
+        obj.date = new Date(new Date(this.minDate).setMonth(this.minDate.getMonth() + 9));
+    }
+    else if (maxsequenceNumber == 12) {
+      obj.date = new Date(new Date(this.minDate).setMonth(this.minDate.getMonth() + index));
+    }
+    this.frequency.push(obj);
+  }
+
   onAcademicYearChange() {
-    let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear});
-    this.minDate=new Date(tempYear.startDate);
-    this.maxDate=new Date(tempYear.endDate);
-    this.academicYearRange=this.maxDate.getFullYear()+':'+(this.maxDate.getFullYear()+1);
+    let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
+    this.minDate = new Date(tempYear.startDate);
+    this.maxDate = new Date(tempYear.endDate);
+    this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
   }
 
   removeFeeHeadDetails(item, rowNum) {
@@ -125,5 +156,63 @@ export class FeesPlanAddEditComponent implements OnInit {
     });
   }
 
+  onSubmit(form) {
+    if (form.valid) {
+      let _feeplan = new FeePlan();
+      _feeplan.feePlanName = this.planeName;
+      _feeplan.feePlanDescription = this.planeDesc;
+      _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
+      this.feesService.createFeePlan(_feeplan)
+        .subscribe(
+        results => {
+          //this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+          _feeplan = results;
+          this.saveFeePlanDetails(_feeplan);
+        },
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
+    }
+  }
+
+  saveFeePlanDetails(_feeplan: FeePlan) {
+    let _staticFeeHeadList = this.staticFeeHeadList;
+    let _selectedAcademicYear = this.selectedAcademicYear;
+    let _frequency = this.frequency;
+    let _feePlanDetails = this.feePlanDetails;
+    _.forEach(this.feePlanManagement, function (value) {
+      let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
+      for (let index = 0; index <= tempFeeHead.frequencyValue; index++) {
+        let feePlanDetailObj = new FeePlanDetails();
+        feePlanDetailObj.feePlanId = _feeplan.id;
+        feePlanDetailObj.sequenceNumber = index + 1;
+        feePlanDetailObj.feeHeadId = value.feeHeadId;
+        feePlanDetailObj.academicYear = _selectedAcademicYear;
+        if (tempFeeHead.frequencyValue == 1)
+          feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+        else if (tempFeeHead.frequencyValue == 2) {
+          if (index == 1)
+            feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
+          else
+            feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+        }
+        else if (tempFeeHead.frequencyValue == 4) {
+          if (index == 0)
+            feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+          else if (index == 1)
+            feePlanDetailObj.dueDate = new Date(_frequency[3].date.toString());
+          else if (index == 2)
+            feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
+          else if (index == 3)
+            feePlanDetailObj.dueDate = new Date(_frequency[9].date.toString());
+        }
+        else if (tempFeeHead.frequencyValue == 12) {
+          feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+        }
+        _feePlanDetails.push(feePlanDetailObj);
+      }
+      console.log(_feePlanDetails);
+    });
+  }
 
 }
