@@ -307,8 +307,8 @@ export class FeesPlanListComponent implements OnInit {
       this.searchQuery = '';
       this.searchCountQuery = '';
     } else {
-      this.searchQuery = '&filter[where][or][0][feesName][like]=%' + searchString + "%" + '&filter[where][or][1][feesCode][like]=%' + searchString + "%";
-      this.searchCountQuery = '&[where][or][0][feesName][like]=%' + searchString + "%" + '&[where][or][1][feesCode][like]=%' + searchString + "%";
+      this.searchQuery = '&filter[where][or][0][feePlanName][like]=%' + searchString + "%" + '&filter[where][or][1][feePlanDescription][like]=%' + searchString + "%";
+      this.searchCountQuery = '&[where][or][0][feePlanName][like]=%' + searchString + "%" + '&[where][or][1][feePlanDescription][like]=%' + searchString + "%";
     }
     this.currentPos = 0;
     this.currentPageNumber = 1;
