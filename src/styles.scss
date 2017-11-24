@@ -646,11 +646,11 @@ body .ui-dialog .ui-dialog-titlebar {
    }
    .merchantTable tr th:nth-child(4){
     width:20%!important;
-    background: #fff!important;
+    
    }
    
    .merchantTable tr td:nth-child(4){
-    background: #fff!important;
+    
     text-align:center!important;
    }
 
@@ -709,10 +709,16 @@ body .ui-dialog .ui-dialog-titlebar {
             float:left;
             height:100%;
         }
-        .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
+        .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid{
             float:left;
             width: 82%;
         }
+        .changePassBox{
+            float:left;
+            width: 82%;
+            margin-top:0px;
+        }
+        
         .pagination li, .page-link{
            display:inline-block!important;
         }
@@ -823,4 +829,22 @@ body .ui-dialog .ui-dialog-titlebar {
         .m-login.m-login--1 .m-login__wrapper .m-login__form .m-login__form-action {
             margin-top:100px!important;
         }
-    }   
+    } 
+    
+    /********* D. 24 Nov 2017 - For Transport Zone Screen   *********/
+    .zoneTableBox{
+        height:auto!important;
+        overflow-y:auto;
+    }
+    .zoneTable tr td:first-child{
+        width:15%!important;
+    }
+    .zoneTable tr td:nth-child(2){
+        width:50%!important;
+    }
+    .zoneTable tr td:nth-child(3){
+        width:20%!important;
+    }
+    .zoneTable tr td:last-child{
+        width:15%!important;
+    }
