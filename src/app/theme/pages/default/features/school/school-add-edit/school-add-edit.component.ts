@@ -30,6 +30,8 @@ export class SchoolAddEditComponent implements OnInit {
     @ViewChild('fileupload')
     myInputVariable: any;
     fileInput: any;
+    graceDays: any = [];
+    processingDays: any = [];
 
     constructor(
         private formBuilder: FormBuilder, private schoolService: SchoolService, private messageService: MessageService,
@@ -42,6 +44,10 @@ export class SchoolAddEditComponent implements OnInit {
     ngOnInit() {
         this.imageFileName = null;
         this.institutes = [];
+
+        this.processingDays = this.schoolService.getProcessingDays();
+        this.graceDays = this.schoolService.getGraceDays();
+
         let val = this.instituteService.getAllInstitutes();
         //this.institutes.push({ label: '--Select--', value: 'select' });
         val.subscribe((response) => {
@@ -79,7 +85,9 @@ export class SchoolAddEditComponent implements OnInit {
             schoolLogo: [],
             schoolHeader: ['', [Validators.required]],
             createdOn: [''],
-            createdBy: ['']
+            createdBy: [''],
+            processingDate: ['', [Validators.required]],
+            graceDays: ['', [Validators.required]]
         });
 
         this.route.params.forEach((params: Params) => {
@@ -103,6 +111,8 @@ export class SchoolAddEditComponent implements OnInit {
                             schoolHeader: results.schoolHeader,
                             createdBy: results.createdBy,
                             createdOn: results.createdOn,
+                            processingDate: results.processingDate,
+                            graceDays: results.graceDays,
                         });
                         if (results.schoolLogo) {
                             let logo = results.schoolLogo.split('/');
