@@ -789,14 +789,38 @@ body .ui-dialog .ui-dialog-titlebar {
         }
         .adminLandingContainer .col-md-6{
             float: left;
+        }       
+        .m-login__content {
+           float:left!important;
+            height:100vh!important;
+            width:55%!important;              
         }
-        .m-login__aside{
+        .m-login__aside {           
+            padding: 2rem 11rem;
+            float:left!important;
+            height:100vh!important;
+            width:45%!important;    
+        }
+        .m-login.m-login--1 {
+            width:100%!important;    
+            height:100vh!important;
+            
+        }
+        .m-login__welcome{
+            padding-top: 5em;
+            padding-left: 3em;
+        }
+        .m-login__form-sub .m--align-left{
             float:left;
-            min-height:100%;
-
         }
-        .m-login .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
-            float:left;
-            min-height:100%;
+        .m-login__form-sub .m--align-right{
+            float:right;
+            margin-top: -30px;
         }
-    }
+        .m-login.m-login--1 .m-login__wrapper .m-login__form .m-login__form-sub {
+            margin-bottom: 50px!important;
+        }
+        .m-login.m-login--1 .m-login__wrapper .m-login__form .m-login__form-action {
+            margin-top:100px!important;
+        }
+    }   
