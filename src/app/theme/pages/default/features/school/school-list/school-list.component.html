@@ -164,6 +164,16 @@
 											City
 										</a>
 									</th>
+									<th title="Processing Day">
+										<a href="#">
+											Processing Day
+										</a>
+									</th>
+									<th title="Grace Days">
+										<a href="#">
+											Grace Days
+										</a>
+									</th>
 									<th title="Actions">
 										Actions
 									</th>
@@ -176,6 +186,8 @@
 									<td>{{row.SchoolBoard ? row.SchoolBoard.boardName : ""}}</td>
 									<td>{{row.schoolAddress}}</td>
 									<td>{{row.schoolCity}}</td>
+									<td>{{row.processingDate}}</td>
+									<td>{{row.graceDays}}</td>
 
 									<td>
 										<a href="javascript:;" (click)="onEditSchoolClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
