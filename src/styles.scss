@@ -829,4 +829,22 @@ body .ui-dialog .ui-dialog-titlebar {
         .m-login.m-login--1 .m-login__wrapper .m-login__form .m-login__form-action {
             margin-top:100px!important;
         }
-    }   
+    } 
+    
+    /********* D. 24 Nov 2017 - For Transport Zone Screen   *********/
+    .zoneTableBox{
+        height:auto!important;
+        overflow-y:auto;
+    }
+    .zoneTable tr td:first-child{
+        width:15%!important;
+    }
+    .zoneTable tr td:nth-child(2){
+        width:50%!important;
+    }
+    .zoneTable tr td:nth-child(3){
+        width:20%!important;
+    }
+    .zoneTable tr td:last-child{
+        width:15%!important;
+    }
