@@ -8,6 +8,8 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { AcademicYear, FeePlan, FeePlanDetails } from '../../../../_models/index';
 import { AcademicYearService } from '../../../../_services/index';
+import { SchoolService } from '../../../../_services/index';
+import { Helpers } from "../../../../../../../helpers";
 import * as _ from 'lodash/index';
 
 @Component({
@@ -25,6 +27,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   feePlanDetails = [];
   selectedAcademicYear: string;
   maxsequenceNumber: number;
+  paymentProcessDate: number;
   academicYearRange: string;
   planeName: '';
   planeDesc: '';
@@ -32,8 +35,9 @@ export class FeesPlanAddEditComponent implements OnInit {
   maxDate: Date;
   frequency = [{
     sequenceNumber: 1,
-    date: Date
+    date: new Date()
   }];
+
   feePlanManagement = [{
     feeHeadList: [],
     feeHeadId: 0,
@@ -43,26 +47,59 @@ export class FeesPlanAddEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private academicYearService: AcademicYearService,
+    private schoolService: SchoolService,
     private feesService: FeesService,
     private globalErrorHandler: GlobalErrorHandler,
     private messageService: MessageService) {
   }
   ngOnInit() {
-    this.getAcademicYear();
-    this.checkForEdit();
+    Helpers.setLoading(true);
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.getSchoolDetails();
+  }
+
+  getSchoolDetails() {
+    let schoolId = parseInt(localStorage.getItem('schoolId'));
+    this.schoolService.getSchoolById(schoolId).subscribe((response) => {
+      this.paymentProcessDate = parseInt(response.processingDate);
+      this.getAcademicYear();
+    },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      }
+    );
   }
 
   checkForEdit() {
+    Helpers.setLoading(true);
     this.route.params.forEach((params: Params) => {
       this.params = params['feeId'];
       if (this.params) {
         this.feesService.getFeePlanById(this.params)
           .subscribe((results: any) => {
+            let index = 0;
             this.planeName = results.feePlanName;
             this.planeDesc = results.feePlanDescription;
+            let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
+            if (uniqFeeHead.length > 0) {
+              this.selectedAcademicYear = uniqFeeHead[0].academicYear;
+              this.onAcademicYearChange();
+            }
+
+            for (let feeheadIndex = 0; feeheadIndex < uniqFeeHead.length; feeheadIndex++) {
+
+              this.addFeeHeadOnEdit(uniqFeeHead[feeheadIndex]);
+              this.onFeeHeadChange(uniqFeeHead[feeheadIndex], feeheadIndex);
+            }
+            Helpers.setLoading(false);
           }, error => {
             this.globalErrorHandler.handleError(error);
           })
+      }
+      else
+      {
+        Helpers.setLoading(false);
       }
     });
   }
@@ -70,7 +107,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   getAllFees() {
     let feeheads = this.feesService.getAllFees();
     feeheads.subscribe((response) => {
-      // this.staticFeeHeadList = response;
+      Helpers.setLoading(false);
       this.feeHeadList.push({ label: '--Select--', value: '0' });
       this.staticFeeHeadList.push({ label: '--Select--', value: '0' });
       for (let key in response) {
@@ -80,6 +117,8 @@ export class FeesPlanAddEditComponent implements OnInit {
         }
       }
       this.feePlanManagement[0].feeHeadList = this.feeHeadList;
+      this.checkForEdit();
+
     },
       error => {
         this.globalErrorHandler.handleError(error);
@@ -129,7 +168,8 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   onAcademicYearChange() {
     let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
-    this.minDate = new Date(tempYear.startDate);
+    this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
+
     this.maxDate = new Date(tempYear.endDate);
     this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
   }
@@ -165,6 +205,23 @@ export class FeesPlanAddEditComponent implements OnInit {
     })
   }
 
+  addFeeHeadOnEdit(feeItem) {
+    this.feePlanManagement = [];
+    let _feePlanManagement = this.feePlanManagement;
+    let _staticFeeHeadList = this.staticFeeHeadList;
+    let newHeadList = _.filter(_staticFeeHeadList, function (item) {
+      return _.findIndex(_feePlanManagement, { 'feeHeadId': item.value }) === -1;
+    });
+
+    this.feePlanManagement.push({
+      feeHeadList: newHeadList,
+      feeHeadId: feeItem.feeHeadId,
+      amount: feeItem.feeCharges,
+      confirmAmount: feeItem.feeCharges,
+    })
+  }
+
+
   getAcademicYear() {
     let academicYears = this.academicYearService.getAllAcademicYears();
     academicYears.subscribe((response) => {
@@ -184,16 +241,29 @@ export class FeesPlanAddEditComponent implements OnInit {
       _feeplan.feePlanName = this.planeName;
       _feeplan.feePlanDescription = this.planeDesc;
       _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
-      this.feesService.createFeePlan(_feeplan)
-        .subscribe(
-        results => {
-          //this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-          _feeplan = results;
-          this.saveFeePlanDetails(_feeplan);
-        },
-        error => {
-          this.globalErrorHandler.handleError(error);
-        });
+      if (this.params) {
+        this.feesService.createFeePlan(_feeplan)
+          .subscribe(
+          results => {
+            //this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+            _feeplan = results;
+            this.saveFeePlanDetails(_feeplan);
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
+      }
+      else {
+        this.feesService.updateFeePlan(_feeplan)
+          .subscribe(
+          results => {
+            _feeplan = results;
+            this.saveFeePlanDetails(_feeplan);
+          },
+          error => {
+            this.globalErrorHandler.handleError(error);
+          });
+      }
     }
   }
 
@@ -210,7 +280,7 @@ export class FeesPlanAddEditComponent implements OnInit {
         feePlanDetailObj.sequenceNumber = index + 1;
         feePlanDetailObj.feeHeadId = value.feeHeadId;
         feePlanDetailObj.academicYear = _selectedAcademicYear;
-        feePlanDetailObj.feeCharges=value.amount;
+        feePlanDetailObj.feeCharges = value.amount;
         if (tempFeeHead.frequencyValue == 1)
           feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
         else if (tempFeeHead.frequencyValue == 2) {

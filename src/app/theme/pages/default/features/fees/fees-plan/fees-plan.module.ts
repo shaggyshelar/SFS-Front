@@ -11,7 +11,7 @@ import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
 import { FeesPlanComponent } from '../fees-plan/fees-plan.component';
-import { AcademicYearService } from '../../../_services/index';
+import { AcademicYearService, SchoolService } from '../../../_services/index';
 import {
   DataTableModule,
   SharedModule,
@@ -84,7 +84,8 @@ const routes: Routes = [
     FrequencyService,
     CommonService,
     ConfirmationService,
-    AcademicYearService
+    AcademicYearService,
+    SchoolService
   ],
 })
 export class FeesPlanModule {
