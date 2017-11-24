@@ -98,8 +98,8 @@
 					</div>
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search"
-							 [(ngModel)]="searchValue" (keyup)="searchString(searchValue)" >
+							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
+							 (keyup)="searchString(searchValue)">
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -119,22 +119,30 @@
 											Name
 										</a>
 									</th>
-									<th title="">
+									<th title="Description">
 										Description
 									</th>
-									<th title="">
+									<th title="Due Date">
 										Due Date
 									</th>
-									<th title="">
+									<th title="Classes">
+										Classes
+									</th>
+									<th title="Categories">
+										Categories
+									</th>
+									<th title="Actions">
 										Actions
 									</th>
 								</tr>
 							</thead>
 							<tbody *ngIf="longList">
-								<tr *ngFor='let row of adhocFeeList | async'>
+								<tr *ngFor='let row of adhocFeeList'>
 									<td>{{row.adhocfeeName}}</td>
 									<td>{{row.adhocfeeDescription}}</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy'}}</td>
+									<td>{{row.classes}}</td>
+									<td>{{row.categories}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditAdhocFeeClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Adhocfee.Update']">
@@ -202,12 +210,8 @@
 									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
 								</div>
 							</div>
-
 						</div>
-
 					</div>
-
-
 				</div>
 				<!--end: Datatable -->
 			</div>

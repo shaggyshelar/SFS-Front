@@ -9,7 +9,7 @@ export class AdhocFeeService {
   constructor(private http: Http) {
   }
   getAllAdhocFees() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAdhocFeeById(id: number) {
@@ -24,13 +24,17 @@ export class AdhocFeeService {
     return this.http.patch(AppSettings.API_ENDPOINT + 'Adhocfees/' + adhocFee.id, adhocFee, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
+  updateAdhocFeeAssociation(adhocFeeAssociation: any) {
+    return this.http.put(AppSettings.API_ENDPOINT + 'Adhocfeedetails/updateAdhocfeedetails', adhocFeeAssociation, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
   deleteAdhocFee(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT + 'Adhocfees/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
-  getAdhocFeeCount(url){
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());      
+  getAdhocFeeCount(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
-  getAllAdhocFeeList(url) {   
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
-   }
+  getAllAdhocFeeList(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
 }

@@ -24,12 +24,11 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
     params: number;
     assignedClassArray: any;
     assignedCategoryArray: any;
-    feePlanList: any;
     isClassSelected: boolean = false;
     isCategorySelected: boolean = false;
     isSubmitted: boolean = false;
     feePlanName: string;
-    academicYearList : any;
+    academicYearList: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -47,7 +46,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
         this.classList = [];
         this.academicYearList = [];
         this.assignedCategoryArray = [];
-        this.assignedClassArray = [];       
+        this.assignedClassArray = [];
         this.feePlanAssociationForm = this.formBuilder.group({
             feeplanId: [],
             academicYear: ['', [Validators.required]],
@@ -57,19 +56,10 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
         });
-        Observable.forkJoin([this.commonService.getClass(), this.commonService.getCategory() , this.feePlanAssociationService.getAllFeePlanAssociationList(''), this.academicYearService.getAllAcademicYears()])
-            .subscribe((response) => {
-                this.classList = this.updateList(response[0], []);
-                this.categoryList = this.updateList(response[1], []);
-                this.feePlanList = response[2];
-                this.academicYearList = response[3]
-                this.feePlanAssociationForm.setValue({
-                    feeplanId: [],
-                    academicYear:[''],
-                    classes: this.buildArray(this.classList),
-                    categories: this.buildArray(this.categoryList)
-                });
-                if (this.params) {
+        if (this.params) {
+            Observable.forkJoin([this.commonService.getClass(), this.commonService.getCategory(), this.academicYearService.getAllAcademicYears()])
+                .subscribe((response) => {
+
                     this.feePlanAssociationService.getFeePlanAssociationById(this.params)
                         .subscribe((results: any) => {
                             var classArray = _.map(_.uniqBy(results.associations, 'classId'), function (item) {
@@ -85,9 +75,10 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             this.feePlanName = results.feePlanName;
                             this.classList = this.updateList(response[0], classArray);
                             this.categoryList = this.updateList(response[1], categoryArray);
+                            this.academicYearList = response[2];
                             this.feePlanAssociationForm.setValue({
                                 feeplanId: results.id,
-                                academicYear : results.associations && results.associations.length > 0 ? results.associations[0].academicYear : '',
+                                academicYear: results.associations && results.associations.length > 0 ? results.associations[0].academicYear : '',
                                 classes: [],
                                 categories: []
                             });
@@ -100,8 +91,9 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             this.globalErrorHandler.handleError(error);
                         })
 
-                }
-            });
+
+                });
+        }
     }
 
     getArray(field): FormArray {
@@ -147,14 +139,14 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             feeplanId: value.feeplanId,
                             classId: this.classList[index].id,
                             categoryId: this.categoryList[count].id,
-                            academicYear : value.academicYear,
+                            academicYear: value.academicYear,
                         })
                     }
                 }
             }
         }
-        if (this.params) {
-            this.feePlanAssociationService.updateFeePlanAssociation(selectedFeePlanAssociation , value.feeplanId)
+        if (this.params && this.isClassSelected && this.isCategorySelected) {
+            this.feePlanAssociationService.updateFeePlanAssociation(selectedFeePlanAssociation, value.feeplanId)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });

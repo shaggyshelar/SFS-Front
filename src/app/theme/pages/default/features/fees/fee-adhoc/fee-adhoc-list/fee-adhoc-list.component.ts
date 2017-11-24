@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import * as _ from 'lodash/index';
 
 import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
@@ -17,7 +18,7 @@ import { Helpers } from "../../../../../../../helpers";
 })
 
 export class AdhocFeeListComponent implements OnInit {
-    adhocFeeList: Observable<AdhocFee[]>;
+    adhocFeeList: any = [];
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -97,11 +98,46 @@ export class AdhocFeeListComponent implements OnInit {
     getAllAdhocFees() {
         Helpers.setLoading(true);
         this.getUrl();
-
-        this.adhocFeeList = this.adhocFeeService.getAllAdhocFeeList(this.url);
-
-        this.adhocFeeList.subscribe((response) => {
+        this.adhocFeeService.getAllAdhocFeeList(this.url).subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            this.adhocFeeList = [];
+            for (var index = 0; index < response.length; index++) {
+                var item = response[index];
+                this.adhocFeeList.push({
+                    id: item.id,
+                    schoolId: item.schoolId,
+                    adhocfeeName: item.adhocfeeName,
+                    adhocfeeDescription: item.adhocfeeDescription,
+                    dueDate: item.dueDate,
+                })
+                this.adhocFeeList[index].classes = '';
+                this.adhocFeeList[index].categories = '';
+                if (item.feeDetails && item.feeDetails.length > 0) {
+                    var uniqueClass = _.uniqBy(item.feeDetails, 'classId');
+                    var uniqueCategory = _.uniqBy(item.feeDetails, 'categoryId');
+                    if (uniqueClass) {
+                        for (var count = 0; count < uniqueClass.length; count++) {
+                            var element = uniqueClass[count];
+                            if (count != uniqueClass.length - 1) {
+                                this.adhocFeeList[index].classes = this.adhocFeeList[index].classes + element.AdhocfeedetailsClass.className + ', ';
+                            } else {
+                                this.adhocFeeList[index].classes = this.adhocFeeList[index].classes + element.AdhocfeedetailsClass.className;
+                            }
+                        }
+                    }
+
+                    if (uniqueCategory) {
+                        for (var count = 0; count < uniqueCategory.length; count++) {
+                            var element = uniqueCategory[count];
+                            if (count != uniqueCategory.length - 1) {
+                                this.adhocFeeList[index].categories = this.adhocFeeList[index].categories + element.AdhocfeedetailsCategory.categoryName + ', ';
+                            } else {
+                                this.adhocFeeList[index].categories = this.adhocFeeList[index].categories + element.AdhocfeedetailsCategory.categoryName;
+                            }
+                        }
+                    }
+                }
+            }
             Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);
