@@ -13,4 +13,6 @@ export class School {
     schoolHeader: string;
     createdBy:string;
     createdOn : string;
+    graceDays: string;
+    processingDate: string;
 }

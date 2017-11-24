@@ -251,34 +251,33 @@
 				</div>
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
-						Days
+						processing Day
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-2">
-						<select class="form-control m-input">
-							<option disabled="" selected="">Select</option>											
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+					<div class="col-3">
+						 <select class="form-control" formControlName="processingDate">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let processingDay of processingDays" [ngValue]="processingDay">{{processingDay}}</option>
 						</select>
+						<div class="alertMsg" *ngIf="schoolForm.get('processingDate').hasError('required') && schoolForm.get('processingDate').touched">
+							Please select processing Day
+						</div>
 					</div>
 				</div>
+
 				<div class="form-group m-form__group row">
 					<label for="example-text-input" class="col-2 col-form-label">
 						Grace Days
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-2">
-						<select class="form-control m-input">
-							<option disabled="" selected="">Select</option>											
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+					<div class="col-3">
+						<select class="form-control" formControlName="graceDays">
+							<option [ngValue]="null" >Select</option>
+							<option *ngFor="let graceDay of graceDays" [ngValue]="graceDay">{{graceDay}}</option>
 						</select>
+						<div class="alertMsg" *ngIf="schoolForm.get('graceDays').hasError('required') && schoolForm.get('graceDays').touched">
+							Please select grace Day
+						</div>
 					</div>
 				</div>
 
