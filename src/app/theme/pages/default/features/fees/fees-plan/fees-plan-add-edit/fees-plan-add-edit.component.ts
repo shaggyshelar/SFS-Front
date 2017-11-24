@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Params, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { FeesService } from '../../../../_services/fees.service';
 import { Fees } from "../../../../_models/fees";
@@ -18,6 +18,7 @@ import * as _ from 'lodash/index';
 
 export class FeesPlanAddEditComponent implements OnInit {
   staticFeeHeadList = [];
+  params: number;
   feeHeadList = [];
   academicYearList = [];
   sequenceNumberArr = [];
@@ -39,11 +40,31 @@ export class FeesPlanAddEditComponent implements OnInit {
     amount: '',
     confirmAmount: '',
   }];
-  constructor(private router: Router, private academicYearService: AcademicYearService, private feesService: FeesService, private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService) {
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private academicYearService: AcademicYearService,
+    private feesService: FeesService,
+    private globalErrorHandler: GlobalErrorHandler,
+    private messageService: MessageService) {
   }
   ngOnInit() {
-    this.getAllFees();
     this.getAcademicYear();
+    this.checkForEdit();
+  }
+
+  checkForEdit() {
+    this.route.params.forEach((params: Params) => {
+      this.params = params['feeId'];
+      if (this.params) {
+        this.feesService.getFeePlanById(this.params)
+          .subscribe((results: any) => {
+            this.planeName = results.feePlanName;
+            this.planeDesc = results.feePlanDescription;
+          }, error => {
+            this.globalErrorHandler.handleError(error);
+          })
+      }
+    });
   }
 
   getAllFees() {
@@ -147,6 +168,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   getAcademicYear() {
     let academicYears = this.academicYearService.getAllAcademicYears();
     academicYears.subscribe((response) => {
+      this.getAllFees();
       // this.academicYearList.push({ label: '--Select--', value: 'select' });
       for (let key in response) {
         if (response.hasOwnProperty(key)) {
@@ -182,12 +204,13 @@ export class FeesPlanAddEditComponent implements OnInit {
     let _feePlanDetails = this.feePlanDetails;
     _.forEach(this.feePlanManagement, function (value) {
       let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
-      for (let index = 0; index <= tempFeeHead.frequencyValue; index++) {
+      for (let index = 0; index < tempFeeHead.frequencyValue; index++) {
         let feePlanDetailObj = new FeePlanDetails();
         feePlanDetailObj.feePlanId = _feeplan.id;
         feePlanDetailObj.sequenceNumber = index + 1;
         feePlanDetailObj.feeHeadId = value.feeHeadId;
         feePlanDetailObj.academicYear = _selectedAcademicYear;
+        feePlanDetailObj.feeCharges=value.amount;
         if (tempFeeHead.frequencyValue == 1)
           feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
         else if (tempFeeHead.frequencyValue == 2) {
@@ -211,8 +234,17 @@ export class FeesPlanAddEditComponent implements OnInit {
         }
         _feePlanDetails.push(feePlanDetailObj);
       }
-      console.log(_feePlanDetails);
     });
+    this.feesService.createFeeplanheaddetails(_feePlanDetails)
+      .subscribe(
+      results => {
+        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
+
+      },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      });
+    console.log(_feePlanDetails);
   }
 
 }
