@@ -709,10 +709,16 @@ body .ui-dialog .ui-dialog-titlebar {
             float:left;
             height:100%;
         }
-        .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid {
+        .m-grid.m-grid--ver-desktop.m-grid--desktop > .m-grid__item.m-grid__item--fluid{
             float:left;
             width: 82%;
         }
+        .changePassBox{
+            float:left;
+            width: 82%;
+            margin-top:0px;
+        }
+        
         .pagination li, .page-link{
            display:inline-block!important;
         }
