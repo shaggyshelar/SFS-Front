@@ -77,7 +77,7 @@
 						Payment Frequency
 					</label>
 					<div class="col-md-5">
-						<p-dropdown placeholder="Select Class" [options]="frequencyIdList" [style]="{'width':'100%'}" formControlName="frequencyId"
+						<p-dropdown placeholder="Select Frequency" [options]="frequencyIdList" [style]="{'width':'100%'}" formControlName="frequencyId"
 						 name="classId"></p-dropdown>
 					</div>
 				</div>
@@ -86,7 +86,7 @@
 						Charge Head
 					</label>
 					<div class="col-md-5">
-						<p-dropdown placeholder="Select Class" [options]="chargeHeaderList" [style]="{'width':'100%'}" formControlName="chargeHeadName"
+						<p-dropdown placeholder="Select Charge Head" [options]="chargeHeaderList" [style]="{'width':'100%'}" formControlName="chargeHeadName"
 						 name="classId"></p-dropdown>
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="feesForm.invalid" [ngClass]="studentForm.invalid ?'cursorNotAllowed':'cursorPointer'" [isAuthorize]="['FeeHead.Update', 'Feehead.Create']" title="{{ studentForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="feesForm.invalid" [ngClass]="feesForm.invalid ?'cursorNotAllowed':'cursorPointer'" [isAuthorize]="['FeeHead.Update', 'Feehead.Create']" title="{{ feesForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}">
 								{{ params ? 'Update' : 'Save' }} Head
 							</button>
 							<button type="button" class="btn btn-secondary" (click)="onCancel()">
