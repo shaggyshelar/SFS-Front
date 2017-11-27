@@ -41,11 +41,13 @@ export class FeesService {
   //FeesPlan
 
   getAllFeePlans(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Feeplans' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+schoolId+'/FeePlans' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAllFeePlanCount(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Feeplans/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+schoolId+'/FeePlans/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getFeePlanById(id: number) {

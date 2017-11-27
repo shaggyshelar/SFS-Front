@@ -88,11 +88,17 @@ export class FeesPlanListComponent implements OnInit {
     this.boundryStart = 1;
     this.boundryEnd = this.boundry;
     this.longList = true;
-    //this.getAllCategories();
-    this.getDataCount('');
+    //this.getAllFeePlan();
+    if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+    }
+    else {
+      this.getDataCount('');
+    }
+
   }
 
-  getAllCategories() {
+  getAllFeePlan() {
     Helpers.setLoading(true);
     this.getUrl();
     this.feesPlanList = this.feesService.getAllFeePlans(this.url);
@@ -207,7 +213,7 @@ export class FeesPlanListComponent implements OnInit {
       this.boundryEnd = this.boundry;
       this.generateCount();
       this.setDisplayPageNumberRange();
-      this.getAllCategories();
+      this.getAllFeePlan();
     }
   }
 
@@ -234,7 +240,7 @@ export class FeesPlanListComponent implements OnInit {
 
     this.generateCount();
     this.setDisplayPageNumberRange();
-    this.getAllCategories();
+    this.getAllFeePlan();
   }
 
   backPage() {
@@ -242,7 +248,7 @@ export class FeesPlanListComponent implements OnInit {
       this.currentPos -= this.perPage;
       this.currentPageNumber--;
       this.setDisplayPageNumberRange();
-      this.getAllCategories();
+      this.getAllFeePlan();
     }
     else {
       this.currentPos = 0;
@@ -259,7 +265,7 @@ export class FeesPlanListComponent implements OnInit {
       //     this.moreNextPages();
       // }
       this.setDisplayPageNumberRange();
-      this.getAllCategories();
+      this.getAllFeePlan();
     }
   }
 
@@ -267,7 +273,7 @@ export class FeesPlanListComponent implements OnInit {
     this.currentPos = this.perPage * (pageNumber - 1);
     this.currentPageNumber = pageNumber;
     this.setDisplayPageNumberRange();
-    this.getAllCategories();
+    this.getAllFeePlan();
   }
 
   noPrevPage() {
@@ -324,7 +330,7 @@ export class FeesPlanListComponent implements OnInit {
     } else {
       this.sortUrl = '&filter[order]=' + column + ' ASC';
     }
-    this.getAllCategories();
+    this.getAllFeePlan();
   }
   /* Filtering, Sorting, Search functions Ends*/
 
@@ -340,7 +346,7 @@ export class FeesPlanListComponent implements OnInit {
       this.pages = Math.ceil(this.total / this.perPage);
       this.generateCount();
       this.setDisplayPageNumberRange();
-      this.getAllCategories();
+      this.getAllFeePlan();
     },
       error => {
         this.globalErrorHandler.handleError(error);
