@@ -67,7 +67,7 @@ export class FeesService {
   }
 
   createFeeplanheaddetails(value) {
-    return this.http.post(AppSettings.API_ENDPOINT + 'Feeplanheaddetails', value, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.put(AppSettings.API_ENDPOINT + 'Feeplanheaddetails/updateFeeplanheaddetails', value, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAllFeeplanheaddetails(url) {
