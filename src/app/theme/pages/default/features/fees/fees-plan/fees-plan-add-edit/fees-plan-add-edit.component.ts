@@ -253,6 +253,7 @@ export class FeesPlanAddEditComponent implements OnInit {
           });
       }
       else {
+        _feeplan.id=this.params;
         this.feesService.updateFeePlan(_feeplan)
           .subscribe(
           results => {
