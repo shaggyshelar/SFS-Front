@@ -118,7 +118,7 @@
 									<tr *ngFor="let row of merchantList;let rowNum=index;let lastRowNum=last;">
 										<td>
 											<label class="m-radio">
-												<input type="radio" [disabled]="!row.enable && row.id" name="merchantRadio" [value]="true" [(ngModel)]="row.isDefault" [checked]="row.isDefault == 1">
+												<input type="radio" [disabled]="!row.enable && row.id" name="merchantRadio" [value]="true" [(ngModel)]="row.isDefault" [checked]="row.isDefault == true">
 												<span></span>
 											</label>
 										</td>

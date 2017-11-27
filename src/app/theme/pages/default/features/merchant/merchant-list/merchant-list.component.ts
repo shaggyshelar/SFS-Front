@@ -62,7 +62,9 @@ export class MerchantListComponent implements OnInit {
             .subscribe(response => {
                 this.merchantList = response;
                 if (this.merchantList.length == 0) {
-                    this.merchantList.push(new Merchant())
+                    let merchantObj=new Merchant();
+                    merchantObj.isDefault=1;
+                    this.merchantList.push(merchantObj)
                 }
             });
     }
