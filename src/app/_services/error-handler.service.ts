@@ -16,19 +16,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     let error = response.json().error
     if (error) {
       if (error.statusCode === 401) {
-        // localStorage.removeItem('currentUser');
-        // localStorage.removeItem('instituteId');
-        // localStorage.removeItem('schoolId');
-        // localStorage.removeItem('schoolLogo' );
-        // localStorage.removeItem('schoolHeader');
-        // this._router.navigate(['/login']);
         errMsg = error.message;
-        this.storeService.getPermission();
-        this.storeService.permissionsList.subscribe((response) => {
-          if (response) {
 
-          }
-        }, error => {
+        if (errMsg == "Invalid Access Token") {
           console.log("Auth Fail");
           localStorage.removeItem('currentUser');
           localStorage.removeItem('instituteId');
@@ -36,8 +26,16 @@ export class GlobalErrorHandler implements ErrorHandler {
           localStorage.removeItem('schoolLogo');
           localStorage.removeItem('schoolHeader');
           this._router.navigate(['/login']);
-          // this.globalErrorHandler.handleError(error);
-        });
+        }
+        // this.storeService.getPermission();
+        // this.storeService.permissionsList.subscribe((response) => {
+        //   if (response) {
+
+        //   }
+        // }, error => {
+
+        //   // this.globalErrorHandler.handleError(error);
+        // });
         this.messageService.addMessage({ severity: 'error', summary: 'Failed', detail: errMsg });
       } else {
         errMsg = error.message;
