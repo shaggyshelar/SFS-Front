@@ -59,7 +59,7 @@ export class FeesService {
   }
 
   updateFeePlan(fees: FeePlan) {
-    return this.http.put(AppSettings.API_ENDPOINT + 'Feeplans/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT + 'Feeplans/' + fees.id, fees, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteFeePlan(id: number) {
