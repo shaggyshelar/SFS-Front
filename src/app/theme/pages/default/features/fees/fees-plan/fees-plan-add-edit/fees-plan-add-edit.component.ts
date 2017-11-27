@@ -97,8 +97,7 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.globalErrorHandler.handleError(error);
           })
       }
-      else
-      {
+      else {
         Helpers.setLoading(false);
       }
     });
@@ -241,7 +240,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       _feeplan.feePlanName = this.planeName;
       _feeplan.feePlanDescription = this.planeDesc;
       _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
-      if (this.params) {
+      if (!this.params) {
         this.feesService.createFeePlan(_feeplan)
           .subscribe(
           results => {
@@ -267,10 +266,15 @@ export class FeesPlanAddEditComponent implements OnInit {
     }
   }
 
+  onCancelFeePlan() {
+    this.router.navigate(['/features/fees/feesPlan/list']);
+  }
+
   saveFeePlanDetails(_feeplan: FeePlan) {
     let _staticFeeHeadList = this.staticFeeHeadList;
     let _selectedAcademicYear = this.selectedAcademicYear;
     let _frequency = this.frequency;
+    let _maxLength = this.frequency.length;
     let _feePlanDetails = this.feePlanDetails;
     _.forEach(this.feePlanManagement, function (value) {
       let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
@@ -284,19 +288,23 @@ export class FeesPlanAddEditComponent implements OnInit {
         if (tempFeeHead.frequencyValue == 1)
           feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
         else if (tempFeeHead.frequencyValue == 2) {
-          if (index == 1)
+          if (index == 1 && _maxLength == 12)
             feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
+          if (index == 1 && _maxLength == 4)
+            feePlanDetailObj.dueDate = new Date(_frequency[2].date.toString());
+          if (index == 1 && _maxLength == 2)
+            feePlanDetailObj.dueDate = new Date(_frequency[1].date.toString());
           else
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
         }
         else if (tempFeeHead.frequencyValue == 4) {
-          if (index == 0)
+          if (_maxLength == 4)
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
-          else if (index == 1)
+          else if (index == 1 && _maxLength == 12)
             feePlanDetailObj.dueDate = new Date(_frequency[3].date.toString());
-          else if (index == 2)
+          else if (index == 2 && _maxLength == 12)
             feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
-          else if (index == 3)
+          else if (index == 3 && _maxLength == 12)
             feePlanDetailObj.dueDate = new Date(_frequency[9].date.toString());
         }
         else if (tempFeeHead.frequencyValue == 12) {
@@ -309,7 +317,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       .subscribe(
       results => {
         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
-
+        this.router.navigate(['/features/fees/feesPlan/list']);
       },
       error => {
         this.globalErrorHandler.handleError(error);
