@@ -178,16 +178,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   addFeeHeadDetails(feeItem) {
-    if (feeItem.feeHeadId == 0 || feeItem.feeHeadId == '') {
-      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select Fee Head' });
-      return false;
-    }
-    if (!feeItem.amount) {
-      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Amount' });
-      return false;
-    }
-    if (feeItem.amount != feeItem.confirmAmount) {
-      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Check Re-enter Amount' });
+    if (!this.validateFeeHead(feeItem)) {
       return false;
     }
     let _feePlanManagement = this.feePlanManagement;
@@ -202,6 +193,23 @@ export class FeesPlanAddEditComponent implements OnInit {
       amount: '',
       confirmAmount: '',
     })
+  }
+
+  validateFeeHead(feeItem) {
+    
+    if (feeItem.feeHeadId == 0 || feeItem.feeHeadId == '') {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select Fee Head' });
+      return false;
+    }
+    if (!feeItem.amount) {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Amount' });
+      return false;
+    }
+    if (feeItem.amount != feeItem.confirmAmount) {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Check Re-enter Amount' });
+      return false;
+    }
+    return true;
   }
 
   addFeeHeadOnEdit(feeItem) {
@@ -253,12 +261,14 @@ export class FeesPlanAddEditComponent implements OnInit {
           });
       }
       else {
-        _feeplan.id=this.params;
+        _feeplan.id = this.params;
         this.feesService.updateFeePlan(_feeplan)
           .subscribe(
           results => {
             _feeplan = results;
+            this.feePlanDetails = [];
             this.saveFeePlanDetails(_feeplan);
+
           },
           error => {
             this.globalErrorHandler.handleError(error);
@@ -277,10 +287,16 @@ export class FeesPlanAddEditComponent implements OnInit {
     let _frequency = this.frequency;
     let _maxLength = this.frequency.length;
     let _feePlanDetails = this.feePlanDetails;
+    let _vm = this;
+    let _validateResult = true;
     _.forEach(this.feePlanManagement, function (value) {
       let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
       for (let index = 0; index < tempFeeHead.frequencyValue; index++) {
         let feePlanDetailObj = new FeePlanDetails();
+        if (!_vm.validateFeeHead(value)) {
+          _validateResult = false;
+          return false;
+        }
         feePlanDetailObj.feePlanId = _feeplan.id;
         feePlanDetailObj.sequenceNumber = index + 1;
         feePlanDetailObj.feeHeadId = value.feeHeadId;
@@ -314,16 +330,17 @@ export class FeesPlanAddEditComponent implements OnInit {
         _feePlanDetails.push(feePlanDetailObj);
       }
     });
-    this.feesService.createFeeplanheaddetails(_feePlanDetails)
-      .subscribe(
-      results => {
-        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
-        this.router.navigate(['/features/fees/feesPlan/list']);
-      },
-      error => {
-        this.globalErrorHandler.handleError(error);
-      });
-    console.log(_feePlanDetails);
+    if (_validateResult) {
+      this.feesService.createFeeplanheaddetails(_feePlanDetails)
+        .subscribe(
+        results => {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
+          this.router.navigate(['/features/fees/feesPlan/list']);
+        },
+        error => {
+          this.globalErrorHandler.handleError(error);
+        });
+    }
   }
 
 }
