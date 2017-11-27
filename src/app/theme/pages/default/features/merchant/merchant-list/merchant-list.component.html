@@ -94,7 +94,7 @@
 
 			<!-- Table -->
 			<div class="form-group m-form__group row">
-				<div class="col-md-7">
+				<div class="col-md-8">
 					<div class="table-responsive">
 						<div class="tableBox">
 							<table class="staticTable merchantTable" id="" width="100%">
@@ -130,14 +130,21 @@
 										</td>
 										<td>
 											<div class="">
-												<button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="!row.enable && row.id" (click)="enableEdit(row)">
+												<button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 *ngIf="!row.enable && row.id" (click)="enableEdit(row)">
 													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>
-												<button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!lastRowNum||rowNum>0) && row.isDefault == 0" (click)="onDeleteMerchant(row.id,rowNum)">
+												<button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 *ngIf="(!lastRowNum||rowNum>0) && row.isDefault == 0" (click)="onDeleteMerchant(row.id,rowNum)">
 													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-												</button>												
-												<button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="row.enable ||!row.id" (click)="onEditMerchant(row,isDefaultSelected)">
+												</button>
+												<button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 *ngIf="row.enable ||!row.id" (click)="onEditMerchant(row,isDefaultSelected)">
 													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+												<button title="Cancel" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+												 *ngIf="row.enable" (click)="cancelEdit(row)">
+													<i class="la la-undo" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>
 											</div>
 										</td>
@@ -146,9 +153,9 @@
 							</table>
 							<!-- Add Button -->
 							<button type="button" class="btn btn-primary btn-sm" style="margin-top:25px;" (click)="addRow()">
-								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
+								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 								Add New
-							   </button>
+							</button>
 						</div>
 					</div>
 				</div>

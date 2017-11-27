@@ -74,6 +74,9 @@ export class MerchantListComponent implements OnInit {
     enableEdit(row) {
         row.enable = true;
     }
+    cancelEdit(row) {
+        row.enable = false;
+    }
     onEditMerchant(row) {
         row.schoolId= this.schoolId;
         if (!row.id) {
