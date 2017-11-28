@@ -84,7 +84,7 @@
 						Academic Year<span class="requiredField">*</span>
 					</label>
 					<div class="col-md-3">
-						<p-dropdown class="" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
+						<p-dropdown class="" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
 						 (onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
 						<div class="alertMsg" *ngIf="academicYear.errors && academicYear.errors.required && (academicYear.dirty || academicYear.touched)">
 							Please select academic year
@@ -159,8 +159,8 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent">
-								Add Fee Plan
+							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid" >
+								Save Fee Plan
 							</button>
 							<!-- <button type="reset" class="btn btn-secondary">
 									Preview
