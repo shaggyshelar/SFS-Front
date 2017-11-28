@@ -88,7 +88,6 @@ export class FeesPlanAddEditComponent implements OnInit {
               this.selectedAcademicYear = uniqFeeHead[0].academicYear;
               this.onAcademicYearChange();
             }
-            
             for (let feeheadIndex = 0; feeheadIndex < uniqFeeHead.length; feeheadIndex++) {
               this.addFeeHeadOnEdit(uniqFeeHead[feeheadIndex]);
               this.onFeeHeadChange(uniqFeeHead[feeheadIndex], feeheadIndex);
