@@ -11,6 +11,7 @@ import { AcademicYearService } from '../../../../_services/index';
 import { SchoolService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 import * as _ from 'lodash/index';
+import { retry } from 'rxjs/operator/retry';
 
 @Component({
   selector: "app-users-list",
@@ -81,14 +82,14 @@ export class FeesPlanAddEditComponent implements OnInit {
             let index = 0;
             this.planeName = results.feePlanName;
             this.planeDesc = results.feePlanDescription;
+            this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
             if (uniqFeeHead.length > 0) {
               this.selectedAcademicYear = uniqFeeHead[0].academicYear;
               this.onAcademicYearChange();
             }
-
+            
             for (let feeheadIndex = 0; feeheadIndex < uniqFeeHead.length; feeheadIndex++) {
-
               this.addFeeHeadOnEdit(uniqFeeHead[feeheadIndex]);
               this.onFeeHeadChange(uniqFeeHead[feeheadIndex], feeheadIndex);
             }
@@ -104,7 +105,8 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   getAllFees() {
-    let feeheads = this.feesService.getAllFees();
+    let _filterQuery = '?&filter[where][schoolId]=' + localStorage.getItem("schoolId");
+    let feeheads = this.feesService.getAllFeesList(_filterQuery);
     feeheads.subscribe((response) => {
       Helpers.setLoading(false);
       this.feeHeadList.push({ label: '--Select--', value: '0' });
@@ -126,16 +128,28 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onFeeHeadChange(record, index) {
-    let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': record.feeHeadId });
-    this.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
-    this.maxsequenceNumber = _.max(this.sequenceNumberArr);
-    this.frequency = [];
-    for (let index = 0; index < this.maxsequenceNumber; index++) {
+    // let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': record.feeHeadId });
+    // this.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
+    this.checkMaxSequenceNumber(index);
+
+  }
+
+  checkMaxSequenceNumber(index) {
+    let vm = this;
+     vm.sequenceNumberArr = [];
+    _.forEach(this.feePlanManagement, function (record) {
+      let tempFeeHead = _.find(vm.staticFeeHeadList, { 'value': record.feeHeadId });
+      vm.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
+      index++;
+    })
+    vm.maxsequenceNumber = _.max(vm.sequenceNumberArr);
+    vm.frequency = [];
+    for (let index = 0; index < vm.maxsequenceNumber; index++) {
       let newObj = {
         sequenceNumber: index,
         date: new Date()
       }
-      this.calculateDate(this.maxsequenceNumber, index, newObj);
+      vm.calculateDate(vm.maxsequenceNumber, index, newObj);
     }
   }
 
@@ -175,6 +189,7 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   removeFeeHeadDetails(item, rowNum) {
     this.feePlanManagement.splice(rowNum, 1);
+    this.checkMaxSequenceNumber(rowNum);
   }
 
   addFeeHeadDetails(feeItem) {
@@ -196,7 +211,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   validateFeeHead(feeItem) {
-    
+
     if (feeItem.feeHeadId == 0 || feeItem.feeHeadId == '') {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select Fee Head' });
       return false;
@@ -213,7 +228,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   addFeeHeadOnEdit(feeItem) {
-    this.feePlanManagement = [];
+   
     let _feePlanManagement = this.feePlanManagement;
     let _staticFeeHeadList = this.staticFeeHeadList;
     let newHeadList = _.filter(_staticFeeHeadList, function (item) {
@@ -244,6 +259,17 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   onSubmit(form) {
     if (form.valid) {
+      let _vm = this;
+      let _validateResult = true;
+      _.forEach(this.feePlanManagement, function (value) {
+        if (!_vm.validateFeeHead(value)) {
+          _validateResult = false;
+          return false;
+        }
+      });
+      if (!_validateResult) {
+        return false;
+      }
       let _feeplan = new FeePlan();
       _feeplan.feePlanName = this.planeName;
       _feeplan.feePlanDescription = this.planeDesc;
@@ -288,15 +314,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     let _maxLength = this.frequency.length;
     let _feePlanDetails = this.feePlanDetails;
     let _vm = this;
-    let _validateResult = true;
     _.forEach(this.feePlanManagement, function (value) {
       let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
       for (let index = 0; index < tempFeeHead.frequencyValue; index++) {
         let feePlanDetailObj = new FeePlanDetails();
-        if (!_vm.validateFeeHead(value)) {
-          _validateResult = false;
-          return false;
-        }
         feePlanDetailObj.feePlanId = _feeplan.id;
         feePlanDetailObj.sequenceNumber = index + 1;
         feePlanDetailObj.feeHeadId = value.feeHeadId;
@@ -315,7 +336,7 @@ export class FeesPlanAddEditComponent implements OnInit {
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
         }
         else if (tempFeeHead.frequencyValue == 4) {
-          if (_maxLength == 4)
+          if (_maxLength == 4 || index == 0)
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
           else if (index == 1 && _maxLength == 12)
             feePlanDetailObj.dueDate = new Date(_frequency[3].date.toString());
@@ -330,17 +351,16 @@ export class FeesPlanAddEditComponent implements OnInit {
         _feePlanDetails.push(feePlanDetailObj);
       }
     });
-    if (_validateResult) {
-      this.feesService.createFeeplanheaddetails(_feePlanDetails)
-        .subscribe(
-        results => {
-          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
-          this.router.navigate(['/features/fees/feesPlan/list']);
-        },
-        error => {
-          this.globalErrorHandler.handleError(error);
-        });
-    }
+    this.feesService.createFeeplanheaddetails(_feePlanDetails)
+      .subscribe(
+      results => {
+        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
+        this.router.navigate(['/features/fees/feesPlan/list']);
+      },
+      error => {
+        this.globalErrorHandler.handleError(error);
+      });
+
   }
 
 }
