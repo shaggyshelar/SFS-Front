@@ -114,21 +114,24 @@
 						<table class="staticTable" id="" width="100%">
 							<thead>
 								<tr>
-									<th title="Field #5">
+									<th title="Start Date">
 										<a href="#" (click)="sort('startDate',ascSortCol1 = !ascSortCol1)">
 											Start Date
 										</a>
 									</th>
-									<th title="Field #6">
+									<th title="End Date">
 										End Date
 									</th>
-									<th title="Field #7">
+									<th title="Year">
 										Year
 									</th>
-									<th title="Field #8">
+									<th title="Current Year">
+										Current Year
+									</th>
+									<th title="Created on">
 										Created on
 									</th>
-									<th title="Field #9">
+									<th title="Actions">
 										Actions
 									</th>
 								</tr>
@@ -138,6 +141,7 @@
 									<td>{{row.startDate | date: 'MM/dd/yyyy'}}</td>
 									<td>{{row.endDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.academicYear}}</td>
+									<td>{{row.isCurrent ? 'Yes' : 'No' }}</td>
 									<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditAcademicYearClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"

@@ -64,34 +64,35 @@ export class AcademicYearListComponent implements OnInit {
         this.pageSize.push({ label: '30', value: 30 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
-
-
-
-        //Default variable initialization
-        this.perPage = 5;
-        this.currentPos = 0;
-        this.url = '';
-        this.sortUrl = '&filter[order]=createdOn DESC';
-        this.ascSortCol1 = true;
-        this.ascSortCol2 = true;
-        this.ascSortCol3 = true;
-        this.ascSortCol4 = true;
-        this.searchQuery = '';
-        this.searchCountQuery = '';
-        this.countQuery = '?';
-        this.filter1CountQuery = '';
-        this.filter2CountQuery = '';
-        this.lastPage = this.perPage;
-        this.currentPageNumber = 1;
-        this.firstPageNumber = 1;
-        this.prePageEnable = false;
-        this.nextPageEnable = true;
-        this.boundry = 3;
-        this.boundryStart = 1;
-        this.boundryEnd = this.boundry;
-        this.longList = true;
-        //this.getAllAcademicYears();
-        this.getDataCount('');
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            //Default variable initialization
+            this.perPage = 5;
+            this.currentPos = 0;
+            this.url = '';
+            this.sortUrl = '&filter[order]=createdOn DESC';
+            this.ascSortCol1 = true;
+            this.ascSortCol2 = true;
+            this.ascSortCol3 = true;
+            this.ascSortCol4 = true;
+            this.searchQuery = '';
+            this.searchCountQuery = '';
+            this.countQuery = '?';
+            this.filter1CountQuery = '';
+            this.filter2CountQuery = '';
+            this.lastPage = this.perPage;
+            this.currentPageNumber = 1;
+            this.firstPageNumber = 1;
+            this.prePageEnable = false;
+            this.nextPageEnable = true;
+            this.boundry = 3;
+            this.boundryStart = 1;
+            this.boundryEnd = this.boundry;
+            this.longList = true;
+            //this.getAllAcademicYears();
+            this.getDataCount('');
+        }
     }
 
     getAllAcademicYears() {
@@ -309,7 +310,7 @@ export class AcademicYearListComponent implements OnInit {
             this.searchCountQuery = '';
         } else {
             this.searchQuery = '&filter[where][academicYear][like]=%' + searchString + '%';
-            this.searchCountQuery = '&[where][academicYear][like]=%' + searchString  + '%';
+            this.searchCountQuery = '&[where][academicYear][like]=%' + searchString + '%';
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;

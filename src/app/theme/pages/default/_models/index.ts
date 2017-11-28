@@ -13,3 +13,4 @@ export * from './academicYear';
 export * from './feePlan';
 export * from './merchant';
 export * from './adhocFee';
+export * from './transport';

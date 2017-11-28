@@ -118,6 +118,10 @@ const routes: Routes = [
         "path": "features\/adhocFee",
         "loadChildren": ".\/pages\/default\/features\/fees\/fee-adhoc\/fee-adhoc.module#AdhocFeeModule"
       },
+       {
+        "path": "features\/transport",
+        "loadChildren": ".\/pages\/default\/features\/fees\/fees-transport\/fees-transport.module#TransportModule"
+      },
       {
         "path": "",
         "redirectTo": "index",
