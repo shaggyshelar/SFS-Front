@@ -1,0 +1,157 @@
+<div class="m-content">
+
+    <!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+    <div class="m-portlet">
+
+        <!--begin::Form-->
+        <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            Add/Edit Transport
+                        </h3>
+
+                    </div>
+                </div>
+
+                <!--Required Field Note-->
+                <label class="requiredFieldNote">Note: &nbsp;&nbsp;<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+
+            </div>
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group zoneRow row">
+                    <div class="col-md-12">
+                        <label for="example-text-input" class="col-form-label">
+                            Payment Frequency <span class="requiredField">*</span>
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control m-input" [(ngModel)]="frequencyId" placeholder="select" [disabled]="disableFrequecy">
+                             <option [ngValue]="null" >Select</option>						 
+                            <!-- <option [ngValue]="">Select</option>		 -->
+                            <option *ngFor="let item of frequencyList" [ngValue]="item.id">{{item.frequencyName}}</option>
+                        </select>
+                        <div class="alertMsg" *ngIf="isFrequencySelected">
+                            Please select Payment Frequency
+                        </div>
+                    </div>
+                    <div class="col-md-9"></div>
+                </div>
+                <div class="form-group m-form__group row">
+                     <div class="col-md-10">
+                        <span class="m-form__help">
+                            <b style="font-weight:600;">Note :</b> Once saved, Payment frequency for Transport can not be changed for current academic year. <br/><b style="font-weight:600;"><i>Please select payment frequency carefully.</i></b>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-md-12">
+                        <label for="example-text-input" class="col-form-label">
+                            Academic Year <span class="requiredField">*</span>
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control m-input" [(ngModel)]="academicYear" (change)="onAcademicYear($event.target.value)">
+                            <!-- <option [ngValue]="null" >Select</option> -->
+                             <option [value]="null">Select</option>		  
+							<option *ngFor="let item of academicYearList" [value]="item.academicYear">{{item.academicYear}}</option>
+                        </select>
+                        <div class="alertMsg" *ngIf="isAcademicYearSelected">
+                            Please select Academic Year
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Table -->
+                <div class="form-group m-form__group row">
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+                            <div class="tableBox zoneTableBox">
+                                <table class="staticTable zoneTable" id="" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th title="">
+                                                Zone Code <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Description
+                                            </th>
+                                            <th title="">
+                                                Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
+                                            <td>
+                                                <input class="form-control m-input" type="text" [(ngModel)]="row.zoneCode">
+                                                <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
+                                                    Please enter Zone Code
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control m-input" rows="2" style="resize:none;" [(ngModel)]="row.zoneDescription"></textarea>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" [(ngModel)]="row.zoneCost">
+                                                <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
+                                                    Please select Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                    <!-- <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="enableEdit(row)">
+													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+                                                </button> -->
+                                                    <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRow()">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                    <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="transportList.length > 1" (click)="onDeleteTransport(rowNum)">
+													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                    <!-- <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="row.enable ||!row.id" (click)="onEditTransport(row,isDefaultSelected)">
+													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button> -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <div class="alertMsg" *ngIf="rowErr">
+                                                    Please fill the require fields of last row or delete it.
+                                            </div>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                                <!-- Add Button -->
+
+                                <!-- <br>
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-top:25px;" (click)="addRow()">
+												<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
+												Add New
+											</button> -->
+                                <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" style="margin-top:25px;" (click)="onSaveTransport()"> 
+												Save
+                                </button>       
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!--end::Form-->
+
+    </div>
+</div>

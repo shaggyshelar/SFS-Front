@@ -43,6 +43,7 @@ export class AcademicYearAddEditComponent implements OnInit {
             id: [],
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            isCurrent: [false]
         });
 
         this.route.params.forEach((params: Params) => {
@@ -54,6 +55,7 @@ export class AcademicYearAddEditComponent implements OnInit {
                             id: results.id,
                             startDate: new Date(results.startDate),
                             endDate: new Date(results.endDate),
+                            isCurrent : results.isCurrent
                         });
                         if (results.academicYear) {
                             let academicYear = results.academicYear.split("-");

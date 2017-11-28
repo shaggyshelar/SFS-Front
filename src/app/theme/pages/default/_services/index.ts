@@ -17,3 +17,5 @@ export * from './academic-year.service';
 export * from './merchant.service';
 export * from './fee-plan-association.service';
 export * from './fee-adhoc.service';
+export * from './transport.service';
+export * from './frequency.service';
