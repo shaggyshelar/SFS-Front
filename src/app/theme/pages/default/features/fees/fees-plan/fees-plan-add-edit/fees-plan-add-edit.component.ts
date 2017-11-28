@@ -135,7 +135,7 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   checkMaxSequenceNumber(index) {
     let vm = this;
-     vm.sequenceNumberArr = [];
+    vm.sequenceNumberArr = [];
     _.forEach(this.feePlanManagement, function (record) {
       let tempFeeHead = _.find(vm.staticFeeHeadList, { 'value': record.feeHeadId });
       vm.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
@@ -227,7 +227,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   addFeeHeadOnEdit(feeItem) {
-   
+
     let _feePlanManagement = this.feePlanManagement;
     let _staticFeeHeadList = this.staticFeeHeadList;
     let newHeadList = _.filter(_staticFeeHeadList, function (item) {
@@ -353,7 +353,12 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.feesService.createFeeplanheaddetails(_feePlanDetails)
       .subscribe(
       results => {
-        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
+        if (this.params) {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+        }
+        else {
+          this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
+        }
         this.router.navigate(['/features/fees/feesPlan/list']);
       },
       error => {
