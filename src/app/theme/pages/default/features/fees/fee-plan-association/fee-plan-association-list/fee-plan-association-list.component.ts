@@ -56,6 +56,34 @@ export class FeePlanAssociationListComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            //Default variable initialization
+            this.perPage = 5;
+            this.currentPos = 0;
+            this.url = '';
+            this.sortUrl = '&filter[order]=id ASC';
+            this.ascSortCol1 = true;
+            this.ascSortCol2 = true;
+            this.ascSortCol3 = true;
+            this.ascSortCol4 = true;
+            this.searchQuery = '';
+            this.searchCountQuery = '';
+            this.countQuery = '?';
+            this.filter1CountQuery = '';
+            this.filter2CountQuery = '';
+            this.lastPage = this.perPage;
+            this.currentPageNumber = 1;
+            this.firstPageNumber = 1;
+            this.prePageEnable = false;
+            this.nextPageEnable = true;
+            this.boundry = 3;
+            this.boundryStart = 1;
+            this.boundryEnd = this.boundry;
+            this.longList = true;
+            this.getDataCount('');
+        }
         //Page Size Array
         this.pageSize = [];
         this.pageSize.push({ label: '5', value: 5 });
@@ -64,33 +92,6 @@ export class FeePlanAssociationListComponent implements OnInit {
         this.pageSize.push({ label: '30', value: 30 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
-
-
-
-        //Default variable initialization
-        this.perPage = 5;
-        this.currentPos = 0;
-        this.url = '';
-        this.sortUrl = '&filter[order]=id ASC';
-        this.ascSortCol1 = true;
-        this.ascSortCol2 = true;
-        this.ascSortCol3 = true;
-        this.ascSortCol4 = true;
-        this.searchQuery = '';
-        this.searchCountQuery = '';
-        this.countQuery = '?';
-        this.filter1CountQuery = '';
-        this.filter2CountQuery = '';
-        this.lastPage = this.perPage;
-        this.currentPageNumber = 1;
-        this.firstPageNumber = 1;
-        this.prePageEnable = false;
-        this.nextPageEnable = true;
-        this.boundry = 3;
-        this.boundryStart = 1;
-        this.boundryEnd = this.boundry;
-        this.longList = true;
-        this.getDataCount('');
     }
 
     getAllFeePlanAssociation() {
@@ -109,12 +110,12 @@ export class FeePlanAssociationListComponent implements OnInit {
                 })
                 this.feePlanAssociationList[index].classes = '';
                 this.feePlanAssociationList[index].categories = '';
-                 this.feePlanAssociationList[index].isTransactionProcessed = false;
+                this.feePlanAssociationList[index].isTransactionProcessed = false;
                 if (item.associations && item.associations.length > 0) {
                     this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
                     var uniqueClass = _.uniqBy(item.associations, 'classId');
                     var uniqueCategory = _.uniqBy(item.associations, 'categoryId');
-                    if (uniqueClass) {                     
+                    if (uniqueClass) {
                         for (var count = 0; count < uniqueClass.length; count++) {
                             var element = uniqueClass[count];
                             if (count != uniqueClass.length - 1) {
@@ -125,7 +126,7 @@ export class FeePlanAssociationListComponent implements OnInit {
                         }
                     }
 
-                    if (uniqueCategory) {                    
+                    if (uniqueCategory) {
                         for (var count = 0; count < uniqueCategory.length; count++) {
                             var element = uniqueCategory[count];
                             if (count != uniqueCategory.length - 1) {
@@ -134,7 +135,7 @@ export class FeePlanAssociationListComponent implements OnInit {
                                 this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName;
                             }
                         }
-                    }                   
+                    }
                 }
             }
             Helpers.setLoading(false);

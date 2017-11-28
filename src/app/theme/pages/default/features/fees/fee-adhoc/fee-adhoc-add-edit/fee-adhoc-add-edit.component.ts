@@ -25,6 +25,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
     isClassSelected: boolean = false;
     isCategorySelected: boolean = false;
     isSubmitted: boolean = false;
+    confirmFeeCharges: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -45,6 +46,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
             invoiceDetailText: [''],
             invoiceDescription: ['', [Validators.required]],
             adhocFeeCharges: ['', [Validators.required]],
+            adhocConfirmFeeCharges: [null, [Validators.required]],
             classes: [],
             categories: []
         });
@@ -78,6 +80,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
                                 invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
                                 invoiceDescription: results.invoiceDescription ? results.invoiceDescription : '',
                                 adhocFeeCharges: results.adhocFeeCharges,
+                                adhocConfirmFeeCharges: null,
                                 classes: [],
                                 categories: []
                             });
@@ -142,7 +145,17 @@ export class AdhocFeeAddEditComponent implements OnInit {
         }
         return selectedAssociation;
     }
-
+    onConfirmCharges() {
+        if (this.adhocFeeForm.get('adhocConfirmFeeCharges').value !== null) {
+            if (this.adhocFeeForm.get('adhocFeeCharges').value !== this.adhocFeeForm.get('adhocConfirmFeeCharges').value) {
+                this.confirmFeeCharges = true;
+            } else {
+                this.confirmFeeCharges = false;
+            }
+        } else{
+            this.confirmFeeCharges = false;
+        }
+    }
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         let selectedAssociation = [];
         this.isSubmitted = true;
@@ -153,7 +166,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
         this.isClassSelected = value.classes.includes(true);
         this.isCategorySelected = value.categories.includes(true);
 
-        if (this.isClassSelected && this.isCategorySelected) {
+        if (this.isClassSelected && this.isCategorySelected && !this.confirmFeeCharges) {
             value.schoolId = localStorage.getItem('schoolId');
             value.dueDate = value.dueDate.getFullYear() + '-' + (value.dueDate.getMonth() + 1) + '-' + value.dueDate.getDate();
             if (this.params) {

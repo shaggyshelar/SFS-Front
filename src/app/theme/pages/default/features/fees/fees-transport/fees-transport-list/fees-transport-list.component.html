@@ -82,6 +82,9 @@
                                                 Amount <span class="requiredField">*</span>
                                             </th>
                                             <th title="">
+                                                Confirm Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
                                                 Actions
                                             </th>
                                         </tr>
@@ -100,7 +103,16 @@
                                             <td>
                                                 <input type="number" class="form-control m-input" [(ngModel)]="row.zoneCost">
                                                 <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
-                                                    Please select Zone Cost
+                                                    Please enter Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" [(ngModel)]="row.confirmZoneCost" (blur)="onConfirmCost(row,rowNum)">
+                                                <div class="alertMsg" id="confirmzonecost{{rowNum}}" style="display:none;">
+                                                    Confirm Amount doesnt match to Amount
+                                                </div>
+                                                <div class="alertMsg" id="confirmzonecostReq{{rowNum}}" style="display:none;">
+                                                    Please enter Confirm Zone Cost
                                                 </div>
                                             </td>
                                             <td>

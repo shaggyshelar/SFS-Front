@@ -118,6 +118,20 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
+                    <label class="col-2 col-form-label" for="example-text-input">
+                           Confirm Charges <span class="requiredField">*</span>
+                        </label>
+                    <div class="col-5">
+                        <input class="form-control m-input" type="number" formControlName="adhocConfirmFeeCharges" name="adhocConfirmFeeCharges" (blur)="onConfirmCharges()">
+                        <div class="alertMsg" *ngIf="confirmFeeCharges">
+                            Confirm Charges doesnt match to Charges
+                        </div>
+                        <div class="alertMsg" *ngIf="adhocFeeForm.get('adhocConfirmFeeCharges').hasError('required') && adhocFeeForm.get('adhocConfirmFeeCharges').touched">
+                            Please enter Confirm Charges
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
                     <label for="example-text-input" class="col-md-2 col-form-label">
                             Class <span class="requiredField">*</span>
                         </label>
