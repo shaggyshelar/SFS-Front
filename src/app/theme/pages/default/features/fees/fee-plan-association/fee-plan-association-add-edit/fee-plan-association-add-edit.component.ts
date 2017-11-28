@@ -8,7 +8,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Boards } from "../../../../_models/index";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
-import { FeePlanAssociationService, CommonService, AcademicYearService } from '../../../../_services/index';
+import { FeePlanAssociationService, ClassService, AcademicYearService, CategoriesService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({
@@ -33,7 +33,8 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private globalErrorHandler: GlobalErrorHandler,
-        private commonService: CommonService,
+        private classService: ClassService,
+        private categoriesService: CategoriesService,
         private feePlanAssociationService: FeePlanAssociationService,
         private academicYearService: AcademicYearService,
         private route: ActivatedRoute,
@@ -57,7 +58,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
             this.params = params['id'];
         });
         if (this.params) {
-            Observable.forkJoin([this.commonService.getClass(), this.commonService.getCategory(), this.academicYearService.getAllAcademicYears()])
+            Observable.forkJoin([this.classService.getAllClasses(), this.categoriesService.getAllCategories(), this.academicYearService.getAllAcademicYears()])
                 .subscribe((response) => {
 
                     this.feePlanAssociationService.getFeePlanAssociationById(this.params)
