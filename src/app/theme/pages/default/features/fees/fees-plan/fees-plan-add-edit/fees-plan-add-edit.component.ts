@@ -250,10 +250,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     academicYears.subscribe((response) => {
       this.getAllFees();
       // this.academicYearList.push({ label: '--Select--', value: 'select' });
-      for (let key in response) {
-        if (response.hasOwnProperty(key) ) {
-          this.academicYearList.push({ label: response[key].academicYear, value: response[key].academicYear, startDate: response[key].startDate, endDate: response[key].endDate });
-        }
+      this.academicYearList = response;
+      let item = _.find(this.academicYearList, { isCurrent: true });
+      if (item) {
+        this.selectedAcademicYear = item.label;
       }
     });
   }

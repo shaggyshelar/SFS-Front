@@ -130,7 +130,7 @@
                         <div class="col-lg-6">
                             <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="feePlanAssociationForm.invalid ?'cursorNotAllowed':'cursorPointer'"
                             title="{{ feePlanAssociationForm.invalid ? 'Please fill in all the required fields' : 'Update'}}"
-                            [disabled]="feePlanAssociationForm.invalid" [isAuthorize]="['Feeplanassociation.Create', 'Feeplanassociation.Update']">
+                            [disabled]="feePlanAssociationForm.invalid || isTransactionProcessed" [isAuthorize]="['Feeplanassociation.Create', 'Feeplanassociation.Update']">
                                Update
                         </button>
                         <button class="btn btn-secondary" type="button" (click)="onCancel()">
