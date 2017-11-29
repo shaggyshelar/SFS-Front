@@ -2,6 +2,7 @@ export class FeePlan {
   id: number;
   schoolId: number;
   feePlanName: string;
+  academicYear: string;
   feePlanDescription: string;
 }
 
@@ -14,4 +15,5 @@ export class FeePlanDetails {
   dueDate: Date;
   academicYear: string;
   isTransactionProcessed: number;
+  schoolId: number;
 }

@@ -30,6 +30,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   maxsequenceNumber: number;
   paymentProcessDate: number;
   academicYearRange: string;
+  isTransactionProcessed: boolean;
   planeName: '';
   planeDesc: '';
   minDate: Date;
@@ -84,8 +85,9 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.planeDesc = results.feePlanDescription;
             this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
+            this.isTransactionProcessed = results.isTransactionProcessed;
             if (uniqFeeHead.length > 0) {
-              this.selectedAcademicYear = uniqFeeHead[0].academicYear;
+              this.selectedAcademicYear = results.academicYear;
               this.onAcademicYearChange();
             }
             for (let feeheadIndex = 0; feeheadIndex < uniqFeeHead.length; feeheadIndex++) {
@@ -248,10 +250,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     academicYears.subscribe((response) => {
       this.getAllFees();
       // this.academicYearList.push({ label: '--Select--', value: 'select' });
-      for (let key in response) {
-        if (response.hasOwnProperty(key)) {
-          this.academicYearList.push({ label: response[key].academicYear, value: response[key].academicYear, startDate: response[key].startDate, endDate: response[key].endDate });
-        }
+      this.academicYearList = response;
+      let item = _.find(this.academicYearList, { isCurrent: true });
+      if (item) {
+        this.selectedAcademicYear = item.label;
       }
     });
   }
@@ -272,6 +274,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       let _feeplan = new FeePlan();
       _feeplan.feePlanName = this.planeName;
       _feeplan.feePlanDescription = this.planeDesc;
+      _feeplan.academicYear = this.selectedAcademicYear;
       _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
       if (!this.params) {
         this.feesService.createFeePlan(_feeplan)
@@ -320,6 +323,7 @@ export class FeesPlanAddEditComponent implements OnInit {
         feePlanDetailObj.feePlanId = _feeplan.id;
         feePlanDetailObj.sequenceNumber = index + 1;
         feePlanDetailObj.feeHeadId = value.feeHeadId;
+        feePlanDetailObj.schoolId = parseInt(localStorage.getItem('schoolId'));
         feePlanDetailObj.academicYear = _selectedAcademicYear;
         feePlanDetailObj.feeCharges = value.amount;
         if (tempFeeHead.frequencyValue == 1)
