@@ -840,18 +840,20 @@ body .ui-dialog .ui-dialog-titlebar {
         width:15%!important;
     }
     .zoneTable tr td:nth-child(2){
-        width:40%!important;
+        width:30%!important;
     }
     .zoneTable tr td:nth-child(3){
-        width:15%!important;
+        width:20%!important;
     }
-    .zoneTable tr td:nth-child(3){
-        width:15%!important;
+    .zoneTable tr td:nth-child(4){
+        width:20%!important;
     }
     .zoneTable tr td:last-child{
         width:15%!important;
     }
-
+    .zoneTable tr th{
+        font-size: 13px!important;
+    }    
     .m-form.m-form--group-seperator-dashed .m-form__group {
         border-bottom: 0px dashed #ebedf2!important;
         border: none!important;
@@ -951,4 +953,50 @@ body .ui-dialog .ui-dialog-titlebar {
 
     .zoneRow {
 	    border-bottom: 0px !important;
+    }
+
+    /******* D. 29 Nov 2017 *******/
+    .invoiceText{
+        /*border: none!important;
+        height: 30px!important;
+        padding-top: 4px;
+        padding-left: 12px;
+        font-size: 13px;
+        padding-bottom: 4px;*/
+        
+        border: none!important;
+        height: 30px!important;
+        padding-top: 4px;
+        padding-left: 12px;
+        font-size: 13px;
+        padding-bottom: 4px;
+        background: #6760bd;
+        color: #e8e5e5;
+    }
+    .invoiceText:focus{
+        background: #6760bd;
+        border-color:#6760bd;
+        color: #e8e5e5;
+    }
+    .invoiceText::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #e8e5e5;
+    }
+    .invoiceText::-moz-placeholder { /* Firefox 19+ */
+        color: #e8e5e5;
+    }
+    .invoiceText:-ms-input-placeholder { /* IE 10+ */
+        color: #e8e5e5;
+    }
+    .invoiceText:-moz-placeholder { /* Firefox 18- */
+        color: #e8e5e5;
+    }
+    .saveCancelInvoice{
+        margin-top:20px;
+        margin-bottom:15px;
+    }
+    .invoiceEdit{
+        position: absolute;
+        margin-left: 6px;
+        margin-top: -3px;
+        font-size: 16px;
     }
