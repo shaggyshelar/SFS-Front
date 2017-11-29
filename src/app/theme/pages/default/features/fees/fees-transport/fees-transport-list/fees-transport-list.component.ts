@@ -30,6 +30,7 @@ export class TransportListComponent implements OnInit {
     isSubmitted: boolean = false;
     rowErr: boolean = false;
     disableFrequecy: boolean = false;
+    confirmZoneCostErr: boolean = false;
     constructor(
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
@@ -63,11 +64,11 @@ export class TransportListComponent implements OnInit {
                             this.getAllTransports(url);
                         }
                         else {
-                            this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '' });
+                            this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '','confirmZoneCost':null });
                         }
                     }
                     else {
-                        this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '' });
+                        this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '','confirmZoneCost':null });
                     }
 
                 })
@@ -87,7 +88,7 @@ export class TransportListComponent implements OnInit {
                 if (this.transportList.length == 0) {
                     this.frequencyId = null;
                     this.disableFrequecy = false;
-                    this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '' });
+                    this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '','confirmZoneCost':null });
                 }
             });
     }
@@ -110,7 +111,9 @@ export class TransportListComponent implements OnInit {
     }
     addRow() {
         if (this.validateRow()) {
-            this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '' });
+            if(!this.confirmZoneCostErr){
+                this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '','confirmZoneCost':null });
+            }
         }
     }
     onDeleteTransport(id: any) {
@@ -124,7 +127,15 @@ export class TransportListComponent implements OnInit {
         let url = '?&filter[where][academicyear]=' + val;
         this.getAllTransports(url);
     }
-
+    onConfirmCost(row: Transport,index: any){
+        if(row.zoneCost !== row.confirmZoneCost) {
+            this.confirmZoneCostErr = true;
+            document.getElementById('confirmzonecost'+index).style.display = 'block';
+        } else{
+            document.getElementById('confirmzonecost'+index).style.display = 'none';
+            this.confirmZoneCostErr = false;
+        }
+    }
     onSaveTransport() {
         if (this.academicYear === "null" && this.frequencyId === null) {
             this.isFrequencySelected = true;
@@ -136,12 +147,14 @@ export class TransportListComponent implements OnInit {
             this.isFrequencySelected = false;
             this.isAcademicYearSelected = true;
         } else if (this.transportList[this.transportList.length - 1].zoneCode === ''
-            || this.transportList[this.transportList.length - 1].zoneCost === null) {
+            || this.transportList[this.transportList.length - 1].zoneCost === null
+        || this.transportList[this.transportList.length - 1].confirmZoneCost === null) {
             this.rowErr = true;
             this.isFrequencySelected = false;
             this.isAcademicYearSelected = false;
         }
-        else {
+        else if(!this.confirmZoneCostErr) {
+            alert();
             this.rowErr = false;
             this.isFrequencySelected = false;
             this.isAcademicYearSelected = false;

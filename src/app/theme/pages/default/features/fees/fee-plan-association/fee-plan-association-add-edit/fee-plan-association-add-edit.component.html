@@ -68,8 +68,13 @@
                    <div class="form-group m-form__group row">
                     <label class="col-md-2 col-form-label" for="example-text-input">
 						Academic Year
-					</label>
+                    </label>
                     <div class="col-md-5">                       
+                        <label class="col-form-label" style="font-weight: bold">
+						     {{academicYear}}
+                        </label>
+                    </div>
+                    <!-- <div class="col-md-5">                       
                          <select class="form-control" formControlName="academicYear">
                              <option [ngValue]="null" >Select</option>						
 							<option *ngFor="let item of academicYearList" [ngValue]="item.academicYear">{{item.academicYear}}</option>
@@ -77,7 +82,7 @@
                         <div class="alertMsg" *ngIf="feePlanAssociationForm.get('academicYear').hasError('required') && feePlanAssociationForm.get('academicYear').touched">
                             Please select Academic Year
                         </div> 
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="form-group m-form__group row">
@@ -118,12 +123,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-md-2">
-                        
-                    </label>
-                    <div class="col-md-5">
-                        <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="feePlanAssociationForm.invalid ?'cursorNotAllowed':'cursorPointer'"
+
+                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions--solid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="feePlanAssociationForm.invalid ?'cursorNotAllowed':'cursorPointer'"
                             title="{{ feePlanAssociationForm.invalid ? 'Please fill in all the required fields' : 'Update'}}"
                             [disabled]="feePlanAssociationForm.invalid" [isAuthorize]="['Feeplanassociation.Create', 'Feeplanassociation.Update']">
                                Update
@@ -131,8 +136,10 @@
                         <button class="btn btn-secondary" type="button" (click)="onCancel()">
                             Cancel
                         </button>
+                        </div>
                     </div>
                 </div>
+            </div> 
             </div>
         </form>
     </div>

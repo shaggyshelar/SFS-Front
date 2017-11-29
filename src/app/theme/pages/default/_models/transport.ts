@@ -5,5 +5,6 @@ export class Transport {
     zoneCode: string;
     zoneDescription: string;
     zoneCost: number;
+    confirmZoneCost: number;
     academicyear: string;
 }
