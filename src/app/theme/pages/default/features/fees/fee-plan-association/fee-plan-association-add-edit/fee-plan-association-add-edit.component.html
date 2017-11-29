@@ -68,8 +68,13 @@
                    <div class="form-group m-form__group row">
                     <label class="col-md-2 col-form-label" for="example-text-input">
 						Academic Year
-					</label>
+                    </label>
                     <div class="col-md-5">                       
+                        <label class="col-form-label" style="font-weight: bold">
+						     {{academicYear}}
+                        </label>
+                    </div>
+                    <!-- <div class="col-md-5">                       
                          <select class="form-control" formControlName="academicYear">
                              <option [ngValue]="null" >Select</option>						
 							<option *ngFor="let item of academicYearList" [ngValue]="item.academicYear">{{item.academicYear}}</option>
@@ -77,7 +82,7 @@
                         <div class="alertMsg" *ngIf="feePlanAssociationForm.get('academicYear').hasError('required') && feePlanAssociationForm.get('academicYear').touched">
                             Please select Academic Year
                         </div> 
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="form-group m-form__group row">

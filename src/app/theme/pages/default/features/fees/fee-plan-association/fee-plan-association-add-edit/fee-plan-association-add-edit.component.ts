@@ -28,6 +28,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
     isCategorySelected: boolean = false;
     isSubmitted: boolean = false;
     feePlanName: string;
+    academicYear: string;
     academicYearList: any;
 
     constructor(
@@ -50,7 +51,6 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
         this.assignedClassArray = [];
         this.feePlanAssociationForm = this.formBuilder.group({
             feeplanId: [],
-            academicYear: ['', [Validators.required]],
             classes: [],
             categories: []
         });
@@ -79,10 +79,10 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             this.academicYearList = response[2];
                             this.feePlanAssociationForm.setValue({
                                 feeplanId: results.id,
-                                academicYear: results.associations && results.associations.length > 0 ? results.associations[0].academicYear : '',
                                 classes: [],
                                 categories: []
                             });
+                            this.academicYear = results.FeePlanDetails && results.FeePlanDetails.length > 0 ? results.FeePlanDetails[0].academicYear : '',
                             this.feePlanAssociationForm.removeControl('classes');
                             this.feePlanAssociationForm.removeControl('categories');
                             this.feePlanAssociationForm.addControl('classes', this.buildArray(this.classList));
@@ -140,7 +140,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             feeplanId: value.feeplanId,
                             classId: this.classList[index].id,
                             categoryId: this.categoryList[count].id,
-                            academicYear: value.academicYear,
+                            academicYear: this.academicYear,
                         })
                     }
                 }
