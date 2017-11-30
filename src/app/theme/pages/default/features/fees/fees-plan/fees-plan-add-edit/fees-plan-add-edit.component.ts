@@ -181,7 +181,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onAcademicYearChange() {
-    let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
+    let tempYear = _.find(this.academicYearList, { 'academicYear': this.selectedAcademicYear });
     this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
 
     this.maxDate = new Date(tempYear.endDate);

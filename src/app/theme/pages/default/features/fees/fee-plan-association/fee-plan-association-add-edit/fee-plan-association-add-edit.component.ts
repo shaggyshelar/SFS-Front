@@ -142,6 +142,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             classId: this.classList[index].id,
                             categoryId: this.categoryList[count].id,
                             academicYear: this.academicYear,
+                            schoolId: parseInt(localStorage.getItem('schoolId'))
                         })
                     }
                 }

@@ -13,7 +13,7 @@ import { CategoriesService } from '../../_services/index';
 import { StudentComponent } from './student.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentAddEditComponent } from './student-add-edit/student-add-edit.component';
-
+import { TransportService } from './../../_services/transport.service';
 import {
   DataTableModule,
   SharedModule,
@@ -81,6 +81,7 @@ const routes: Routes = [
     ConfirmationService,
     AcademicYearService,
     CategoriesService,
+    TransportService
   ]
 })
 export class StudentModule {

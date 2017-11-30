@@ -11,7 +11,7 @@ import { CommonService } from '../../../_services/common.service';
 import { ClassService } from '../../../_services/class.service';
 import { AcademicYearService } from '../../../_services/academic-year.service';
 import { CategoriesService } from '../../../_services/categories.service';
-
+import { TransportService } from '../../../_services/transport.service';
 
 import { Student } from "../../../_models/Student";
 
@@ -34,13 +34,13 @@ export class StudentAddEditComponent implements OnInit {
     genderSelected: string; bloodGroupSelected: string;
     dateOfBirth: string;
     dateOfJoining: string;
-    studentName : string;
-    studentCode : string;
-
+    studentName: string;
+    studentCode: string;
+    transportList = [];
     constructor(
         private formBuilder: FormBuilder, private studentService: StudentService, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler, private commonService: CommonService, private _script: ScriptLoaderService,
-        private classService: ClassService, private academicYearService: AcademicYearService, private categoryService: CategoriesService
+        private classService: ClassService, private academicYearService: AcademicYearService, private categoryService: CategoriesService, private transportServics: TransportService,
     ) {
     }
 
@@ -69,13 +69,14 @@ export class StudentAddEditComponent implements OnInit {
             motherMobile: [, [Validators.pattern('^[0-9]{10,15}$')]],
             guardianFirstName: [],
             guardianLastName: [],
-            gRNumber:[],
+            gRNumber: [],
             guardianMobile: [, [Validators.pattern('^[0-9]{10,15}$')]],
             classId: [, [Validators.required]],
             categoryId: [, [Validators.required]],
             academicYear: [, [Validators.required]],
             city: [],
             state: [],
+            zoneId: [],
             phone: ['', [Validators.pattern('^[0-9]{10,15}$')]],
             dateOfJoining: [],
             studentDateOfBirth: [],
@@ -118,7 +119,7 @@ export class StudentAddEditComponent implements OnInit {
 
                 for (let key in response) {
                     if (response.hasOwnProperty(key)) {
-                        this.yearList.push({ label: response[key].academicYear, value: response[key].id });
+                        this.yearList.push({ label: response[key].academicYear, value: response[key].academicYear });
                     }
                 }
 
@@ -133,6 +134,7 @@ export class StudentAddEditComponent implements OnInit {
                             this.categoryList.push({ label: response[key].categoryName, value: response[key].id });
                         }
                     }
+
                     this.route.params.forEach((params: Params) => {
                         this.params = params['studentId'];
                         if (this.params) {
@@ -141,42 +143,54 @@ export class StudentAddEditComponent implements OnInit {
                                 (results: Student) => {
                                     this.studentCode = results.studentCode;
                                     this.studentName = results.studentFirstName + ' ' + results.studentLastName;
-                                    this.studentForm.setValue({
-                                        id: results.id,
-                                        studentFirstName: results.studentFirstName,
-                                        studentMiddleName: results.studentMiddleName,
-                                        studentLastName: results.studentLastName,
-                                        studentGender: results.studentGender,
-                                        fatherFirstName: results.fatherFirstName,
-                                        fatherLastName: results.fatherLastName,
-                                        fatherMobile: results.fatherMobile,
-                                        motherFirstName: results.motherFirstName,
-                                        motherLastName: results.motherLastName,
-                                        motherMobile: results.motherMobile,
-                                        guardianFirstName: results.guardianFirstName,
-                                        guardianLastName: results.guardianLastName,
-                                        guardianMobile: results.guardianMobile,
-                                        classId: results.classId,
-                                        categoryId: results.categoryId,
-                                        academicYear: results.academicYear,
-                                        city: results.city,
-                                        state: results.state,
-                                        phone: results.phone,
-                                        dateOfJoining: new Date(results.dateOfJoining),
-                                        studentDateOfBirth: new Date(results.studentDateOfBirth),
-                                        bloodGroup: results.bloodGroup,
-                                        studentCode: results.studentCode,
-                                        divisionId: results.divisionId,
-                                        email: results.email,
-                                        createdBy: results.createdBy,
-                                        createdOn: results.createdOn,
-                                        gRNumber: results.gRNumber,
-                                        /*studentCode: results.studentCode,
-                                        schoolId: results.schoolId,
-                                        
-                                        email: results.email,
-                                        
-                                        */
+
+                                    let url = '?&filter[where][academicyear]=' + results.academicYear;
+                                    val = this.transportServics.getAllTransports(url);
+                                    val.subscribe(response => {
+                                        for (let key in response) {
+                                            if (response.hasOwnProperty(key)) {
+                                                this.transportList.push({ label: response[key].zoneCode, value: response[key].id });
+                                            }
+                                        }
+
+                                        this.studentForm.setValue({
+                                            id: results.id,
+                                            studentFirstName: results.studentFirstName,
+                                            studentMiddleName: results.studentMiddleName,
+                                            studentLastName: results.studentLastName,
+                                            studentGender: results.studentGender,
+                                            fatherFirstName: results.fatherFirstName,
+                                            fatherLastName: results.fatherLastName,
+                                            fatherMobile: results.fatherMobile,
+                                            motherFirstName: results.motherFirstName,
+                                            motherLastName: results.motherLastName,
+                                            motherMobile: results.motherMobile,
+                                            guardianFirstName: results.guardianFirstName,
+                                            guardianLastName: results.guardianLastName,
+                                            guardianMobile: results.guardianMobile,
+                                            classId: results.classId,
+                                            zoneId: results.zoneId,
+                                            categoryId: results.categoryId,
+                                            academicYear: results.academicYear,
+                                            city: results.city,
+                                            state: results.state,
+                                            phone: results.phone,
+                                            dateOfJoining: new Date(results.dateOfJoining),
+                                            studentDateOfBirth: new Date(results.studentDateOfBirth),
+                                            bloodGroup: results.bloodGroup,
+                                            studentCode: results.studentCode,
+                                            divisionId: results.divisionId,
+                                            email: results.email,
+                                            createdBy: results.createdBy,
+                                            createdOn: results.createdOn,
+                                            gRNumber: results.gRNumber,
+                                            /*studentCode: results.studentCode,
+                                            schoolId: results.schoolId,
+                                            
+                                            email: results.email,
+                                            
+                                            */
+                                        });
                                     });
                                 },
                                 error => {
@@ -184,6 +198,8 @@ export class StudentAddEditComponent implements OnInit {
                                 });
                         }
                     });
+                    //  });
+
 
                 });
             });
@@ -198,6 +214,21 @@ export class StudentAddEditComponent implements OnInit {
         let emailRegex: any = '^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$';
     }
 
+    onAcademicYear(val: any) {
+        let url = '?&filter[where][academicyear]=' + val;
+        this.getAllTransports(url);
+    }
+
+    getAllTransports(url) {
+        this.transportServics.getAllTransports(url)
+            .subscribe(response => {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        this.transportList.push({ label: response[key].zoneCode, value: response[key].id });
+                    }
+                }
+            });
+    }
     onSubmit({ value, valid }: { value: Student, valid: boolean }) {
         if (this.params) {
             value.schoolId = localStorage.getItem("schoolId");
@@ -214,7 +245,7 @@ export class StudentAddEditComponent implements OnInit {
                 });
         }
     }
-    
+
     onCancel() {
         this.router.navigate(['/features/student/list']);
     }

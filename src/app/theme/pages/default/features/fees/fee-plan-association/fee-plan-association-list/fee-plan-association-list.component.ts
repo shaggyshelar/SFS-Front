@@ -7,7 +7,7 @@ import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
-import { FeePlanAssociationService } from '../../../../_services/index';
+import { FeePlanAssociationService, ClassService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({
@@ -18,6 +18,7 @@ import { Helpers } from "../../../../../../../helpers";
 
 export class FeePlanAssociationListComponent implements OnInit {
     feePlanAssociationList: any;
+    classsList = [];
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -52,6 +53,7 @@ export class FeePlanAssociationListComponent implements OnInit {
         private feePlanAssociationService: FeePlanAssociationService,
         private confirmationService: ConfirmationService,
         private globalErrorHandler: GlobalErrorHandler,
+        private classService: ClassService,
         private _script: ScriptLoaderService) {
     }
 
@@ -82,6 +84,7 @@ export class FeePlanAssociationListComponent implements OnInit {
             this.boundryStart = 1;
             this.boundryEnd = this.boundry;
             this.longList = true;
+
             this.getDataCount('');
         }
         //Page Size Array
@@ -98,51 +101,57 @@ export class FeePlanAssociationListComponent implements OnInit {
         Helpers.setLoading(true);
         this.getUrl();
 
-        this.feePlanAssociationService.getAllFeePlanAssociationList(this.url).subscribe((response) => {
-            this.longList = response.length > 0 ? true : false;
-            this.feePlanAssociationList = [];
-            for (var index = 0; index < response.length; index++) {
-                var item = response[index];
-                this.feePlanAssociationList.push({
-                    feePlanId: item.id,
-                    feePlanName: item.feePlanName,
-                    schoolId: item.schoolId
-                })
-                this.feePlanAssociationList[index].classes = '';
-                this.feePlanAssociationList[index].categories = '';
-                this.feePlanAssociationList[index].isTransactionProcessed = false;
-                if (item.associations && item.associations.length > 0) {
-                    this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
-                    var uniqueClass = _.uniqBy(item.associations, 'classId');
-                    var uniqueCategory = _.uniqBy(item.associations, 'categoryId');
-                    if (uniqueClass) {
-                        for (var count = 0; count < uniqueClass.length; count++) {
-                            var element = uniqueClass[count];
-                            if (count != uniqueClass.length - 1) {
-                                this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + element.FeeplanassociationClass.className + ', ';
-                            } else {
-                                this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + element.FeeplanassociationClass.className;
+        let val = this.classService.getAllClasses();
+
+        val.subscribe((response) => {
+            this.classsList = response;
+            this.feePlanAssociationService.getAllFeePlanAssociationList(this.url).subscribe((response) => {
+                this.longList = response.length > 0 ? true : false;
+                this.feePlanAssociationList = [];
+                for (var index = 0; index < response.length; index++) {
+                    var item = response[index];
+                    this.feePlanAssociationList.push({
+                        feePlanId: item.id,
+                        feePlanName: item.feePlanName,
+                        schoolId: item.schoolId
+                    })
+                    this.feePlanAssociationList[index].classes = '';
+                    this.feePlanAssociationList[index].categories = '';
+                    this.feePlanAssociationList[index].isTransactionProcessed = false;
+                    if (item.associations && item.associations.length > 0) {
+                        this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
+                        var uniqueClass = _.uniqBy(item.associations, 'classId');
+                        var uniqueCategory = _.uniqBy(item.associations, 'categoryId');
+                        if (uniqueClass) {
+                            for (var count = 0; count < uniqueClass.length; count++) {
+                                var element = uniqueClass[count];
+                                let classToShow= _.find(this.classsList, { id: element.classId })
+                                if (count != uniqueClass.length - 1) {
+                                    this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + classToShow.className + ', ';
+                                } else {
+                                    this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + classToShow.className;
+                                }
                             }
                         }
-                    }
 
-                    if (uniqueCategory) {
-                        for (var count = 0; count < uniqueCategory.length; count++) {
-                            var element = uniqueCategory[count];
-                            if (count != uniqueCategory.length - 1) {
-                                this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName + ', ';
-                            } else {
-                                this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName;
+                        if (uniqueCategory) {
+                            for (var count = 0; count < uniqueCategory.length; count++) {
+                                var element = uniqueCategory[count];
+                                if (count != uniqueCategory.length - 1) {
+                                    this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName + ', ';
+                                } else {
+                                    this.feePlanAssociationList[index].categories = this.feePlanAssociationList[index].categories + element.FeeplanassociationCategory.categoryName;
+                                }
                             }
                         }
                     }
                 }
-            }
-            Helpers.setLoading(false);
-        }, error => {
-            this.globalErrorHandler.handleError(error);
-            Helpers.setLoading(false);
-        });
+                Helpers.setLoading(false);
+            }, error => {
+                this.globalErrorHandler.handleError(error);
+                Helpers.setLoading(false);
+            });
+        })
     }
 
     onEditClick(feePlanAssociation: any) {
