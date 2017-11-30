@@ -94,7 +94,8 @@
                         <div class="row">
                             <div class="col-md-4 schoolCheckList">
                                 <label class="m-checkbox">
-                                    <input type="checkbox"   formControlName="isCurrent"/>
+                                    <input type="checkbox" formControlName="isCurrent" *ngIf="!isCurrentYearDisabled"/>
+                                    <input type="checkbox" formControlName="isCurrent" *ngIf="isCurrentYearDisabled" disabled/>
                                     <span></span>
 								</label>
                             </div>

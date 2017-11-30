@@ -1,3 +1,24 @@
+<p-confirmDialog #cd>
+	<p-footer>
+		<button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
+			<span>
+				<i class="la la-check"></i>
+				<span>
+					Yes
+				</span>
+			</span>
+		</button>
+		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+			<span>
+				<i class="la la-close"></i>
+				<span>
+					No
+				</span>
+			</span>
+		</button>
+	</p-footer>
+</p-confirmDialog>
+
 <div class="m-content">
 
     <!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
@@ -39,7 +60,7 @@
                     <div class="col-md-9"></div>
                 </div>
                 <div class="form-group m-form__group row">
-                     <div class="col-md-10">
+                     <div class="col-md-12">
                         <span class="m-form__help">
                             <b style="font-weight:600;">Note :</b> Once saved, Payment frequency for Transport can not be changed for current academic year. <br/><b style="font-weight:600;"><i>Please select payment frequency carefully.</i></b>
                         </span>
@@ -48,25 +69,30 @@
                 <div class="form-group m-form__group row">
                     <div class="col-md-12">
                         <label for="example-text-input" class="col-form-label">
-                            Academic Year <span class="requiredField">*</span>
+                            Academic Year
                         </label>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">                       
+                        <label class="col-form-label" style="font-weight: bold">
+						     {{academicYear}}
+                        </label>
+                    </div>
+                    <!-- <div class="col-md-3">
                         <select class="form-control m-input" [(ngModel)]="academicYear" (change)="onAcademicYear($event.target.value)">
-                            <!-- <option [ngValue]="null" >Select</option> -->
+                             <option [ngValue]="null" >Select</option> 
                              <option [value]="null">Select</option>		  
 							<option *ngFor="let item of academicYearList" [value]="item.academicYear">{{item.academicYear}}</option>
                         </select>
                         <div class="alertMsg" *ngIf="isAcademicYearSelected">
                             Please select Academic Year
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
 
                 <!-- Table -->
                 <div class="form-group m-form__group row">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <div class="tableBox zoneTableBox">
                                 <table class="staticTable zoneTable" id="" width="100%">
@@ -92,7 +118,7 @@
                                     <tbody>
                                         <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
                                             <td>
-                                                <input class="form-control m-input" type="text" [(ngModel)]="row.zoneCode">
+                                                <input class="form-control m-input" type="text" [(ngModel)]="row.zoneCode" [disabled]="(row.academicyear !== '') && (disableFrequecy)">
                                                 <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
                                                     Please enter Zone Code
                                                 </div>
@@ -117,27 +143,31 @@
                                             </td>
                                             <td>
                                                 <div class="">
-                                                    <!-- <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                <!-- <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
                                                         (click)="enableEdit(row)">
 													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                 </button> -->
-                                                    <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                        (click)="addRow()">
+                                                <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRow()" *ngIf="(rowNum === transportList.length -1)">
 													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>
-                                                    <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                        *ngIf="transportList.length > 1" (click)="onDeleteTransport(rowNum)">
+                                                <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="transportList.length > 1" (click)="onDeleteTransport(row,rowNum)">
 													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-												</button>
-                                                    <!-- <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="row.enable ||!row.id" (click)="onEditTransport(row,isDefaultSelected)">
+                                                </button>  -->
+                                                 <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
+													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>  
+                                                 <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="disableFrequecy" (click)="onSaveTransportRows(row)">
 													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-												</button> -->
+												</button> 
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <div class="alertMsg" *ngIf="rowErr">
-                                                    Please fill the require fields of last row or delete it.
+                                                    Please fill the require fields of selected row or delete it.
                                             </div>
                                         </tr>
 
@@ -151,9 +181,9 @@
 												<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
 												Add New
 											</button> -->
-                                <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" style="margin-top:25px;" (click)="onSaveTransport()"> 
+                                 <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" style="margin-top:25px;margin-bottom: 40px;" (click)="onSaveTransport()" *ngIf="!disableFrequecy"> 
 												Save
-                                </button>       
+                                </button>        
 
                             </div>
                         </div>
