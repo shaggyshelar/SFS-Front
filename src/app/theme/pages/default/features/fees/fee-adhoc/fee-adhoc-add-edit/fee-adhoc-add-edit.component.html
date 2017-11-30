@@ -176,7 +176,7 @@
                         <div class="col-lg-6">
                             <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [ngClass]="adhocFeeForm.invalid ?'cursorNotAllowed':'cursorPointer'"
                                 title="{{ adhocFeeForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}"
-                                [disabled]="adhocFeeForm.invalid" [isAuthorize]="['Adhocfee.Create', 'Adhocfee.Update']">
+                                [disabled]="adhocFeeForm.invalid || isTransactionProcessed" [isAuthorize]="['Adhocfee.Create', 'Adhocfee.Update']">
                                    {{ params ? 'Update' : 'Save' }}
                                 </button>
                             <button type="button" class="btn btn-secondary" (click)="onCancel()">
