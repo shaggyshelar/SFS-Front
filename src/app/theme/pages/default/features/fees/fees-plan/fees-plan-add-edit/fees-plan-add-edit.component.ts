@@ -181,7 +181,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onAcademicYearChange() {
-    let tempYear = _.find(this.academicYearList, { 'academicYear': this.selectedAcademicYear });
+    let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
     this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
 
     this.maxDate = new Date(tempYear.endDate);
@@ -197,7 +197,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     if (!this.validateFeeHead(feeItem)) {
       return false;
     }
-    let vm=this;
+    let vm = this;
     // let _feePlanManagement = this.feePlanManagement;
     // let _staticFeeHeadList = this.staticFeeHeadList;
     let newHeadList = _.filter(vm.staticFeeHeadList, function (item) {
@@ -255,7 +255,15 @@ export class FeesPlanAddEditComponent implements OnInit {
     academicYears.subscribe((response) => {
       this.getAllFees();
       // this.academicYearList.push({ label: '--Select--', value: 'select' });
-      this.academicYearList = response;
+     // this.academicYearList = response;
+
+      for (let key in response) {
+        if (response.hasOwnProperty(key)) {
+          this.academicYearList.push({ label: response[key].academicYear, value: response[key].academicYear, startDate: response[key].startDate, endDate: response[key].endDate,isCurrent:response[key].isCurrent });
+        }
+      }
+
+
       let item = _.find(this.academicYearList, { isCurrent: true });
       if (item) {
         this.selectedAcademicYear = item.academicYear;
