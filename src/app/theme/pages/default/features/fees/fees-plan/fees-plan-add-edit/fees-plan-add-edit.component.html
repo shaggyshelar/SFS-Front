@@ -163,7 +163,7 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed" >
-								Save Fee Plan
+								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<!-- <button type="reset" class="btn btn-secondary">
 									Preview

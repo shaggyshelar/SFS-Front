@@ -286,7 +286,6 @@ export class TransportListComponent implements OnInit {
                                 details.push(_tempDetails);
                             });
                         });
-                        console.log(details);
                         this.saveZoneDetails(details);
                     }, error => {
                         this.globalErrorHandler.handleError(error);
@@ -310,7 +309,6 @@ export class TransportListComponent implements OnInit {
     }
     onSaveTransportRows(row: any) {
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null && !this.confirmZoneCostErr) {
-            console.log(row);
             this.rowErr = false;
             if (row.id === null) {
                 row.frequencyId = this.frequencyId;
@@ -332,7 +330,6 @@ export class TransportListComponent implements OnInit {
                                 details.push(_tempDetails);
                             });
                         });
-                        console.log(details);
                         this.saveZoneDetails(details);
                     }, error => {
                         this.globalErrorHandler.handleError(error);
