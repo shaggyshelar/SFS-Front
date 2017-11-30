@@ -253,7 +253,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       this.academicYearList = response;
       let item = _.find(this.academicYearList, { isCurrent: true });
       if (item) {
-        this.selectedAcademicYear = item.label;
+        this.selectedAcademicYear = item.academicYear;
       }
     });
   }
