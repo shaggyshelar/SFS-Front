@@ -291,7 +291,7 @@ export class TransportListComponent implements OnInit {
                         this.globalErrorHandler.handleError(error);
                     });
             }
-            if (_tempUpdateList > 0) {
+            if (_tempUpdateList.length > 0) {
                 _tempUpdateList.forEach(element => {
                     this.transportServics.updateTransport(element).subscribe(
                         data => {

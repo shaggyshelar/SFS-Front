@@ -26,6 +26,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
     isCategorySelected: boolean = false;
     isSubmitted: boolean = false;
     confirmFeeCharges: boolean = false;
+    isTransactionProcessed: boolean;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -71,6 +72,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
                                     id: item.categoryId,
                                 };
                             });
+                            this.isTransactionProcessed = results.isTransactionProcessed;
                             this.classList = this.updateList(response[0], classArray);
                             this.categoryList = this.updateList(response[1], categoryArray);
                             this.adhocFeeForm.setValue({
@@ -153,7 +155,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
             } else {
                 this.confirmFeeCharges = false;
             }
-        } else{
+        } else {
             this.confirmFeeCharges = false;
         }
     }
