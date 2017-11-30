@@ -7,6 +7,7 @@ export class Student {
     categoryId: string;
     city: string;
     classId: number;
+    zoneId: number;
     country: string;
     dateOfJoining: string;
     divisionId: number;
