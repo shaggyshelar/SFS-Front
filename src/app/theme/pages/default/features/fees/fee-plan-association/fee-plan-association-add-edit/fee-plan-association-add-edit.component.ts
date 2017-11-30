@@ -30,7 +30,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
     feePlanName: string;
     academicYear: string;
     academicYearList: any;
-
+    isTransactionProcessed:boolean;
     constructor(
         private formBuilder: FormBuilder,
         private globalErrorHandler: GlobalErrorHandler,
@@ -74,6 +74,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                                 };
                             });
                             this.feePlanName = results.feePlanName;
+                            this.isTransactionProcessed=results.isTransactionProcessed;
                             this.classList = this.updateList(response[0], classArray);
                             this.categoryList = this.updateList(response[1], categoryArray);
                             this.academicYearList = response[2];
@@ -82,7 +83,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                                 classes: [],
                                 categories: []
                             });
-                            this.academicYear = results.FeePlanDetails && results.FeePlanDetails.length > 0 ? results.FeePlanDetails[0].academicYear : '',
+                            this.academicYear = results.academicYear;
                             this.feePlanAssociationForm.removeControl('classes');
                             this.feePlanAssociationForm.removeControl('categories');
                             this.feePlanAssociationForm.addControl('classes', this.buildArray(this.classList));
@@ -141,6 +142,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             classId: this.classList[index].id,
                             categoryId: this.categoryList[count].id,
                             academicYear: this.academicYear,
+                            schoolId: parseInt(localStorage.getItem('schoolId'))
                         })
                     }
                 }

@@ -83,12 +83,15 @@
 					<label for="example-text-input" class="col-md-2 col-form-label">
 						Academic Year<span class="requiredField">*</span>
 					</label>
-					<div class="col-md-3">
-						<p-dropdown class="" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
+					<div class="col-md-5">
+						<!-- <p-dropdown class="" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
 						 (onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
 						<div class="alertMsg" *ngIf="academicYear.errors && academicYear.errors.required && (academicYear.dirty || academicYear.touched)">
 							Please select academic year
-						</div>	
+						</div>	 -->
+						<label for="example-text-input" class="col-md-4 col-form-label">
+							{{selectedAcademicYear}}
+						</label>
 					</div>
 
 				</div>
@@ -159,7 +162,7 @@
 				<div class="m-form__actions m-form__actions--solid">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid" >
+							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed" >
 								Save Fee Plan
 							</button>
 							<!-- <button type="reset" class="btn btn-secondary">
