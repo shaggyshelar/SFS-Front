@@ -104,7 +104,7 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="feesForm.invalid" [ngClass]="feesForm.invalid ?'cursorNotAllowed':'cursorPointer'" [isAuthorize]="['FeeHead.Update', 'Feehead.Create']" title="{{ feesForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}">
-								{{ params ? 'Update' : 'Save' }} Head
+								{{ params ? 'Update' : 'Save' }}
 							</button>
 							<button type="button" class="btn btn-secondary" (click)="onCancel()">
 								Cancel
