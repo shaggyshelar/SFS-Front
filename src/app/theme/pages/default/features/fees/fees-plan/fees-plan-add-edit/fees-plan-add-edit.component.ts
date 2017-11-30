@@ -197,18 +197,19 @@ export class FeesPlanAddEditComponent implements OnInit {
     if (!this.validateFeeHead(feeItem)) {
       return false;
     }
-    let _feePlanManagement = this.feePlanManagement;
-    let _staticFeeHeadList = this.staticFeeHeadList;
-    let newHeadList = _.filter(_staticFeeHeadList, function (item) {
-      return _.findIndex(_feePlanManagement, { 'feeHeadId': item.value }) === -1;
+    let vm=this;
+    // let _feePlanManagement = this.feePlanManagement;
+    // let _staticFeeHeadList = this.staticFeeHeadList;
+    let newHeadList = _.filter(vm.staticFeeHeadList, function (item) {
+      return _.findIndex(vm.feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
-
-    this.feePlanManagement.push({
+    let feeObj = {
       feeHeadList: newHeadList,
       feeHeadId: 0,
       amount: '',
       confirmAmount: '',
-    })
+    };
+    vm.feePlanManagement.push(feeObj)
   }
 
   validateFeeHead(feeItem) {
@@ -219,6 +220,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     }
     if (!feeItem.amount) {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Amount' });
+      return false;
+    }
+    if (feeItem.amount && parseInt(feeItem.amount) < 0) {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount' });
       return false;
     }
     if (feeItem.amount != feeItem.confirmAmount) {
@@ -255,6 +260,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       if (item) {
         this.selectedAcademicYear = item.academicYear;
       }
+      this.onAcademicYearChange();
     });
   }
 
