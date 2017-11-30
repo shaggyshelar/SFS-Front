@@ -100,8 +100,8 @@ export class FeePlanAssociationListComponent implements OnInit {
     getAllFeePlanAssociation() {
         Helpers.setLoading(true);
         this.getUrl();
-
-        let val = this.classService.getAllClasses();
+        let schoolId = localStorage.getItem('schoolId');
+        let val = this.classService.getAllClassList("?filter[where][schoolId]="+schoolId);
 
         val.subscribe((response) => {
             this.classsList = response;
@@ -125,7 +125,7 @@ export class FeePlanAssociationListComponent implements OnInit {
                         if (uniqueClass) {
                             for (var count = 0; count < uniqueClass.length; count++) {
                                 var element = uniqueClass[count];
-                                let classToShow= _.find(this.classsList, { id: element.classId })
+                                let classToShow = _.find(this.classsList, { id: element.classId })
                                 if (count != uniqueClass.length - 1) {
                                     this.feePlanAssociationList[index].classes = this.feePlanAssociationList[index].classes + classToShow.className + ', ';
                                 } else {
