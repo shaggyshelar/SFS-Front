@@ -83,7 +83,7 @@ export class MerchantListComponent implements OnInit {
             row.id=null;
             this.merchantServics.createMerchant(row).subscribe(
                 data => {
-                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Addes Successfully' });
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
                     this.getAllMerchants();
 
                 }, error => {
