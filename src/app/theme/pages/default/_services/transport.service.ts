@@ -12,7 +12,10 @@ export class TransportService {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/zones' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   createTransport(transport: Transport[]) {
-    return this.http.post(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/zones', transport, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT + 'Zones/', transport, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  addZoneDetails(transport: Transport[]) {
+    return this.http.put(AppSettings.API_ENDPOINT + 'Zonedetails/updateZonedetails', transport, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   updateTransport(transport: Transport) {
     return this.http.patch(AppSettings.API_ENDPOINT + 'Zones/' + transport.id, transport, AppSettings.requestOptions()).map((response: Response) => response.json());

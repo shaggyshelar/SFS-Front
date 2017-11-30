@@ -7,7 +7,7 @@ import { LayoutModule } from '../../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { TransportComponent } from './fees-transport.component';
 import { TransportListComponent } from './fees-transport-list/fees-transport-list.component';
-import { TransportService, FrequencyService, AcademicYearService } from '../../../../default/_services/index';
+import { TransportService, FrequencyService, AcademicYearService,SchoolService } from '../../../../default/_services/index';
 import {
   DataTableModule,
   SharedModule,
@@ -60,7 +60,8 @@ const routes: Routes = [
     ConfirmationService,
     TransportService,
     FrequencyService, 
-    AcademicYearService
+    AcademicYearService,
+    SchoolService
   ]
 })
 export class TransportModule {

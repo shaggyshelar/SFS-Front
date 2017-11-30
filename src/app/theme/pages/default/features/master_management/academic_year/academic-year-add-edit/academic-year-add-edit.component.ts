@@ -25,6 +25,7 @@ export class AcademicYearAddEditComponent implements OnInit {
     endAcademicYear: any;
     minEndDate: any;
     isEndYearSameAsStarYear :boolean = false
+    isCurrentYearDisabled :boolean = false
 
     constructor(
         private formBuilder: FormBuilder,
@@ -51,6 +52,7 @@ export class AcademicYearAddEditComponent implements OnInit {
             if (this.params) {
                 this.academicYearService.getAcademicYearById(this.params)
                     .subscribe((results: any) => {
+                        this.isCurrentYearDisabled = results.isCurrent;
                         this.academicYearForm.setValue({
                             id: results.id,
                             startDate: new Date(results.startDate),
@@ -62,13 +64,17 @@ export class AcademicYearAddEditComponent implements OnInit {
                             this.startAcademicYear = academicYear[0];
                             this.endAcademicYear = academicYear[1] ? academicYear[1] : '';
                         }
+                        if(results.isCurrent){
+                            this.isCurrentYearDisabled = true;
+                        } else {
+                            this.isCurrentYearDisabled = false;
+                        }
                     }, error => {
                         this.globalErrorHandler.handleError(error);
                     })
             }
         });
     }
-
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         if (this.params) {
             value.schoolId = localStorage.getItem('schoolId');
