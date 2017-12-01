@@ -38,6 +38,7 @@ export class TransportListComponent implements OnInit {
     rowErr: boolean = false;
     disableFrequecy: boolean = false;
     confirmZoneCostErr: boolean = false;
+    isRequired: boolean = false;
     paymentProcessDate: number;
     constructor(
         private globalErrorHandler: GlobalErrorHandler,
@@ -102,6 +103,9 @@ export class TransportListComponent implements OnInit {
         this.transportServics.getAllTransports(url)
             .subscribe(response => {
                 this.transportList = response;
+                this.transportList.forEach(element => {
+                    element.confirmZoneCost = element.zoneCost;
+                });
                 if (this.transportList.length > 0) {
                     if (this.academicYear === this.transportList[0].academicyear) {
                         this.frequencyId = this.transportList[0].frequencyId;
@@ -119,30 +123,23 @@ export class TransportListComponent implements OnInit {
                 }
             });
     }
-    validateRow() {
-        if (this.transportList[this.transportList.length - 1].zoneCode !== undefined
-            && this.transportList[this.transportList.length - 1].zoneCode !== '') {
-            document.getElementById('zonecode' + (this.transportList.length - 1)).style.display = 'none';
-            if (this.transportList[this.transportList.length - 1].zoneCost !== undefined
-                && this.transportList[this.transportList.length - 1].zoneCost !== null) {
-                document.getElementById('zonecost' + (this.transportList.length - 1)).style.display = 'none';
-                return true;
-            } else {
-                document.getElementById('zonecost' + (this.transportList.length - 1)).style.display = 'block';
-            }
-        } else {
-            document.getElementById('zonecost' + (this.transportList.length - 1)).style.display = 'none';
-            document.getElementById('zonecode' + (this.transportList.length - 1)).style.display = 'block';
-        }
-
-    }
-    addRow() {
-        if (this.validateRow()) {
-            if (!this.confirmZoneCostErr) {
+    addRow(row: any, rowNum: any) {
+        if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
+            if (row.zoneCost === row.confirmZoneCost) {
                 this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '', 'confirmZoneCost': null });
+            } else {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (rowNum + 1) });
             }
         }
-        // document.getElementById('zonecode'+(this.transportList.length-1)).removeAttribute('disabled');
+        else {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (rowNum + 1) });
+        }
+    }
+    addRowAndSave(row: any, rowNum: any) {
+        this.onSaveTransportRows(row, rowNum);
+        if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null && (row.zoneCost === row.confirmZoneCost)) {
+            this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '', 'confirmZoneCost': null });
+        }
     }
     onDeleteTransport(data: any, index: any) {
         if (data.id) {
@@ -170,8 +167,10 @@ export class TransportListComponent implements OnInit {
 
         }
     }
-    enableEdit(row) {
-        row.enable = true;
+    enableEdit(i) {
+        document.getElementById('txtZoneDesc' + i).removeAttribute('disabled');
+        document.getElementById('txtZoneCost' + i).removeAttribute('disabled');
+        document.getElementById('txtZoneConfirmCost' + i).removeAttribute('disabled');
     }
     onAcademicYear(val: any) {
         this.disableFrequecy = false;
@@ -238,113 +237,129 @@ export class TransportListComponent implements OnInit {
             });
     }
     onSaveTransport() {
+        this.isRequired = false;
+        this.confirmZoneCostErr = false;
         if (this.frequencyId === null) {
-            this.isFrequencySelected = true;
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select Payment Frequency ' });
             this.isAcademicYearSelected = false;
-        } else if (this.transportList[this.transportList.length - 1].zoneCode === ''
-            || this.transportList[this.transportList.length - 1].zoneCost === null
-            || this.transportList[this.transportList.length - 1].confirmZoneCost === null) {
-            this.rowErr = true;
-            this.isFrequencySelected = false;
-            this.isAcademicYearSelected = false;
-        }
-        else if (!this.confirmZoneCostErr) {
-            this.rowErr = false;
-            this.isFrequencySelected = false;
-            this.isAcademicYearSelected = false;
-            this.transportList.forEach(element => {
-                element.frequencyId = this.frequencyId;
-                element.academicyear = this.academicYear;
-                element.schoolId = localStorage.getItem('schoolId');
-            });
-
-            this.checkMaxSequenceNumber();
-
-            let _tempUpdateList: any = [];
-            let _tempNewList: any = [];
-            this.transportList.forEach(element => {
-                if (element.id === null) {
-                    _tempNewList.push(element);
+        } else {
+            for (let i = 0; i < this.transportList.length; i++) {
+                if (this.transportList[i].zoneCode === '' || this.transportList[i].zoneCost === null || this.transportList[i].confirmZoneCost === null) {
+                    this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (i + 1) });
+                    this.isRequired = true;
+                    break;
                 }
-                else {
-                    _tempUpdateList.push(element);
+                if (this.transportList[i].zoneCost !== this.transportList[i].confirmZoneCost) {
+                    this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (i + 1) });
+                    this.confirmZoneCostErr = true;
+                    break;
                 }
-            });
-            if (_tempNewList.length > 0) {
-                this.transportServics.createTransport(_tempNewList).subscribe(
-                    data => {
-                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-                        let details = [];
-                        data.forEach(element => {
-                            this.frequency.forEach(freq => {
-                                let _tempDetails: any = {};
-                                _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                _tempDetails.zoneId = element.id;
-                                _tempDetails.academicYear = this.academicYear;
-                                _tempDetails.dueDate = freq.date;
-                                _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                details.push(_tempDetails);
-                            });
-                        });
-                        this.saveZoneDetails(details);
-                    }, error => {
-                        this.globalErrorHandler.handleError(error);
-                    });
             }
-            if (_tempUpdateList.length > 0) {
-                _tempUpdateList.forEach(element => {
-                    this.transportServics.updateTransport(element).subscribe(
-                        data => {
-                            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+            // this.transportList.forEach((element, i) => {
+            //     if (element.zoneCode === '' || element.zoneCost === null || element.confirmZoneCost === null) {
+            //         this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (i + 1) });
+            //         return false;
+            //     }
+            //     if (element.zoneCost !== element.confirmZoneCost) {
+            //         this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (i + 1) });
+            //         return false;
+            //     }
+            // });
 
+            if (!this.isRequired && !this.confirmZoneCostErr) {
+                this.checkMaxSequenceNumber();
+                let _tempUpdateList: any = [];
+                let _tempNewList: any = [];
+                this.transportList.forEach(element => {
+                    element.frequencyId = this.frequencyId;
+                    element.academicyear = this.academicYear;
+                    element.schoolId = localStorage.getItem('schoolId');
+                    if (element.id === null) {
+                        _tempNewList.push(element);
+                    }
+                    else {
+                        _tempUpdateList.push(element);
+                    }
+                });
+                if (_tempNewList.length > 0) {
+                    this.transportServics.createTransport(_tempNewList).subscribe(
+                        data => {
+                            let details = [];
+                            data.forEach(element => {
+                                this.frequency.forEach(freq => {
+                                    let _tempDetails: any = {};
+                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                    _tempDetails.zoneId = element.id;
+                                    _tempDetails.academicYear = this.academicYear;
+                                    _tempDetails.dueDate = freq.date;
+                                    _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                    details.push(_tempDetails);
+                                });
+                            });
+                            this.saveZoneDetails(details);
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
-                });
+                }
+                if (_tempUpdateList.length > 0) {
+                    _tempUpdateList.forEach(element => {
+                        this.transportServics.updateTransport(element).subscribe(
+                            data => {
+                                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+
+                            }, error => {
+                                this.globalErrorHandler.handleError(error);
+                            });
+                    });
+                }
             }
-        } else {
-            this.rowErr = false;
-            this.isFrequencySelected = false;
         }
     }
-    onSaveTransportRows(row: any) {
-        if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null && !this.confirmZoneCostErr) {
-            this.rowErr = false;
-            if (row.id === null) {
-                row.frequencyId = this.frequencyId;
-                row.academicyear = this.academicYear;
-                row.schoolId = localStorage.getItem('schoolId');
-                this.checkMaxSequenceNumber();
-                this.transportServics.createTransport([row]).subscribe(
-                    data => {
-                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
-                        let details = [];
-                        data.forEach(element => {
-                            this.frequency.forEach(freq => {
-                                let _tempDetails: any = {};
-                                _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                _tempDetails.zoneId = element.id;
-                                _tempDetails.academicYear = this.academicYear;
-                                _tempDetails.dueDate = freq.date;
-                                _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                details.push(_tempDetails);
+    onSaveTransportRows(row: any, rowNum: any) {
+        if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
+            if (row.zoneCost === row.confirmZoneCost) {
+                if (row.id === null) {
+                    row.frequencyId = this.frequencyId;
+                    row.academicyear = this.academicYear;
+                    row.schoolId = localStorage.getItem('schoolId');
+                    this.checkMaxSequenceNumber();
+                    this.transportServics.createTransport([row]).subscribe(
+                        data => {
+                            let details = [];
+                            data.forEach(element => {
+                                this.frequency.forEach(freq => {
+                                    let _tempDetails: any = {};
+                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                    _tempDetails.zoneId = element.id;
+                                    _tempDetails.academicYear = this.academicYear;
+                                    _tempDetails.dueDate = freq.date;
+                                    _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                    details.push(_tempDetails);
+                                });
                             });
+                            this.saveZoneDetails(details);
+                            document.getElementById('txtZoneDesc' + rowNum).setAttribute('disabled', 'disabled');
+                            document.getElementById('txtZoneCost' + rowNum).setAttribute('disabled', 'disabled');
+                            document.getElementById('txtZoneConfirmCost' + rowNum).setAttribute('disabled', 'disabled');
+                        }, error => {
+                            this.globalErrorHandler.handleError(error);
                         });
-                        this.saveZoneDetails(details);
-                    }, error => {
-                        this.globalErrorHandler.handleError(error);
-                    });
+                } else {
+                    this.transportServics.updateTransport(row).subscribe(
+                        data => {
+                            this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+                            document.getElementById('txtZoneDesc' + rowNum).setAttribute('disabled', 'disabled');
+                            document.getElementById('txtZoneCost' + rowNum).setAttribute('disabled', 'disabled');
+                            document.getElementById('txtZoneConfirmCost' + rowNum).setAttribute('disabled', 'disabled');
+                        }, error => {
+                            this.globalErrorHandler.handleError(error);
+                        });
+                }
             } else {
-                this.transportServics.updateTransport(row).subscribe(
-                    data => {
-                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-
-                    }, error => {
-                        this.globalErrorHandler.handleError(error);
-                    });
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (rowNum + 1) });
             }
         } else {
-            this.rowErr = true;
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (rowNum + 1) });
         }
 
     }
