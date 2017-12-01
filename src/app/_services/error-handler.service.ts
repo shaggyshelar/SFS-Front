@@ -43,6 +43,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       }
     } else {
       console.error(response);
+      this.messageService.addMessage({ severity: 'error', summary: 'Failed', detail: response.json().Message });
     }
   }
 }
