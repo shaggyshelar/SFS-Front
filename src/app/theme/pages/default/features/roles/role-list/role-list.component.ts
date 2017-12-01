@@ -85,8 +85,13 @@ export class RoleListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundryEnd = this.boundry;
         this.longList = true;
-        this.getDataCount('');
-        this.getAllRoles();
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        }
+        else {
+            this.getDataCount('');
+            this.getAllRoles();
+        }
     }
 
     /*Pagination Function's Starts*/
