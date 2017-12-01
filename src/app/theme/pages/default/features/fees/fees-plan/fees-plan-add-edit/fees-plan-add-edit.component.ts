@@ -41,10 +41,11 @@ export class FeesPlanAddEditComponent implements OnInit {
   }];
 
   feePlanManagement = [{
+    contRoleId: Math.floor(Math.random() * 2000),
     feeHeadList: [],
     feeHeadId: 0,
-    amount: '',
-    confirmAmount: '',
+    amount: 0,
+    confirmAmount: 0,
   }];
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -140,8 +141,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     vm.sequenceNumberArr = [];
     _.forEach(this.feePlanManagement, function (record) {
       let tempFeeHead = _.find(vm.staticFeeHeadList, { 'value': record.feeHeadId });
-      vm.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
-      index++;
+      if (tempFeeHead) {
+        vm.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
+        index++;
+      }
     })
     vm.maxsequenceNumber = _.max(vm.sequenceNumberArr);
     vm.frequency = [];
@@ -182,18 +185,26 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   onAcademicYearChange() {
     let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
-    this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
-
-    this.maxDate = new Date(tempYear.endDate);
-    this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
+    if (tempYear) {
+      this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
+      this.maxDate = new Date(tempYear.endDate);
+      this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
+    }
   }
 
   removeFeeHeadDetails(item, rowNum) {
+    let deletedFeeHeadItem = _.find(this.staticFeeHeadList, { 'value': item.feeHeadId });
     this.feePlanManagement.splice(rowNum, 1);
-    this.checkMaxSequenceNumber(rowNum);
+    if (deletedFeeHeadItem) {
+      this.feePlanManagement.forEach(element => {
+        element.feeHeadList.push(deletedFeeHeadItem);
+      });
+      this.checkMaxSequenceNumber(rowNum);
+    }
   }
 
   addFeeHeadDetails(feeItem) {
+    feeItem = _.cloneDeep(feeItem);
     if (!this.validateFeeHead(feeItem)) {
       return false;
     }
@@ -204,12 +215,14 @@ export class FeesPlanAddEditComponent implements OnInit {
       return _.findIndex(vm.feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
     let feeObj = {
+      contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
       feeHeadId: 0,
-      amount: '',
-      confirmAmount: '',
+      amount: 0,
+      confirmAmount: 0,
     };
-    vm.feePlanManagement.push(feeObj)
+
+    this.feePlanManagement.push(_.cloneDeep(feeObj))
   }
 
   validateFeeHead(feeItem) {
@@ -240,12 +253,13 @@ export class FeesPlanAddEditComponent implements OnInit {
     let newHeadList = _.filter(_staticFeeHeadList, function (item) {
       return _.findIndex(_feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
-
+    let temp = _.cloneDeep(feeItem)
     this.feePlanManagement.push({
+      contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
-      feeHeadId: feeItem.feeHeadId,
-      amount: feeItem.feeCharges,
-      confirmAmount: feeItem.feeCharges,
+      feeHeadId: temp.feeHeadId,
+      amount: temp.feeCharges,
+      confirmAmount: temp.feeCharges,
     })
   }
 
@@ -255,11 +269,11 @@ export class FeesPlanAddEditComponent implements OnInit {
     academicYears.subscribe((response) => {
       this.getAllFees();
       // this.academicYearList.push({ label: '--Select--', value: 'select' });
-     // this.academicYearList = response;
+      // this.academicYearList = response;
 
       for (let key in response) {
         if (response.hasOwnProperty(key)) {
-          this.academicYearList.push({ label: response[key].academicYear, value: response[key].academicYear, startDate: response[key].startDate, endDate: response[key].endDate,isCurrent:response[key].isCurrent });
+          this.academicYearList.push({ label: response[key].academicYear, value: response[key].academicYear, startDate: response[key].startDate, endDate: response[key].endDate, isCurrent: response[key].isCurrent });
         }
       }
 

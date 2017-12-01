@@ -115,20 +115,20 @@
 							<label for="example-text-input" class="col-form-label">
 								Fee Head <span class="requiredField">*</span>
 							</label>
-							<p-dropdown class="" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+rowNum}}"
+							<p-dropdown class="" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+fee.contRoleId}}"
 							 (onChange)="onFeeHeadChange(fee,rowNum)"></p-dropdown>
 						</div>
 						<div class="col-md-2">
 							<label for="example-text-input" class="col-form-label">
 								Amount<span class="requiredField">*</span>
 							</label>
-							<input class="form-control m-input" type="number" name="{{'amount'+rowNum}}" [(ngModel)]="fee.amount">
+							<input class="form-control m-input" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
 						</div>
 						<div class="col-md-2">
 							<label for="example-text-input" class="col-form-label">
 								Re-enter Amount<span class="requiredField">*</span>
 							</label>
-							<input class="form-control m-input" type="number" name="{{'confirmAmount'+rowNum}}" [(ngModel)]="fee.confirmAmount">
+							<input class="form-control m-input" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
 						</div>
 						<div class="col-md-2 feePlanAddBtn">
 							<button type="button" class="btn btn-danger m-btn--pill" *ngIf="!lastRowNum||rowNum>0" (click)="removeFeeHeadDetails(fee,rowNum)">
