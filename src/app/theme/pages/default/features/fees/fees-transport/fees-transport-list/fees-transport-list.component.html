@@ -133,90 +133,90 @@
                         </div>
 
 
-                        <!-- Table -->
-                        <div class="form-group m-form__group row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <div class="tableBox zoneTableBox">
-                                        <table class="staticTable zoneTable" id="" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th title="">
-                                                        Zone Code
-                                                        <span class="requiredField">*</span>
-                                                    </th>
-                                                    <th title="">
-                                                        Description
-                                                    </th>
-                                                    <th title="">
-                                                        Amount
-                                                        <span class="requiredField">*</span>
-                                                    </th>
-                                                    <th title="">
-                                                        Confirm Amount
-                                                        <span class="requiredField">*</span>
-                                                    </th>
-                                                    <th title="">
-                                                        Actions
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
-                                                    <td>
-                                                        <input class="form-control m-input" type="text" [(ngModel)]="row.zoneCode" [disabled]="(row.academicyear !== '') && (disableFrequecy)">
-                                                        <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
-                                                            Please enter Zone Code
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <textarea class="form-control m-input" rows="2" style="resize:none;" [(ngModel)]="row.zoneDescription"></textarea>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" class="form-control m-input" [(ngModel)]="row.zoneCost">
-                                                        <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
-                                                            Please enter Zone Cost
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" class="form-control m-input" [(ngModel)]="row.confirmZoneCost" (blur)="onConfirmCost(row,rowNum)">
-                                                        <div class="alertMsg" id="confirmzonecost{{rowNum}}" style="display:none;">
-                                                            Confirm Amount doesnt match to Amount
-                                                        </div>
-                                                        <div class="alertMsg" id="confirmzonecostReq{{rowNum}}" style="display:none;">
-                                                            Please enter Confirm Zone Cost
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="">
-                                                            <!-- <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                        (click)="enableEdit(row)">
+                <!-- Table -->
+                <div class="form-group m-form__group row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <div class="tableBox zoneTableBox">
+                                <table class="staticTable zoneTable" id="" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th title="">
+                                                Zone Code <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Description
+                                            </th>
+                                            <th title="">
+                                                Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Confirm Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
+                                            <td>
+                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" [disabled]="(row.academicyear !== '') && (disableFrequecy)">
+                                                <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
+                                                    Please enter Zone Code
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control m-input" id="txtZoneDesc{{rowNum}}" rows="2" style="resize:none;" [(ngModel)]="row.zoneDescription" [disabled]="(row.academicyear !== '') && (disableFrequecy)"></textarea>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" id="txtZoneCost{{rowNum}}" [(ngModel)]="row.zoneCost" [disabled]="(row.academicyear !== '') && (disableFrequecy)">
+                                                <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
+                                                    Please enter Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" id="txtZoneConfirmCost{{rowNum}}" [(ngModel)]="row.confirmZoneCost" [disabled]="(row.academicyear !== '') && (disableFrequecy)">
+                                                <div class="alertMsg" id="confirmzonecost{{rowNum}}" style="display:none;">
+                                                    Confirm Amount doesnt match to Amount
+                                                </div>
+                                                <div class="alertMsg" id="confirmzonecostReq{{rowNum}}" style="display:none;">
+                                                    Please enter Confirm Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                 <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="enableEdit(rowNum)" *ngIf="(disableFrequecy) && (row.academicyear !== '')">
 													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                </button> -->
-                                                            <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                (click)="addRow()" *ngIf="(rowNum === transportList.length -1)">
-                                                                <i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                            </button>
-                                                            <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                </button> 
+                                                <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRowAndSave(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(disableFrequecy)">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRow(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(!disableFrequecy)">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
                                                         *ngIf="transportList.length > 1" (click)="onDeleteTransport(row,rowNum)">
 													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                 </button>  -->
-                                                            <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
-                                                                <i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                            </button>
-                                                            <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                *ngIf="disableFrequecy" (click)="onSaveTransportRows(row)">
-                                                                <i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <div class="alertMsg" *ngIf="rowErr">
-                                                        Please fill the require fields of selected row or delete it.
-                                                    </div>
-                                                </tr>
+                                                 <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
+													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>  
+                                                 <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="disableFrequecy" (click)="onSaveTransportRows(row,rowNum)">
+													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button> 
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <div class="alertMsg" *ngIf="rowErr">
+                                                    Please fill the require fields of selected row or delete it.
+                                            </div>
+                                        </tr>
 
                                             </tbody>
                                         </table>

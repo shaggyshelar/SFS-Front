@@ -9,6 +9,7 @@ import { SchoolService } from '../../../_services/school.service';
 import { UserService } from '../../../_services/user.service';
 import { User } from "../../../_models/user";
 import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
+import { Helpers } from "../../../../../../helpers";
 import * as _ from 'lodash/index';
 
 @Component({
@@ -46,7 +47,7 @@ export class UsersListComponent implements OnInit {
     boundryStart: number;
     boundryEnd: number;
     searchValue: string; //HTML values
-    selectedPageSize: number; //HTML values
+    selectedPageSize: number = 25; //HTML values
     userRole: string;
     constructor(private userService: UserService,
         private router: Router,
@@ -61,17 +62,20 @@ export class UsersListComponent implements OnInit {
         this.userRole = currentUser.roles && currentUser.roles.length > 0 ? currentUser.roles[0].name : '';
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '5', value: 5 });
-        this.pageSize.push({ label: '10', value: 10 });
-        this.pageSize.push({ label: '20', value: 20 });
-        this.pageSize.push({ label: '30', value: 30 });
+        this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
+        this.pageSize.push({ label: '200', value: 200 });
 
 
 
         //Default variable initialization
-        this.perPage = 5;
+        if (localStorage.getItem('perPage') !== null) {
+            this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
+            localStorage.removeItem('perPage');
+        } else {
+            this.perPage = 25;
+        }
         this.currentPos = 0;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
@@ -115,9 +119,11 @@ export class UsersListComponent implements OnInit {
         });
     }
     onManageRoleClick(user: User) {
+        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/users/manage-role', user.id]);
     }
     onEditClick(user: User) {
+        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/users/edit', user.id]);
     }
     onDelete(user: User) {
@@ -143,6 +149,7 @@ export class UsersListComponent implements OnInit {
         });
     }
     onAddClick() {
+        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/users/add']);
     }
 
@@ -200,6 +207,7 @@ export class UsersListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
+        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

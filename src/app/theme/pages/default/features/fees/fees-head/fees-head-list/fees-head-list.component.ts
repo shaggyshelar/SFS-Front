@@ -10,6 +10,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { SelectItem } from 'primeng/primeng';
 import { FrequencyService } from '../../../../_services/frequency.service';
 
+
 @Component({
   selector: "app-users-list",
   templateUrl: "./fees-head-list.component.html",
@@ -52,7 +53,7 @@ export class FeesHeadListComponent implements OnInit {
   boundryEnd: number;
   filterValue1: string; //HTML values
   searchValue: string; //HTML values
-  selectedPageSize: number; //HTML values
+  selectedPageSize: number = 25; //HTML values
 
   frequencyIdList: SelectItem[];
 
@@ -61,12 +62,10 @@ export class FeesHeadListComponent implements OnInit {
   ngOnInit() {
 
     this.pageSize = [];
-    this.pageSize.push({ label: '5', value: 5 });
-    this.pageSize.push({ label: '10', value: 10 });
-    this.pageSize.push({ label: '20', value: 20 });
-    this.pageSize.push({ label: '30', value: 30 });
+    this.pageSize.push({ label: '25', value: 25 });
     this.pageSize.push({ label: '50', value: 50 });
     this.pageSize.push({ label: '100', value: 100 });
+    this.pageSize.push({ label: '200', value: 200 });
 
     let val = this.frequencyService.getAllFrequency();
     this.frequencyIdList = [];
@@ -80,7 +79,12 @@ export class FeesHeadListComponent implements OnInit {
     });
 
     //Default variable initialization
-    this.perPage = 5;
+    if (localStorage.getItem('perPage') !== null) {
+      this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
+      localStorage.removeItem('perPage');
+    } else {
+      this.perPage = 25;
+    }
     this.currentPos = 0;
     this.url = '';
     this.sortUrl = '&filter[order]=id ASC';
@@ -153,6 +157,7 @@ export class FeesHeadListComponent implements OnInit {
 
   pageSizeChanged(size) {
     this.perPage = size;
+    localStorage.setItem('perPage', size);
     this.currentPos = 0;
     this.currentPageNumber = 1;
     this.boundryStart = 1;
@@ -354,6 +359,7 @@ export class FeesHeadListComponent implements OnInit {
     //Helpers.setLoading(false);
   }
   onManageFeeClick(data: Fees) {
+    localStorage.setItem('perPage', this.selectedPageSize.toString());
     this.router.navigate(['/features/fees/feesHead/edit', data.id]);
   }
 
@@ -390,6 +396,7 @@ export class FeesHeadListComponent implements OnInit {
   }
 
   onAddFees() {
+    localStorage.setItem('perPage', this.selectedPageSize.toString());
     this.router.navigate(['/features/fees/feesHead/add']);
   }
 }
