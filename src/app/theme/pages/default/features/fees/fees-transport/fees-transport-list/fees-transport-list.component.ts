@@ -103,9 +103,6 @@ export class TransportListComponent implements OnInit {
         this.transportServics.getAllTransports(url)
             .subscribe(response => {
                 this.transportList = response;
-                this.transportList.forEach(element => {
-                    element.confirmZoneCost = element.zoneCost;
-                });
                 if (this.transportList.length > 0) {
                     if (this.academicYear === this.transportList[0].academicyear) {
                         this.frequencyId = this.transportList[0].frequencyId;
@@ -116,6 +113,11 @@ export class TransportListComponent implements OnInit {
                         this.disableFrequecy = false;
                     }
                 }
+                this.transportList.forEach(element => {
+                    element.confirmZoneCost = element.zoneCost;
+                    element.disableFrequecy=this.disableFrequecy;
+                });
+                
                 if (this.transportList.length == 0) {
                     this.frequencyId = null;
                     this.disableFrequecy = false;
@@ -167,10 +169,11 @@ export class TransportListComponent implements OnInit {
 
         }
     }
-    enableEdit(i) {
-        document.getElementById('txtZoneDesc' + i).removeAttribute('disabled');
-        document.getElementById('txtZoneCost' + i).removeAttribute('disabled');
-        document.getElementById('txtZoneConfirmCost' + i).removeAttribute('disabled');
+    enableEdit(i,row) {
+        // document.getElementById('txtZoneDesc' + i).removeAttribute('disabled');
+        // document.getElementById('txtZoneCost' + i).removeAttribute('disabled');
+        // document.getElementById('txtZoneConfirmCost' + i).removeAttribute('disabled');
+        row.disableFrequecy=false;
     }
     onAcademicYear(val: any) {
         this.disableFrequecy = false;
@@ -338,9 +341,7 @@ export class TransportListComponent implements OnInit {
                                 });
                             });
                             this.saveZoneDetails(details);
-                            document.getElementById('txtZoneDesc' + rowNum).setAttribute('disabled', 'disabled');
-                            document.getElementById('txtZoneCost' + rowNum).setAttribute('disabled', 'disabled');
-                            document.getElementById('txtZoneConfirmCost' + rowNum).setAttribute('disabled', 'disabled');
+                            row.disableFrequecy=true;
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
@@ -348,9 +349,7 @@ export class TransportListComponent implements OnInit {
                     this.transportServics.updateTransport(row).subscribe(
                         data => {
                             this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                            document.getElementById('txtZoneDesc' + rowNum).setAttribute('disabled', 'disabled');
-                            document.getElementById('txtZoneCost' + rowNum).setAttribute('disabled', 'disabled');
-                            document.getElementById('txtZoneConfirmCost' + rowNum).setAttribute('disabled', 'disabled');
+                            row.disableFrequecy=true;
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
