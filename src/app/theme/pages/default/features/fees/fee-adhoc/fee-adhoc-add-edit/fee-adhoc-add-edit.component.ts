@@ -83,7 +83,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
                                 invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
                                 invoiceDescription: results.invoiceDescription ? results.invoiceDescription : '',
                                 adhocFeeCharges: results.adhocFeeCharges,
-                                adhocConfirmFeeCharges: null,
+                                adhocConfirmFeeCharges: results.adhocFeeCharges,
                                 classes: [],
                                 categories: []
                             });
