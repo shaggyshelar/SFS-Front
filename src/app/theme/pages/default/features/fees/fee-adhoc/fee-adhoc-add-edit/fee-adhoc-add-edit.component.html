@@ -111,7 +111,7 @@
                             Charges <span class="requiredField">*</span>
                         </label>
                     <div class="col-5">
-                        <input class="form-control m-input" type="number" formControlName="adhocFeeCharges" name="adhocFeeCharges">
+                        <input class="form-control m-input" type="number" formControlName="adhocFeeCharges" name="adhocFeeCharges"  (blur)="onConfirmCharges()">
                         <div class="alertMsg" *ngIf="adhocFeeForm.get('adhocFeeCharges').hasError('required') && adhocFeeForm.get('adhocFeeCharges').touched">
                             Please enter Charges
                         </div>
