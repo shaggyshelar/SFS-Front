@@ -22,7 +22,7 @@ export class CommonService {
   getCategory() {
     //let category = ["--select--", "General", "RTE", "Management", "Staff"];
     //return category;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Schoolcategories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
   getYear() {
     //let year = ["--select--", "2000", "2001", "2002"];

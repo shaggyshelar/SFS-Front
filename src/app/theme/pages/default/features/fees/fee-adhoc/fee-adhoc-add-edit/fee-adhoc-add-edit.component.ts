@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 
-import { AdhocFeeService, CommonService,ClassService } from '../../../../_services/index';
+import { AdhocFeeService, CommonService,ClassService,CategoriesService } from '../../../../_services/index';
 import { AdhocFee } from "../../../../_models/index";
 
 @Component({
@@ -34,6 +34,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
         private commonService: CommonService,
         private route: ActivatedRoute,
         private router: Router,
+        private categoriesService: CategoriesService,
         private globalErrorHandler: GlobalErrorHandler,
         private classService:ClassService,
         private messageService: MessageService) {
@@ -57,7 +58,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
             this.params = params['id'];
         });
 
-        Observable.forkJoin([this.classService.getAllClasses(), this.commonService.getCategory()])
+        Observable.forkJoin([this.classService.getAllClasses(), this.categoriesService.getAllCategories()])
             .subscribe((response) => {
                 if (this.params) {
                     this.adhocFeeService.getAdhocFeeById(this.params)
