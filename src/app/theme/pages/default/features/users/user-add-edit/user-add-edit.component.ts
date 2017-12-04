@@ -9,6 +9,7 @@ import { MessageService } from '../../../../../../_services/message.service';
 
 import { UserService, InstitutesService, RoleService, SchoolService } from '../../../_services/index';
 import { User } from "../../../_models/user";
+import { Helpers } from "../../../../../../helpers";
 
 /** Component Declaration */
 @Component({
@@ -197,25 +198,30 @@ export class UserAddEditComponent implements OnInit {
     }
 
     saveUser(value) {
+        Helpers.setLoading(true);
         if (this.params) {
             this.userService.updateUser(value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+                    Helpers.setLoading(false);
                     this.router.navigate(['/features/users/list']);
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
+                    Helpers.setLoading(false);
                 });
         } else {
             this.userService.createUser(value)
                 .subscribe(
                 results => {
                     this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
+                    Helpers.setLoading(false);
                     this.router.navigate(['/features/users/list']);
                 },
                 error => {
                     this.globalErrorHandler.handleError(error);
+                    Helpers.setLoading(false);
                 });
         }
     }

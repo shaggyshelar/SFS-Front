@@ -57,7 +57,7 @@ export class SchoolListComponent implements OnInit {
     filterValue1: string; //HTML values
     filterValue2: string; //HTML values
     searchValue: string; //HTML values
-    selectedPageSize: number; //HTML values
+    selectedPageSize: number = 25; //HTML values
 
 
     constructor(private router: Router,
@@ -74,12 +74,10 @@ export class SchoolListComponent implements OnInit {
 
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '5', value: 5 });
-        this.pageSize.push({ label: '10', value: 10 });
-        this.pageSize.push({ label: '20', value: 20 });
-        this.pageSize.push({ label: '30', value: 30 });
+        this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
+        this.pageSize.push({ label: '200', value: 200 });
 
         this.filterCol2 = [];
         let val = this.boardService.getAllBoards();
@@ -104,7 +102,13 @@ export class SchoolListComponent implements OnInit {
         });
 
         //Default variable initialization
-        this.perPage = 5;
+        if (localStorage.getItem('perPage') !== null) {
+            this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
+            localStorage.removeItem('perPage');
+        } else {
+            this.perPage = 25;
+        }
+
         this.currentPos = 0;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
@@ -188,6 +192,7 @@ export class SchoolListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
+        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -204,7 +209,7 @@ export class SchoolListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllSchools();   
+            this.getAllSchools();
         }
     }
 
@@ -416,10 +421,12 @@ export class SchoolListComponent implements OnInit {
     }
 
     onAddSchool() {
+        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/school/add']);
     }
 
     onEditSchoolClick(school: School) {
+        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/school/edit', school.id]);
     }
     onSchoolDeleteClick(school: School) {
