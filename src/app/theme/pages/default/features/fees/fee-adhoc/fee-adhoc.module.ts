@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
-import { AdhocFeeService, CommonService,ClassService } from '../../../_services/index';
+import { AdhocFeeService, CommonService,ClassService,CategoriesService } from '../../../_services/index';
 import { AdhocFeeComponent } from './fee-adhoc.component';
 import { AdhocFeeListComponent } from './fee-adhoc-list/fee-adhoc-list.component';
 import { AdhocFeeAddEditComponent } from './fee-adhoc-add-edit/fee-adhoc-add-edit.component';
@@ -77,7 +77,7 @@ const routes: Routes = [
     AdhocFeeService,
     ConfirmationService,
     CommonService,
-    ClassService
+    ClassService,CategoriesService
   ],
 })
 export class AdhocFeeModule {

@@ -91,7 +91,12 @@ export class CategoriesListComponent implements OnInit {
     this.boundryEnd = this.boundry;
     this.longList = true;
     //this.getAllCategories();
-    this.getDataCount('');
+    if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+      this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+    }
+    else {
+      this.getDataCount('');
+    }
   }
 
   getAllCategories() {
