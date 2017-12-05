@@ -109,20 +109,22 @@ export class DivisionListComponent implements OnInit {
         this.searchCountQuery = '';
         this.longList = true;
         this.filterCol1 = [];
-        let val = this.classService.getAllClasses();
-        this.filterCol1.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.filterCol1.push({ label: response[key].className, value: response[key].id });
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            let val = this.classService.getAllClasses();
+            this.filterCol1.push({ label: '--Select--', value: 'select' });
+            val.subscribe((response) => {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        this.filterCol1.push({ label: response[key].className, value: response[key].id });
+                    }
                 }
-            }
-        });
-
-        this.getAllDivisions();
-        this.getDataCount('');
+            });
+            this.getAllDivisions();
+            this.getDataCount('');
+        }
     }
-
     getAllDivisions() {
         Helpers.setLoading(true);
         this.getUrl();
