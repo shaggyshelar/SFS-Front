@@ -44,9 +44,9 @@ export class AdhocFeeAddEditComponent implements OnInit {
         this.adhocFeeForm = this.formBuilder.group({
             id: [],
             adhocfeeName: ['', [Validators.required]],
-            adhocfeeDescription: ['', [Validators.required]],
+            //adhocfeeDescription: ['', [Validators.required]],
             dueDate: ['', [Validators.required]],
-            invoiceDetailText: [''],
+            //invoiceDetailText: [''],
             invoiceDescription: ['', [Validators.required]],
             adhocFeeCharges: ['', [Validators.required]],
             adhocConfirmFeeCharges: [null, [Validators.required]],
@@ -79,9 +79,9 @@ export class AdhocFeeAddEditComponent implements OnInit {
                             this.adhocFeeForm.setValue({
                                 id: results.id,
                                 adhocfeeName: results.adhocfeeName,
-                                adhocfeeDescription: results.adhocfeeDescription,
+                               // adhocfeeDescription: results.adhocfeeDescription,
                                 dueDate: new Date(results.dueDate),
-                                invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
+                               // invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
                                 invoiceDescription: results.invoiceDescription ? results.invoiceDescription : '',
                                 adhocFeeCharges: results.adhocFeeCharges,
                                 adhocConfirmFeeCharges: results.adhocFeeCharges,

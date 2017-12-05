@@ -5,10 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from './../../default.component';
 import { LayoutModule } from './../../../../layouts/layout.module';
-
 import { AuthGuard } from "./../../../../../auth/_guards/auth.guard";
-
-
+import { InvoiceService } from './../../_services/index';
 import { InvoiceComponent  } from './invoice.component';
 import { InvoiceListComponent  } from './invoice-list/invoice-list.component';
 import { InvoiceSummaryComponent  } from './invoice-summary/invoice-summary.component';
@@ -76,7 +74,8 @@ const routes: Routes = [
     InvoiceSummaryComponent,
   ],
   providers: [
-    ConfirmationService
+    ConfirmationService,
+    InvoiceService
   ],
 })
 export class InvoiceModule {
