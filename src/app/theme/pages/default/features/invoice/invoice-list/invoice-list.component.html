@@ -1,0 +1,306 @@
+<div class="m-subheader" [isAuthorize]="['AcademicYear.Read']" style="display:none;">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Invoice
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Invoice
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							List
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="row headerRowListing">
+				<div class="col-xl-8">
+					<h3 class="ListingHeading">
+						Invoice List
+					</h3>
+				</div>
+				<!--<div class="col-xl-4">
+					<a href="javascript:;" (click)="onAddSchool()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right">
+						<span>
+							<i class="m-menu__link-icon flaticon-add"></i>
+							<span>
+								Add Merchant
+							</span>
+						</span>
+					</a>               
+				</div> -->
+			</div>
+		</div>
+		<div class="m-portlet__body">
+			<!--begin: Datatable 
+			<div class="m_datatable" id="local_data"></div>
+			<!--end: Datatable -->
+			
+			<!-- ++++++++++++++++++++++++ Listing Table +++++++++++++++++++++++++++ -->
+			<div class="">
+								
+								<!--begin: Datatable -->
+								<div class="row staticSearchRow">
+								
+									<div class="col-md-3">
+										<div class="filterLabel">
+											<label>Status</label>
+										</div>
+										<div class="filterDropdown">
+											<select class="form-control">
+												<option disabled="" selected="">Select</option>								
+												<option>Paid</option>
+												<option>Open</option>
+												<option>Closed</option>
+												<option>Created</option>
+												<option>Processed</option>
+												<option>Settled</option>
+												<option>Cancelled</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="filterLabel">
+											<label>From</label>
+										</div>
+										<div class="filterDropdown">
+											<select class="form-control">
+												<option disabled="" selected="">Select Date</option>								
+												<option>Date 1</option>
+												<option>Date 2</option>
+												<option>Date 3</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="filterLabel">
+											<label>To</label>
+										</div>
+										<div class="filterDropdown">
+											<select class="form-control">
+												<option disabled="" selected="">Select Date</option>								
+												<option>Date 1</option>
+												<option>Date 2</option>
+												<option>Date 3</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2"></div>
+									<div class="col-md-3">
+										<div class="m-input-icon m-input-icon--left">
+											<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+											<span class="m-input-icon__icon m-input-icon__icon--left">
+												<span>
+													<i class="la la-search"></i>
+												</span>
+											</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="table-responsive">
+								<div class="tableBox">
+								<table class="staticTable" id="" width="100%">
+									<thead>
+										<tr>
+											<th title="">
+												Invoice No.
+											</th>
+											<th title="">
+												Date
+											</th>
+											<th title="">
+												Student Name
+											</th>																
+											<th title="">
+												Status
+											</th>
+											<th title="">
+												Amount
+											</th>
+											<th title="">
+												Action
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<a href="#">SYM161700001</a>
+											</td>
+											<td>
+												27/11/2017
+											</td>
+											<td>
+												Chaitanya Belsare
+											</td>
+											<td>
+												<b><i>Open</i></b>
+											</td>	
+											<td>
+												<b><i>8000</i></b>
+											</td>	
+											<td>
+												<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete"><i class="la la-close"></i></a>
+											</td>											
+										</tr>
+										<tr>
+											<td>
+												<a href="#">SYM161700002</a>
+											</td>
+											<td>
+												24/11/2017
+											</td>
+											<td>
+												Amol Patil
+											</td>
+											<td>
+												<b><i>Closed</i></b>
+											</td>	
+											<td>
+												<b><i>5000</i></b>
+											</td>	
+											<td>																	
+												<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete"><i class="la la-close"></i></a>
+											</td>											
+										</tr>
+										<tr>
+											<td>
+												<a href="#">SYM161700003</a>
+											</td>
+											<td>
+												22/11/2017
+											</td>
+											<td>
+												Sachin Sarse
+											</td>
+											<td>
+												<b><i>Closed</i></b>
+											</td>	
+											<td>
+												<b><i>10000</i></b>
+											</td>	
+											<td>
+												<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete"><i class="la la-close"></i></a>
+											</td>											
+										</tr>
+										<tr>
+											<td>
+												<a href="#">SYM161700004</a>
+											</td>
+											<td>
+												20/11/2017
+											</td>
+											<td>
+												Manish Patil
+											</td>
+											<td>
+												<b><i>Open</i></b>
+											</td>	
+											<td>
+												<b><i>2000</i></b>
+											</td>	
+											<td>																	
+												<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete"><i class="la la-close"></i></a>
+											</td>											
+										</tr>
+										<tr>
+											<td>
+												<a href="#">SYM161700005</a>
+											</td>
+											<td>
+												23/11/2017
+											</td>
+											<td>
+												Piyush Oswal
+											</td>
+											<td>
+												<b><i>Closed</i></b>
+											</td>	
+											<td>
+												<b><i>10000</i></b>
+											</td>	
+											<td>
+												<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete"><i class="la la-close"></i></a>
+											</td>											
+										</tr>
+										
+										
+									</tbody>	
+								</table>
+								</div>
+								<!-- Pagination -->								
+								<div class="PaginationBox">
+								
+									<div class="row">
+										<div class="col-md-6">
+											<nav aria-label="Page navigation example">
+											  <ul class="pagination">
+												<li class="page-item"><a class="page-link prev" href="#"><i class="la la-angle-double-left leftIcon"></i></a></li>
+												<li class="page-item"><a class="page-link active" href="#">1</a></li>
+												<li class="page-item"><a class="page-link" href="#">2</a></li>
+												<li class="page-item"><a class="page-link" href="#">3</a></li>
+												<li class="page-item"><a class="page-link next" href="#"><i class="la la-angle-double-right rightIcon"></i></a></li>
+											  </ul>
+											</nav>
+										</div>
+										
+										<div class="col-md-6 showRecordsBox">										
+											<div class="showRecordsLabel">
+												<label>Displaying 01 - 10 of 100 records</label>
+											</div>
+											<div class="showRecordsDropdown">
+												<select class="form-control recordSelect">
+													<option>10</option>
+													<option>20</option>
+													<option>30</option>
+													<option>50</option>
+													<option>100</option>
+												</select>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+								
+								
+								</div>
+								
+								<!--end: Datatable -->
+							</div>
+			
+			
+			<!-- ++++++++++++++++++++++++ Listing Table Ends +++++++++++++++++++++++++++ -->
+			
+			
+		</div>
+	</div>
+</div>
