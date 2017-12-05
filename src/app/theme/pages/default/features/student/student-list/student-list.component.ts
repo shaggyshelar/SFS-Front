@@ -112,34 +112,34 @@ export class StudentListComponent implements OnInit {
         this.searchCountQuery = '';
         this.longList = true;
 
-        this.getDataCount('');
-
-        //List of Classes
-        this.filterCol1 = [];
-        let val = this.classService.getAllClasses();
-        this.filterCol1.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.filterCol1.push({ label: response[key].className, value: response[key].id });
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            this.getDataCount('');
+            //List of Classes
+            this.filterCol1 = [];
+            let val = this.classService.getAllClasses();
+            this.filterCol1.push({ label: '--Select--', value: 'select' });
+            val.subscribe((response) => {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        this.filterCol1.push({ label: response[key].className, value: response[key].id });
+                    }
                 }
-            }
-        });
+            });
 
-        //List of Categories
-        this.filterCol2 = [];
-        val = this.categoriesService.getAllCategories();
-        this.filterCol2.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
-
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.filterCol2.push({ label: response[key].categoryName, value: response[key].id });
+            //List of Categories
+            this.filterCol2 = [];
+            val = this.categoriesService.getAllCategories();
+            this.filterCol2.push({ label: '--Select--', value: 'select' });
+            val.subscribe((response) => {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        this.filterCol2.push({ label: response[key].categoryName, value: response[key].id });
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
     /*Pagination Function's Starts*/

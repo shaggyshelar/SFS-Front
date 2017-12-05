@@ -107,8 +107,12 @@ export class ClassListComponent implements OnInit {
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
         this.longList = true;
-        this.getAllClasses();
-        this.getDataCount('');
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            this.getAllClasses();
+            this.getDataCount('');
+        }
     }
 
     getAllClasses() {
