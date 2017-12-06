@@ -161,7 +161,7 @@
                                     <tbody>
                                         <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
                                             <td>
-                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" [disabled]="disableFrequecy">
+                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" [disabled]="(row.disabledZoneCode) && (disableFrequecy)">
                                                 <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
                                                     Please enter Zone Code
                                                 </div>
@@ -191,11 +191,11 @@
 													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                 </button> 
                                                 <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                        (click)="addRowAndSave(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(!row.disableFrequecy)">
+                                                        (click)="addRowAndSave(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(disableFrequecy)">
 													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>
                                                 <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                        (click)="addRow(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(row.disableFrequecy)">
+                                                        (click)="addRow(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(!disableFrequecy)">
 													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>
                                                 <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
@@ -206,7 +206,7 @@
                                                         *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
 													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button>  
-                                                 <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="!row.disableFrequecy" (click)="onSaveTransportRows(row,rowNum)">
+                                                 <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!row.disableFrequecy)&&(disableFrequecy)" (click)="onSaveTransportRows(row,rowNum)">
 													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 												</button> 
                                                 </div>
