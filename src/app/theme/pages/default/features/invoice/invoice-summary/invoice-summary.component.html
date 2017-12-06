@@ -1,118 +1,126 @@
 <div class="m-subheader">
-	<div class="d-flex align-items-center">
-		<div class="mr-auto">
-			<h3 class="m-subheader__title m-subheader__title--separator">
-				Invoice
-			</h3>
-			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-				<li class="m-nav__item m-nav__item--home">
-					<a href="#" class="m-nav__link m-nav__link--icon">
-						<i class="m-nav__link-icon la la-home"></i>
-					</a>
-				</li>
-				<li class="m-nav__separator">
-					-
-				</li>
-				<li class="m-nav__item">
-					<a class="m-nav__link">
-						<span class="m-nav__link-text">
-							Invoice
-						</span>
-					</a>
-				</li>
-				<li class="m-nav__separator">
-					-
-				</li>
-				<li class="m-nav__item">
-					<a class="m-nav__link">
-						<span class="m-nav__link-text">
-						Summary
-						</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Invoice
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Invoice
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Summary
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div class="m-content">
-    
+
     <!--begin:: Widgets/Stats-->
     <div class="m-portlet ">
         <div class="m-portlet__body  m-portlet__body--no-padding">
-            <br><br>
+            <br>
+            <br>
             <div class="invoiceContainer">
                 <div class="invoiceHeader">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="invoiceMainHeading">INVOICE
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;">Open</span>
-                            </h3>												
+                            <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;">{{invoice.invoiceStatus}}</span>
+                            </h3>
                         </div>
                         <div class="col-md-1">
-                            
+
                         </div>
                         <div class="col-md-2 alignRight">
-                            
+
                         </div>
-                        
+
                         <div class="col-md-3 alignRight">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Invoice No.</h6>
-                                <h5><b style="font-weight:500;font-style:italic;">SYM161700001</b></h5>
+                                <h5>
+                                    <b style="font-weight:500;font-style:italic;">{{invoice.invoiceNumber}}</b>
+                                </h5>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row invoiceRow">
-                        
+
                         <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Date</h6>
-                                <h5>27 Nov 2017</h5>
+                                <h5>{{invoice.dueDate | date: 'MM/dd/yyyy'}}</h5>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Paid On</h6>
-                                <h5>22 Nov 2017</h5>
+                                <h5>{{invoice.paymentDate | date: 'MM/dd/yyyy'}}</h5>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Settled On</h6>
-                                <h5>24 Nov 2017</h5>
+                                <h5>{{invoice.settlementDate | date: 'MM/dd/yyyy'}}</h5>
                             </div>
                         </div>
-                        
-                        <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
-                                <h6>Due Date <i class="la la-edit invoiceEdit"></i></h6>
-                                <input class="form-control m-input invoiceText" type="text" value="" id="m_datepicker_1" placeholder="Select Date">
+
+                        <div class="col-md-4">
+                            <div class="invoiceLabelBox">
+                                <h6>Due Date
+                                    <i class="la la-edit invoiceEdit"></i>
+                                </h6>
+                                <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
+                                    placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2000:2050"></p-calendar>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
-                                <h6>Status <i class="la la-edit invoiceEdit"></i></h6>
+                            <div class="invoiceLabelBox">
+                                <h6>Status
+                                    <i class="la la-edit invoiceEdit"></i>
+                                </h6>
                                 <select class="form-control m-input invoiceText">
-                                    <option disabled="" selected="">Select</option>											
-                                    <option>Paid</option>
-                                    <option>Open</option>
-                                    <option>Closed</option>
-                                    <option>Created</option>
-                                    <option>Processed</option>
-                                    <option>Settled</option>
-                                    <option>Cancelled</option>
+                                    <option>Select</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Open">Open</option>
+                                    <option value="Closed">Closed</option>
+                                    <option value="Created">Created</option>
+                                    <option value="Processed">Processed</option>
+                                    <option value="Settled">Settled</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
                         </div>
-                        
+
                     </div>
-                    
+
                     <!--
                     <div class="row invoiceRow">
                         
@@ -139,89 +147,58 @@
                     </div>
                     -->
                     <div class="row invoiceRow">
-                        
+
                         <div class="col-md-4">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Invoice to</h6>
-                                <h5>Student Name, Id: STUD101</h5>
-                                <h5>Class: 7th, Division: A</h5>
-                                <h5>Category: Open</h5>
+                                <h5>Student Name, Id: {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName+',
+                                    ' + invoice.studentData.gRNumber:''}}</h5>
+                                <h5>Class: {{invoice.studentData?invoice.studentData.StudentClass.className:''}}, Division:{{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
+                                <h5>Category: {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-8">
-                            <div class="invoiceLabelBox">													
+                            <div class="invoiceLabelBox">
                                 <h6>Description</h6>
-                                <h5>This is the invoice for basic fee heads. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</h5>
+                                <h5>{{invoice.desc}}</h5>
                             </div>
                         </div>
-                        
                     </div>
-                    
-                    
-                    
                 </div>
-            
+
                 <div class="invoiceBody">
                     <table class="table invoiceTable">
-                        <tbody><tr>
-                            <th>
-                                Fee Heads
-                            </th>
-                            <th>
-                                Amount <span class="invoiceSubTh">(In rupees)</span>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                Admission Fee
-                            </td>
-                            <td>
-                                2000
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Tution Fee
-                            </td>
-                            <td>
-                                1000
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Library Fee
-                            </td>
-                            <td>
-                                1200
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Term Fee
-                            </td>
-                            <td>
-                                600
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Computer Fee
-                            </td>
-                            <td>
-                                500
-                            </td>
-                        </tr>
-                    </tbody></table>
-                    
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Fee Heads
+                                </th>
+                                <th>
+                                    Amount
+                                    <span class="invoiceSubTh">(In rupees)</span>
+                                </th>
+                            </tr>
+                            <tr *ngFor='let row of invoice.invoiceDetails'>
+                                <td>
+                                    {{row.feeHeadName}}
+                                </td>
+                                <td>
+                                    {{row.chargeAmount}}
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
                     <!-- Total -->
                     <div class="invoiceTotalBox">
-                         <span>Total Due &nbsp;&nbsp; : &nbsp;&nbsp;</span> Rs. 5300
+                        <span>Total Due &nbsp;&nbsp; : &nbsp;&nbsp;</span> Rs. {{invoice.totalChargeAmount}}
                     </div>
-                    
+
                     <hr>
-                    
-                    
+
+
                     <!-- Save and cancel button -->
                     <div class="saveCancelInvoice">
                         <button type="reset" class="btn btn-accent">
@@ -231,15 +208,16 @@
                             Cancel
                         </button>
                     </div>
-                    
-                    
+
+
                 </div>
-            
-            
+
+
             </div>
-            <br><br>
-            
-            
+            <br>
+            <br>
+
+
         </div>
     </div>
     <!--end:: Widgets/Stats-->

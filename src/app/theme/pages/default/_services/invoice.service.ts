@@ -31,16 +31,25 @@ export class InvoiceService {
       amount: 9000,
     }
   ]
-  getAllInvoices(id) {
+  getAllInvoices(url) {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('filter[where][schoolId]', id);
+    // params.set('filter[where][schoolId]', id);
     let requestOptions = AppSettings.requestOptions();
     requestOptions.params = params;
-    return this.records;
-    // return this.http.get(AppSettings.API_ENDPOINT + 'Schoolmerchants', requestOptions).map((response: Response) => response.json());
+    // return this.records;
+    return this.http.get(AppSettings.API_ENDPOINT + 'invoices' + url, requestOptions).map((response: Response) => response.json());
   }
 
-  deleteMerchant(id: number) {
-    // return this.http.delete(AppSettings.API_ENDPOINT + 'Schoolmerchants/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  getInvoiceSumary(id, url) {
+    let params: URLSearchParams = new URLSearchParams();
+    // params.set('filter[where][schoolId]', id);
+    let requestOptions = AppSettings.requestOptions();
+    requestOptions.params = params;
+    // return this.records;
+    return this.http.get(AppSettings.API_ENDPOINT + 'invoices/' + id + url, requestOptions).map((response: Response) => response.json());
+  }
+
+  updateInvoice(invoice: any) {
+    return this.http.patch(AppSettings.API_ENDPOINT + 'invoice/' + invoice.id, invoice, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

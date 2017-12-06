@@ -36,7 +36,7 @@ const routes: Routes = [
             // }
           },
           {
-            path: 'summary',
+            path: 'summary/:invoiceId',
             component: InvoiceSummaryComponent,
             canActivate: [AuthGuard],
             // data: {

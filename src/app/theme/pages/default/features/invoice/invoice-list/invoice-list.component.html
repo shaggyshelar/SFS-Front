@@ -137,65 +137,37 @@
 									<th title="">
 										Amount
 									</th>
-									<th title="">
+									<!-- <th title="">
 										Action
-									</th>
+									</th> -->
 								</tr>
 							</thead>
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of invoiceList'>
-									<td><a routerLink="/features/invoice/summary">{{row.invoiceno}}</a></td>
-									<td>{{row.date}}</td>
-									<td>{{row.studentName}}</td>
+									<td><a routerLink="/features/invoice/summary/{{row.id}}">{{row.invoiceNumber}}</a></td>
+									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>
 									<td>
 										<b>
-											{{row.status}}
+											{{row.invoiceStatus}}
 										</b>
 									</td>
 									<td>
 										<b>
-											{{row.amount}}
+											{{row.totalChargeAmount}}
 										</b>
 									</td>
-									<td>
+									<!-- <td>
 										<a href="javascript:;" (click)="onAdhocFeeDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Delete" [isAuthorize]="['Adhocfee.Delete']">
 											<i class="la la-close"></i>
 										</a>
-									</td>
+									</td> -->
 								</tr>
 							</tbody>
 							<tbody *ngIf="!longList">
 								No Records Found...
 							</tbody>
-							<!-- <tbody>
-								<tr>
-									<td>
-										<a href="#">SYM161700001</a>
-									</td>
-									<td>
-										27/11/2017
-									</td>
-									<td>
-										Chaitanya Belsare
-									</td>
-									<td>
-										<b>
-											<i>Open</i>
-										</b>
-									</td>
-									<td>
-										<b>
-											<i>8000</i>
-										</b>
-									</td>
-									<td>
-										<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-											<i class="la la-close"></i>
-										</a>
-									</td>
-								</tr>
-							</tbody> -->
 						</table>
 					</div>
 					<!-- Pagination -->
@@ -249,17 +221,10 @@
 							</div>
 						</div>
 					</div>
-
-
 				</div>
-
 				<!--end: Datatable -->
 			</div>
-
-
 			<!-- ++++++++++++++++++++++++ Listing Table Ends +++++++++++++++++++++++++++ -->
-
-
 		</div>
 	</div>
 </div>
