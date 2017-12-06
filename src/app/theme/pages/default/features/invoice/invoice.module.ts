@@ -31,17 +31,17 @@ const routes: Routes = [
             path: 'list',
             component: InvoiceListComponent,
             canActivate: [AuthGuard],
-            // data: {
-            //   permissions: ['AcademicYear.Read']
-            // }
+            data: {
+              permissions: ['Invoice.Read']
+            }
           },
           {
-            path: 'summary',
+            path: 'summary/:invoiceId',
             component: InvoiceSummaryComponent,
             canActivate: [AuthGuard],
-            // data: {
-            //   permissions: ['AcademicYear.Create']
-            // }
+            data: {
+              permissions: ['Invoice.Update']
+            }
           },
           // {
           //   path: 'edit/:id',

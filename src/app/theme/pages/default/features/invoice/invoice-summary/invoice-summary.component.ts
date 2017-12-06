@@ -3,10 +3,9 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ScriptLoaderService } from './../../../../../../_services/script-loader.service';
 import * as _ from 'lodash/index';
-
+import { InvoiceService } from '../../../_services/index';
 import { GlobalErrorHandler } from './../../../../../../_services/error-handler.service';
 import { MessageService } from './../../../../../../_services/message.service';
-
 import { AcademicYearService } from './../../../_services/index';
 import { Boards } from "./../../../_models/Boards";
 
@@ -19,19 +18,25 @@ import { Boards } from "./../../../_models/Boards";
 export class InvoiceSummaryComponent implements OnInit {
     params: number;
     academicYearForm: FormGroup;
+    invoice = {
+        dueDate: new Date(),
+        invoiceStatus: ''
+    };
+
     startDate: any;
     endDate: any;
     startAcademicYear: any;
     endAcademicYear: any;
     minEndDate: any;
-    isEndYearSameAsStarYear :boolean = false
-    isCurrentYearDisabled :boolean = false
+    isEndYearSameAsStarYear: boolean = false
+    isCurrentYearDisabled: boolean = false
 
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private _script: ScriptLoaderService,
+        private invoiceService: InvoiceService,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService) {
     }
@@ -39,70 +44,46 @@ export class InvoiceSummaryComponent implements OnInit {
         this.startAcademicYear = '';
         this.endAcademicYear = '';
         this.minEndDate = new Date();
-        this.academicYearForm = this.formBuilder.group({
-            id: [],
-            startDate: ['', [Validators.required]],
-            endDate: ['', [Validators.required]],
-            isCurrent: [false]
-        });
-
         this.route.params.forEach((params: Params) => {
-            this.params = params['id'];
+            this.params = params['invoiceId'];
             if (this.params) {
-               }
+                this.getInvoiceSumary();
+            }
         });
+
     }
-    onSubmit({ value, valid }: { value: any, valid: boolean }) {
-        if (this.params) {
-            value.schoolId = localStorage.getItem('schoolId');
-            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
-            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
-            if (this.endAcademicYear != '') {
-                value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
-            } else {
-                value.academicYear = this.startAcademicYear;
-            }
-        
-        } else {
-            value.schoolId = localStorage.getItem('schoolId');
-            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
-            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
-            if (this.endAcademicYear != '') {
-                value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
-            } else {
-                value.academicYear = this.startAcademicYear;
-            }
-          
+    getInvoiceSumary() {
+        let url = '?filter[include]=studentData&filter[include]=invoiceDetails';
+        this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
+            response => {
+                this.invoice = response;
+               // this.invoice.invoiceStatus="Paid";
+                this.invoice.dueDate = new Date(response.dueDate);
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+    updateInvoice() {
+        if (!this.invoice.dueDate) {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select due date' });
+            return false;
         }
+        if (!this.invoice.invoiceStatus) {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
+            return false;
+        }
+        this.invoiceService.updateInvoice(this.invoice).subscribe(
+            response => {
+                this.invoice = response;
+                this.router.navigate(['/features/invoice/list']);
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
-    onCancel() {
-        this.router.navigate(['/features/academicYear/list']);
-    }
-
-    setStartDate(value) {
-        if (value) {
-            this.isEndYearSameAsStarYear = false;
-            this.minEndDate = value;
-            let cloneDate = _.clone(value);
-            this.startAcademicYear = value.getFullYear();
-            let updatedDate = cloneDate.setMonth(cloneDate.getMonth() + 12)
-            let endDate = new Date(updatedDate);
-            this.academicYearForm.controls['endDate'].setValue(endDate);
-            if (this.startAcademicYear != endDate.getFullYear())
-                this.endAcademicYear = endDate.getFullYear().toString().substring(2, 4);
-        }
-    }
-    setEndDate(value) {
-        if (value) {
-            this.isEndYearSameAsStarYear = false;
-            let endDate = value.getFullYear();
-            if (this.startAcademicYear != endDate)
-                this.endAcademicYear = endDate.toString().substring(2, 4);
-            else {
-                this.endAcademicYear = '';
-                this.isEndYearSameAsStarYear = true
-            }
-        }
+    cancelInvoice() {
+        this.router.navigate(['/features/invoice/list']);
     }
 }

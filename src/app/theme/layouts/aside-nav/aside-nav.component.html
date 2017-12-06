@@ -314,6 +314,19 @@
 				</a>
 			</li>
 			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			[isAuthorize]="['Invoice.Read']">
+			   <a routerLink="/features/invoice/list" class="m-menu__link">
+				   <i class="m-menu__link-icon flaticon-users"></i>
+				   <span class="m-menu__link-title">
+					   <span class="m-menu__link-wrap">
+						   <span class="m-menu__link-text">
+							  Invoice
+						   </span>
+					   </span>
+				   </span>
+			   </a>
+		   </li>
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
 			 [isAuthorize]="['Report.Read']">
 				<a routerLink="/features/reports" class="m-menu__link">
 					<i class="m-menu__link-icon  flaticon-line-graph"></i>
