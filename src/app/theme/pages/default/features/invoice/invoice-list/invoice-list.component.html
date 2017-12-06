@@ -74,7 +74,7 @@
 							<label>Status</label>
 						</div>
 						<div class="filterDropdown">
-							<select class="form-control"  [(ngModel)]="status"  name="statusddl" >
+							<select class="form-control" [(ngModel)]="status" name="statusddl">
 								<option disabled="" selected="">Select</option>
 								<option>Paid</option>
 								<option>Open</option>
@@ -87,27 +87,28 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<div class="filterLabel">
+						<!-- <div class="filterLabel">
 							<label>From</label>
 						</div>
 						<div class="filterDropdown">
 							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" [minDate]='minDate'
-							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true"></p-calendar>
-						</div>
+							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setStartDate($event)" ></p-calendar>
+						</div> -->
 					</div>
 					<div class="col-md-2">
-						<div class="filterLabel">
+						<!-- <div class="filterLabel">
 							<label>To</label>
 						</div>
 						<div class="filterDropdown">
 							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="endDate" name="endDate" [minDate]='minDate' [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true"></p-calendar>
-						</div>
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setEndDate($event)" ></p-calendar>
+						</div> -->
 					</div>
 					<div class="col-md-1"></div>
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"  placeholder="Search..." id="m_form_search">
+							 
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -144,7 +145,9 @@
 							</thead>
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of invoiceList'>
-									<td><a routerLink="/features/invoice/summary/{{row.id}}">{{row.invoiceNumber}}</a></td>
+									<td>
+										<a routerLink="/features/invoice/summary/{{row.id}}">{{row.invoiceNumber}}</a>
+									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>
 									<td>
@@ -157,12 +160,6 @@
 											{{row.totalChargeAmount}}
 										</b>
 									</td>
-									<!-- <td>
-										<a href="javascript:;" (click)="onAdhocFeeDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-										 title="Delete" [isAuthorize]="['Adhocfee.Delete']">
-											<i class="la la-close"></i>
-										</a>
-									</td> -->
 								</tr>
 							</tbody>
 							<tbody *ngIf="!longList">

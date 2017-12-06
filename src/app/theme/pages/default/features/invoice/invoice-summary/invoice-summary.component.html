@@ -106,7 +106,7 @@
                                 <h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
-                                <select class="form-control m-input invoiceText">
+                                <select class="form-control m-input invoiceText" [(ngModel)]="invoice.invoiceStatus">
                                     <option>Select</option>
                                     <option value="Paid">Paid</option>
                                     <option value="Open">Open</option>
@@ -198,17 +198,20 @@
 
                     <hr>
 
-
-                    <!-- Save and cancel button -->
-                    <div class="saveCancelInvoice">
-                        <button type="reset" class="btn btn-accent">
-                            Save
-                        </button>
-                        <button type="reset" class="btn btn-secondary">
-                            Cancel
-                        </button>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions--solid">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [isAuthorize]="['Invoice.Update']" (click)="updateInvoice()">
+                                        Update
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" (click)="cancelInvoice()">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
 
                 </div>
 

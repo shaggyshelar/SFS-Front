@@ -21,6 +21,9 @@ export class InvoiceListComponent implements OnInit {
     perPage: number;       //Number of records to be displayed per page
     firstPageNumber: number;
     lastPage: number;
+    startDate: Date;
+    endDate: Date;
+    status:'';
     currentPageNumber: number; //Stores Current Page Number
     url: string;           //Api url
     sortUrl: string;       //Sort Api Url
@@ -115,6 +118,18 @@ export class InvoiceListComponent implements OnInit {
             error => {
                 this.globalErrorHandler.handleError(error);
             });
+    }
+
+    setStartDate(value) {
+        if (value) {
+            this.startDate = value;
+        }
+    }
+
+    setEndDate(value) {
+        if (value) {
+            this.endDate = value;
+        }
     }
     /*Pagination Function's Starts*/
 
@@ -284,8 +299,8 @@ export class InvoiceListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][feePlanName][like]=%' + searchString + "%" + '&filter[where][or][1][feePlanDescription][like]=%' + searchString + "%";
-            this.searchCountQuery = '&[where][or][0][feePlanName][like]=%' + searchString + "%" + '&[where][or][1][feePlanDescription][like]=%' + searchString + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][invoiceStatus][like]=%' + this.status + "%";
+            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][invoiceStatus][like]=%' + this.status + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;

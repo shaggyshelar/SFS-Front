@@ -57,6 +57,7 @@ export class InvoiceSummaryComponent implements OnInit {
         this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
             response => {
                 this.invoice = response;
+               // this.invoice.invoiceStatus="Paid";
                 this.invoice.dueDate = new Date(response.dueDate);
             },
             error => {
@@ -80,5 +81,9 @@ export class InvoiceSummaryComponent implements OnInit {
             error => {
                 this.globalErrorHandler.handleError(error);
             });
+    }
+
+    cancelInvoice() {
+        this.router.navigate(['/features/invoice/list']);
     }
 }
