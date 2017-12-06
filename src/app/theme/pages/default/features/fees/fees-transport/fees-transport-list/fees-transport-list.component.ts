@@ -37,6 +37,7 @@ export class TransportListComponent implements OnInit {
     isSubmitted: boolean = false;
     rowErr: boolean = false;
     disableFrequecy: boolean = false;
+    disabledZoneCode: boolean = false;
     confirmZoneCostErr: boolean = false;
     isRequired: boolean = false;
     paymentProcessDate: number;
@@ -107,17 +108,20 @@ export class TransportListComponent implements OnInit {
                     if (this.academicYear === this.transportList[0].academicyear) {
                         this.frequencyId = this.transportList[0].frequencyId;
                         this.disableFrequecy = true;
+                        this.disabledZoneCode = true;
                     }
                     else {
                         this.frequencyId = null;
                         this.disableFrequecy = false;
+                        this.disabledZoneCode = false;
                     }
                 }
                 this.transportList.forEach(element => {
                     element.confirmZoneCost = element.zoneCost;
-                    element.disableFrequecy=this.disableFrequecy;
+                    element.disableFrequecy = this.disableFrequecy;
+                    element.disabledZoneCode = this.disabledZoneCode;
                 });
-                
+
                 if (this.transportList.length == 0) {
                     this.frequencyId = null;
                     this.disableFrequecy = false;
@@ -138,9 +142,12 @@ export class TransportListComponent implements OnInit {
         }
     }
     addRowAndSave(row: any, rowNum: any) {
-        this.onSaveTransportRows(row, rowNum);
+        if(!row.disableFrequecy){
+            this.onSaveTransportRows(row, rowNum);
+        }
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null && (row.zoneCost === row.confirmZoneCost)) {
             this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '', 'confirmZoneCost': null });
+            //row.disabledZoneCode = false;
         }
     }
     onDeleteTransport(data: any, index: any) {
@@ -169,11 +176,11 @@ export class TransportListComponent implements OnInit {
 
         }
     }
-    enableEdit(i,row) {
+    enableEdit(i, row) {
         // document.getElementById('txtZoneDesc' + i).removeAttribute('disabled');
         // document.getElementById('txtZoneCost' + i).removeAttribute('disabled');
         // document.getElementById('txtZoneConfirmCost' + i).removeAttribute('disabled');
-        row.disableFrequecy=false;
+        row.disableFrequecy = false;
     }
     onAcademicYear(val: any) {
         this.disableFrequecy = false;
@@ -341,7 +348,7 @@ export class TransportListComponent implements OnInit {
                                 });
                             });
                             this.saveZoneDetails(details);
-                            row.disableFrequecy=true;
+                            row.disableFrequecy = true;
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
@@ -349,7 +356,7 @@ export class TransportListComponent implements OnInit {
                     this.transportServics.updateTransport(row).subscribe(
                         data => {
                             this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                            row.disableFrequecy=true;
+                            row.disableFrequecy = true;
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
