@@ -18,10 +18,7 @@ import { Boards } from "./../../../_models/Boards";
 export class InvoiceSummaryComponent implements OnInit {
     params: number;
     academicYearForm: FormGroup;
-    invoice = {
-        dueDate: new Date(),
-        invoiceStatus: ''
-    };
+    invoice :any;
 
     startDate: any;
     endDate: any;
@@ -41,6 +38,7 @@ export class InvoiceSummaryComponent implements OnInit {
         private messageService: MessageService) {
     }
     ngOnInit() {
+        this.invoice={};        
         this.startAcademicYear = '';
         this.endAcademicYear = '';
         this.minEndDate = new Date();
