@@ -1,0 +1,102 @@
+<div class="m-subheader">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                SFS Configuration
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+						<span class="m-nav__link-text">
+							SFS Configuration
+						</span>
+					</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        SFS Configuration
+                    </h3>
+                </div>
+            </div>
+            <!--Required Field Note-->
+            <label class="requiredFieldNote">Note: &nbsp;&nbsp;
+				<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            <!-- <div class="m_datatable" id="local_data"></div> -->
+            <!-- Table -->
+            <div class="form-group m-form__group row">
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <div class="tableBox">
+                            <table class="staticTable" id="" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th title="" [hidden]="true">
+                                            Parameter
+                                        </th>
+                                        <th title="">
+                                            Description
+                                        </th>
+                                        <th title="">
+                                            Value
+                                        </th>
+                                        <th title="">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                 <tbody>
+                                    <tr *ngFor="let row of configurationList;let rowNum=index;let lastRowNum=last;">
+                                        <td [hidden]=true>
+                                            <input type="text"  class="form-control m-input" [(ngModel)]="row.Key">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control m-input" [(ngModel)]="row.Name" disabled>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control m-input" [(ngModel)]="row.Value">
+                                        </td>
+                                        <td>
+                                            <div class="">
+                                                <button title="Update" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                    (click)="onUpdate(row)">
+													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody> 
+                            </table>
+                            <!-- Add Button -->
+                            <!-- <button type="button" class="btn btn-primary btn-sm" style="margin-top:25px;" (click)="addRow()">
+								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+								Add New
+							</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>
