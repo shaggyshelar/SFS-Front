@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;">{{invoice.invoiceStatus}}</span>
+                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;">{{invoice.status}}</span>
                             </h3>
                         </div>
                         <div class="col-md-1">
@@ -72,7 +72,7 @@
                         <div class="col-md-2">
                             <div class="invoiceLabelBox">
                                 <h6>Date</h6>
-                                <h5>{{ invoice.dueDate? (invoice.dueDate | date: 'MM/dd/yyyy'):'' }}</h5>
+                                <h5>{{ invoice.dueDate? (invoice.createdOn | date: 'MM/dd/yyyy'):'' }}</h5>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                                 </h6>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
-                                    yearRange="2000:2050"></p-calendar>
+                                    [disabled]="invoice.status!='Processed'" yearRange="2000:2050"></p-calendar>
                             </div>
                         </div>
 
@@ -106,48 +106,21 @@
                                 <h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
-                                <select class="form-control m-input invoiceText" [(ngModel)]="invoice.invoiceStatus">
+                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="invoice.status">
                                     <option>Select</option>
                                     <option value="Paid">Paid</option>
-                                    <option value="Open">Open</option>
+                                    <option value="Open" disabled>Open</option>
                                     <option value="Closed">Closed</option>
-                                    <option value="Created">Created</option>
-                                    <option value="Processed">Processed</option>
-                                    <option value="Settled">Settled</option>
-                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Created" disabled>Created</option>
+                                    <option value="Processed" disabled>Processed</option>
+                                    <option value="Settled" disabled>Settled</option>
+                                    <option value="Cancelled" disabled>Cancelled</option>
                                 </select>
                             </div>
                         </div>
 
                     </div>
-
-                    <!--
                     <div class="row invoiceRow">
-                        
-                        <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
-                                <h6>Due Date</h6>
-                                <input class="form-control m-input invoiceText" type="text" value="" id="m_datepicker_1">
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <div class="invoiceLabelBox">													
-                                <h6>Status</h6>
-                                <select class="form-control m-input invoiceText">
-                                    <option disabled="" selected="">Select</option>											
-                                    <option>Paid</option>
-                                    <option>Open</option>
-                                    <option>Closed</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    -->
-                    <div class="row invoiceRow">
-
                         <div class="col-md-4">
                             <div class="invoiceLabelBox">
                                 <h6>Invoice to</h6>
@@ -158,10 +131,16 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="invoiceLabelBox">
                                 <h6>Description</h6>
                                 <h5>{{invoice.desc}}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="invoice.status=='Paid' && statusChanged">
+                            <div class="invoiceLabelBox">
+                                <h6>Status Description</h6>
+                                <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc"  />
                             </div>
                         </div>
                     </div>
@@ -202,7 +181,8 @@
                         <div class="m-form__actions m-form__actions--solid">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [isAuthorize]="['Invoice.Update']" (click)="updateInvoice()">
+                                        <!-- *ngIf="invoice.status=='Processed'" -->
+                                    <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom"  [isAuthorize]="['Invoice.Update']" (click)="updateInvoice()">
                                         Update
                                     </button>
                                     <button type="button" class="btn btn-secondary" (click)="cancelInvoice()">
@@ -212,19 +192,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
             <br>
             <br>
-
-
         </div>
     </div>
-    <!--end:: Widgets/Stats-->
-
-
-
 </div>

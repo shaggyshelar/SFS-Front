@@ -19,7 +19,7 @@ export class InvoiceSummaryComponent implements OnInit {
     params: number;
     academicYearForm: FormGroup;
     invoice :any;
-
+    statusChanged=false;
     startDate: any;
     endDate: any;
     startAcademicYear: any;
@@ -67,8 +67,12 @@ export class InvoiceSummaryComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select due date' });
             return false;
         }
-        if (!this.invoice.invoiceStatus) {
+        else if (!this.invoice.invoiceStatus) {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
+            return false;
+        }
+        else if(this.statusChanged && this.invoice.status=='Paid' && this.invoice.statusDesc=='' ){
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
         this.invoiceService.updateInvoice(this.invoice).subscribe(
@@ -80,7 +84,10 @@ export class InvoiceSummaryComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
-
+    onStatusChange()
+    {
+        this.statusChanged=true;
+    }
     cancelInvoice() {
         this.router.navigate(['/features/invoice/list']);
     }
