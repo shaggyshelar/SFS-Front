@@ -100,20 +100,24 @@ export class InvoiceListComponent implements OnInit {
     }
 
     getDataCount(url) {
-
-        this.total = 5;
-        this.pages = Math.ceil(this.total / this.perPage);
-        this.generateCount();
-        this.setDisplayPageNumberRange();
-        this.getAllInvoice();
-
+        this.invoiceService.getInvoicesCount(this.url).subscribe(
+            response => {
+                this.total = response.count;
+                this.pages = Math.ceil(this.total / this.perPage);
+                this.generateCount();
+                this.setDisplayPageNumberRange();
+                this.getAllInvoice();
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
     }
 
     getAllInvoice() {
         this.getUrl();
         this.invoiceService.getAllInvoices(this.url).subscribe(
             response => {
-                this.invoiceList = response;
+                this.invoiceList = response.invoices;
             },
             error => {
                 this.globalErrorHandler.handleError(error);
