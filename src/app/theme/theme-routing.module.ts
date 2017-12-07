@@ -75,6 +75,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/configuration\/configuration.module#ConfigurationModule"
       },
       {
+        "path": "features\/sfsconfiguration",
+        "loadChildren": ".\/pages\/default\/features\/sfs_configuration\/sfsconfiguration.module#SFSConfigurationModule"
+      },
+      {
         "path": "features\/archival",
         "loadChildren": ".\/pages\/default\/features\/archival\/archival.module#ArchivalModule"
       },

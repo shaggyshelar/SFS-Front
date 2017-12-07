@@ -15,4 +15,6 @@ export class School {
     createdOn : string;
     graceDays: string;
     processingDate: string;
+    invoiceMnemonic: string;
+    invoiceSequenceNumber: string;
 }

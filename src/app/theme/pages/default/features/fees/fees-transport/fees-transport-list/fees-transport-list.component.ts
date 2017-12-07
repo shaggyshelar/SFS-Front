@@ -142,7 +142,7 @@ export class TransportListComponent implements OnInit {
         }
     }
     addRowAndSave(row: any, rowNum: any) {
-        if(!row.disableFrequecy){
+        if (!row.disableFrequecy) {
             this.onSaveTransportRows(row, rowNum);
         }
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null && (row.zoneCost === row.confirmZoneCost)) {
@@ -246,6 +246,14 @@ export class TransportListComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
+    saveZoneDetailsWithAddRow(details: any) {
+        this.transportServics.addZoneDetails(details).subscribe(
+            data => {
+                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Added Successfully' });
+            }, error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
     onSaveTransport() {
         this.isRequired = false;
         this.confirmZoneCostErr = false;
@@ -265,17 +273,6 @@ export class TransportListComponent implements OnInit {
                     break;
                 }
             }
-            // this.transportList.forEach((element, i) => {
-            //     if (element.zoneCode === '' || element.zoneCost === null || element.confirmZoneCost === null) {
-            //         this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (i + 1) });
-            //         return false;
-            //     }
-            //     if (element.zoneCost !== element.confirmZoneCost) {
-            //         this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (i + 1) });
-            //         return false;
-            //     }
-            // });
-
             if (!this.isRequired && !this.confirmZoneCostErr) {
                 this.checkMaxSequenceNumber();
                 let _tempUpdateList: any = [];
@@ -347,8 +344,9 @@ export class TransportListComponent implements OnInit {
                                     details.push(_tempDetails);
                                 });
                             });
-                            this.saveZoneDetails(details);
+                            this.saveZoneDetailsWithAddRow(details);
                             row.disableFrequecy = true;
+                            row.disabledZoneCode = true;
                         }, error => {
                             this.globalErrorHandler.handleError(error);
                         });
