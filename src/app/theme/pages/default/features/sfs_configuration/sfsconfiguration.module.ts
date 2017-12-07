@@ -3,19 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
-import { ConfigurationComponent } from './configuration.component';
-import { ConfigurationListComponent } from './configuration-list/configuration-list.component';
+import { SFSConfigurationComponent } from './sfsconfiguration.component';
+import { SFSConfigurationListComponent } from './sfsconfiguration-list/sfsconfiguration-list.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { CommonService } from '../../_services/index';
 import { ConfigurationService } from '../../_services/configuration.service';
-import { UserSchoolDetailsService } from '../../../default/_services/userschooldetails.service';
 
 import {
   DataTableModule,
   SharedModule,
-  ConfirmationService,
-  DropdownModule
+  ConfirmationService
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -25,11 +23,11 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: ConfigurationComponent,
+        component: SFSConfigurationComponent,
         children: [
           {
             path: 'list',
-            component: ConfigurationListComponent,
+            component: SFSConfigurationListComponent,
             canActivate: [AuthGuard],
             data: {
               //permissions: ['Student.Read']
@@ -49,17 +47,15 @@ const routes: Routes = [
     // primeng modules
     DataTableModule,
     SharedModule,
-    DropdownModule
   ], declarations: [
-    ConfigurationComponent,
-    ConfigurationListComponent
+    SFSConfigurationComponent,
+    SFSConfigurationListComponent
   ],
   providers: [
     ConfirmationService,
     CommonService,
-    ConfigurationService,
-    UserSchoolDetailsService
+    ConfigurationService
   ]
 })
-export class ConfigurationModule {
+export class SFSConfigurationModule {
 }

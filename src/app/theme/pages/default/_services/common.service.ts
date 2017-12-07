@@ -17,22 +17,22 @@ export class CommonService {
   getClass() {
     //let classList = ["--select--", "1st", "2nd", "3rd"];
     //return classList;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Classes', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Classes', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getCategory() {
     //let category = ["--select--", "General", "RTE", "Management", "Staff"];
     //return category;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/Schoolcategories', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/Schoolcategories', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getYear() {
     //let year = ["--select--", "2000", "2001", "2002"];
     //return year;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Academicyears', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Academicyears', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getBoard() {
     //let board = ["--select--", "SSC", "CBSC", "ICSC"];
     //return board;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Boards', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Boards', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getBloodGroup() {
     let blooDgroup = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
@@ -43,7 +43,7 @@ export class CommonService {
   getZoneList() {
     //let zoneGroup = ["Zone 1", "Zone 2", "Zone 3"];
     //return zoneGroup;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Zones', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Zones', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getChargeHeader() {
@@ -51,4 +51,16 @@ export class CommonService {
     return chargeHeads;
     //return this.http.get(AppSettings.API_ENDPOINT + 'categories', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
+
+  getConfigurationKey() {
+    let configurationKeys = [{ "Key": "InvoiceAcronym", "Name": "Invoice Acronym", "Value": "100" }];
+    return configurationKeys;
+  }
+
+  getConfigurationKeySFS() {
+    let configurationKeys = [{ "Key": "AggregatorID", "Name": "Aggregator ID", "Value": "100" },
+    { "Key": "AggregatorKey", "Name": "Aggregator Key", "Value": "101" }];
+    return configurationKeys;
+  }
+
 }

@@ -87,7 +87,10 @@ export class SchoolAddEditComponent implements OnInit {
             createdOn: [''],
             createdBy: [''],
             processingDate: ['', [Validators.required]],
-            graceDays: ['', [Validators.required]]
+            graceDays: ['', [Validators.required]],
+            invoiceMnemonic: ['', [Validators.required]],
+            invoiceSequenceNumber:['']
+
         });
 
         this.route.params.forEach((params: Params) => {
@@ -113,6 +116,9 @@ export class SchoolAddEditComponent implements OnInit {
                             createdOn: results.createdOn,
                             processingDate: results.processingDate,
                             graceDays: results.graceDays,
+                            invoiceMnemonic: results.invoiceMnemonic,
+                            invoiceSequenceNumber: results.invoiceSequenceNumber
+
                         });
                         if (results.schoolLogo) {
                             let logo = results.schoolLogo.split('/');
