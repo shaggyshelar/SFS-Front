@@ -65,5 +65,15 @@ export class ConfigurationListComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
-
+    onSchoolSelect(id) {
+        this.schoolId = id;
+       // this.getAllMerchants();
+        // if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+        //     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        //     this.listDisable = false;
+        // } else {
+        //     this.schoolId = localStorage.getItem("schoolId");
+        //     this.listDisable = true;
+        // }
+    }
 }

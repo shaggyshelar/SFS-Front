@@ -37,7 +37,7 @@ export class InvoiceService {
     let requestOptions = AppSettings.requestOptions();
     requestOptions.params = params;
     // return this.records;
-    return this.http.get(AppSettings.API_ENDPOINT + 'invoices' + url, requestOptions).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem('schoolId') +'/SchoolInvoices/' + url, requestOptions).map((response: Response) => response.json());
   }
 
   getInvoiceSumary(id, url) {
@@ -46,8 +46,12 @@ export class InvoiceService {
     let requestOptions = AppSettings.requestOptions();
     requestOptions.params = params;
     // return this.records;
-    return this.http.get(AppSettings.API_ENDPOINT + 'invoices/' + id + url, requestOptions).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+localStorage.getItem('schoolId')+'/SchoolInvoices/' + id + url, requestOptions).map((response: Response) => response.json());
   }
+
+  getInvoicesCount(url) {   
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolInvoices/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
+   }
 
   updateInvoice(invoice: any) {
     return this.http.patch(AppSettings.API_ENDPOINT + 'invoices/' + invoice.id, invoice, AppSettings.requestOptions()).map((response: Response) => response.json());
