@@ -349,35 +349,53 @@ export class FeesPlanAddEditComponent implements OnInit {
       for (let index = 0; index < tempFeeHead.frequencyValue; index++) {
         let feePlanDetailObj = new FeePlanDetails();
         feePlanDetailObj.feePlanId = _feeplan.id;
-        feePlanDetailObj.sequenceNumber = index + 1;
+
         feePlanDetailObj.feeHeadId = value.feeHeadId;
         feePlanDetailObj.schoolId = parseInt(localStorage.getItem('schoolId'));
         feePlanDetailObj.academicYear = _selectedAcademicYear;
         feePlanDetailObj.feeCharges = value.amount;
-        if (tempFeeHead.frequencyValue == 1)
+        if (tempFeeHead.frequencyValue == 1) {
           feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+          feePlanDetailObj.sequenceNumber = 1;
+        }
         else if (tempFeeHead.frequencyValue == 2) {
-          if (index == 1 && _maxLength == 12)
+          if (index == 1 && _maxLength == 12) {
             feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
-          if (index == 1 && _maxLength == 4)
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else if (index == 1 && _maxLength == 4) {
             feePlanDetailObj.dueDate = new Date(_frequency[2].date.toString());
-          if (index == 1 && _maxLength == 2)
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else if (index == 1 && _maxLength == 2) {
             feePlanDetailObj.dueDate = new Date(_frequency[1].date.toString());
-          else
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else {
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+            feePlanDetailObj.sequenceNumber = 1;
+          }
         }
         else if (tempFeeHead.frequencyValue == 4) {
-          if (_maxLength == 4 || index == 0)
+          if (_maxLength == 4 || index == 0) {
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
-          else if (index == 1 && _maxLength == 12)
+            feePlanDetailObj.sequenceNumber = index + 1;
+          }
+          else if (index == 1 && _maxLength == 12) {
             feePlanDetailObj.dueDate = new Date(_frequency[3].date.toString());
-          else if (index == 2 && _maxLength == 12)
+            feePlanDetailObj.sequenceNumber = 4;
+          }
+          else if (index == 2 && _maxLength == 12) {
             feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
-          else if (index == 3 && _maxLength == 12)
+            feePlanDetailObj.sequenceNumber = 7;
+          } else if (index == 3 && _maxLength == 12) {
             feePlanDetailObj.dueDate = new Date(_frequency[9].date.toString());
+            feePlanDetailObj.sequenceNumber = 10;
+          }
         }
         else if (tempFeeHead.frequencyValue == 12) {
           feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+          feePlanDetailObj.sequenceNumber = index + 1;
         }
         _feePlanDetails.push(feePlanDetailObj);
       }

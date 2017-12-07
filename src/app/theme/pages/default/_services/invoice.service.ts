@@ -50,6 +50,6 @@ export class InvoiceService {
   }
 
   updateInvoice(invoice: any) {
-    return this.http.patch(AppSettings.API_ENDPOINT + 'invoice/' + invoice.id, invoice, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT + 'invoices/' + invoice.id, invoice, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

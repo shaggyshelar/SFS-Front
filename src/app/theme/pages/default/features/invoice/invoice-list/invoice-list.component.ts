@@ -299,8 +299,8 @@ export class InvoiceListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][invoiceStatus][like]=%' + this.status + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][invoiceStatus][like]=%' + this.status + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
