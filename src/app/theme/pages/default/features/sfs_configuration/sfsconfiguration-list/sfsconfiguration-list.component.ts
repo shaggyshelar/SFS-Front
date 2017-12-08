@@ -16,7 +16,8 @@ import { ConfirmationService } from 'primeng/primeng';
     encapsulation: ViewEncapsulation.None,
 })
 export class SFSConfigurationListComponent implements OnInit {
-    configurationList = [];
+    configurationList: any = [];
+    config: any = [];
     schoolId: string;
     constructor(
         private globalErrorHandler: GlobalErrorHandler,
@@ -34,14 +35,27 @@ export class SFSConfigurationListComponent implements OnInit {
         } else {
             this.schoolId = localStorage.getItem("schoolId");
             this.configurationList = this.commonService.getConfigurationKeySFS();
-            console.log(this.configurationList)
+            this.getAllSFSConfiguartion();
         }
     }
+    getAllSFSConfiguartion() {
+        this.configurationService.getSFSConfiguration()
+            .subscribe(response => {
+                this.config = response;
+                this.config.forEach(element => {
+                    this.configurationList.forEach(element1 => {
+                        if (element.keyName === element1.keyName) {
+                            element1.keyValue = element.keyValue;
+                        }
+                    });
+                });
+            });
+    }
     onUpdate(row) {
-        this.configurationService.updateConfiguration(row).subscribe(
+        this.configurationService.updateSFSConfiguration(row).subscribe(
             data => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                
+                console.log(data);
             }, error => {
                 this.globalErrorHandler.handleError(error);
             });
