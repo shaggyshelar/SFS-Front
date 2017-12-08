@@ -292,6 +292,7 @@ export class TransportListComponent implements OnInit {
                     this.transportServics.createTransport(_tempNewList).subscribe(
                         data => {
                             let details = [];
+                            let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
                             data.forEach(element => {
                                 this.frequency.forEach(freq => {
                                     let _tempDetails: any = {};
@@ -299,7 +300,44 @@ export class TransportListComponent implements OnInit {
                                     _tempDetails.zoneId = element.id;
                                     _tempDetails.academicYear = this.academicYear;
                                     _tempDetails.dueDate = freq.date;
-                                    _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                    //frequencyId
+
+                                    if (tempFeeHead.frequencyValue == 1) {
+                                        _tempDetails.sequenceNumber = 1;
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 4) {
+                                        if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 4;
+                                        }
+                                        else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 10;
+                                        }
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 12) {
+                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                    }
+
+
+                                    // _tempDetails.sequenceNumber = freq.sequenceNumber;
                                     details.push(_tempDetails);
                                 });
                             });
@@ -333,6 +371,7 @@ export class TransportListComponent implements OnInit {
                     this.transportServics.createTransport([row]).subscribe(
                         data => {
                             let details = [];
+                            let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
                             data.forEach(element => {
                                 this.frequency.forEach(freq => {
                                     let _tempDetails: any = {};
@@ -340,7 +379,39 @@ export class TransportListComponent implements OnInit {
                                     _tempDetails.zoneId = element.id;
                                     _tempDetails.academicYear = this.academicYear;
                                     _tempDetails.dueDate = freq.date;
-                                    _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                    if (tempFeeHead.frequencyValue == 1) {
+                                        _tempDetails.sequenceNumber = 1;
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 4) {
+                                        if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 4;
+                                        }
+                                        else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = 10;
+                                        }
+                                    }
+                                    else if (tempFeeHead.frequencyValue == 12) {
+                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                    }
                                     details.push(_tempDetails);
                                 });
                             });
