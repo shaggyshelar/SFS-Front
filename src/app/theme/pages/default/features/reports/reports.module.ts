@@ -13,7 +13,7 @@ SharedModule,
 
 const routes: Routes = [
   {
-    path: "",
+    path: "Report/Student",
     component: DefaultComponent,
     children: [
       {

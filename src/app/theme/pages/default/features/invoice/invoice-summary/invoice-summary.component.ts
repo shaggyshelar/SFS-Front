@@ -54,9 +54,9 @@ export class InvoiceSummaryComponent implements OnInit {
         let url = '?filter[include]=studentData&filter[include]=invoiceDetails';
         this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
             response => {
-                this.invoice = response;
+                this.invoice = response.invoices;
                // this.invoice.invoiceStatus="Paid";
-                this.invoice.dueDate = new Date(response.dueDate);
+                this.invoice.dueDate = new Date(response.invoices.dueDate);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
