@@ -89,7 +89,7 @@ export class SchoolAddEditComponent implements OnInit {
             processingDate: ['', [Validators.required]],
             graceDays: ['', [Validators.required]],
             invoiceMnemonic: ['', [Validators.required]],
-            invoiceSequenceNumber:['']
+            invoiceSequenceNumber:['0']
 
         });
 
