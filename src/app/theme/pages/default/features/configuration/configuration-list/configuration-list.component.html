@@ -80,13 +80,13 @@
                                 <tbody>
                                     <tr *ngFor="let row of configurationList;let rowNum=index;let lastRowNum=last;">
                                         <td [hidden]=true>
-                                            <input type="text" class="form-control m-input" [(ngModel)]="row.Key">
+                                            <input type="text" class="form-control m-input" [(ngModel)]="row.keyName">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control m-input" [(ngModel)]="row.Name" disabled>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control m-input" [(ngModel)]="row.Value">
+                                            <input type="text" class="form-control m-input" [(ngModel)]="row.keyValue">
                                         </td>
                                         <td>
                                             <div class="">

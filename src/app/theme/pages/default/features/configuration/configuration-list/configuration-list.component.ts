@@ -18,7 +18,8 @@ import { ConfirmationService } from 'primeng/primeng';
 })
 export class ConfigurationListComponent implements OnInit {
     schoolList: SelectItem[];
-    configurationList = [];
+    configurationList: any = [];
+    config: any = [];
     schoolId: string;
     listDisable: boolean;
     constructor(
@@ -40,7 +41,7 @@ export class ConfigurationListComponent implements OnInit {
             this.schoolId = localStorage.getItem("schoolId");
             this.listDisable = true;
             this.configurationList = this.commonService.getConfigurationKey();
-            console.log(this.configurationList)
+            this.getAllSchoolConfiguartion(this.schoolId);
         }
         this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
             .subscribe(
@@ -56,8 +57,22 @@ export class ConfigurationListComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
+    getAllSchoolConfiguartion(id) {
+        this.configurationService.getSchoolConfiguration(id)
+            .subscribe(response => {
+                this.config = response;
+                this.config.forEach(element => {
+                    this.configurationList.forEach(element1 => {
+                        if (element.keyName === element1.keyName) {
+                            element1.keyValue = element.keyValue;
+                        }
+                    });
+                });
+            });
+    }
     onUpdate(row) {
-        this.configurationService.updateConfiguration(row).subscribe(
+        row.schoolId = this.schoolId;
+        this.configurationService.updateSchoolConfiguration(row).subscribe(
             data => {
                 this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
 
@@ -67,7 +82,7 @@ export class ConfigurationListComponent implements OnInit {
     }
     onSchoolSelect(id) {
         this.schoolId = id;
-       // this.getAllMerchants();
+        // this.getAllMerchants();
         // if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
         //     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         //     this.listDisable = false;
