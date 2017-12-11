@@ -17,7 +17,7 @@ import { ConfirmationService } from 'primeng/primeng';
     templateUrl: "./student-invoice-report.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class MerchantListComponent implements OnInit {
+export class StudentInvoiceReportComponent implements OnInit {
     schoolList: SelectItem[];
     listDisable: boolean;
     schoolId: string;

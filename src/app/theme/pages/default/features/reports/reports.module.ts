@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReportsComponent } from './reports.component';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
+import { StudentInvoiceReportComponent } from './student-invoice-report/student-invoice-report.component';
 
 import {
 DataTableModule,
@@ -32,8 +33,10 @@ const routes: Routes = [
     // primeng modules
     DataTableModule,
     SharedModule,
+    
   ], declarations: [
     ReportsComponent,
+    StudentInvoiceReportComponent
   ]
 })
 export class ReportsModule {
