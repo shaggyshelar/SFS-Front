@@ -44,106 +44,111 @@
 		<!--begin::Form-->
 		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" name="feePlanForm" #feePlanForm="ngForm"
 		 novalidate (ngSubmit)="onSubmit(feePlanForm)">
-			<div class="m-portlet__head">
+			<div class="m-portlet__head headFeePlan">
 				<div class="m-portlet__head-caption">
 					<div class="m-portlet__head-title">
-						<h3 class="m-portlet__head-text">
+						<h3 class="m-portlet__head-text headTextFeePlan">
 							Add/Edit Fee Plan
 						</h3>
 					</div>
 				</div>
 
 				<!--Required Field Note-->
-				<label class="requiredFieldNote">Note: &nbsp;&nbsp;
+				<label class="requiredFieldNoteFeePlan">Note: &nbsp;&nbsp;
 					<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
 
 			</div>
 			<div class="m-portlet__body">
 
-				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-md-2 col-form-label">
-						Fee Plan Name<span class="requiredField">*</span>
-					</label>
-					<div class="col-md-5">
-						<input class="form-control m-input" type="text" [(ngModel)]="planeName" #planeNameVal="ngModel" name="planeName" required>
+				<div class="form-group m-form__group row lessPadding lessPaddingFeePlan" style="padding-top: 0px!important;padding-bottom: 20px!important;">
+					<div class="col-md-3">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
+							Fee Plan Name<span class="requiredField">*</span>
+						</label>
+						<input class="form-control m-input feePlanText" type="text" [(ngModel)]="planeName" #planeNameVal="ngModel" name="planeName" required>
 						<div class="alertMsg" *ngIf="planeNameVal.errors && planeNameVal.errors.required && (planeNameVal.dirty || planeNameVal.touched)">
 							Name is required.
 						</div>
 					</div>
-				</div>
-				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-md-2 col-form-label">
-						Description
-					</label>
-					<div class="col-md-5">
-						<textarea class="form-control m-input" rows="3" style="resize:none;" name="desc" [(ngModel)]="planeDesc"></textarea>
-					</div>
-				</div>
-				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-md-2 col-form-label">
+					<div class="col-md-2">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
 						Academic Year<span class="requiredField">*</span>
-					</label>
-					<div class="col-md-5">
-						<p-dropdown class="" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
-						 (onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
+						</label>
+						<p-dropdown class="feePlanBox" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
+							(onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
 						<div class="alertMsg" *ngIf="academicYear.errors && academicYear.errors.required && (academicYear.dirty || academicYear.touched)">
 							Please select academic year
 						</div>	
 						<!-- <label for="example-text-input" class="col-md-4 col-form-label">
 							{{selectedAcademicYear}}
-						</label> -->
-					</div>
-
+						</label> -->						
+					</div>	
+					<div class="col-md-7">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
+							Description
+						</label>
+						<input class="form-control m-input feePlanText" type="text" [(ngModel)]="planeDesc" name="desc">
+						<!--<textarea class="form-control m-input" rows="3" style="resize:none;" name="desc" [(ngModel)]="planeDesc"></textarea> -->
+					</div>					
 				</div>
-
+				
 				<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
 
 				<!--+++++++++++++++++++++++++++++-->
 				<div class="">
-					<div class="form-group m-form__group row">
+					<div class="form-group m-form__group row" style="padding-top: 10px !important;padding-bottom: 0px !important;">
 						<div class="col-md-5">
-							<h3 class="m-form__section">
+							<h3 class="m-form__section feePlanManageHeading">
 								Fee Plan Management
 							</h3>
 						</div>
 					</div>
 
 					<!--******************************************-->
-					<div class="form-group m-form__group row lessPadding" *ngFor="let fee of feePlanManagement;let rowNum=index;let lastRowNum=last">
-
+					<div class="form-group m-form__group row lessPadding" style="padding-top: 5px !important;padding-bottom: 10px !important;">
 						<div class="col-md-2">
-							<label for="example-text-input" class="col-form-label">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
 								Fee Head <span class="requiredField">*</span>
 							</label>
-							<p-dropdown class="" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+fee.contRoleId}}"
+						</div>	
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Amount <span class="requiredField">*</span>
+							</label>
+						</div>	
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Re-enter Amount <span class="requiredField">*</span>
+							</label>
+						</div>	
+					</div>	
+
+					<div class="form-group m-form__group row lessPadding" *ngFor="let fee of feePlanManagement;let rowNum=index;let lastRowNum=last" style="padding-top: 0px !important;padding-bottom: 10px !important;">
+
+						<div class="col-md-2">							
+							<p-dropdown class="feePlanBox" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+fee.contRoleId}}"
 							 (onChange)="onFeeHeadChange(fee,rowNum)"></p-dropdown>
 						</div>
-						<div class="col-md-2">
-							<label for="example-text-input" class="col-form-label">
-								Amount<span class="requiredField">*</span>
-							</label>
-							<input class="form-control m-input" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
+						<div class="col-md-2">							
+							<input class="form-control m-input feePlanText" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
 						</div>
-						<div class="col-md-2">
-							<label for="example-text-input" class="col-form-label">
-								Re-enter Amount<span class="requiredField">*</span>
-							</label>
-							<input class="form-control m-input" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
+						<div class="col-md-2">						
+							<input class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
 						</div>
-						<div class="col-md-2 feePlanAddBtn">
-							<button type="button" class="btn btn-danger m-btn--pill" *ngIf="!lastRowNum||rowNum>0" (click)="removeFeeHeadDetails(fee,rowNum)">
-								<i class="la la-minus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-							</button>
-							<button type="button" class="btn btn-primary m-btn--pill" *ngIf="lastRowNum" (click)="addFeeHeadDetails(fee)">
+						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan">
+							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0" (click)="removeFeeHeadDetails(fee,rowNum)">
+								<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+							</button> &nbsp;
+							<button title="Add New" type="button" class="btn btn-primary m-btn--pill feePlanActionBtn" *ngIf="lastRowNum" (click)="addFeeHeadDetails(fee)">
 								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 							</button>
 						</div>
 					</div>
 					<!--******************************************-->
 
-					<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
+					<!--<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div> -->
 
-					<div class="form-group m-form__group row">
+					<!--<div class="form-group m-form__group row">
 						<div class="col-md-3" *ngFor="let item of frequency;let rowNum=index;let lastRowNum=last">
 							<label for="example-text-input" class="col-form-label" style="width:100%;">
 								Date {{rowNum+1}}
@@ -152,14 +157,14 @@
 							 yearRange="academicYearRange" [(ngModel)]="item.date" [maxDate]="maxDate" dateFormat="dd/mm/yy" disabled [minDate]="minDate"
 							 readonlyInput="true"></p-calendar>
 						</div>
-					</div>
+					</div> -->
+					
 				</div>
 				<!--+++++++++++++++++++++++++++++-->
 			</div>
 
-
 			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-				<div class="m-form__actions m-form__actions--solid">
+				<div class="m-form__actions m-form__actions--solid lessPaddingFeePlanFooter">
 					<div class="row">
 						<div class="col-lg-6">
 							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed" >
