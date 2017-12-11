@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
-
+import { Observable } from 'rxjs/Rx';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 
@@ -48,28 +48,28 @@ export class SchoolAddEditComponent implements OnInit {
         this.processingDays = this.schoolService.getProcessingDays();
         this.graceDays = this.schoolService.getGraceDays();
 
-        let val = this.instituteService.getAllInstitutes();
-        //this.institutes.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
+        // let val = this.instituteService.getAllInstitutes();
+        // //this.institutes.push({ label: '--Select--', value: 'select' });
+        // val.subscribe((response) => {
 
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.institutes.push({ label: response[key].instituteName, value: response[key].id });
-                }
-            }
-        });
+        //     for (let key in response) {
+        //         if (response.hasOwnProperty(key)) {
+        //             this.institutes.push({ label: response[key].instituteName, value: response[key].id });
+        //         }
+        //     }
+        // });
 
         this.boards = [];
-        val = this.boardService.getAllBoards();
-        //this.boards.push({ label: '--Select--', value: 'select' });
-        val.subscribe((response) => {
+        // val = this.boardService.getAllBoards();
+        // //this.boards.push({ label: '--Select--', value: 'select' });
+        // val.subscribe((response) => {
 
-            for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                    this.boards.push({ label: response[key].boardName, value: response[key].id });
-                }
-            }
-        });
+        //     for (let key in response) {
+        //         if (response.hasOwnProperty(key)) {
+        //             this.boards.push({ label: response[key].boardName, value: response[key].id });
+        //         }
+        //     }
+        // });
 
         this.schoolForm = this.formBuilder.group({
             id: [0],
@@ -89,47 +89,63 @@ export class SchoolAddEditComponent implements OnInit {
             processingDate: ['', [Validators.required]],
             graceDays: ['', [Validators.required]],
             invoiceMnemonic: ['', [Validators.required]],
-            invoiceSequenceNumber:['0']
+            invoiceSequenceNumber: ['0']
 
         });
-
-        this.route.params.forEach((params: Params) => {
-            this.params = params['schoolId'];
-            if (this.params) {
-                this.schoolService.getSchoolById(this.params)
-                    .subscribe(
-                    (results: School) => {
-                        this.schoolForm.setValue({
-                            id: results.id,
-                            boardId: results.boardId,
-                            instituteId: results.instituteId,
-                            schoolName: results.schoolName,
-                            schoolCode: results.schoolCode,
-                            schoolEmail: results.schoolEmail,
-                            schoolPhone: results.schoolPhone,
-                            schoolAddress: results.schoolAddress,
-                            schoolCity: results.schoolCity,
-                            schoolState: results.schoolState,
-                            schoolLogo: results.schoolLogo,
-                            schoolHeader: results.schoolHeader,
-                            createdBy: results.createdBy,
-                            createdOn: results.createdOn,
-                            processingDate: results.processingDate,
-                            graceDays: results.graceDays,
-                            invoiceMnemonic: results.invoiceMnemonic,
-                            invoiceSequenceNumber: results.invoiceSequenceNumber
-
-                        });
-                        if (results.schoolLogo) {
-                            let logo = results.schoolLogo.split('/');
-                            this.imageFileName = logo[logo.length - 1];
+        Observable.forkJoin([this.instituteService.getAllInstitutes(), this.boardService.getAllBoards()])
+            .subscribe((response) => {
+                this.route.params.forEach((params: Params) => {
+                    this.params = params['schoolId'];
+                    let lstInstitute=response[0];
+                    for (let key in lstInstitute) {
+                        if (lstInstitute.hasOwnProperty(key)) {
+                            this.institutes.push({ label: lstInstitute[key].instituteName, value: lstInstitute[key].id });
                         }
-                    },
-                    error => {
-                        this.globalErrorHandler.handleError(error);
-                    });
-            }
-        });
+                    }
+                    let lstBoards = response[1];
+                    for (let key in lstBoards) {
+                        if (lstBoards.hasOwnProperty(key)) {
+                            this.boards.push({ label: lstBoards[key].boardName, value: lstBoards[key].id });
+                        }
+                    }
+
+                    if (this.params) {
+                        this.schoolService.getSchoolById(this.params)
+                            .subscribe(
+                            (results: School) => {
+                                this.schoolForm.setValue({
+                                    id: results.id,
+                                    boardId: results.boardId,
+                                    instituteId: results.instituteId,
+                                    schoolName: results.schoolName,
+                                    schoolCode: results.schoolCode,
+                                    schoolEmail: results.schoolEmail,
+                                    schoolPhone: results.schoolPhone,
+                                    schoolAddress: results.schoolAddress,
+                                    schoolCity: results.schoolCity,
+                                    schoolState: results.schoolState,
+                                    schoolLogo: results.schoolLogo,
+                                    schoolHeader: results.schoolHeader,
+                                    createdBy: results.createdBy,
+                                    createdOn: results.createdOn,
+                                    processingDate: results.processingDate,
+                                    graceDays: results.graceDays,
+                                    invoiceMnemonic: results.invoiceMnemonic,
+                                    invoiceSequenceNumber: results.invoiceSequenceNumber
+
+                                });
+                                if (results.schoolLogo) {
+                                    let logo = results.schoolLogo.split('/');
+                                    this.imageFileName = logo[logo.length - 1];
+                                }
+                            },
+                            error => {
+                                this.globalErrorHandler.handleError(error);
+                            });
+                    }
+                });
+            });
+
     }
 
     onSubmit({ value, valid }: { value: School, valid: boolean }) {
