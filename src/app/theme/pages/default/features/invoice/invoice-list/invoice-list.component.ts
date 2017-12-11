@@ -117,7 +117,7 @@ export class InvoiceListComponent implements OnInit {
         this.getUrl();
         this.invoiceService.getAllInvoices(this.url).subscribe(
             response => {
-                this.invoiceList = response.invoices;
+                this.invoiceList = response;
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -333,7 +333,7 @@ export class InvoiceListComponent implements OnInit {
 
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?filter[include]=studentData&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
     /* Counting Number of records ends*/
 }
