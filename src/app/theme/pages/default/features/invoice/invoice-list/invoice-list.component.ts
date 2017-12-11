@@ -118,6 +118,7 @@ export class InvoiceListComponent implements OnInit {
         this.invoiceService.getAllInvoices(this.url).subscribe(
             response => {
                 this.invoiceList = response;
+                this.longList = response.length > 0 ? true : false;
             },
             error => {
                 this.globalErrorHandler.handleError(error);
