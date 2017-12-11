@@ -53,13 +53,13 @@ export class CommonService {
   }
 
   getConfigurationKey() {
-    let configurationKeys = [{ "keyName": "InvoiceAcronym", "Name": "Invoice Acronym", "keyValue": "100" }];
+    let configurationKeys = [{ "keyName": "InvoiceAcronym", "Name": "Invoice Acronym", "keyValue": "" }];
     return configurationKeys;
   }
 
   getConfigurationKeySFS() {
-    let configurationKeys = [{ "keyName": "AggregatorID", "Name": "Aggregator ID", "keyValue": "100" },
-    { "keyName": "AggregatorKey", "Name": "Aggregator Key", "keyValue": "100" }];
+    let configurationKeys = [{ "keyName": "AggregatorId", "Name": "Aggregator ID", "keyValue": "" },
+    { "keyName": "AggregatorKey", "Name": "Aggregator Key", "keyValue": "" }];
     return configurationKeys;
   }
 
