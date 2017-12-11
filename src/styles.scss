@@ -1005,3 +1005,61 @@ body .ui-dialog .ui-dialog-titlebar {
         width:100%!important;
     }
 
+
+    /*** D. 8 Dec 2017 - for Fee Plan Screen ***/
+    .lessPaddingFeePlan{
+        padding-top: 5px!important;
+        padding-bottom: 5px!important;
+    }
+    .feePlanLabel{
+        font-size: 13px!important;
+        padding-bottom: 0px;
+    }
+    .feePlanManageHeading{
+        font-size: 15px!important;
+    }
+    .feePlanBox .ui-dropdown .ui-dropdown-label {        
+        height: 28px!important;
+        padding-top: 5px;
+    }   
+    .feePlanBox .ui-dropdown .ui-dropdown-trigger .fa {        
+        margin-top: 7px;
+    }
+    .feePlanText{
+        height:30px!important;
+    }
+    .feePlanActionBtn{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-radius: 3px!important;
+    }
+    .feePlanAddBtnPlan {
+        padding-top: 0px;
+    }
+    .feePlanActionBtnDel{
+        background-color: #ff6d85!important;
+        background-image: none;
+        border-color: #ff6d85!important;
+    }
+    .headFeePlan{
+        display: block!important;
+        padding: 0!important;
+        width: 100%;
+        padding: 0 2.2rem!important;
+        height: 40px!important;
+    }
+    .requiredFieldNoteFeePlan {
+        float: right;
+        color: red;
+        font-weight: 600;
+        font-size: 12px;
+        padding-top: 0;
+        margin-top: -17px;
+    }
+    .headTextFeePlan{
+        padding-top: 12px;
+        font-size: 16px!important;
+    }
+    .lessPaddingFeePlanFooter{
+        padding: 10px 30px!important;
+    }
