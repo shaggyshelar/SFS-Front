@@ -13,8 +13,8 @@ import { MerchantService } from '../../../../default/_services/merchant.service'
 import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
-    selector: "app-student-report-list",
-    templateUrl: "./student-report.component.html",
+    selector: "app-student-invoice-report-list",
+    templateUrl: "./student-invoice-report.component.html",
     encapsulation: ViewEncapsulation.None,
 })
 export class MerchantListComponent implements OnInit {
