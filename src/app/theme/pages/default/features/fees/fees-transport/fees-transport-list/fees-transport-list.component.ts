@@ -24,8 +24,10 @@ export class TransportListComponent implements OnInit {
     frequencyId: number = null;
     academicYear: string;
     transportList: any = [];
+    tempTransportList: any = [];
     frequencyList: any = [];
     academicYearList: any = [];
+    details: any = [];
     frequency = [{
         sequenceNumber: 1,
         date: new Date()
@@ -104,6 +106,7 @@ export class TransportListComponent implements OnInit {
         this.transportServics.getAllTransports(url)
             .subscribe(response => {
                 this.transportList = response;
+                this.tempTransportList = _.cloneDeep(response);
                 if (this.transportList.length > 0) {
                     if (this.academicYear === this.transportList[0].academicyear) {
                         this.frequencyId = this.transportList[0].frequencyId;
@@ -289,8 +292,9 @@ export class TransportListComponent implements OnInit {
                     }
                 });
                 if (_tempNewList.length > 0) {
-                    this.transportServics.createTransport(_tempNewList).subscribe(
-                        data => {
+                    Observable.forkJoin([this.transportServics.createTransport(_tempNewList), this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear })])
+                        .subscribe((response) => {
+                            let data: any = response[0];
                             let details = [];
                             let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
                             data.forEach(element => {
@@ -342,68 +346,77 @@ export class TransportListComponent implements OnInit {
                                 });
                             });
                             this.saveZoneDetails(details);
-                        }, error => {
-                            this.globalErrorHandler.handleError(error);
                         });
                 }
                 if (_tempUpdateList.length > 0) {
-                    _tempUpdateList.forEach(element => {
-                        this.transportServics.updateTransport(element).subscribe(
-                            data => {
-                                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                                let details = [];
-                                let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
-                                this.frequency.forEach(freq => {
-                                    let _tempDetails: any = {};
-                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                    _tempDetails.zoneId = element.id;
-                                    _tempDetails.academicYear = this.academicYear;
-                                    _tempDetails.dueDate = freq.date;
-                                    //frequencyId
+                    Observable.forkJoin([_tempUpdateList.forEach(element => {
+                        this.tempTransportList.forEach(element1 => {
+                            if ((element.id === element1.id)
+                                && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.Amount !== element1.Amount)) {
+                                this.transportServics.updateTransport(element).subscribe(
+                                    data => {
+                                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+                                        this.details = [];
+                                        let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
+                                        this.frequency.forEach(freq => {
+                                            let _tempDetails: any = {};
+                                            _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                            _tempDetails.zoneId = element.id;
+                                            _tempDetails.academicYear = this.academicYear;
+                                            _tempDetails.dueDate = freq.date;
+                                            //frequencyId
 
-                                    if (tempFeeHead.frequencyValue == 1) {
-                                        _tempDetails.sequenceNumber = 1;
-                                    }
-                                    else if (tempFeeHead.frequencyValue == 2) {
-                                        if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else {
-                                            _tempDetails.sequenceNumber = 1;
-                                        }
-                                    }
-                                    else if (tempFeeHead.frequencyValue == 4) {
-                                        if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
-                                            _tempDetails.sequenceNumber = 1;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 4;
-                                        }
-                                        else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 10;
-                                        }
-                                    }
-                                    else if (tempFeeHead.frequencyValue == 12) {
-                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
-                                    }
+                                            if (tempFeeHead.frequencyValue == 1) {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
+                                            else if (tempFeeHead.frequencyValue == 2) {
+                                                if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                }
+                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                }
+                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                }
+                                                else {
+                                                    _tempDetails.sequenceNumber = 1;
+                                                }
+                                            }
+                                            else if (tempFeeHead.frequencyValue == 4) {
+                                                if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
+                                                    _tempDetails.sequenceNumber = 1;
+                                                }
+                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                                    _tempDetails.sequenceNumber = 4;
+                                                }
+                                                else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
+                                                    _tempDetails.sequenceNumber = 10;
+                                                }
+                                            }
+                                            else if (tempFeeHead.frequencyValue == 12) {
+                                                _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                            }
 
 
-                                    // _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                    details.push(_tempDetails);
-                                });
-                                this.saveZoneDetails(_tempUpdateList);
-                            }, error => {
-                                this.globalErrorHandler.handleError(error);
-                            });
-                    });
+                                            // _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                            this.details.push(_tempDetails);
+                                        });
+
+                                    }, error => {
+                                        this.globalErrorHandler.handleError(error);
+                                    });
+                            }
+                        });
+                    }), this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear }), this.saveZoneDetails(this.details)])
+                        .subscribe((response) => {
+                            //
+                        },
+                        error => { //console.log(error) 
+                        });
+
                 }
             }
         }
