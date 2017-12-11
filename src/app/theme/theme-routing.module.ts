@@ -63,7 +63,7 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-plan\/fees-plan.module#FeesPlanModule"
       },
       {
-        "path": "features\/reports",
+        "path": "reports\/invoice",
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
       // {

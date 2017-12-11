@@ -296,7 +296,7 @@ export class TransportListComponent implements OnInit {
                         .subscribe((response) => {
                             let data: any = response[0];
                             let details = [];
-                            let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
+                            let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
                             data.forEach(element => {
                                 this.frequency.forEach(freq => {
                                     let _tempDetails: any = {};
@@ -306,37 +306,31 @@ export class TransportListComponent implements OnInit {
                                     _tempDetails.dueDate = freq.date;
                                     //frequencyId
 
-                                    if (tempFeeHead.frequencyValue == 1) {
+                                    if (maxFreq.frequencyValue == 1) {
                                         _tempDetails.sequenceNumber = 1;
                                     }
-                                    else if (tempFeeHead.frequencyValue == 2) {
-                                        if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
+                                    else if (maxFreq.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1) {
                                             _tempDetails.sequenceNumber = 7;
                                         }
                                         else {
                                             _tempDetails.sequenceNumber = 1;
                                         }
                                     }
-                                    else if (tempFeeHead.frequencyValue == 4) {
-                                        if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
+                                    else if (maxFreq.frequencyValue == 4) {
+                                        if (freq.sequenceNumber == 0) {
                                             _tempDetails.sequenceNumber = 1;
                                         }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                        else if (freq.sequenceNumber == 1) {
                                             _tempDetails.sequenceNumber = 4;
                                         }
-                                        else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
+                                        else if (freq.sequenceNumber == 2) {
                                             _tempDetails.sequenceNumber = 7;
-                                        } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
+                                        } else if (freq.sequenceNumber == 3) {
                                             _tempDetails.sequenceNumber = 10;
                                         }
                                     }
-                                    else if (tempFeeHead.frequencyValue == 12) {
+                                    else if (maxFreq.frequencyValue == 12) {
                                         _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
                                     }
 
@@ -357,52 +351,48 @@ export class TransportListComponent implements OnInit {
                                     data => {
                                         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
                                         this.details = [];
-                                        let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
-                                        this.frequency.forEach(freq => {
-                                            let _tempDetails: any = {};
-                                            _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                            _tempDetails.zoneId = element.id;
-                                            _tempDetails.academicYear = this.academicYear;
-                                            _tempDetails.dueDate = freq.date;
-                                            //frequencyId
+                                        let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
+                                        data.forEach(element => {
+                                            this.frequency.forEach(freq => {
+                                                let _tempDetails: any = {};
+                                                _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                                _tempDetails.zoneId = element.id;
+                                                _tempDetails.academicYear = this.academicYear;
+                                                _tempDetails.dueDate = freq.date;
+                                                //frequencyId
 
-                                            if (tempFeeHead.frequencyValue == 1) {
-                                                _tempDetails.sequenceNumber = 1;
-                                            }
-                                            else if (tempFeeHead.frequencyValue == 2) {
-                                                if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                }
-                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                }
-                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                }
-                                                else {
+                                                if (maxFreq.frequencyValue == 1) {
                                                     _tempDetails.sequenceNumber = 1;
                                                 }
-                                            }
-                                            else if (tempFeeHead.frequencyValue == 4) {
-                                                if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
-                                                    _tempDetails.sequenceNumber = 1;
+                                                else if (maxFreq.frequencyValue == 2) {
+                                                    if (freq.sequenceNumber == 1) {
+                                                        _tempDetails.sequenceNumber = 7;
+                                                    }
+                                                    else {
+                                                        _tempDetails.sequenceNumber = 1;
+                                                    }
                                                 }
-                                                else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                                    _tempDetails.sequenceNumber = 4;
+                                                else if (maxFreq.frequencyValue == 4) {
+                                                    if (freq.sequenceNumber == 0) {
+                                                        _tempDetails.sequenceNumber = 1;
+                                                    }
+                                                    else if (freq.sequenceNumber == 1) {
+                                                        _tempDetails.sequenceNumber = 4;
+                                                    }
+                                                    else if (freq.sequenceNumber == 2) {
+                                                        _tempDetails.sequenceNumber = 7;
+                                                    } else if (freq.sequenceNumber == 3) {
+                                                        _tempDetails.sequenceNumber = 10;
+                                                    }
                                                 }
-                                                else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
-                                                    _tempDetails.sequenceNumber = 10;
+                                                else if (maxFreq.frequencyValue == 12) {
+                                                    _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
                                                 }
-                                            }
-                                            else if (tempFeeHead.frequencyValue == 12) {
-                                                _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
-                                            }
 
 
-                                            // _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                            this.details.push(_tempDetails);
+                                                // _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                                this.details.push(_tempDetails);
+                                            });
                                         });
 
                                     }, error => {
@@ -444,13 +434,7 @@ export class TransportListComponent implements OnInit {
                                         _tempDetails.sequenceNumber = 1;
                                     }
                                     else if (tempFeeHead.frequencyValue == 2) {
-                                        if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 4) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1) {
                                             _tempDetails.sequenceNumber = 7;
                                         }
                                         else {
@@ -458,15 +442,15 @@ export class TransportListComponent implements OnInit {
                                         }
                                     }
                                     else if (tempFeeHead.frequencyValue == 4) {
-                                        if (tempFeeHead.frequencyValue == 4 || freq.sequenceNumber == 0) {
+                                        if (freq.sequenceNumber == 0) {
                                             _tempDetails.sequenceNumber = 1;
                                         }
-                                        else if (freq.sequenceNumber == 1 && tempFeeHead.frequencyValue == 12) {
+                                        else if (freq.sequenceNumber == 1) {
                                             _tempDetails.sequenceNumber = 4;
                                         }
-                                        else if (freq.sequenceNumber == 2 && tempFeeHead.frequencyValue == 12) {
+                                        else if (freq.sequenceNumber == 2) {
                                             _tempDetails.sequenceNumber = 7;
-                                        } else if (freq.sequenceNumber == 3 && tempFeeHead.frequencyValue == 12) {
+                                        } else if (freq.sequenceNumber == 3) {
                                             _tempDetails.sequenceNumber = 10;
                                         }
                                     }

@@ -133,11 +133,6 @@
 										</a>
 									</th>
 									<th title="">
-										<a href="#" (click)="sort('createdOn',ascSortCol3 = !ascSortCol3)">
-											Created on
-										</a>
-									</th>
-									<th title="">
 										Actions
 									</th>
 								</tr>
@@ -152,9 +147,6 @@
 									</td>
 									<td>
 										{{row.className}}
-									</td>
-									<td>
-										{{row.createdOn | date:"yyyy-MM-dd"}}
 									</td>
 									<td>
 										<a href="javascript:;" (click)="onEditClassClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
