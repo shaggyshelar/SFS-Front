@@ -24,8 +24,8 @@ export class AcademicYearAddEditComponent implements OnInit {
     startAcademicYear: any;
     endAcademicYear: any;
     minEndDate: any;
-    isEndYearSameAsStarYear :boolean = false
-    isCurrentYearDisabled :boolean = false
+    isEndYearSameAsStarYear: boolean = false
+    isCurrentYearDisabled: boolean = false
 
     constructor(
         private formBuilder: FormBuilder,
@@ -57,14 +57,14 @@ export class AcademicYearAddEditComponent implements OnInit {
                             id: results.id,
                             startDate: new Date(results.startDate),
                             endDate: new Date(results.endDate),
-                            isCurrent : results.isCurrent
+                            isCurrent: results.isCurrent
                         });
                         if (results.academicYear) {
                             let academicYear = results.academicYear.split("-");
                             this.startAcademicYear = academicYear[0];
                             this.endAcademicYear = academicYear[1] ? academicYear[1] : '';
                         }
-                        if(results.isCurrent){
+                        if (results.isCurrent) {
                             this.isCurrentYearDisabled = true;
                         } else {
                             this.isCurrentYearDisabled = false;
@@ -78,8 +78,8 @@ export class AcademicYearAddEditComponent implements OnInit {
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         if (this.params) {
             value.schoolId = localStorage.getItem('schoolId');
-            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
-            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
+            value.startDate = new Date(new Date(value.startDate).setHours(20));//.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
+            value.endDate = new Date(new Date(value.endDate).setHours(20));//.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
             if (this.endAcademicYear != '') {
                 value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
             } else {
@@ -96,8 +96,8 @@ export class AcademicYearAddEditComponent implements OnInit {
                 });
         } else {
             value.schoolId = localStorage.getItem('schoolId');
-            value.startDate = value.startDate.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
-            value.endDate = value.endDate.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
+            value.startDate = new Date(new Date(value.startDate).setHours(20));//.getFullYear() + '-' + (value.startDate.getMonth() + 1) + '-' + value.startDate.getDate();
+            value.endDate = new Date(new Date(value.endDate).setHours(20));//.getFullYear() + '-' + (value.endDate.getMonth() + 1) + '-' + value.endDate.getDate();
             if (this.endAcademicYear != '') {
                 value.academicYear = this.startAcademicYear + '-' + this.endAcademicYear;
             } else {
