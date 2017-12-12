@@ -1063,3 +1063,10 @@ body .ui-dialog .ui-dialog-titlebar {
     .lessPaddingFeePlanFooter{
         padding: 10px 30px!important;
     }
+    .btn.disabled, .btn:disabled {
+        cursor: not-allowed;
+    }
+    .alertUser{
+        margin-top: 11px;
+        font-size: 12px;
+    }

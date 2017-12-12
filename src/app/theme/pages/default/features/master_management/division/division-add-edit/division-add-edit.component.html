@@ -55,11 +55,11 @@
 		 [formGroup]="divisionForm">
 			<div class="m-portlet__body formPortletBody">
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-2 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 						Class Name
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<p-dropdown placeholder="Select Class" [options]="classList" [style]="{'width':'100%'}" formControlName="classId" name="classId"></p-dropdown>
 						<div class="alertMsg" *ngIf="divisionForm.get('classId').hasError('required') && divisionForm.get('classId').touched">
 							Please select Class
@@ -68,11 +68,11 @@
 				</div>
 
 				<div class="form-group m-form__group row">
-					<label class="col-2 col-form-label" for="example-text-input">
+					<label class="col-md-2 col-form-label" for="example-text-input">
 						Division Name
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-5">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="text" formControlName="divisionName" name="divisionName" id="divisionName" placeholder="Division Name">
 						<div class="alertMsg" *ngIf="divisionForm.get('divisionName').hasError('required') && divisionForm.get('divisionName').touched">
 							Please enter Division Name
@@ -81,11 +81,11 @@
 				</div>
 
 				<div class="form-group m-form__group row">
-					<label class="col-2 col-form-label" for="example-text-input">
+					<label class="col-md-2 col-form-label" for="example-text-input">
 						Division Code
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-5">
+					<div class="col-md-5">
 						<input class="form-control m-input" formControlName="divisionCode" type="text" placeholder="Division Code">
 						<div class="alertMsg" *ngIf="divisionForm.get('divisionCode').hasError('required') && divisionForm.get('divisionCode').touched">
 							Please enter Division Code
