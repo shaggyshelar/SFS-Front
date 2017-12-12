@@ -3,10 +3,9 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import * as _ from 'lodash/index';
 import { Observable } from 'rxjs/Rx';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-
 import { AdhocFeeService, CommonService,ClassService,CategoriesService } from '../../../../_services/index';
 import { AdhocFee } from "../../../../_models/index";
 
@@ -37,6 +36,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
         private categoriesService: CategoriesService,
         private globalErrorHandler: GlobalErrorHandler,
         private classService:ClassService,
+        private confirmationService: ConfirmationService,
         private messageService: MessageService) {
     }
     ngOnInit() {
@@ -53,6 +53,8 @@ export class AdhocFeeAddEditComponent implements OnInit {
             classes: [],
             categories: []
         });
+
+      
 
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
@@ -74,6 +76,9 @@ export class AdhocFeeAddEditComponent implements OnInit {
                                 };
                             });
                             this.isTransactionProcessed = results.isTransactionProcessed;
+                            if(this.isTransactionProcessed){
+                                this.onAlert();
+                            }
                             this.classList = this.updateList(response[0], classArray);
                             this.categoryList = this.updateList(response[1], categoryArray);
                             this.adhocFeeForm.setValue({
@@ -106,6 +111,16 @@ export class AdhocFeeAddEditComponent implements OnInit {
                 }
             });
     }
+
+    onAlert() {
+        this.confirmationService.confirm({
+          message: 'Record Already Processed.Not Available For Update.',
+          header: 'Processed',
+          icon: 'fa fa-trash',
+          reject: () => {
+          }
+        });
+      }
 
     getArray(field): FormArray {
         return this.adhocFeeForm.get(field) as FormArray;

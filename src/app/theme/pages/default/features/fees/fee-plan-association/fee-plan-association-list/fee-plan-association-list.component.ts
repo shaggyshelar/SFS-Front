@@ -117,13 +117,14 @@ export class FeePlanAssociationListComponent implements OnInit {
                     this.feePlanAssociationList.push({
                         feePlanId: item.id,
                         feePlanName: item.feePlanName,
-                        schoolId: item.schoolId
+                        schoolId: item.schoolId,
+                        isTransactionProcessed:item.isTransactionProcessed
                     })
                     this.feePlanAssociationList[index].classes = '';
                     this.feePlanAssociationList[index].categories = '';
-                    this.feePlanAssociationList[index].isTransactionProcessed = false;
+                   // this.feePlanAssociationList[index].isTransactionProcessed = false;
                     if (item.associations && item.associations.length > 0) {
-                        this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
+                        //this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
                         var uniqueClass = _.uniqBy(item.associations, 'classId');
                         var uniqueCategory = _.uniqBy(item.associations, 'categoryId');
                         if (uniqueClass) {
