@@ -58,10 +58,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-2 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 							User Name <span class="requiredField">*</span>
 					</label>					
-					<div class="col-7">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="text" value="" formControlName="username" name="userName" id="userName" placeholder="User Name">
 						<div class="alertMsg" *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
 								Please enter User Name
@@ -69,10 +69,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-2 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 							User Email <span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="text" value="" formControlName="email" name="email" placeholder="Email" maxlength="254">
 						<div class="alertMsg" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
 							Please enter Email
@@ -83,10 +83,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="example-text-input" class="col-2 col-form-label">
+					<label for="example-text-input" class="col-md-2 col-form-label">
 							Contact
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="text" formControlName="phone" name="contact" placeholder="Contact" maxlength="15">
 						<div class="alertMsg" *ngIf="userForm.get('phone').hasError('required') && userForm.get('phone').touched">
 							Please enter Contact Number
@@ -97,10 +97,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row" *ngIf="userRole == 'SuperAdmin'">
-					<label class="col-2 col-form-label" for="example-text-input">
+					<label class="col-md-2 col-form-label" for="example-text-input">
 						Institute <span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						 <select class="form-control" formControlName="institute" (change)="onChangeInstitutes($event.target.value)">
 							<option [value]="null" >Select</option>
 							<option *ngFor="let institute of instituteList" [value]="institute.id">{{institute.instituteName}}</option>
@@ -111,10 +111,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row"  *ngIf="userRole == 'SuperAdmin'">
-					<label class="col-2 col-form-label" for="example-text-input">
+					<label class="col-md-2 col-form-label" for="example-text-input">
 						School <span class="requiredField">*</span>
 					</label>
-					<div class="col-7">					
+					<div class="col-md-5">					
 						<div class="row">
 							<div  class="col-6 schoolCheckList" *ngFor="let school of schools.controls; let i=index">
 								<label class="m-checkbox">
@@ -136,10 +136,10 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label class="col-2 col-form-label" for="example-text-input">
+					<label class="col-md-2 col-form-label" for="example-text-input">
 						Role <span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<select class="form-control" formControlName="role">
 							<option [ngValue]="null" >Select</option>
 							<option *ngFor="let role of roleList" [ngValue]="role.id">{{role.displayName}}</option>
