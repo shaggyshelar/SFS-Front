@@ -48,9 +48,11 @@ export class MerchantListComponent implements OnInit {
                 this.schoolList = [];
                 for (let key in response) {
                     if (response.hasOwnProperty(key)) {
+                        if(response[key].UserschoolSchool)
                         this.schoolList.push({ label: response[key].UserschoolSchool.schoolName, value: response[key].schoolId });
                     }
                 }
+                debugger;
             },
             error => {
                 this.globalErrorHandler.handleError(error);
