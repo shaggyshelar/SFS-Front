@@ -121,6 +121,9 @@
 												<th title="">
 													Fee Plan Description
 												</th>
+												<th title="Transaction Processed">
+													Transaction Processed
+												</th>
 												<th title="">
 													Actions
 												</th>
@@ -130,6 +133,7 @@
 											<tr *ngFor='let row of feesPlanList | async'>
 												<td>{{row.feePlanName}}</td>
 												<td>{{row.feePlanDescription}}</td>
+												<td>{{row.isTransactionProcessed?'Yes':'No'}}</td>
 												<td>
 													<a href="javascript:;" (click)="onManagefeesClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													 title="Edit" [isAuthorize]="['Feeplan.Update']">

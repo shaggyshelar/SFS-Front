@@ -116,6 +116,9 @@
 									<th title="">
 										Category
 									</th>
+									<th title="Transaction Processed">
+										Transaction Processed
+									</th>
 									<th title="">
 										Actions
 									</th>
@@ -126,6 +129,7 @@
 									<td>{{row.feePlanName}}</td>
 									<td>{{row.classes}}</td>
 									<td>{{row.categories}}</td>
+									<td>{{row.isTransactionProcessed?'Yes':'No'}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="!row.isTransactionProcessed"
 										 title="Edit" [isAuthorize]="['Feeplanassociation.Update']">
