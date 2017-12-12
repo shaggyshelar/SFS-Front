@@ -23,7 +23,7 @@ export class InvoiceListComponent implements OnInit {
     lastPage: number;
     startDate: Date;
     endDate: Date;
-    status:'';
+    status: '';
     currentPageNumber: number; //Stores Current Page Number
     url: string;           //Api url
     sortUrl: string;       //Sort Api Url
@@ -61,13 +61,9 @@ export class InvoiceListComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            if (localStorage.getItem('perPage') !== null) {
-                this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-                localStorage.removeItem('perPage');
-            } else {
-                this.perPage = 25;
-            }
-            this.currentPos = 0;
+            this.perPage = this.invoiceService.perPage;
+            this.currentPos = this.invoiceService.currentPos;
+            this.currentPageNumber = this.invoiceService.currentPageNumber;
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
@@ -80,7 +76,6 @@ export class InvoiceListComponent implements OnInit {
             this.filter1CountQuery = '';
             this.filter2CountQuery = '';
             this.lastPage = this.perPage;
-            this.currentPageNumber = 1;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
             this.nextPageEnable = true;
@@ -163,6 +158,12 @@ export class InvoiceListComponent implements OnInit {
 
         //for()
     }
+    onInvoiceClick(id) {
+        this.invoiceService.perPage = this.perPage;
+        this.invoiceService.currentPos = this.currentPos;
+        this.invoiceService.currentPageNumber = this.currentPageNumber;
+        this.router.navigate(['/features/invoice/summary/' + id]);
+    }
     moreNextPages() {
         if (this.boundryEnd + 1 <= this.pages) {
             this.boundryStart = this.boundryEnd + 1;
@@ -187,7 +188,6 @@ export class InvoiceListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -304,8 +304,8 @@ export class InvoiceListComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
