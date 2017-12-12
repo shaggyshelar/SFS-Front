@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { School } from "../../../../_models/school";
 import { Transport } from "../../../../_models/index";
 import { ViewChild } from '@angular/core';
+import { Helpers } from "../../../../../../../helpers";
 import { TransportService, FrequencyService, AcademicYearService } from '../../../../../default/_services/index';
 import { ConfirmationService } from 'primeng/primeng';
 import { SchoolService } from '../../../../_services/index';
@@ -103,8 +104,10 @@ export class TransportListComponent implements OnInit {
         );
     }
     getAllTransports(url) {
+        Helpers.setLoading(true);
         this.transportServics.getAllTransports(url)
             .subscribe(response => {
+                Helpers.setLoading(false);
                 this.transportList = response;
                 this.tempTransportList = _.cloneDeep(response);
                 if (this.transportList.length > 0) {
@@ -346,7 +349,7 @@ export class TransportListComponent implements OnInit {
                     Observable.forkJoin([_tempUpdateList.forEach(element => {
                         this.tempTransportList.forEach(element1 => {
                             if ((element.id === element1.id)
-                                && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.Amount !== element1.Amount)) {
+                                && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.zoneCost !== element1.zoneCost)) {
                                 this.transportServics.updateTransport(element).subscribe(
                                     data => {
                                         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });

@@ -8,6 +8,12 @@ import { AppSettings } from '../../../../app-settings';
 export class AdhocFeeService {
   constructor(private http: Http) {
   }
+
+
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getAllAdhocFees() {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees', AppSettings.requestOptions()).map((response: Response) => response.json());
   }

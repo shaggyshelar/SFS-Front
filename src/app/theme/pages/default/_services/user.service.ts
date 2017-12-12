@@ -9,6 +9,10 @@ export class UserService {
   constructor(private http: Http) {
   }
 
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getAllUsers() {
     return this.http.get(AppSettings.API_ENDPOINT + 'users', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
@@ -30,9 +34,9 @@ export class UserService {
   }
 
   updateUserStatus(user: User) {
-    return this.http.patch(AppSettings.API_ENDPOINT +'users/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT + 'users/' + user.id, user, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
-  
+
   deleteUser(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT + 'users/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
@@ -49,15 +53,15 @@ export class UserService {
     return this.http.get(AppSettings.API_ENDPOINT + 'users' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
-   getUsersForSuperuser(url){
-    return this.http.get(AppSettings.API_ENDPOINT + 'users'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  getUsersForSuperuser(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'users' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
-  getUsersCountForSuperuser(url){
-    return this.http.get(AppSettings.API_ENDPOINT + 'users/count'+ url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  getUsersCountForSuperuser(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'users/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   forgotPassword(email: any) {
-    return this.http.post(AppSettings.LOGIN_API_ENDPOINT +'request-password-reset', email , AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.post(AppSettings.LOGIN_API_ENDPOINT + 'request-password-reset', email, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 }

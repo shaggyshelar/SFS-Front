@@ -9,30 +9,34 @@ export class InstitutesService {
   constructor(private http: Http) {
   }
 
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getAllInstitutes() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes', AppSettings.requestOptions()).map((response: Response) => response.json());  
+    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
-  getInstituteCount(url) {   
-    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
-   }
-   getAllInstitutesList(url) {   
-    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes' + url, AppSettings.requestOptions()).map((response: Response) => response.json());  
-   }
-
-   getInstituteById(id: number) {
-    return this.http.get(AppSettings.API_ENDPOINT +'Institutes/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  getInstituteCount(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
-   createInstitute(institute: Institutes) {
-    return this.http.post(AppSettings.API_ENDPOINT +'Institutes', institute, AppSettings.requestOptions()).map((response: Response) => response.json());
+  getAllInstitutesList(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getInstituteById(id: number) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Institutes/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  createInstitute(institute: Institutes) {
+    return this.http.post(AppSettings.API_ENDPOINT + 'Institutes', institute, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateInstitute(institute: Institutes) {
-    return this.http.patch(AppSettings.API_ENDPOINT +'Institutes/' + institute.id, institute, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.patch(AppSettings.API_ENDPOINT + 'Institutes/' + institute.id, institute, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteInstitute(id: number) {
-    return this.http.delete(AppSettings.API_ENDPOINT +'Institutes/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.delete(AppSettings.API_ENDPOINT + 'Institutes/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }

@@ -66,13 +66,10 @@ export class BoardListComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            if (localStorage.getItem('perPage') !== null) {
-                this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-                localStorage.removeItem('perPage');
-            } else {
-                this.perPage = 25;
-            }
-            this.currentPos = 0;
+            this.perPage = this.boardService.perPage;
+            this.currentPos = this.boardService.currentPos;
+            this.currentPageNumber = this.boardService.currentPageNumber;
+            this.selectedPageSize = this.perPage;
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
@@ -85,7 +82,6 @@ export class BoardListComponent implements OnInit {
             this.filter1CountQuery = '';
             this.filter2CountQuery = '';
             this.lastPage = this.perPage;
-            this.currentPageNumber = 1;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
             this.nextPageEnable = true;
@@ -114,7 +110,9 @@ export class BoardListComponent implements OnInit {
     }
 
     onEditBoardClick(board: Boards) {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        this.boardService.perPage = this.perPage;
+        this.boardService.currentPos = this.currentPos;
+        this.boardService.currentPageNumber = this.currentPageNumber;
         this.router.navigate(['/features/board/edit', board.id]);
     }
     onBoardDeleteClick(board: Boards) {
@@ -140,7 +138,6 @@ export class BoardListComponent implements OnInit {
         });
     }
     onAddBoard() {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/board/add']);
     }
 
@@ -198,7 +195,6 @@ export class BoardListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

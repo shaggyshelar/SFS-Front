@@ -64,13 +64,10 @@ export class InstitutesListComponent implements OnInit {
 
 
         //Default variable initialization
-        if (localStorage.getItem('perPage') !== null) {
-            this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-            localStorage.removeItem('perPage');
-        } else {
-            this.perPage = 25;
-        }
-        this.currentPos = 0;
+        this.perPage = this.institutesService.perPage;
+        this.currentPos = this.institutesService.currentPos;
+        this.currentPageNumber = this.institutesService.currentPageNumber;
+        this.selectedPageSize = this.perPage;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
         this.ascSortCol1 = true;
@@ -83,7 +80,6 @@ export class InstitutesListComponent implements OnInit {
         this.filter1CountQuery = '';
         this.filter2CountQuery = '';
         this.lastPage = this.perPage;
-        this.currentPageNumber = 1;
         this.firstPageNumber = 1;
         this.prePageEnable = false;
         this.nextPageEnable = true;
@@ -110,7 +106,9 @@ export class InstitutesListComponent implements OnInit {
     }
 
     onEditInstituteClick(institute: Institutes) {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        this.institutesService.perPage = this.perPage;
+        this.institutesService.currentPos = this.currentPos;
+        this.institutesService.currentPageNumber = this.currentPageNumber;
         this.router.navigate(['/features/institute/edit', institute.id]);
     }
     onInstituteDeleteClick(institute: Institutes) {
@@ -133,7 +131,7 @@ export class InstitutesListComponent implements OnInit {
         });
     }
     onAddInstitutes() {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        
         this.router.navigate(['/features/institute/add']);
     }
 
@@ -189,7 +187,6 @@ export class InstitutesListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

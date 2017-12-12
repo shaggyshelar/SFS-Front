@@ -75,13 +75,10 @@ export class ClassListComponent implements OnInit {
 
 
         //Default variable initialization
-        if (localStorage.getItem('perPage') !== null) {
-            this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-            localStorage.removeItem('perPage');
-        } else {
-            this.perPage = 25;
-        }
-        this.currentPos = 0;
+        this.perPage = this.classService.perPage;
+        this.currentPos = this.classService.currentPos;
+        this.currentPageNumber = this.classService.currentPageNumber;
+        this.selectedPageSize = this.perPage;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
         this.ascSortCol1 = true;
@@ -98,7 +95,6 @@ export class ClassListComponent implements OnInit {
         this.filter1CountQuery = '';
         this.filter2CountQuery = '';
         this.lastPage = this.perPage;
-        this.currentPageNumber = 1;
         this.firstPageNumber = 1;
         this.prePageEnable = false;
         this.nextPageEnable = true;
@@ -132,7 +128,9 @@ export class ClassListComponent implements OnInit {
     }
 
     onEditClassClick(schoolClass: SchoolClass) {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        this.classService.perPage = this.perPage;
+        this.classService.currentPos = this.currentPos;
+        this.classService.currentPageNumber = this.currentPageNumber;
         this.router.navigate(['/features/class/edit', schoolClass.id]);
     }
     onClassDeleteClick(schoolClass: SchoolClass) {
@@ -158,7 +156,6 @@ export class ClassListComponent implements OnInit {
         });
     }
     onAddClass() {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/class/add']);
     }
 
@@ -216,7 +213,6 @@ export class ClassListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

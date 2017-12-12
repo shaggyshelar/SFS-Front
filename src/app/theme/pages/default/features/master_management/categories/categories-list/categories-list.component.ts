@@ -63,13 +63,10 @@ export class CategoriesListComponent implements OnInit {
 
 
     //Default variable initialization
-    if (localStorage.getItem('perPage') !== null) {
-      this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-      localStorage.removeItem('perPage');
-    } else {
-      this.perPage = 25;
-    }
-    this.currentPos = 0;
+    this.perPage = this.categoriesService.perPage;
+    this.currentPos = this.categoriesService.currentPos;
+    this.currentPageNumber = this.categoriesService.currentPageNumber;
+    this.selectedPageSize = this.perPage;
     this.url = '';
     this.sortUrl = '&filter[order]=id ASC';
     this.ascSortCol1 = true;
@@ -82,7 +79,6 @@ export class CategoriesListComponent implements OnInit {
     this.filter1CountQuery = '';
     this.filter2CountQuery = '';
     this.lastPage = this.perPage;
-    this.currentPageNumber = 1;
     this.firstPageNumber = 1;
     this.prePageEnable = false;
     this.nextPageEnable = true;
@@ -114,12 +110,13 @@ export class CategoriesListComponent implements OnInit {
   }
 
   onAddCategory() {
-    localStorage.setItem('perPage', this.selectedPageSize.toString());
     this.router.navigate(['/features/masterManagement/categories/add']);
   }
 
   onManageCategoryClick(data: Categories) {
-    localStorage.setItem('perPage', this.selectedPageSize.toString());
+    this.categoriesService.perPage = this.perPage;
+    this.categoriesService.currentPos = this.currentPos;
+    this.categoriesService.currentPageNumber = this.currentPageNumber;
     this.router.navigate(['/features/masterManagement/categories/edit', data.id]);
   }
   onCategoryDeleteClick(data: Categories) {
@@ -200,7 +197,6 @@ export class CategoriesListComponent implements OnInit {
 
   pageSizeChanged(size) {
     this.perPage = size;
-    localStorage.setItem('perPage', size);
     this.currentPos = 0;
     this.currentPageNumber = 1;
     this.boundryStart = 1;

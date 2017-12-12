@@ -7,6 +7,11 @@ import { AppSettings } from '../../../../app-settings';
 export class FeePlanAssociationService {
     constructor(private http: Http) {
     }
+
+    perPage: any = 25;
+    currentPos: any = 0;
+    currentPageNumber: any = 1;
+
     getFeePlanAssociationById(id: number) {
         return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/FeePlans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
     }

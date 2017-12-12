@@ -9,6 +9,10 @@ export class FeesService {
   constructor(private http: Http) {
   }
 
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getAllFees() {
     return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
@@ -42,12 +46,12 @@ export class FeesService {
 
   getAllFeePlans(url) {
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+schoolId+'/FeePlans' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + schoolId + '/FeePlans' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAllFeePlanCount(url) {
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+schoolId+'/FeePlans/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + schoolId + '/FeePlans/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getFeePlanById(id: number) {
