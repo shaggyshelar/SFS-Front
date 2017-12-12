@@ -124,13 +124,13 @@
 								</label>
 							</div>							
 						</div>
-						<div class="alertMsg" *ngIf="selectedSchoolsValidationError == true">
+						<div class="alertMsg alertUser" *ngIf="selectedSchoolsValidationError == true">
 							Please select at least one school
 						</div>
-						<div class="alertMsg" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value == ''">
+						<div class="alertMsg alertUser" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value == ''">
 							Please select Institute to get schools
 						</div>
-						<div class="alertMsg" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value != ''">
+						<div class="alertMsg alertUser" *ngIf="selectedSchoolsValidationError != true && schoolList.length == 0 && userForm.get('institute').value != ''">
 							Selected Institute is not having any school
 						</div>
 					</div>

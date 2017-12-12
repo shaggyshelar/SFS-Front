@@ -53,8 +53,8 @@
 		 [formGroup]="categoriesForm">
 			<div class="m-portlet__body formPortletBody">
 				<div class="form-group m-form__group row">
-					<label for="categoryName" class="col-md-2 col-form-label">Name<span class="requiredField">*</span></label>
-					<div class="col-md-7">
+					<label for="categoryName" class="col-md-2 col-form-label">Name <span class="requiredField">*</span></label>
+					<div class="col-md-5">
 						<input type="text" formControlName="categoryName" name="categoryName" class="form-control m-input" placeholder="Enter Category Name"
 						 maxlength="50">
 						<div class="alertMsg" *ngIf="categoriesForm.get('categoryName').hasError('required') && (categoriesForm.get('categoryName').touched)">
@@ -63,8 +63,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="categoryDescription" class="col-md-2 col-form-label">Description<span class="requiredField">*</span></label>
-					<div class="col-md-7">
+					<label for="categoryDescription" class="col-md-2 col-form-label">Description <span class="requiredField">*</span></label>
+					<div class="col-md-5">
 						<input type="text" formControlName="categoryDescription" name="categoryDescription" class="form-control" placeholder="Enter Category Description"
 						 maxlength="50">
 						<div class="alertMsg" *ngIf="categoriesForm.get('categoryDescription').hasError('required') && (categoriesForm.get('categoryDescription').touched)">
@@ -73,8 +73,8 @@
 					</div>
 				</div>
 				<div class="form-group m-form__group row">
-					<label for="categoryCode" class="col-md-2 col-form-label">Category Code<span class="requiredField">*</span></label>
-					<div class="col-md-7">
+					<label for="categoryCode" class="col-md-2 col-form-label">Category Code <span class="requiredField">*</span></label>
+					<div class="col-md-5">
 						<input type="text" formControlName="categoryCode" name="categoryCode" class="form-control" placeholder="Enter Category Code"
 						 maxlength="50">
 						<div class="alertMsg" *ngIf="categoriesForm.get('categoryCode').hasError('required') && (categoriesForm.get('categoryCode').touched)">

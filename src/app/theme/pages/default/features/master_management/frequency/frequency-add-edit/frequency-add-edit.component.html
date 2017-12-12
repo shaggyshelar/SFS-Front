@@ -58,7 +58,7 @@
 						Frequency Name
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="text" formControlName="frequencyName" name="frequencyName" id="frequencyName" maxlength="100"
 						 placeholder="Frequency Name">
 						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyName').hasError('required') && (frequencyForm.get('frequencyName').touched)">
@@ -71,7 +71,7 @@
 						Frequency Value
 						<span class="requiredField">*</span>
 					</label>
-					<div class="col-7">
+					<div class="col-md-5">
 						<input class="form-control m-input" type="number" formControlName="frequencyValue" name="frequencyValue" id="frequencyValue"
 						 maxlength="5" placeholder="Frequency Value">
 						<div class="alertMsg" *ngIf="frequencyForm.get('frequencyValue').hasError('required') && (frequencyForm.get('frequencyValue').touched)">

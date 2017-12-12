@@ -63,7 +63,7 @@
 				<div class="form-group m-form__group row lessPadding lessPaddingFeePlan" style="padding-top: 0px!important;padding-bottom: 20px!important;">
 					<div class="col-md-3">
 						<label for="example-text-input" class="col-form-label feePlanLabel">
-							Fee Plan Name<span class="requiredField">*</span>
+							Fee Plan Name <span class="requiredField">*</span>
 						</label>
 						<input class="form-control m-input feePlanText" type="text" [(ngModel)]="planeName" #planeNameVal="ngModel" name="planeName" required>
 						<div class="alertMsg" *ngIf="planeNameVal.errors && planeNameVal.errors.required && (planeNameVal.dirty || planeNameVal.touched)">
@@ -72,7 +72,7 @@
 					</div>
 					<div class="col-md-2">
 						<label for="example-text-input" class="col-form-label feePlanLabel">
-						Academic Year<span class="requiredField">*</span>
+						Academic Year <span class="requiredField">*</span>
 						</label>
 						<p-dropdown class="feePlanBox" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear" name="acadamicYearDDL"
 							(onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
