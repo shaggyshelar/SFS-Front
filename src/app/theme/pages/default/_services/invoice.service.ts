@@ -8,29 +8,7 @@ import { AppSettings } from '../../../../app-settings';
 export class InvoiceService {
   constructor(private http: Http) {
   }
-  records = [
-    {
-      invoiceno: 1111,
-      date: '27/11/2017',
-      studentName: 'Amol',
-      status: 'open',
-      amount: 5000,
-    },
-    {
-      invoiceno: 2222,
-      date: '27/11/2017',
-      studentName: 'Amol 2',
-      status: 'Closed',
-      amount: 8000,
-    },
-    {
-      invoiceno: 3333,
-      date: '27/11/2017',
-      studentName: 'Amol 3',
-      status: 'open',
-      amount: 9000,
-    }
-  ]
+
   getAllInvoices(url) {
     let params: URLSearchParams = new URLSearchParams();
     // params.set('filter[where][schoolId]', id);
