@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import * as _ from 'lodash/index';
-
+import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { Boards } from "../../../../_models/index";
@@ -30,7 +30,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
     feePlanName: string;
     academicYear: string;
     academicYearList: any;
-    isTransactionProcessed:boolean;
+    isTransactionProcessed: boolean;
     constructor(
         private formBuilder: FormBuilder,
         private globalErrorHandler: GlobalErrorHandler,
@@ -38,6 +38,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
         private categoriesService: CategoriesService,
         private feePlanAssociationService: FeePlanAssociationService,
         private academicYearService: AcademicYearService,
+        private confirmationService: ConfirmationService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService) {
@@ -74,7 +75,10 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                                 };
                             });
                             this.feePlanName = results.feePlanName;
-                            this.isTransactionProcessed=results.isTransactionProcessed;
+                            this.isTransactionProcessed = results.isTransactionProcessed;
+                            if (this.isTransactionProcessed) {
+                                this.onAlert();
+                            }
                             this.classList = this.updateList(response[0], classArray);
                             this.categoryList = this.updateList(response[1], categoryArray);
                             this.academicYearList = response[2];
@@ -96,6 +100,16 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
 
                 });
         }
+    }
+
+    onAlert() {
+        this.confirmationService.confirm({
+            message: 'Record Already Processed.Not Available For Update.',
+            header: 'Processed',
+            icon: 'fa fa-info',
+            reject: () => {
+            }
+        });
     }
 
     getArray(field): FormArray {

@@ -7,6 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { AcademicYear, FeePlan, FeePlanDetails } from '../../../../_models/index';
+import { ConfirmationService } from 'primeng/primeng';
 import { AcademicYearService } from '../../../../_services/index';
 import { SchoolService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
@@ -53,6 +54,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     private schoolService: SchoolService,
     private feesService: FeesService,
     private globalErrorHandler: GlobalErrorHandler,
+    private confirmationService: ConfirmationService,
     private messageService: MessageService) {
   }
   ngOnInit() {
@@ -61,7 +63,15 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.maxDate = new Date();
     this.getSchoolDetails();
   }
-
+  onAlert() {
+    this.confirmationService.confirm({
+        message: 'Record Already Processed.Not Available For Update.',
+        header: 'Processed',
+        icon: 'fa fa-info',
+        reject: () => {
+        }
+    });
+}
   getSchoolDetails() {
     let schoolId = parseInt(localStorage.getItem('schoolId'));
     this.schoolService.getSchoolById(schoolId).subscribe((response) => {
@@ -87,6 +97,9 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
             this.isTransactionProcessed = results.isTransactionProcessed;
+            if (this.isTransactionProcessed) {
+              this.onAlert();
+          }
             if (uniqFeeHead.length > 0) {
               this.selectedAcademicYear = results.academicYear;
               this.onAcademicYearChange();
