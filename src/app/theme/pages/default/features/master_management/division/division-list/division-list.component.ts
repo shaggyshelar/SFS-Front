@@ -76,13 +76,10 @@ export class DivisionListComponent implements OnInit {
 
 
         //Default variable initialization
-        if (localStorage.getItem('perPage') !== null) {
-            this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-            localStorage.removeItem('perPage');
-        } else {
-            this.perPage = 25;
-        }
-        this.currentPos = 0;
+        this.perPage = this.divisionService.perPage;
+        this.currentPos = this.divisionService.currentPos;
+        this.currentPageNumber = this.divisionService.currentPageNumber;
+        this.selectedPageSize = this.perPage;
         this.url = '';
         this.sortUrl = '&filter[order]=id ASC';
         this.ascSortCol1 = true;
@@ -99,7 +96,6 @@ export class DivisionListComponent implements OnInit {
         this.filter1CountQuery = '';
         this.filter2CountQuery = '';
         this.lastPage = this.perPage;
-        this.currentPageNumber = 1;
         this.firstPageNumber = 1;
         this.prePageEnable = false;
         this.nextPageEnable = true;
@@ -141,7 +137,9 @@ export class DivisionListComponent implements OnInit {
     }
 
     onEditDivisionClick(division: Division) {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        this.divisionService.perPage = this.perPage;
+        this.divisionService.currentPos = this.currentPos;
+        this.divisionService.currentPageNumber = this.currentPageNumber;
         this.router.navigate(['/features/division/edit', division.id]);
     }
     onDivisionDeleteClick(division: Division) {
@@ -170,7 +168,6 @@ export class DivisionListComponent implements OnInit {
 
     }
     onAddDivision() {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/division/add']);
     }
 
@@ -224,7 +221,6 @@ export class DivisionListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

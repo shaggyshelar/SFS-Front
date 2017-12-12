@@ -61,13 +61,10 @@ export class AdhocFeeListComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            if (localStorage.getItem('perPage') !== null) {
-                this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-                localStorage.removeItem('perPage');
-            } else {
-                this.perPage = 25;
-            }
-            this.currentPos = 0;
+            this.perPage = this.adhocFeeService.perPage;
+            this.currentPos = this.adhocFeeService.currentPos;
+            this.currentPageNumber = this.adhocFeeService.currentPageNumber;
+            this.selectedPageSize = this.perPage;
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
@@ -80,7 +77,6 @@ export class AdhocFeeListComponent implements OnInit {
             this.filter1CountQuery = '';
             this.filter2CountQuery = '';
             this.lastPage = this.perPage;
-            this.currentPageNumber = 1;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
             this.nextPageEnable = true;
@@ -150,7 +146,9 @@ export class AdhocFeeListComponent implements OnInit {
     }
 
     onEditAdhocFeeClick(adhocFee: AdhocFee) {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
+        this.adhocFeeService.perPage = this.perPage;
+        this.adhocFeeService.currentPos = this.currentPos;
+        this.adhocFeeService.currentPageNumber = this.currentPageNumber;
         this.router.navigate(['/features/adhocFee/edit', adhocFee.id]);
     }
     onAdhocFeeDeleteClick(adhocFee: AdhocFee) {
@@ -176,7 +174,6 @@ export class AdhocFeeListComponent implements OnInit {
         });
     }
     onAddAdhocFee() {
-        localStorage.setItem('perPage', this.selectedPageSize.toString());
         this.router.navigate(['/features/adhocFee/add']);
     }
 
@@ -234,7 +231,6 @@ export class AdhocFeeListComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;

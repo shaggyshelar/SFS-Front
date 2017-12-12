@@ -8,30 +8,36 @@ import { AppSettings } from '../../../../app-settings';
 export class ClassService {
   constructor(private http: Http) {
   }
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
 
-    
   getAllClassList(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getAllClasses() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass', AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getClasseCount(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getClassById(id: number) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+
+  getClassBySchoolId(id: number) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + id + '/SchoolClass', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   createClass(schoolClass: SchoolClass) {
-    return this.http.post(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/', schoolClass, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.post(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass/', schoolClass, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateClass(schoolClass: SchoolClass) {
-    return this.http.put(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolClass/' + schoolClass.id, schoolClass, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.put(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass/' + schoolClass.id, schoolClass, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteClass(id: number) {

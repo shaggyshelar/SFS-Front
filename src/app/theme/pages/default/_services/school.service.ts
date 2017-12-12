@@ -9,6 +9,11 @@ export class SchoolService {
   constructor(private http: Http) {
   }
 
+
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getSchoolCount(url) {
     return this.http.get(AppSettings.API_ENDPOINT + 'schools/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }

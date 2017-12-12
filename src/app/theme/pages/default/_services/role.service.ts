@@ -9,6 +9,10 @@ export class RoleService {
   constructor(private http: Http) {
   }
 
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
+
   getAllRoles() {   
    return this.http.get(AppSettings.API_ENDPOINT + 'roles', AppSettings.requestOptions()).map((response: Response) => response.json());  
   }
