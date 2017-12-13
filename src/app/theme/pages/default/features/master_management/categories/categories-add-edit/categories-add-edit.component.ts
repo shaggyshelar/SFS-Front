@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { SelectItem } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
   selector: "app-users-list",
@@ -47,8 +48,10 @@ export class CategoriesAddEditComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       this.params = params['categoriesId'];
       if (this.params) {
+        Helpers.setLoading(true);
         this.categorieslService.getCategoryById(this.params)
           .subscribe((results: Categories) => {
+            Helpers.setLoading(false);
             this.categoriesForm.setValue({
               categoryName: results.categoryName,
               categoryDescription: results.categoryDescription,

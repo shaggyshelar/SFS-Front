@@ -9,6 +9,7 @@ import { MessageService } from '../../../../../../_services/message.service';
 
 import { RoleService, FeatureService, PermissionService } from '../../../_services/index';
 import { Role } from "../../../_models/Role";
+import { Helpers } from "../../../../../../helpers";
 
 /** Component Declaration */
 @Component({
@@ -54,8 +55,10 @@ export class RoleAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['roleId'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.roleService.getRoleById(this.params)
                     .subscribe((results: any) => {
+                        Helpers.setLoading(false);
                         this.rolePermissionList = results.permissions ? results.permissions : [];
                         this.getAllFeatures();
                         // this.getPermissionsByRole();
@@ -67,6 +70,7 @@ export class RoleAddEditComponent implements OnInit {
                             description: results.description
                         });
                     }, error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     })
             }

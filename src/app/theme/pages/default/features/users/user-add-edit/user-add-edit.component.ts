@@ -114,8 +114,10 @@ export class UserAddEditComponent implements OnInit {
     }
 
     getEditForm() {
+        Helpers.setLoading(true);
         this.userService.getUserById(this.params)
             .subscribe((results: any) => {
+                Helpers.setLoading(false);
                 this.relatedSchoolList = results.school ? results.school : [];
                 var instituteId = -1;
                 if (this.relatedSchoolList.length > 0) {
