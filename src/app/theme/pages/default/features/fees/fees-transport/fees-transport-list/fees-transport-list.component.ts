@@ -82,8 +82,8 @@ export class TransportListComponent implements OnInit {
                         let item = _.find(this.academicYearList, { isCurrent: true });
                         if (item) {
                             this.academicYear = item.academicYear;
-                            this.minDate = new Date(new Date(item.startDate).setDate(this.paymentProcessDate));
-                            this.maxDate = new Date(item.endDate);
+                            this.minDate = this.setDateHour(new Date(new Date(item.startDate).setDate(this.paymentProcessDate)));
+                            this.maxDate = this.setDateHour(new Date(item.endDate));
                             // url = '?&filter[where][academicyear]=' + this.academicYear;
                             this.getAllTransports(url);
                         }
@@ -300,46 +300,85 @@ export class TransportListComponent implements OnInit {
                             let data: any = response[0];
                             let details = [];
                             let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
-                            data.forEach(element => {
-                                this.frequency.forEach(freq => {
-                                    let _tempDetails: any = {};
-                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                    _tempDetails.zoneId = element.id;
-                                    _tempDetails.academicYear = this.academicYear;
-                                    _tempDetails.dueDate = freq.date;
-                                    //frequencyId
+                            this.frequency.forEach(freq => {
+                                let _tempDetails: any = {};
+                                _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                _tempDetails.zoneId = data[0].id;
+                                _tempDetails.academicYear = this.academicYear;
+                                _tempDetails.dueDate = freq.date;
+                                //frequencyId
 
-                                    if (maxFreq.frequencyValue == 1) {
+                                if (maxFreq.frequencyValue == 1) {
+                                    _tempDetails.sequenceNumber = 1;
+                                }
+                                else if (maxFreq.frequencyValue == 2) {
+                                    if (freq.sequenceNumber == 1) {
+                                        _tempDetails.sequenceNumber = 7;
+                                    }
+                                    else {
                                         _tempDetails.sequenceNumber = 1;
                                     }
-                                    else if (maxFreq.frequencyValue == 2) {
-                                        if (freq.sequenceNumber == 1) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else {
-                                            _tempDetails.sequenceNumber = 1;
-                                        }
+                                }
+                                else if (maxFreq.frequencyValue == 4) {
+                                    if (freq.sequenceNumber == 0) {
+                                        _tempDetails.sequenceNumber = 1;
                                     }
-                                    else if (maxFreq.frequencyValue == 4) {
-                                        if (freq.sequenceNumber == 0) {
-                                            _tempDetails.sequenceNumber = 1;
-                                        }
-                                        else if (freq.sequenceNumber == 1) {
-                                            _tempDetails.sequenceNumber = 4;
-                                        }
-                                        else if (freq.sequenceNumber == 2) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        } else if (freq.sequenceNumber == 3) {
-                                            _tempDetails.sequenceNumber = 10;
-                                        }
+                                    else if (freq.sequenceNumber == 1) {
+                                        _tempDetails.sequenceNumber = 4;
                                     }
-                                    else if (maxFreq.frequencyValue == 12) {
-                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                    else if (freq.sequenceNumber == 2) {
+                                        _tempDetails.sequenceNumber = 7;
+                                    } else if (freq.sequenceNumber == 3) {
+                                        _tempDetails.sequenceNumber = 10;
                                     }
+                                }
+                                else if (maxFreq.frequencyValue == 12) {
+                                    _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                }
 
 
-                                    // _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                    details.push(_tempDetails);
+                                // _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                details.push(_tempDetails);
+                            });
+                            // For List
+                            this.transportList.forEach(element => {
+                                this.frequency.forEach(freq => {
+                                    if (element.id !== null) {
+                                        let _tempDetails: any = {};
+                                        _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                        _tempDetails.zoneId = element.id;
+                                        _tempDetails.academicYear = this.academicYear;
+                                        _tempDetails.dueDate = freq.date;
+                                        if (maxFreq.frequencyValue == 1) {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                        else if (maxFreq.frequencyValue == 2) {
+                                            if (freq.sequenceNumber == 1) {
+                                                _tempDetails.sequenceNumber = 7;
+                                            }
+                                            else {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
+                                        }
+                                        else if (maxFreq.frequencyValue == 4) {
+                                            if (freq.sequenceNumber == 0) {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
+                                            else if (freq.sequenceNumber == 1) {
+                                                _tempDetails.sequenceNumber = 4;
+                                            }
+                                            else if (freq.sequenceNumber == 2) {
+                                                _tempDetails.sequenceNumber = 7;
+                                            } else if (freq.sequenceNumber == 3) {
+                                                _tempDetails.sequenceNumber = 10;
+                                            }
+                                        }
+                                        else if (maxFreq.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                        }
+                                        details.push(_tempDetails);
+                                    }
+
                                 });
                             });
                             this.saveZoneDetails(details);
@@ -428,44 +467,85 @@ export class TransportListComponent implements OnInit {
                         data => {
                             let details = [];
                             let tempFeeHead = _.find(this.frequencyList, { 'id': this.frequencyId });
-                            data.forEach(element => {
-                                this.frequency.forEach(freq => {
-                                    let _tempDetails: any = {};
-                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                    _tempDetails.zoneId = element.id;
-                                    _tempDetails.academicYear = this.academicYear;
-                                    _tempDetails.dueDate = freq.date;
-                                    if (tempFeeHead.frequencyValue == 1) {
+                            this.frequency.forEach(freq => {
+                                let _tempDetails: any = {};
+                                _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                _tempDetails.zoneId = data[0].id;
+                                _tempDetails.academicYear = this.academicYear;
+                                _tempDetails.dueDate = freq.date;
+                                if (tempFeeHead.frequencyValue == 1) {
+                                    _tempDetails.sequenceNumber = 1;
+                                }
+                                else if (tempFeeHead.frequencyValue == 2) {
+                                    if (freq.sequenceNumber == 1) {
+                                        _tempDetails.sequenceNumber = 7;
+                                    }
+                                    else {
                                         _tempDetails.sequenceNumber = 1;
                                     }
-                                    else if (tempFeeHead.frequencyValue == 2) {
-                                        if (freq.sequenceNumber == 1) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        }
-                                        else {
+                                }
+                                else if (tempFeeHead.frequencyValue == 4) {
+                                    if (freq.sequenceNumber == 0) {
+                                        _tempDetails.sequenceNumber = 1;
+                                    }
+                                    else if (freq.sequenceNumber == 1) {
+                                        _tempDetails.sequenceNumber = 4;
+                                    }
+                                    else if (freq.sequenceNumber == 2) {
+                                        _tempDetails.sequenceNumber = 7;
+                                    } else if (freq.sequenceNumber == 3) {
+                                        _tempDetails.sequenceNumber = 10;
+                                    }
+                                }
+                                else if (tempFeeHead.frequencyValue == 12) {
+                                    _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                }
+                                details.push(_tempDetails);
+                            });
+                            // For List
+                            this.transportList.forEach(element => {
+                                this.frequency.forEach(freq => {
+                                    if (element.id !== null) {
+                                        let _tempDetails: any = {};
+                                        _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                        _tempDetails.zoneId = element.id;
+                                        _tempDetails.academicYear = this.academicYear;
+                                        _tempDetails.dueDate = freq.date;
+                                        if (tempFeeHead.frequencyValue == 1) {
                                             _tempDetails.sequenceNumber = 1;
                                         }
-                                    }
-                                    else if (tempFeeHead.frequencyValue == 4) {
-                                        if (freq.sequenceNumber == 0) {
-                                            _tempDetails.sequenceNumber = 1;
+                                        else if (tempFeeHead.frequencyValue == 2) {
+                                            if (freq.sequenceNumber == 1) {
+                                                _tempDetails.sequenceNumber = 7;
+                                            }
+                                            else {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
                                         }
-                                        else if (freq.sequenceNumber == 1) {
-                                            _tempDetails.sequenceNumber = 4;
+                                        else if (tempFeeHead.frequencyValue == 4) {
+                                            if (freq.sequenceNumber == 0) {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
+                                            else if (freq.sequenceNumber == 1) {
+                                                _tempDetails.sequenceNumber = 4;
+                                            }
+                                            else if (freq.sequenceNumber == 2) {
+                                                _tempDetails.sequenceNumber = 7;
+                                            } else if (freq.sequenceNumber == 3) {
+                                                _tempDetails.sequenceNumber = 10;
+                                            }
                                         }
-                                        else if (freq.sequenceNumber == 2) {
-                                            _tempDetails.sequenceNumber = 7;
-                                        } else if (freq.sequenceNumber == 3) {
-                                            _tempDetails.sequenceNumber = 10;
+                                        else if (tempFeeHead.frequencyValue == 12) {
+                                            _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
                                         }
+                                        details.push(_tempDetails);
                                     }
-                                    else if (tempFeeHead.frequencyValue == 12) {
-                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
-                                    }
-                                    details.push(_tempDetails);
+
                                 });
                             });
-                            this.saveZoneDetailsWithAddRow(details);
+
+
+                            this.saveZoneDetails(details);
                             row.disableFrequecy = true;
                             row.disabledZoneCode = true;
                         }, error => {
@@ -487,5 +567,8 @@ export class TransportListComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (rowNum + 1) });
         }
 
+    }
+    setDateHour(datecval) {
+        return new Date(new Date(datecval).setHours(22));
     }
 }
