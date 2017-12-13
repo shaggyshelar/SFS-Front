@@ -1102,3 +1102,7 @@ body .ui-dialog .ui-dialog-titlebar {
         z-index: 999;
         background-color: rgba(0, 0, 0, 0.4);
     }
+    .m-page-loader .m-blockui {
+        z-index: 9999999999999;
+        position: fixed!important;
+    }
