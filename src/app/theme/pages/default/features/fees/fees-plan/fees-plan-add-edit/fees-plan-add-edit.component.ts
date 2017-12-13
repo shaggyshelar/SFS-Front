@@ -170,6 +170,10 @@ export class FeesPlanAddEditComponent implements OnInit {
     }
   }
 
+  setDateHour(datecval){
+    return new Date(new Date(datecval).setHours(22));
+  }
+
   calculateDate(maxsequenceNumber, index, obj) {
     if (maxsequenceNumber == 1) {
       obj.date = this.minDate;
@@ -199,8 +203,8 @@ export class FeesPlanAddEditComponent implements OnInit {
   onAcademicYearChange() {
     let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
     if (tempYear) {
-      this.minDate = new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate));
-      this.maxDate = new Date(tempYear.endDate);
+      this.minDate =this.setDateHour( new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate)));
+      this.maxDate = this.setDateHour(new Date(tempYear.endDate));
       this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
     }
   }

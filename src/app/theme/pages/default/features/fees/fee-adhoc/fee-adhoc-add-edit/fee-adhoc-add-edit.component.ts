@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-import { AdhocFeeService, CommonService,ClassService,CategoriesService } from '../../../../_services/index';
+import { AdhocFeeService, CommonService, ClassService, CategoriesService } from '../../../../_services/index';
 import { AdhocFee } from "../../../../_models/index";
 
 @Component({
@@ -35,7 +35,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
         private router: Router,
         private categoriesService: CategoriesService,
         private globalErrorHandler: GlobalErrorHandler,
-        private classService:ClassService,
+        private classService: ClassService,
         private confirmationService: ConfirmationService,
         private messageService: MessageService) {
     }
@@ -54,7 +54,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
             categories: []
         });
 
-      
+
 
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
@@ -76,7 +76,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
                                 };
                             });
                             this.isTransactionProcessed = results.isTransactionProcessed;
-                            if(this.isTransactionProcessed){
+                            if (this.isTransactionProcessed) {
                                 this.onAlert();
                             }
                             this.classList = this.updateList(response[0], classArray);
@@ -84,9 +84,9 @@ export class AdhocFeeAddEditComponent implements OnInit {
                             this.adhocFeeForm.setValue({
                                 id: results.id,
                                 adhocfeeName: results.adhocfeeName,
-                               // adhocfeeDescription: results.adhocfeeDescription,
+                                // adhocfeeDescription: results.adhocfeeDescription,
                                 dueDate: new Date(results.dueDate),
-                               // invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
+                                // invoiceDetailText: results.invoiceDetailText ? results.invoiceDetailText : '',
                                 invoiceDescription: results.invoiceDescription ? results.invoiceDescription : '',
                                 adhocFeeCharges: results.adhocFeeCharges,
                                 adhocConfirmFeeCharges: results.adhocFeeCharges,
@@ -114,13 +114,13 @@ export class AdhocFeeAddEditComponent implements OnInit {
 
     onAlert() {
         this.confirmationService.confirm({
-          message: 'Record Already Processed.Not Available For Update.',
-          header: 'Processed',
-          icon: 'fa fa-trash',
-          reject: () => {
-          }
+            message: 'Record Already Processed.Not Available For Update.',
+            header: 'Processed',
+            icon: 'fa fa-trash',
+            reject: () => {
+            }
         });
-      }
+    }
 
     getArray(field): FormArray {
         return this.adhocFeeForm.get(field) as FormArray;
@@ -187,7 +187,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
 
         if (this.isClassSelected && this.isCategorySelected && !this.confirmFeeCharges) {
             value.schoolId = localStorage.getItem('schoolId');
-            value.dueDate = value.dueDate.getFullYear() + '-' + (value.dueDate.getMonth() + 1) + '-' + value.dueDate.getDate();
+            value.dueDate = new Date(new Date(value.dueDate).setHours(22));//.getFullYear() + '-' + (value.dueDate.getMonth() + 1) + '-' + value.dueDate.getDate();
             if (this.params) {
                 this.adhocFeeService.updateAdhocFee(value)
                     .subscribe(
@@ -209,6 +209,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
 
 
             } else {
+                value.dueDate = new Date(new Date(value.dueDate).setHours(22));
                 this.adhocFeeService.createAdhocFee(value)
                     .subscribe(
                     results => {
