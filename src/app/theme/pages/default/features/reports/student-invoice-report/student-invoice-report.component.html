@@ -43,7 +43,7 @@
 			<div class="row headerRowListing">
 				<div class="col-xl-8">
 					<h3 class="ListingHeading">
-					Student	Invoice List
+						Student Invoice List
 					</h3>
 				</div>
 				<!--<div class="col-xl-4">
@@ -74,47 +74,87 @@
 							<label>Status</label>
 						</div>
 						<div class="filterDropdown">
-							<select class="form-control" [(ngModel)]="status" name="statusddl">
-								<option disabled="" selected="">Select</option>
-								<option>Paid</option>
-								<option>Open</option>
-								<option>Closed</option>
-								<option>Created</option>
-								<option>Processed</option>
-								<option>Settled</option>
-								<option>Cancelled</option>
+							<select class="form-control" [(ngModel)]="status" name="statusddl" (change)="onFilterByStatus('statusId',status)">
+								<option  value="" selected="">Select</option>
+								<option value="Paid">Paid</option>
+								<option value="Open">Open</option>
+								<option value="Closed">Closed</option>
+								<option value="Created">Created</option>
+								<option value="Processed">Processed</option>
+								<option value="Settled">Settled</option>
+								<option value="Cancelled">Cancelled</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-3">
-						<!-- <div class="filterLabel">
-							<label>From</label>
+						<div class="filterLabel">
+							<label>Class</label>
 						</div>
 						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" [minDate]='minDate'
-							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setStartDate($event)" ></p-calendar>
-						</div> -->
+							<select class="form-control" [(ngModel)]="class" name="classddl" (change)="onFilterByClass('classId',class)">
+								<option  value="" selected="">Select</option>
+								<option *ngFor="let class of classList" [value]="class.id">{{class.className}}</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-2">
-						<!-- <div class="filterLabel">
-							<label>To</label>
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>Division</label>
 						</div>
 						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="endDate" name="endDate" [minDate]='minDate' [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setEndDate($event)" ></p-calendar>
-						</div> -->
+							<select class="form-control" [(ngModel)]="division" name="divisionddl" (change)="onFilterByDivision('divisionId',division)">
+								<option value="" selected="">Select</option>
+								<option *ngFor="let division of divisionList" [value]="division.id">{{division.divisionName}}</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-1"></div>
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"  placeholder="Search..." id="m_form_search">
-							 
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
+							 placeholder="Search..." id="m_form_search">
+
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
 								</span>
 							</span>
 						</div>
+					</div>
+				</div>
+				<div class="row staticSearchRow">
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>From</label>
+						</div>
+						<div class="filterDropdown">
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" 
+							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>To</label>
+						</div>
+						<div class="filterDropdown">
+							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>Fee Plan</label>
+						</div>
+						<div class="filterDropdown">
+							<select class="form-control" [(ngModel)]="feeplan" name="feeplanddl" (change)="onFilterByFeePlan('feeplanId',feeplan)">
+								<option value="" selected="">Select</option>
+								<option *ngFor="let fee of feeplanList" [value]="fee.id">{{fee.feePlanName}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+							Search
+						</button>
 					</div>
 				</div>
 
@@ -146,7 +186,7 @@
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of invoiceList'>
 									<td>
-										<a routerLink="/features/invoice/summary/{{row.id}}">{{row.invoiceNumber}}</a>
+										<a (click)="onInvoiceClick(row.id)" style="cursor:pointer"><u>{{row.invoiceNumber}}</u></a>
 									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>

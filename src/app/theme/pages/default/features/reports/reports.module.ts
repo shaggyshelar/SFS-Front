@@ -7,13 +7,15 @@ import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { StudentInvoiceReportComponent } from './student-invoice-report/student-invoice-report.component';
-import { InvoiceService } from '../../../default/_services/invoice.service'
+import { InvoiceService } from '../../../default/_services/invoice.service';
+import { ClassService } from '../../_services/class.service';
 import {
   DataTableModule,
   SharedModule,
   ButtonModule,
   DropdownModule,
   ConfirmDialogModule,
+  CalendarModule,
   ConfirmationService,
 } from 'primeng/primeng';
 
@@ -51,13 +53,15 @@ const routes: Routes = [
     ButtonModule,
     DropdownModule,
     ConfirmDialogModule,
+    CalendarModule
   ], declarations: [
     ReportsComponent,
     StudentInvoiceReportComponent
   ],
   providers: [
     ConfirmationService,
-   InvoiceService
+    InvoiceService,
+    ClassService
   ]
 })
 export class ReportsModule {
