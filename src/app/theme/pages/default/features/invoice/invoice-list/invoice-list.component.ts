@@ -64,6 +64,7 @@ export class InvoiceListComponent implements OnInit {
             this.perPage = this.invoiceService.perPage;
             this.currentPos = this.invoiceService.currentPos;
             this.currentPageNumber = this.invoiceService.currentPageNumber;
+            this.selectedPageSize = this.perPage;
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;

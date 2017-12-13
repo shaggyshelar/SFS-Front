@@ -13,6 +13,7 @@ import { MerchantService } from '../../../../default/_services/merchant.service'
 import { ConfirmationService } from 'primeng/primeng';
 import { InvoiceService } from '../../../_services/index';
 import { ScriptLoaderService } from './../../../../../../_services/script-loader.service';
+import { ClassService } from '../../../_services/class.service';
 
 @Component({
     selector: "app-student-invoice-report-list",
@@ -20,7 +21,10 @@ import { ScriptLoaderService } from './../../../../../../_services/script-loader
     encapsulation: ViewEncapsulation.None,
 })
 export class StudentInvoiceReportComponent implements OnInit {
+    classList: any = [];
+    divisionList: any = [];
     invoiceList = [];
+    feeplanList = [];
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -28,7 +32,11 @@ export class StudentInvoiceReportComponent implements OnInit {
     lastPage: number;
     startDate: Date;
     endDate: Date;
-    status:'';
+    status: string = '';
+    class: string = '';
+    division: string = '';
+    feeplan: string = '';
+    schoolId: any;
     currentPageNumber: number; //Stores Current Page Number
     url: string;           //Api url
     sortUrl: string;       //Sort Api Url
@@ -42,8 +50,14 @@ export class StudentInvoiceReportComponent implements OnInit {
 
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
+    filterQuery: string;
+    filterQuery1: string;
+    filterQuery2: string;
+    filterQuery3: string;
     filter1CountQuery: string;  //Count number of records for filter1CountQuery
     filter2CountQuery: string;  //Count number of records for filter2CountQuery
+    filter3CountQuery: string;
+    filter4CountQuery: string;
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -58,6 +72,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         private globalErrorHandler: GlobalErrorHandler,
         private confirmationService: ConfirmationService,
         private invoiceService: InvoiceService,
+        private classService: ClassService,
         private _script: ScriptLoaderService) {
     }
 
@@ -66,26 +81,29 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            if (localStorage.getItem('perPage') !== null) {
-                this.perPage = this.selectedPageSize = Number(localStorage.getItem('perPage'));
-                localStorage.removeItem('perPage');
-            } else {
-                this.perPage = 25;
-            }
-            this.currentPos = 0;
+            this.perPage = this.invoiceService.perPage;
+            this.currentPos = this.invoiceService.currentPos;
+            this.currentPageNumber = this.invoiceService.currentPageNumber;
+            this.selectedPageSize = this.perPage;
+            this.schoolId = localStorage.getItem("schoolId");
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
             this.ascSortCol2 = true;
             this.ascSortCol3 = true;
             this.ascSortCol4 = true;
+            this.filterQuery = '';
+            this.filterQuery1 = '';
+            this.filterQuery2 = '';
+            this.filterQuery3 = '';
             this.searchQuery = '';
             this.searchCountQuery = '';
             this.countQuery = '?';
             this.filter1CountQuery = '';
             this.filter2CountQuery = '';
+            this.filter3CountQuery = '';
+            this.filter4CountQuery = '';
             this.lastPage = this.perPage;
-            this.currentPageNumber = 1;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
             this.nextPageEnable = true;
@@ -94,6 +112,9 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.longList = true;
             //this.getAllBoards();
+            this.getClassList();
+            this.getDivisionList();
+            this.getFeePlanList();
             this.getDataCount('');
         }
         //Page Size Array
@@ -117,7 +138,39 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
-
+    getClassList() {
+        this.classService.getClassBySchoolId(this.schoolId)
+            .subscribe(
+            response => {
+                this.classList = response;
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
+            );
+    }
+    getDivisionList() {
+        this.classService.getDivisionBySchoolId(this.schoolId)
+            .subscribe(
+            response => {
+                this.divisionList = response;
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
+            );
+    }
+    getFeePlanList() {
+        this.classService.getFeePlansBySchoolId(this.schoolId)
+            .subscribe(
+            response => {
+                this.feeplanList = response;
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
+            );
+    }
     getAllInvoice() {
         this.getUrl();
         this.invoiceService.getAllInvoices(this.url).subscribe(
@@ -192,7 +245,6 @@ export class StudentInvoiceReportComponent implements OnInit {
 
     pageSizeChanged(size) {
         this.perPage = size;
-        localStorage.setItem('perPage', size);
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -250,6 +302,12 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.currentPos = 0;
             this.currentPageNumber = 1;
         }
+    }
+    onInvoiceClick(id) {
+        this.invoiceService.perPage = this.perPage;
+        this.invoiceService.currentPos = this.currentPos;
+        this.invoiceService.currentPageNumber = this.currentPageNumber;
+        this.router.navigate(['/features/invoice/summary/' + id]);
     }
     nextPage() {
         if (this.currentPos + this.perPage < this.total) {
@@ -309,8 +367,8 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%"+ '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -319,7 +377,62 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
         this.getQueryDataCount();
     }
-
+    onFilterByStatus(column, value) {
+        if (value === '') {
+            this.filterQuery = '';
+            this.filter1CountQuery = '';
+        } else {
+            this.filterQuery = '&filter[where][' + column + ']=' + value;
+            this.filter1CountQuery = '&where[' + column + '] =' + value;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
+    onFilterByClass(column, value) {
+        if (value === '') {
+            this.filterQuery1 = '';
+            this.filter2CountQuery = '';
+        } else {
+            this.filterQuery1 = '&filter[where][' + column + ']=' + value;
+            this.filter2CountQuery = '&where[' + column + '] =' + value;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
+    onFilterByDivision(column, value) {
+        if (value === '') {
+            this.filterQuery2 = '';
+            this.filter3CountQuery = '';
+        } else {
+            this.filterQuery2 = '&filter[where][' + column + ']=' + value;
+            this.filter3CountQuery = '&where[' + column + '] =' + value;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
+    onFilterByFeePlan(column, value) {
+        if (value === '') {
+            this.filterQuery3 = '';
+            this.filter4CountQuery = '';
+        } else {
+            this.filterQuery3 = '&filter[where][' + column + ']=' + value;
+            this.filter4CountQuery = '&where[' + column + '] =' + value;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
     sort(column, sortOrder) {
         if (sortOrder) {
             this.sortUrl = '&filter[order]=' + column + ' DESC';
@@ -340,6 +453,11 @@ export class StudentInvoiceReportComponent implements OnInit {
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+    }
+    onSearchReport() {
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?filter[include]=SchoolStatus&filter[include]=SchoolClass&filter[include]=SchoolFeeplan&filter[include]=SchoolDivision&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
+        console.log(this.url);
     }
     /* Counting Number of records ends*/
 }
