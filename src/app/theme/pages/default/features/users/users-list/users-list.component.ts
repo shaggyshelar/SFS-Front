@@ -62,15 +62,15 @@ export class UsersListComponent implements OnInit {
         this.userRole = currentUser.roles && currentUser.roles.length > 0 ? currentUser.roles[0].name : '';
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '25', value: 25 });
-        this.pageSize.push({ label: '50', value: 50 });
-        this.pageSize.push({ label: '100', value: 100 });
-        this.pageSize.push({ label: '200', value: 200 });
+        this.pageSize.push({ label: '5', value: 5 });
+        this.pageSize.push({ label: '10', value: 10 });
+        this.pageSize.push({ label: '15', value: 15 });
+        this.pageSize.push({ label: '20', value: 20 });
 
 
 
         //Default variable initialization
-        this.perPage = this.userService.perPage;
+        this.perPage = 5//this.userService.perPage;
         this.currentPos = this.userService.currentPos;
         this.currentPageNumber = this.userService.currentPageNumber;
         this.selectedPageSize = this.perPage;

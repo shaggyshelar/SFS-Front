@@ -22,7 +22,7 @@ export class FeesService {
   }
 
   getFeesCount(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads/count?&where[schoolId]='+localStorage.getItem('schoolId'), AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getFeeById(id: number) {

@@ -294,52 +294,164 @@ export class TransportListComponent implements OnInit {
                         _tempUpdateList.push(element);
                     }
                 });
+                if (_tempUpdateList.length > 0) {
+                    this.details = [];
+                    let count = 0;
+                    let count1 = 0;
+                    let count2 = 0;
+                    _tempUpdateList.forEach(element => {
+                        this.tempTransportList.forEach(element1 => {
+                            if ((element.id === element1.id)
+                                && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.zoneCost !== element1.zoneCost)) {
+                                count++;
+                                this.transportServics.updateTransport(element).subscribe(
+                                    data => {
+                                        count1++;
+                                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
+                                        let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
+                                        this.frequency.forEach(freq => {
+                                            let _tempDetails: any = {};
+                                            _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                            _tempDetails.zoneId = data.id;
+                                            _tempDetails.academicYear = this.academicYear;
+                                            _tempDetails.dueDate = freq.date;
+                                            //frequencyId
+
+                                            if (maxFreq.frequencyValue == 1) {
+                                                _tempDetails.sequenceNumber = 1;
+                                            }
+                                            else if (maxFreq.frequencyValue == 2) {
+                                                if (freq.sequenceNumber == 1) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                }
+                                                else {
+                                                    _tempDetails.sequenceNumber = 1;
+                                                }
+                                            }
+                                            else if (maxFreq.frequencyValue == 4) {
+                                                if (freq.sequenceNumber == 0) {
+                                                    _tempDetails.sequenceNumber = 1;
+                                                }
+                                                else if (freq.sequenceNumber == 1) {
+                                                    _tempDetails.sequenceNumber = 4;
+                                                }
+                                                else if (freq.sequenceNumber == 2) {
+                                                    _tempDetails.sequenceNumber = 7;
+                                                } else if (freq.sequenceNumber == 3) {
+                                                    _tempDetails.sequenceNumber = 10;
+                                                }
+                                            }
+                                            else if (maxFreq.frequencyValue == 12) {
+                                                _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                            }
+
+                                            // _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                            this.details.push(_tempDetails);
+                                        });
+                                        if (count1 === count) {
+                                            this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear, "frequencyId": this.frequencyId })
+                                            this.saveZoneDetails(this.details);
+                                        }
+                                    }, error => {
+                                        this.globalErrorHandler.handleError(error);
+                                    });
+                            }
+                            else if ((element.id === element1.id)
+                                && (element.zoneCode === element1.zoneCode || element.zoneDescription === element1.zoneDescription || element.zoneCost === element1.zoneCost)) {
+                                count2++;
+                                let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
+                                this.frequency.forEach(freq => {
+                                    let _tempDetails: any = {};
+                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                    _tempDetails.zoneId = element.id;
+                                    _tempDetails.academicYear = this.academicYear;
+                                    _tempDetails.dueDate = freq.date;
+                                    if (maxFreq.frequencyValue == 1) {
+                                        _tempDetails.sequenceNumber = 1;
+                                    }
+                                    else if (maxFreq.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                    }
+                                    else if (maxFreq.frequencyValue == 4) {
+                                        if (freq.sequenceNumber == 0) {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                        else if (freq.sequenceNumber == 1) {
+                                            _tempDetails.sequenceNumber = 4;
+                                        }
+                                        else if (freq.sequenceNumber == 2) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        } else if (freq.sequenceNumber == 3) {
+                                            _tempDetails.sequenceNumber = 10;
+                                        }
+                                    }
+                                    else if (maxFreq.frequencyValue == 12) {
+                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
+                                    }
+                                    this.details.push(_tempDetails);
+                                });
+                                if (_tempUpdateList.length === count2) {
+                                    this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear, "frequencyId": this.frequencyId })
+                                    this.saveZoneDetails(this.details);
+                                }
+                            }
+                        });
+                    })
+                }
                 if (_tempNewList.length > 0) {
-                    Observable.forkJoin([this.transportServics.createTransport(_tempNewList), this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear })])
+                    Observable.forkJoin([this.transportServics.createTransport(_tempNewList), this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear, "frequencyId": this.frequencyId })])
                         .subscribe((response) => {
                             let data: any = response[0];
                             let details = [];
                             let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
-                            this.frequency.forEach(freq => {
-                                let _tempDetails: any = {};
-                                _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                _tempDetails.zoneId = data[0].id;
-                                _tempDetails.academicYear = this.academicYear;
-                                _tempDetails.dueDate = freq.date;
-                                //frequencyId
+                            data.forEach(element => {
+                                this.frequency.forEach(freq => {
+                                    let _tempDetails: any = {};
+                                    _tempDetails.schoolId = localStorage.getItem('schoolId');
+                                    _tempDetails.zoneId = element.id;
+                                    _tempDetails.academicYear = this.academicYear;
+                                    _tempDetails.dueDate = freq.date;
+                                    //frequencyId
 
-                                if (maxFreq.frequencyValue == 1) {
-                                    _tempDetails.sequenceNumber = 1;
-                                }
-                                else if (maxFreq.frequencyValue == 2) {
-                                    if (freq.sequenceNumber == 1) {
-                                        _tempDetails.sequenceNumber = 7;
-                                    }
-                                    else {
+                                    if (maxFreq.frequencyValue == 1) {
                                         _tempDetails.sequenceNumber = 1;
                                     }
-                                }
-                                else if (maxFreq.frequencyValue == 4) {
-                                    if (freq.sequenceNumber == 0) {
-                                        _tempDetails.sequenceNumber = 1;
+                                    else if (maxFreq.frequencyValue == 2) {
+                                        if (freq.sequenceNumber == 1) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        }
+                                        else {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
                                     }
-                                    else if (freq.sequenceNumber == 1) {
-                                        _tempDetails.sequenceNumber = 4;
+                                    else if (maxFreq.frequencyValue == 4) {
+                                        if (freq.sequenceNumber == 0) {
+                                            _tempDetails.sequenceNumber = 1;
+                                        }
+                                        else if (freq.sequenceNumber == 1) {
+                                            _tempDetails.sequenceNumber = 4;
+                                        }
+                                        else if (freq.sequenceNumber == 2) {
+                                            _tempDetails.sequenceNumber = 7;
+                                        } else if (freq.sequenceNumber == 3) {
+                                            _tempDetails.sequenceNumber = 10;
+                                        }
                                     }
-                                    else if (freq.sequenceNumber == 2) {
-                                        _tempDetails.sequenceNumber = 7;
-                                    } else if (freq.sequenceNumber == 3) {
-                                        _tempDetails.sequenceNumber = 10;
+                                    else if (maxFreq.frequencyValue == 12) {
+                                        _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
                                     }
-                                }
-                                else if (maxFreq.frequencyValue == 12) {
-                                    _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
-                                }
 
 
-                                // _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                details.push(_tempDetails);
+                                    // _tempDetails.sequenceNumber = freq.sequenceNumber;
+                                    details.push(_tempDetails);
+                                });
                             });
+
                             // For List
                             this.transportList.forEach(element => {
                                 this.frequency.forEach(freq => {
@@ -384,74 +496,7 @@ export class TransportListComponent implements OnInit {
                             this.saveZoneDetails(details);
                         });
                 }
-                if (_tempUpdateList.length > 0) {
-                    Observable.forkJoin([_tempUpdateList.forEach(element => {
-                        this.tempTransportList.forEach(element1 => {
-                            if ((element.id === element1.id)
-                                && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.zoneCost !== element1.zoneCost)) {
-                                this.transportServics.updateTransport(element).subscribe(
-                                    data => {
-                                        this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Updated Successfully' });
-                                        this.details = [];
-                                        let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
-                                        let count = 0;
-                                        this.frequency.forEach(freq => {
-                                            count++;
-                                            let _tempDetails: any = {};
-                                            _tempDetails.schoolId = localStorage.getItem('schoolId');
-                                            _tempDetails.zoneId = data.id;
-                                            _tempDetails.academicYear = this.academicYear;
-                                            _tempDetails.dueDate = freq.date;
-                                            //frequencyId
 
-                                            if (maxFreq.frequencyValue == 1) {
-                                                _tempDetails.sequenceNumber = 1;
-                                            }
-                                            else if (maxFreq.frequencyValue == 2) {
-                                                if (freq.sequenceNumber == 1) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                }
-                                                else {
-                                                    _tempDetails.sequenceNumber = 1;
-                                                }
-                                            }
-                                            else if (maxFreq.frequencyValue == 4) {
-                                                if (freq.sequenceNumber == 0) {
-                                                    _tempDetails.sequenceNumber = 1;
-                                                }
-                                                else if (freq.sequenceNumber == 1) {
-                                                    _tempDetails.sequenceNumber = 4;
-                                                }
-                                                else if (freq.sequenceNumber == 2) {
-                                                    _tempDetails.sequenceNumber = 7;
-                                                } else if (freq.sequenceNumber == 3) {
-                                                    _tempDetails.sequenceNumber = 10;
-                                                }
-                                            }
-                                            else if (maxFreq.frequencyValue == 12) {
-                                                _tempDetails.sequenceNumber = freq.sequenceNumber + 1;
-                                            }
-
-
-                                            // _tempDetails.sequenceNumber = freq.sequenceNumber;
-                                            this.details.push(_tempDetails);
-                                        });
-                                        if (_tempUpdateList.length === count) {
-                                            this.saveZoneDetails(this.details);
-                                        }
-                                    }, error => {
-                                        this.globalErrorHandler.handleError(error);
-                                    });
-                            }
-                        });
-                    }), this.transportServics.updateTransportZone(this.schoolId, { "academicYear": this.academicYear })])
-                        .subscribe((response) => {
-                            //
-                        },
-                        error => { //console.log(error) 
-                        });
-
-                }
             }
         }
     }

@@ -60,10 +60,11 @@ export class AdhocFeeAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
         });
-        Helpers.setLoading(true);
+        
         Observable.forkJoin([this.classService.getAllClasses(), this.categoriesService.getAllCategories()])
             .subscribe((response) => {
                 if (this.params) {
+                    Helpers.setLoading(true);
                     this.adhocFeeService.getAdhocFeeById(this.params)
                         .subscribe((results: any) => {
                             Helpers.setLoading(false);
