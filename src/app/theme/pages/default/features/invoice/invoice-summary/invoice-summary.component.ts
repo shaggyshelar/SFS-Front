@@ -27,7 +27,7 @@ export class InvoiceSummaryComponent implements OnInit {
     minEndDate: any;
     isEndYearSameAsStarYear: boolean = false
     isCurrentYearDisabled: boolean = false
-    
+    currentStatus:string;
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -56,6 +56,7 @@ export class InvoiceSummaryComponent implements OnInit {
             response => {
                 this.invoice = response;
                // this.invoice.invoiceStatus="Paid";
+               this.currentStatus=this.invoice.status;
                 this.invoice.dueDate = new Date(response.dueDate);
             },
             error => {
@@ -71,10 +72,11 @@ export class InvoiceSummaryComponent implements OnInit {
         //     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
         //     return false;
         // }
-        else if(this.statusChanged && this.invoice.status=='Paid' && this.invoice.statusDesc=='' ){
+        else if(this.statusChanged && this.currentStatus=='Paid' && !this.invoice.statusDesc ){
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
+        this.invoice.status=this.currentStatus;
         this.invoiceService.updateInvoice(this.invoice).subscribe(
             response => {
                 this.invoice = response;
