@@ -9,6 +9,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 
 import { AcademicYearService } from '../../../../_services/index';
 import { Boards } from "../../../../_models/Boards";
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-academic-year-add-edit",
@@ -50,8 +51,10 @@ export class AcademicYearAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.academicYearService.getAcademicYearById(this.params)
                     .subscribe((results: any) => {
+                        Helpers.setLoading(false);
                         this.isCurrentYearDisabled = results.isCurrent;
                         this.academicYearForm.setValue({
                             id: results.id,
@@ -70,6 +73,7 @@ export class AcademicYearAddEditComponent implements OnInit {
                             this.isCurrentYearDisabled = false;
                         }
                     }, error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     })
             }

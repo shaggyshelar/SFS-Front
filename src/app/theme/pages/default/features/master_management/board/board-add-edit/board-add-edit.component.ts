@@ -8,7 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 
 import { BoardService } from '../../../../_services/index';
 import { Boards } from "../../../../_models/Boards";
-
+import { Helpers } from "../../../../../../../helpers";
 @Component({
   selector: "app-board-add-edit",
   templateUrl: "./board-add-edit.component.html",
@@ -37,6 +37,7 @@ export class BoardAddEditComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
             this.params = params['boardId'];
             if (this.params) {
+                Helpers.setLoading(false);
                 this.boardService.getBoardById(this.params)
                     .subscribe((results: any) => {
                         this.boardForm.setValue({
@@ -45,6 +46,7 @@ export class BoardAddEditComponent implements OnInit {
                             boardDescription: results.boardDescription
                         });  
                     }, error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     })
             }

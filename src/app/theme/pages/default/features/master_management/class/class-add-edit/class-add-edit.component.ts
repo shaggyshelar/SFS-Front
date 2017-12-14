@@ -7,6 +7,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { ClassService } from '../../../../_services/class.service';
 import { SchoolClass } from "../../../../_models/Class";
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-institute-list",
@@ -37,10 +38,11 @@ export class ClassAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['classId'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.classService.getClassById(this.params)
                     .subscribe(
                     (results: SchoolClass) => {
-                        console.log(results);
+                        Helpers.setLoading(false);
                         this.classForm.setValue({
                             id: results.id,
                             className: results.className,
@@ -48,6 +50,7 @@ export class ClassAddEditComponent implements OnInit {
                         });
                     },
                     error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     });
             }

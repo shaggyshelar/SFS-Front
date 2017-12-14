@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../../../_services/message.service';
 import { DivisionService } from '../../../../_services/division.service';
 import { Division } from "../../../../_models/Division";
 import { ClassService } from '../../../../_services/class.service';
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-institute-list",
@@ -55,9 +56,11 @@ export class DivisionAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['divisionId'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.divisionService.getDivisionById(this.params)
                     .subscribe(
                     (results: Division) => {
+                        Helpers.setLoading(false);
                         this.divisionForm.setValue({
                             id: results.id,
                             classId: results.classId,
@@ -66,6 +69,7 @@ export class DivisionAddEditComponent implements OnInit {
                         });
                     },
                     error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     });
             }

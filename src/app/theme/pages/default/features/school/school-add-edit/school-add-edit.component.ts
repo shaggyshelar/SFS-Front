@@ -12,6 +12,8 @@ import { InstitutesService } from '../../../_services/institute.service';
 import { BoardService } from '../../../_services/board.service';
 import { School } from "../../../_models/School";
 import { ViewChild } from '@angular/core';
+import { Helpers } from "../../../../../../helpers";
+
 
 @Component({
     selector: "app-users-list",
@@ -110,9 +112,11 @@ export class SchoolAddEditComponent implements OnInit {
                     }
 
                     if (this.params) {
+                        Helpers.setLoading(true);
                         this.schoolService.getSchoolById(this.params)
                             .subscribe(
                             (results: School) => {
+                                Helpers.setLoading(false);
                                 this.schoolForm.setValue({
                                     id: results.id,
                                     boardId: results.boardId,
@@ -140,6 +144,7 @@ export class SchoolAddEditComponent implements OnInit {
                                 }
                             },
                             error => {
+                                Helpers.setLoading(false);
                                 this.globalErrorHandler.handleError(error);
                             });
                     }
