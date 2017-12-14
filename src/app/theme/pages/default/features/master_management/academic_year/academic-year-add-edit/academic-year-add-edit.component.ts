@@ -126,7 +126,7 @@ export class AcademicYearAddEditComponent implements OnInit {
             let cloneDate = _.clone(value);
             this.startAcademicYear = value.getFullYear();
             let updatedDate = cloneDate.setMonth(cloneDate.getMonth() + 12)
-            let endDate = new Date(updatedDate);
+            let endDate = new Date(new Date(updatedDate).setDate( new Date(updatedDate).getDate()-1));//new Date(updatedDate);
             this.academicYearForm.controls['endDate'].setValue(endDate);
             if (this.startAcademicYear != endDate.getFullYear())
                 this.endAcademicYear = endDate.getFullYear().toString().substring(2, 4);
