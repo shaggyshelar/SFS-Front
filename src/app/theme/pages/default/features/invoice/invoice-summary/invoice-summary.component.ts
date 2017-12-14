@@ -8,7 +8,7 @@ import { GlobalErrorHandler } from './../../../../../../_services/error-handler.
 import { MessageService } from './../../../../../../_services/message.service';
 import { AcademicYearService } from './../../../_services/index';
 import { Boards } from "./../../../_models/Boards";
-
+import { Helpers } from "./../../../../../../helpers";
 @Component({
     selector: "app-invoice-summary",
     templateUrl: "./invoice-summary.component.html",
@@ -51,6 +51,7 @@ export class InvoiceSummaryComponent implements OnInit {
 
     }
     getInvoiceSumary() {
+        Helpers.setLoading(true);
         let url = '?filter[include]=studentData&filter[include]=invoiceDetails';
         this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
             response => {
@@ -58,6 +59,7 @@ export class InvoiceSummaryComponent implements OnInit {
                // this.invoice.invoiceStatus="Paid";
                this.currentStatus=this.invoice.status;
                 this.invoice.dueDate = new Date(response.dueDate);
+                Helpers.setLoading(false);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
