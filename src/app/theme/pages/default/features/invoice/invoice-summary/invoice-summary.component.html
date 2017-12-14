@@ -106,7 +106,7 @@
                                 <h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
-                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="invoice.status">
+                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="invoice.status" [disabled]="invoice.status!='Processed'">
                                     <option>Select</option>
                                     <option value="Paid">Paid</option>
                                     <option value="Open" disabled>Open</option>

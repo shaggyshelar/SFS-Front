@@ -27,7 +27,7 @@ export class InvoiceSummaryComponent implements OnInit {
     minEndDate: any;
     isEndYearSameAsStarYear: boolean = false
     isCurrentYearDisabled: boolean = false
-
+    
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
