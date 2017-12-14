@@ -142,6 +142,7 @@ export class InvoiceListComponent implements OnInit {
     setEndDate(value) {
         if (value) {
             this.endDate = value;
+            this.searchString('',false)
         }
     }
     /*Pagination Function's Starts*/
