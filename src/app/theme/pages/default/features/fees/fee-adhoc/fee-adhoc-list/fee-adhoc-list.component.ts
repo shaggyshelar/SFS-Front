@@ -109,6 +109,7 @@ export class AdhocFeeListComponent implements OnInit {
                     adhocfeeName: item.adhocfeeName,
                     adhocfeeDescription: item.adhocfeeDescription,
                     dueDate: item.dueDate,
+                    isTransactionProcessed:item.isTransactionProcessed
                 })
                 this.adhocFeeList[index].classes = '';
                 this.adhocFeeList[index].categories = '';
