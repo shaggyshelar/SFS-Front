@@ -12,7 +12,7 @@ import { ClassService } from '../../../_services/class.service';
 import { AcademicYearService } from '../../../_services/academic-year.service';
 import { CategoriesService } from '../../../_services/categories.service';
 import { TransportService } from '../../../_services/transport.service';
-
+import { Helpers } from "../../../../../../helpers";
 import { Student } from "../../../_models/Student";
 
 @Component({
@@ -134,13 +134,15 @@ export class StudentAddEditComponent implements OnInit {
                             this.categoryList.push({ label: response[key].categoryName, value: response[key].id });
                         }
                     }
-
+                    
                     this.route.params.forEach((params: Params) => {
                         this.params = params['studentId'];
+                        Helpers.setLoading(true);
                         if (this.params) {
                             this.studentService.getStudentById(this.params)
                                 .subscribe(
                                 (results: Student) => {
+                                    Helpers.setLoading(false);
                                     this.studentCode = results.studentCode;
                                     this.studentName = results.studentFirstName + ' ' + results.studentLastName;
 
@@ -194,6 +196,7 @@ export class StudentAddEditComponent implements OnInit {
                                     });
                                 },
                                 error => {
+                                    Helpers.setLoading(false);
                                     this.globalErrorHandler.handleError(error);
                                 });
                         }

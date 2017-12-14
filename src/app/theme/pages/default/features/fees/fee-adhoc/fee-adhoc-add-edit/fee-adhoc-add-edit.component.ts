@@ -8,6 +8,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { AdhocFeeService, CommonService, ClassService, CategoriesService } from '../../../../_services/index';
 import { AdhocFee } from "../../../../_models/index";
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-fee-adhoc-add-edit",
@@ -59,12 +60,13 @@ export class AdhocFeeAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['id'];
         });
-
+        Helpers.setLoading(true);
         Observable.forkJoin([this.classService.getAllClasses(), this.categoriesService.getAllCategories()])
             .subscribe((response) => {
                 if (this.params) {
                     this.adhocFeeService.getAdhocFeeById(this.params)
                         .subscribe((results: any) => {
+                            Helpers.setLoading(false);
                             var classArray = _.map(_.uniqBy(results.feeDetails, 'classId'), function (item) {
                                 return {
                                     id: item.classId,
@@ -99,6 +101,7 @@ export class AdhocFeeAddEditComponent implements OnInit {
                             this.adhocFeeForm.addControl('categories', this.buildArray(this.categoryList));
 
                         }, error => {
+                            Helpers.setLoading(false);
                             this.globalErrorHandler.handleError(error);
                         })
                 } else {

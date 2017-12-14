@@ -59,11 +59,12 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
             this.params = params['id'];
         });
         if (this.params) {
+            Helpers.setLoading(true);
             Observable.forkJoin([this.classService.getAllClasses(), this.categoriesService.getAllCategories(), this.academicYearService.getAllAcademicYears()])
                 .subscribe((response) => {
-
                     this.feePlanAssociationService.getFeePlanAssociationById(this.params)
                         .subscribe((results: any) => {
+                            Helpers.setLoading(false);
                             var classArray = _.map(_.uniqBy(results.associations, 'classId'), function (item) {
                                 return {
                                     id: item.classId,
@@ -94,6 +95,7 @@ export class FeePlanAssociationAddEditComponent implements OnInit {
                             this.feePlanAssociationForm.addControl('categories', this.buildArray(this.categoryList));
 
                         }, error => {
+                            Helpers.setLoading(false);
                             this.globalErrorHandler.handleError(error);
                         })
 
