@@ -96,7 +96,7 @@ export class InvoiceListComponent implements OnInit {
     }
 
     getDataCount(url) {
-        this.invoiceService.getInvoicesCount(this.url).subscribe(
+        this.invoiceService.getInvoicesCount(url).subscribe(
             response => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);
@@ -110,15 +110,27 @@ export class InvoiceListComponent implements OnInit {
     }
 
     getAllInvoice() {
+        Helpers.setLoading(true);
         this.getUrl();
         this.invoiceService.getAllInvoices(this.url).subscribe(
             response => {
                 this.invoiceList = response;
                 this.longList = response.length > 0 ? true : false;
+                Helpers.setLoading(false);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
             });
+    }
+    onStatusChange() {
+        if (this.status) {
+            this.currentPos = 0;
+            this.currentPageNumber = 1;
+            this.boundryStart = 1;
+            this.boundry = 3;
+            this.boundryEnd = this.boundry;
+            this.getrecordsByFilter();
+        }
     }
 
     setStartDate(value) {
@@ -265,7 +277,8 @@ export class InvoiceListComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllInvoice();
+        this.getrecordsByFilter();
+        //this.getAllInvoice();
     }
 
     noPrevPage() {
@@ -300,19 +313,56 @@ export class InvoiceListComponent implements OnInit {
     /* Pagination Function's Ends */
 
     /* Filtering, Sorting, Search functions Starts*/
-    searchString(searchString) {
-        if (searchString == '') {
+    searchString(searchString, isPageChange) {
+        if (searchString == '' && !isPageChange) {
             this.searchQuery = '';
             this.searchCountQuery = '';
-        } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
+
         }
-        this.currentPos = 0;
-        this.currentPageNumber = 1;
-        this.boundryStart = 1;
-        this.boundry = 3;
-        this.boundryEnd = this.boundry;
+     if (!isPageChange) {
+            this.currentPos = 0;
+            this.currentPageNumber = 1;
+            this.boundryStart = 1;
+            this.boundry = 3;
+            this.boundryEnd = this.boundry;
+            this.getrecordsByFilter();
+        }
+
+    }
+
+    getrecordsByFilter() {
+        let count = 0;
+        this.searchQuery = '';
+        this.searchCountQuery = '';
+        if (this.searchValue && (!this.status && (!this.startDate || !this.endDate))) {
+            this.searchQuery = '&filter[where][invoiceNumber][like]=%' + this.searchValue + "%";
+            this.searchCountQuery = '&[where][invoiceNumber][like]=%' + this.searchValue + "%";
+        }
+        else if (this.searchValue && (this.status || (!this.startDate || !this.endDate))) {
+            this.searchQuery = '&filter[where][and][0][invoiceNumber][like]=%' + this.searchValue + "%";
+            this.searchCountQuery = '&[where][and][0][invoiceNumber][like]=%' + this.searchValue + "%";
+            count++;
+        }
+        if (this.status && (!this.startDate || !this.endDate) && count == 0) {
+            this.searchQuery = this.searchQuery + '&filter[where][status][like]=%' + this.status + "%";
+            this.searchCountQuery = this.searchCountQuery + '&[where][status][like]=%' + this.status + "%";
+        }
+        else if (this.status && ((this.startDate && this.endDate) || count > 1)) {
+            this.searchQuery = this.searchQuery + '&filter[where][and][' + count + '][status][like]=%' + this.status + "%";
+            this.searchCountQuery = this.searchCountQuery + '&[where][and][' + count + '][status][like]=%' + this.status + "%";
+            count++;
+        }
+        if (this.startDate && this.endDate && this.status && count == 0) {
+            let newCount=count++;
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where]filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+        }
+        else if (count > 0) {
+            let newCount=count++;
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+        }
+
         this.getQueryDataCount();
     }
 
@@ -330,7 +380,6 @@ export class InvoiceListComponent implements OnInit {
     getQueryDataCount() {
         this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
         this.getDataCount(this.countQuery);
-
     }
 
     getUrl() {

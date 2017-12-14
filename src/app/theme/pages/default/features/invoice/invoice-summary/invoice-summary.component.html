@@ -97,7 +97,7 @@
                                 </h6>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
-                                    [disabled]="invoice.status!='Processed'" yearRange="2000:2050"></p-calendar>
+                                    [disabled]="currentStatus!='Processed'" yearRange="2000:2050"></p-calendar>
                             </div>
                         </div>
 
@@ -106,7 +106,7 @@
                                 <h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
-                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="invoice.status">
+                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" [disabled]="invoice.status!='Processed'">
                                     <option>Select</option>
                                     <option value="Paid">Paid</option>
                                     <option value="Open" disabled>Open</option>
@@ -137,7 +137,7 @@
                                 <h5>{{invoice.desc}}</h5>
                             </div>
                         </div>
-                        <div class="col-md-4" *ngIf="invoice.status=='Paid' && statusChanged">
+                        <div class="col-md-4" *ngIf="currentStatus=='Paid' && statusChanged">
                             <div class="invoiceLabelBox">
                                 <h6>Status Description</h6>
                                 <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc"  />

@@ -8,7 +8,7 @@ import { GlobalErrorHandler } from './../../../../../../_services/error-handler.
 import { MessageService } from './../../../../../../_services/message.service';
 import { AcademicYearService } from './../../../_services/index';
 import { Boards } from "./../../../_models/Boards";
-
+import { Helpers } from "./../../../../../../helpers";
 @Component({
     selector: "app-invoice-summary",
     templateUrl: "./invoice-summary.component.html",
@@ -27,7 +27,7 @@ export class InvoiceSummaryComponent implements OnInit {
     minEndDate: any;
     isEndYearSameAsStarYear: boolean = false
     isCurrentYearDisabled: boolean = false
-
+    currentStatus:string;
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -51,12 +51,15 @@ export class InvoiceSummaryComponent implements OnInit {
 
     }
     getInvoiceSumary() {
+        Helpers.setLoading(true);
         let url = '?filter[include]=studentData&filter[include]=invoiceDetails';
         this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
             response => {
                 this.invoice = response;
                // this.invoice.invoiceStatus="Paid";
+               this.currentStatus=this.invoice.status;
                 this.invoice.dueDate = new Date(response.dueDate);
+                Helpers.setLoading(false);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -67,14 +70,15 @@ export class InvoiceSummaryComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select due date' });
             return false;
         }
-        else if (!this.invoice.invoiceStatus) {
-            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
-            return false;
-        }
-        else if(this.statusChanged && this.invoice.status=='Paid' && this.invoice.statusDesc=='' ){
+        // else if (!this.invoice.invoiceStatus) {
+        //     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
+        //     return false;
+        // }
+        else if(this.statusChanged && this.currentStatus=='Paid' && !this.invoice.statusDesc ){
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
+        this.invoice.status=this.currentStatus;
         this.invoiceService.updateInvoice(this.invoice).subscribe(
             response => {
                 this.invoice = response;
