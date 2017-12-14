@@ -7,6 +7,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { InstitutesService } from '../../../../_services/institute.service';
 import { Institutes } from "../../../../_models/Institutes";
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-institute-list",
@@ -38,10 +39,11 @@ export class InstituteAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['instituteId'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.instituteService.getInstituteById(this.params)
                     .subscribe(
                     (results: Institutes) => {
-                        console.log(results);
+                        Helpers.setLoading(false);
                         this.instituteForm.setValue({
                             id: results.id,
                             instituteName: results.instituteName,
@@ -52,13 +54,14 @@ export class InstituteAddEditComponent implements OnInit {
                         });
                     },
                     error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     });
             }
         });
     }
 
-   onSubmit({ value, valid }: { value: any, valid: boolean }) {
+    onSubmit({ value, valid }: { value: any, valid: boolean }) {
         if (this.params) {
             this.instituteService.updateInstitute(value)
                 .subscribe(

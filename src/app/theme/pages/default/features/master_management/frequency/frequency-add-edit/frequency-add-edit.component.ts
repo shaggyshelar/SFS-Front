@@ -7,6 +7,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { FrequencyService } from '../../../../_services/frequency.service';
 import { Frequencies } from "../../../../_models/frequencies";
+import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: "app-frequency-list",
@@ -35,10 +36,11 @@ export class FrequenciesAddEditComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.params = params['frequencyId'];
             if (this.params) {
+                Helpers.setLoading(true);
                 this.frequencyService.getFrequencyById(this.params)
                     .subscribe(
                     (results: Frequencies) => {
-                        console.log(results);
+                        Helpers.setLoading(false);
                         this.frequencyForm.setValue({
                             id: results.id,
                             frequencyName: results.frequencyName,
@@ -46,6 +48,7 @@ export class FrequenciesAddEditComponent implements OnInit {
                         });
                     },
                     error => {
+                        Helpers.setLoading(false);
                         this.globalErrorHandler.handleError(error);
                     });
             }
