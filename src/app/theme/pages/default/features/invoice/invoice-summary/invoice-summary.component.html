@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;">{{invoice.status}}</span>
+                                <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;margin-top: -2px;">{{invoice.status}}</span>
                             </h3>
                         </div>
                         <div class="col-md-1">
@@ -65,6 +65,25 @@
                                 </h5>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row invoiceRow">
+                        <div class="col-md-4">
+                            <div class="invoiceLabelBox">
+                                <h6>Invoice For</h6>
+                                <h5>Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
+                                <h5>ID : {{invoice.studentData?invoice.studentData.gRNumber:''}}</h5>    
+                                <h5>Class : {{invoice.studentData?invoice.studentData.StudentClass.className:''}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Division : {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
+                                <h5>Category : {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="invoiceLabelBox">
+                                <h6>Description</h6>
+                                <h5>{{invoice.desc}}</h5>
+                            </div>
+                        </div>                        
                     </div>
 
                     <div class="row invoiceRow">
@@ -90,14 +109,17 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                    </div>
+
+                    <div class="row invoiceRow">
+                         <div class="col-md-2">
                             <div class="invoiceLabelBox">
                                 <h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
-                                    [disabled]="currentStatus!='Processed'" yearRange="2000:2050"></p-calendar>
+                                    [disabled]="currentStatus!='Processed'" yearRange="2000:2050" class="dueDateBox"></p-calendar>
                             </div>
                         </div>
 
@@ -119,31 +141,18 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="row invoiceRow">
-                        <div class="col-md-4">
-                            <div class="invoiceLabelBox">
-                                <h6>Invoice to</h6>
-                                <h5>Student Name, Id: {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName+',
-                                    ' + invoice.studentData.gRNumber:''}}</h5>
-                                <h5>Class: {{invoice.studentData?invoice.studentData.StudentClass.className:''}}, Division:{{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
-                                <h5>Category: {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="invoiceLabelBox">
-                                <h6>Description</h6>
-                                <h5>{{invoice.desc}}</h5>
-                            </div>
-                        </div>
-                        <div class="col-md-4" *ngIf="currentStatus=='Paid' && statusChanged">
+                        <div class="col-md-6" *ngIf="currentStatus=='Paid' && statusChanged">
                             <div class="invoiceLabelBox">
                                 <h6>Status Description</h6>
                                 <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc"  />
                             </div>
                         </div>
-                    </div>
+
+
+                    </div>    
+
+
+                    
                 </div>
 
                 <div class="invoiceBody">
