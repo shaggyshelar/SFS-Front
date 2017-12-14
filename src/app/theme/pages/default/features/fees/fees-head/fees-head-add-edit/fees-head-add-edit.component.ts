@@ -10,6 +10,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { FrequencyService } from '../../../../_services/frequency.service';
 import { CommonService } from '../../../../_services/common.service';
+import { Helpers } from "../../../../../../../helpers";
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
@@ -79,8 +80,10 @@ export class FeesHeadAddEditComponent implements OnInit {
             }
           }
         } else {
+          Helpers.setLoading(true);
           this.feesService.getFeeById(this.params)
             .subscribe((results: Fees) => {
+              Helpers.setLoading(false);
               if (response[1] && response[1].length > 0) {
                 for (var index = 0; index < list.length; index++) {
                   let chargeHead = _.filter(response[1], function (item) {
