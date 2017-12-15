@@ -44,6 +44,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   feePlanManagement = [{
     contRoleId: Math.floor(Math.random() * 2000),
     feeHeadList: [],
+    frequencyName: '',
     feeHeadId: 0,
     amount: 0,
     confirmAmount: 0,
@@ -65,13 +66,13 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
   onAlert() {
     this.confirmationService.confirm({
-        message: 'Record Already Processed.Not Available For Update.',
-        header: 'Processed',
-        icon: 'fa fa-info',
-        reject: () => {
-        }
+      message: 'Record Already Processed.Not Available For Update.',
+      header: 'Processed',
+      icon: 'fa fa-info',
+      reject: () => {
+      }
     });
-}
+  }
   getSchoolDetails() {
     let schoolId = parseInt(localStorage.getItem('schoolId'));
     this.schoolService.getSchoolById(schoolId).subscribe((response) => {
@@ -99,7 +100,7 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.isTransactionProcessed = results.isTransactionProcessed;
             if (this.isTransactionProcessed) {
               this.onAlert();
-          }
+            }
             if (uniqFeeHead.length > 0) {
               this.selectedAcademicYear = results.academicYear;
               this.onAcademicYearChange();
@@ -128,7 +129,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       this.staticFeeHeadList.push({ label: '--Select--', value: '0' });
       for (let key in response) {
         if (response.hasOwnProperty(key)) {
-          this.staticFeeHeadList.push({ label: response[key].feeHeadName, value: response[key].id, frequencyValue: response[key].FeeheadsFrequency.frequencyValue });
+          this.staticFeeHeadList.push({ label: response[key].feeHeadName, value: response[key].id, frequencyValue: response[key].FeeheadsFrequency.frequencyValue, frequencyName: response[key].FeeheadsFrequency.frequencyName });
           this.feeHeadList.push({ label: response[key].feeHeadName, value: response[key].id });
         }
       }
@@ -143,10 +144,9 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onFeeHeadChange(record, index) {
-    // let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': record.feeHeadId });
-    // this.sequenceNumberArr[index] = tempFeeHead.frequencyValue;
+    let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': record.feeHeadId });
+    record.frequencyName = tempFeeHead.frequencyName;
     this.checkMaxSequenceNumber(index);
-
   }
 
   checkMaxSequenceNumber(index) {
@@ -170,7 +170,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     }
   }
 
-  setDateHour(datecval){
+  setDateHour(datecval) {
     return new Date(new Date(datecval).setHours(22));
   }
 
@@ -203,7 +203,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   onAcademicYearChange() {
     let tempYear = _.find(this.academicYearList, { 'value': this.selectedAcademicYear });
     if (tempYear) {
-      this.minDate =this.setDateHour( new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate)));
+      this.minDate = this.setDateHour(new Date(new Date(tempYear.startDate).setDate(this.paymentProcessDate)));
       this.maxDate = this.setDateHour(new Date(tempYear.endDate));
       this.academicYearRange = this.maxDate.getFullYear() + ':' + (this.maxDate.getFullYear());
     }
@@ -231,6 +231,11 @@ export class FeesPlanAddEditComponent implements OnInit {
     let newHeadList = _.filter(vm.staticFeeHeadList, function (item) {
       return _.findIndex(vm.feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
+  //   _.forEach(this.feePlanManagement, function(feeplanObj) {
+  //    feeplanObj.feeHeadList=   _.remove(feeplanObj.feeHeadList, function(feeheadObj) {
+  //      return feeheadObj.value != feeItem.feeHeadId ;
+  //    });
+  //  });
     let feeObj = {
       contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
@@ -271,11 +276,18 @@ export class FeesPlanAddEditComponent implements OnInit {
       return _.findIndex(_feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
     let temp = _.cloneDeep(feeItem)
+    let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': temp.feeHeadId });
+    _.forEach(this.feePlanManagement, function (feeplanObj) {
+      feeplanObj.feeHeadList = _.remove(feeplanObj.feeHeadList, function (feeheadObj) {
+        return feeheadObj.value != temp.feeHeadId;
+      });
+    });
     this.feePlanManagement.push({
       contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
       feeHeadId: temp.feeHeadId,
       amount: temp.feeCharges,
+      frequencyName: tempFeeHead.frequencyName,
       confirmAmount: temp.feeCharges,
     })
   }
