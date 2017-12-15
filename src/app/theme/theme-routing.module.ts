@@ -66,6 +66,10 @@ const routes: Routes = [
         "path": "reports\/invoice",
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
+      {
+        "path": "features\/reports\/studentReports",
+        "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
+      },
       // {
       //   "path": "features\/masterManagement",
       //   "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
