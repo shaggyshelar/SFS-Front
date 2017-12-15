@@ -78,6 +78,7 @@ export class InvoiceSummaryComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
+        this.invoice.dueDate=new Date(new Date(this.invoice.dueDate).setHours(22)).toISOString();
         this.invoice.status=this.currentStatus;
         this.invoiceService.updateInvoice(this.invoice).subscribe(
             response => {
