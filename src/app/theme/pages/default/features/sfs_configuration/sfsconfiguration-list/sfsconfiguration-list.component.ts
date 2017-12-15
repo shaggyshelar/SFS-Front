@@ -30,13 +30,9 @@ export class SFSConfigurationListComponent implements OnInit {
 
     ngOnInit() {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
-            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-        } else {
-            this.schoolId = localStorage.getItem("schoolId");
-            this.configurationList = this.commonService.getConfigurationKeySFS();
-            this.getAllSFSConfiguartion();
-        }
+        this.schoolId = localStorage.getItem("schoolId");
+        this.configurationList = this.commonService.getConfigurationKeySFS();
+        this.getAllSFSConfiguartion();
     }
     getAllSFSConfiguartion() {
         this.configurationService.getSFSConfiguration()
