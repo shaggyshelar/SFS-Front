@@ -136,6 +136,7 @@ export class InvoiceListComponent implements OnInit {
     setStartDate(value) {
         if (value) {
             this.startDate = value;
+            this.searchString('',false)
         }
     }
 
@@ -355,13 +356,18 @@ export class InvoiceListComponent implements OnInit {
         }
         if (this.startDate && this.endDate && this.status && count == 0) {
             let newCount=count++;
-            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
-            this.searchCountQuery = this.searchCountQuery + "&[where]filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
+        }
+        else if (count == 0) {
+            let newCount=count++;
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
         }
         else if (count > 0) {
             let newCount=count++;
-            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
-            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gt]=" + new Date(this.startDate.setHours(22)).toISOString() + "&[where][and][" + newCount + "][dueDate][lt]=" + new Date(this.endDate.setHours(22)).toISOString();
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate.setHours(22)).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(22)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate.setHours(22)).toISOString() + "&[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(22)).toISOString();
         }
 
         this.getQueryDataCount();
