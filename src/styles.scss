@@ -867,8 +867,8 @@ body .ui-dialog .ui-dialog-titlebar {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
     .invoiceHeader{
-        background-color: #8b86ce;
-        background-image: linear-gradient(315deg, #8b86ce 0%, #716aca 56%);
+        background-color: #6e69b3;
+       /* background-image: linear-gradient(315deg, #8b86ce 0%, #716aca 56%);*/
         padding: 1.5em;
     }
     .alignRight{
@@ -893,7 +893,7 @@ body .ui-dialog .ui-dialog-titlebar {
         line-height: 1.4em;
     }
     .invoiceRow{
-        margin-top:25px;
+        margin-top:30px;
     }
     .invoiceBody{
         background-color: #fff;
@@ -970,25 +970,20 @@ body .ui-dialog .ui-dialog-titlebar {
         padding-left: 12px;
         font-size: 13px;
         padding-bottom: 4px;
-        background: #6760bd;
-        color: #e8e5e5;
-    }
-    .invoiceText:focus{
-        background: #6760bd;
-        border-color:#6760bd;
-        color: #e8e5e5;
+        background: #fff;
+        color: #000;
     }
     .invoiceText::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: #e8e5e5;
+        color: #000;
     }
     .invoiceText::-moz-placeholder { /* Firefox 19+ */
-        color: #e8e5e5;
+        color: #000;
     }
     .invoiceText:-ms-input-placeholder { /* IE 10+ */
-        color: #e8e5e5;
+        color: #000;
     }
     .invoiceText:-moz-placeholder { /* Firefox 18- */
-        color: #e8e5e5;
+        color: #000;
     }
     .saveCancelInvoice{
         margin-top:20px;
@@ -1064,7 +1059,7 @@ body .ui-dialog .ui-dialog-titlebar {
         padding: 10px 30px!important;
     }
     .btn.disabled, .btn:disabled {
-        cursor: not-allowed;
+        cursor: not-allowed!important;
     }
     .alertUser{
         margin-top: 11px;
@@ -1105,4 +1100,31 @@ body .ui-dialog .ui-dialog-titlebar {
     .m-page-loader .m-blockui {
         z-index: 9999999999999;
         position: fixed!important;
+    }
+    body .dueDateBox .ui-inputtext {       
+        width: 100%!important;
+        border: none !important;
+        height: 30px !important;
+        padding-top: 4px;
+        padding-left: 12px;
+        font-size: 13px;
+        padding-bottom: 4px;
+        background: #fff;
+        color: #000;
+    }
+    body .ui-state-disabled, body .ui-widget:disabled {       
+        cursor: not-allowed !important;
+    }
+    .invoiceLabelBox input{
+        border: none !important;
+        height: 30px !important;
+        padding-top: 4px;
+        padding-left: 12px;
+        font-size: 13px;
+        padding-bottom: 4px;
+        background: #fff;
+        color: #000;
+        border-radius: 4px;
+        font-family:Arial, Helvetica, sans-serif;
+        width: 100%;
     }
