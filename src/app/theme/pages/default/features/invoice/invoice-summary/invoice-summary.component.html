@@ -72,7 +72,7 @@
                             <div class="invoiceLabelBox">
                                 <h6>Invoice For</h6>
                                 <h5>Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
-                                <h5>ID : {{invoice.studentData?invoice.studentData.gRNumber:''}}</h5>    
+                                <h5>ID : {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>    
                                 <h5>Class : {{invoice.studentData?invoice.studentData.StudentClass.className:''}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Division : {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
                                 <h5>Category : {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
                             </div>
