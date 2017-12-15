@@ -23,7 +23,7 @@ export class InvoiceListComponent implements OnInit {
     lastPage: number;
     startDate: Date;
     endDate: Date;
-    status: '';
+    status: string;
     currentPageNumber: number; //Stores Current Page Number
     url: string;           //Api url
     sortUrl: string;       //Sort Api Url
@@ -344,11 +344,11 @@ export class InvoiceListComponent implements OnInit {
             this.searchCountQuery = '&[where][and][0][invoiceNumber][like]=%' + this.searchValue + "%";
             count++;
         }
-        if (this.status && (!this.startDate || !this.endDate) && count == 0) {
+        if (this.status &&  this.status !="Select" && (!this.startDate || !this.endDate) && count == 0) {
             this.searchQuery = this.searchQuery + '&filter[where][status][like]=%' + this.status + "%";
             this.searchCountQuery = this.searchCountQuery + '&[where][status][like]=%' + this.status + "%";
         }
-        else if (this.status && ((this.startDate && this.endDate) || count > 1)) {
+        else if ( this.status &&  this.status !="Select" && this.status && ((this.startDate && this.endDate) || count > 1)) {
             this.searchQuery = this.searchQuery + '&filter[where][and][' + count + '][status][like]=%' + this.status + "%";
             this.searchCountQuery = this.searchCountQuery + '&[where][and][' + count + '][status][like]=%' + this.status + "%";
             count++;
