@@ -107,6 +107,9 @@ export class FeePlanAssociationListComponent implements OnInit {
             this.classsList = response;
             this.feePlanAssociationService.getAllFeePlanAssociationList(this.url).subscribe((response) => {
                 this.longList = response.length > 0 ? true : false;
+                if (!this.longList) {
+                    this.firstPageNumber = 0;
+                }
                 this.feePlanAssociationList = [];
                 for (var index = 0; index < response.length; index++) {
                     var item = response[index];
@@ -114,11 +117,11 @@ export class FeePlanAssociationListComponent implements OnInit {
                         feePlanId: item.id,
                         feePlanName: item.feePlanName,
                         schoolId: item.schoolId,
-                        isTransactionProcessed:item.isTransactionProcessed
+                        isTransactionProcessed: item.isTransactionProcessed
                     })
                     this.feePlanAssociationList[index].classes = '';
                     this.feePlanAssociationList[index].categories = '';
-                   // this.feePlanAssociationList[index].isTransactionProcessed = false;
+                    // this.feePlanAssociationList[index].isTransactionProcessed = false;
                     if (item.associations && item.associations.length > 0) {
                         //this.feePlanAssociationList[index].isTransactionProcessed = item.associations[0].isTransactionProcessed;
                         var uniqueClass = _.uniqBy(item.associations, 'classId');

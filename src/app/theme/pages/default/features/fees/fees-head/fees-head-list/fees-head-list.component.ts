@@ -345,6 +345,9 @@ export class FeesHeadListComponent implements OnInit {
     this.feesList = this.feesService.getAllFeesList(this.url);
     this.feesList.subscribe((response) => {
       this.longList = response.length > 0 ? true : false;
+      if (!this.longList) {
+        this.firstPageNumber = 0;
+      }
     },
       error => {
         this.globalErrorHandler.handleError(error);

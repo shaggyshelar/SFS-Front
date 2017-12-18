@@ -110,6 +110,9 @@ export class UsersListComponent implements OnInit {
         }
         this.userList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
         }, error => {
             this.globalErrorHandler.handleError(error);
         });

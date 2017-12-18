@@ -407,6 +407,9 @@ export class SchoolListComponent implements OnInit {
         this.schoolList = this.schoolService.getAllSchools(this.url);
         this.schoolList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
             Helpers.setLoading(false);
         },
             error => {
