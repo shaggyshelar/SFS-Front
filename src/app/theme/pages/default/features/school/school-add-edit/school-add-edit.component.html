@@ -285,9 +285,12 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-3">
-						<input class="form-control m-input" type="text" formControlName="invoiceMnemonic" name="InvoiceMnemonic" id="InvoiceMnemonic" placeholder="Invoice Mnemonic">
+						<input class="form-control m-input" type="text" formControlName="invoiceMnemonic" minlength="7" maxlength="7" name="InvoiceMnemonic" id="InvoiceMnemonic" placeholder="Invoice Mnemonic">
 						<div class="alertMsg" *ngIf="schoolForm.get('invoiceMnemonic').hasError('required') && schoolForm.get('invoiceMnemonic').touched">
 							Please enter Invoice Mnemonic
+						</div>
+						<div class="alertMsg" *ngIf="schoolForm.get('invoiceMnemonic').hasError('minlength') && schoolForm.get('invoiceMnemonic').touched">
+							Please enter Invoice Mnemonic of min/max 7 characters
 						</div>
 					</div>
 

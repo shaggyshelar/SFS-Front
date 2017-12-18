@@ -72,8 +72,9 @@
                             <div class="invoiceLabelBox">
                                 <h6>Invoice For</h6>
                                 <h5>Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
-                                <h5>ID : {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>    
-                                <h5>Class : {{invoice.studentData?invoice.studentData.StudentClass.className:''}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Division : {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
+                                <h5>ID : {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>
+                                <h5>Class : {{invoice.studentData?invoice.studentData.StudentClass.className:''}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Division : {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}</h5>
                                 <h5>Category : {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
                             </div>
                         </div>
@@ -83,7 +84,7 @@
                                 <h6>Description</h6>
                                 <h5>{{invoice.desc}}</h5>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div class="row invoiceRow">
@@ -112,7 +113,7 @@
                     </div>
 
                     <div class="row invoiceRow">
-                         <div class="col-md-2">
+                        <div class="col-md-2">
                             <div class="invoiceLabelBox">
                                 <h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
@@ -130,13 +131,11 @@
                                 </h6>
                                 <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" [disabled]="invoice.status!='Processed'">
                                     <option>Select</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Open" disabled>Open</option>
-                                    <option value="Closed">Closed</option>
                                     <option value="Created" disabled>Created</option>
-                                    <option value="Processed" disabled>Processed</option>
-                                    <option value="Settled" disabled>Settled</option>
-                                    <option value="Cancelled" disabled>Cancelled</option>
+                                     <option value="Processed" disabled>Processed</option>
+                                    <option value="Paid">Paid</option>
+                                     <option value="Settled" disabled>Settled</option>
+                                    <option value="Closed">Closed</option>
                                 </select>
                             </div>
                         </div>
@@ -144,15 +143,15 @@
                         <div class="col-md-6" *ngIf="currentStatus=='Paid' && statusChanged">
                             <div class="invoiceLabelBox">
                                 <h6>Status Description</h6>
-                                <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc"  />
+                                <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc" />
                             </div>
                         </div>
 
 
-                    </div>    
+                    </div>
 
 
-                    
+
                 </div>
 
                 <div class="invoiceBody">
@@ -190,8 +189,9 @@
                         <div class="m-form__actions m-form__actions--solid">
                             <div class="row">
                                 <div class="col-lg-6">
-                                        <!-- *ngIf="invoice.status=='Processed'" -->
-                                    <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom"  [disabled]="invoice.status!='Processed'"  [isAuthorize]="['Invoice.Update']" (click)="updateInvoice()">
+                                    <!-- *ngIf="invoice.status=='Processed'" -->
+                                    <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="invoice.status!='Processed'" [isAuthorize]="['Invoice.Update']"
+                                        (click)="updateInvoice()">
                                         Update
                                     </button>
                                     <button type="button" class="btn btn-secondary" (click)="cancelInvoice()">

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../_services/message.service';
 import { UserSchoolDetailsService } from '../../../../default/_services/userschooldetails.service';
+import { Helpers } from "../../../../../../helpers";
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash/index';
 @Component({
@@ -26,6 +27,7 @@ export class SchoolDashboardComponent implements OnInit {
     ngOnInit() {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+        Helpers.setLoading(true);
         if (!_superAdmin)
             this.welcomeMessage = "Welcome School Admin";
         else
@@ -33,10 +35,12 @@ export class SchoolDashboardComponent implements OnInit {
         this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
             .subscribe(
             results => {
+                Helpers.setLoading(false);
                 this.schoolList = results;
 
             },
             error => {
+                Helpers.setLoading(true);
                 this.globalErrorHandler.handleError(error);
             });
     }

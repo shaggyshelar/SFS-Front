@@ -76,13 +76,12 @@
 						<div class="filterDropdown">
 							<select class="form-control" [(ngModel)]="status" name="statusddl" (change)="onFilterByStatus('status',status)">
 								<option  value="" selected="">Select</option>
-								<option value="Paid">Paid</option>
-								<option value="Open">Open</option>
-								<option value="Closed">Closed</option>
 								<option value="Created">Created</option>
 								<option value="Processed">Processed</option>
+								<option value="Paid">Paid</option>
 								<option value="Settled">Settled</option>
-								<option value="Cancelled">Cancelled</option>
+								<option value="Open">Open</option>
+								<option value="Closed">Closed</option>
 							</select>
 						</div>
 					</div>

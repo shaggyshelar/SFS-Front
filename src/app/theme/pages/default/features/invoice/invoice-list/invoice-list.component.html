@@ -76,13 +76,11 @@
 						<div class="filterDropdown">
 							<select class="form-control" [(ngModel)]="status" (change)="onStatusChange()" name="statusddl">
 								<option>Select</option>
-								<option value="Paid" >Paid</option>
-								<option value="Open">Open</option>
-								<option value="Closed" >Closed</option>
-								<option value="Created">Created</option>
-								<option value="Processed">Processed</option>
-								<option value="Settled">Settled</option>
-								<option value="Cancelled" >Cancelled</option>
+								<option value="Created" disabled>Created</option>
+                                    <option value="Processed" disabled>Processed</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Settled" disabled>Settled</option>
+                                    <option value="Closed">Closed</option>
 							</select>
 						</div>
 					</div>
@@ -91,8 +89,8 @@
 							<label>From</label>
 						</div>
 						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" 
-							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setStartDate($event)" ></p-calendar>
+							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -101,14 +99,15 @@
 						</div>
 						<div class="filterDropdown">
 							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect) ="setEndDate($event)" ></p-calendar>
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-1"></div>
 					<div class="col-md-3">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue,false)"  placeholder="Search..." id="m_form_search">
-							 
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue,false)"
+							 placeholder="Search..." id="m_form_search">
+
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
 									<i class="la la-search"></i>
@@ -146,7 +145,9 @@
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of invoiceList'>
 									<td>
-										<a (click)="onInvoiceClick(row.id)" style="cursor:pointer"><u>{{row.invoiceNumber}}</u></a>
+										<a (click)="onInvoiceClick(row.id)" style="cursor:pointer">
+											<u>{{row.invoiceNumber}}</u>
+										</a>
 									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>
