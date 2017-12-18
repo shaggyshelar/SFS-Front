@@ -49,7 +49,7 @@ export class InvoiceService {
     let requestOptions = AppSettings.requestOptions();
     requestOptions.params = params;
     // return this.records;
-    return this.http.get(AppSettings.API_ENDPOINT + 'Vwinvoicereports/count?&where[schoolId]=' + localStorage.getItem("schoolId") + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/invoiceReports/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateInvoice(invoice: any) {

@@ -419,15 +419,15 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&[where][or][1][invoiceStatus][like]=%' + searchString + "%" + '&filter[where][or][2][status][like]=%' + this.status + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%"  + '&filter[where][or][1][status][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
         this.boundryEnd = this.boundry;
-        this.getQueryDataCount();
+        this.getSearchQueryData();
     }
     onFilterByStatus(column, value) {
         if (value === '') {
@@ -504,6 +504,17 @@ export class StudentInvoiceReportComponent implements OnInit {
         else {
             this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.searchCountQuery;
             this.getFilteredDataCount(this.countQuery);
+        }
+
+    }
+    getSearchQueryData() {
+        if (this.startDate && this.endDate) {
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.searchCountQuery;
+            this.getDataCount(this.countQuery);
+        }
+        else {
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.searchCountQuery;
+            this.getDataCount(this.countQuery);
         }
 
     }
