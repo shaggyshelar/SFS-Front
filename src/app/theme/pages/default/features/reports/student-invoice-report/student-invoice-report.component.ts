@@ -83,9 +83,9 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            this.perPage = this.invoiceService.perPage;
-            this.currentPos = this.invoiceService.currentPos;
-            this.currentPageNumber = this.invoiceService.currentPageNumber;
+            this.perPage = 100;
+            this.currentPos = 0;
+            this.currentPageNumber = 1;
             this.selectedPageSize = this.perPage;
             this.schoolId = localStorage.getItem("schoolId");
             this.url = '';
@@ -123,13 +123,14 @@ export class StudentInvoiceReportComponent implements OnInit {
         }
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '25', value: 25 });
-        this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
         this.pageSize.push({ label: '200', value: 200 });
+        this.pageSize.push({ label: '300', value: 300 });
+        this.pageSize.push({ label: '400', value: 400 });
     }
 
     getDataCount(url) {
+        Helpers.setLoading(true);
         this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
             response => {
                 this.total = response.count;
@@ -139,6 +140,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.getAllInvoice();
             },
             error => {
+                Helpers.setLoading(false);
                 this.globalErrorHandler.handleError(error);
             });
     }
@@ -191,6 +193,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.getUrl();
         this.invoiceService.getAllStudentInvoiceReport(this.url).subscribe(
             response => {
+                Helpers.setLoading(false);
                 this.invoiceList = response;
                 this.longList = response.length > 0 ? true : false;
                 if (!this.longList) {
@@ -198,6 +201,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 }
             },
             error => {
+                Helpers.setLoading(false);
                 this.globalErrorHandler.handleError(error);
             });
     }
