@@ -58,6 +58,8 @@ export class StudentInvoiceReportComponent implements OnInit {
     filter2CountQuery: string;  //Count number of records for filter2CountQuery
     filter3CountQuery: string;
     filter4CountQuery: string;
+    filter5CountQuery: string;
+    filter6CountQuery: string;
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -103,6 +105,8 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.filter2CountQuery = '';
             this.filter3CountQuery = '';
             this.filter4CountQuery = '';
+            this.filter5CountQuery = '';
+            this.filter6CountQuery = '';
             this.lastPage = this.perPage;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
@@ -126,13 +130,25 @@ export class StudentInvoiceReportComponent implements OnInit {
     }
 
     getDataCount(url) {
-        this.invoiceService.getInvoicesCount(this.url).subscribe(
+        this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
             response => {
                 this.total = response.count;
                 this.pages = Math.ceil(this.total / this.perPage);
                 this.generateCount();
                 this.setDisplayPageNumberRange();
                 this.getAllInvoice();
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+    getFilteredDataCount(url) {
+        this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
+            response => {
+                this.total = response.count;
+                this.pages = Math.ceil(this.total / this.perPage);
+                this.generateCount();
+                this.setDisplayPageNumberRange();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -173,10 +189,26 @@ export class StudentInvoiceReportComponent implements OnInit {
     }
     getAllInvoice() {
         this.getUrl();
-        this.invoiceService.getAllInvoices(this.url).subscribe(
+        this.invoiceService.getAllStudentInvoiceReport(this.url).subscribe(
             response => {
                 this.invoiceList = response;
                 this.longList = response.length > 0 ? true : false;
+                if (!this.longList) {
+                    this.firstPageNumber = 0;
+                }
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+    getAllStudentInvoiceReport(url) {
+        this.invoiceService.getAllStudentInvoiceReport(url).subscribe(
+            response => {
+                this.invoiceList = response;
+                this.longList = response.length > 0 ? true : false;
+                if (!this.longList) {
+                    this.firstPageNumber = 0;
+                }
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -186,13 +218,29 @@ export class StudentInvoiceReportComponent implements OnInit {
     setStartDate(value) {
         if (value) {
             this.startDate = value;
+            this.filter5CountQuery = '&[where][and][0][dueDate][gt] =' + new Date(this.startDate.setHours(22)).toISOString();
+        } else {
+            this.filter5CountQuery = '';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
     }
 
     setEndDate(value) {
         if (value) {
             this.endDate = value;
+            this.filter6CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate.setHours(22)).toISOString();
+        } else {
+            this.filter6CountQuery = '';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
     }
     /*Pagination Function's Starts*/
 
@@ -445,8 +493,14 @@ export class StudentInvoiceReportComponent implements OnInit {
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
-        this.getDataCount(this.countQuery);
+        if (this.startDate && this.endDate) {
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.searchCountQuery;
+            this.getFilteredDataCount(this.countQuery);
+        }
+        else {
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.searchCountQuery;
+            this.getFilteredDataCount(this.countQuery);
+        }
 
     }
 
@@ -455,9 +509,19 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
     onSearchReport() {
-        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?filter[include]=SchoolStatus&filter[include]=SchoolClass&filter[include]=SchoolFeeplan&filter[include]=SchoolDivision&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
-        console.log(this.url);
+        if (this.startDate && this.endDate) {
+            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate.setHours(22)).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
+            console.log(this.url);
+            this.getAllStudentInvoiceReport(this.url);
+            this.getQueryDataCount();
+        } else {
+            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
+            console.log(this.url);
+            this.getAllStudentInvoiceReport(this.url);
+            this.getQueryDataCount();
+        }
     }
     /* Counting Number of records ends*/
 }

@@ -401,6 +401,9 @@ export class StudentListComponent implements OnInit {
         this.studentList = this.studentService.getAllStudents(this.url);
         this.studentList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
         },
             error => {
                 this.globalErrorHandler.handleError(error);

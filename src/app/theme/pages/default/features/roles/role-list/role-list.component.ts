@@ -313,6 +313,9 @@ export class RoleListComponent implements OnInit {
         this.roleList = this.schoolService.getRolesBySchoolId(this.url);
         this.roleList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
             Helpers.setLoading(false);
         },
             error => {

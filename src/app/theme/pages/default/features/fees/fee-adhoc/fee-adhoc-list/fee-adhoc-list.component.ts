@@ -100,6 +100,9 @@ export class AdhocFeeListComponent implements OnInit {
         this.getUrl();
         this.adhocFeeService.getAllAdhocFeeList(this.url).subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
             this.adhocFeeList = [];
             for (var index = 0; index < response.length; index++) {
                 var item = response[index];
@@ -109,7 +112,7 @@ export class AdhocFeeListComponent implements OnInit {
                     adhocfeeName: item.adhocfeeName,
                     adhocfeeDescription: item.adhocfeeDescription,
                     dueDate: item.dueDate,
-                    isTransactionProcessed:item.isTransactionProcessed
+                    isTransactionProcessed: item.isTransactionProcessed
                 })
                 this.adhocFeeList[index].classes = '';
                 this.adhocFeeList[index].categories = '';

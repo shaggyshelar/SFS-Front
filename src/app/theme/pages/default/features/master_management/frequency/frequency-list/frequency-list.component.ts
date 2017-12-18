@@ -99,6 +99,9 @@ export class FrequenciesListComponent implements OnInit {
 
         this.frequencyList.subscribe((response) => {
             this.longList = response.length > 0 ? true : false;
+            if (!this.longList) {
+                this.firstPageNumber = 0;
+            }
             Helpers.setLoading(false);
         }, error => {
             this.globalErrorHandler.handleError(error);

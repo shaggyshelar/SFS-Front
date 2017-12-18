@@ -8,7 +8,7 @@ import { AppSettings } from '../../../../app-settings';
 export class InvoiceService {
   constructor(private http: Http) {
   }
-  
+
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
@@ -22,6 +22,15 @@ export class InvoiceService {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/SchoolInvoices/' + url, requestOptions).map((response: Response) => response.json());
   }
 
+  getAllStudentInvoiceReport(url) {
+    let params: URLSearchParams = new URLSearchParams();
+    // params.set('filter[where][schoolId]', id);
+    let requestOptions = AppSettings.requestOptions();
+    requestOptions.params = params;
+    // return this.records;
+    return this.http.get(AppSettings.API_ENDPOINT + 'schools/'+localStorage.getItem('schoolId') + '/invoiceReports' + url, requestOptions).map((response: Response) => response.json());
+  }
+
   getInvoiceSumary(id, url) {
     let params: URLSearchParams = new URLSearchParams();
     // params.set('filter[where][schoolId]', id);
@@ -33,6 +42,9 @@ export class InvoiceService {
 
   getInvoicesCount(url) {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolInvoices/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  getStudentInvoiceReportCount(url){
+    return this.http.get(AppSettings.API_ENDPOINT + 'Vwinvoicereports/count?&where[schoolId]=' + localStorage.getItem("schoolId") + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   updateInvoice(invoice: any) {
