@@ -62,6 +62,7 @@ export class InvoiceSummaryComponent implements OnInit {
                 Helpers.setLoading(false);
             },
             error => {
+                Helpers.setLoading(false);
                 this.globalErrorHandler.handleError(error);
             });
     }

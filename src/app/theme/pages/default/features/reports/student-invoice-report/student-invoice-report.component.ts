@@ -419,7 +419,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.searchQuery = '';
             this.searchCountQuery = '';
         } else {
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%"  + '&filter[where][or][1][status][like]=%' + searchString + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
             this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
@@ -525,11 +525,15 @@ export class StudentInvoiceReportComponent implements OnInit {
     }
     onSearchReport() {
         if (this.startDate && this.endDate) {
-            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
-            console.log(this.url);
-            this.getAllStudentInvoiceReport(this.url);
-            this.getQueryDataCount();
+            if (this.startDate < this.endDate) {
+                let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
+                console.log(this.url);
+                this.getAllStudentInvoiceReport(this.url);
+                this.getQueryDataCount();
+            } else{
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
+            }
         } else {
             let currentPos = this.currentPos > -1 ? this.currentPos : 0;
             this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
