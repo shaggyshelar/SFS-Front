@@ -41,10 +41,11 @@
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
-				<div class="col-xl-8">
+				<div class="col-xl-12">
 					<h3 class="ListingHeading">
 						Student Invoice List
 					</h3>
+					<button class="btn btn-info exportExcelBtn"><i class="flaticon-download"></i> Export to Excel</button>
 				</div>
 				<!--<div class="col-xl-4">
 					<a href="javascript:;" (click)="onAddSchool()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right">
@@ -67,13 +68,11 @@
 			<div class="">
 
 				<!--begin: Datatable -->
-				<div class="row staticSearchRow">
+				<div class="row staticSearchRow staticSearchInvoiceRow">
 
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Status</label>
-						</div>
+					<div class="col-md-2">						
 						<div class="filterDropdown">
+							<label>Status</label>
 							<select class="form-control" [(ngModel)]="status" name="statusddl" (change)="onFilterByStatus('status',status)">
 								<option value="" selected="">Select</option>
 								<option value="Created">Created</option>
@@ -84,75 +83,45 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Class</label>
-						</div>
+					<div class="col-md-2">
 						<div class="filterDropdown">
+							<label>Class</label>
 							<select class="form-control" [(ngModel)]="class" name="classddl" (change)="onFilterByClass('classId',class)">
 								<option value="" selected="">Select</option>
 								<option *ngFor="let class of classList" [value]="class.id">{{class.className}}</option>
 							</select>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Division</label>
-						</div>
+					<div class="col-md-2">						
 						<div class="filterDropdown">
+							<label>Division</label>
 							<select class="form-control" [(ngModel)]="division" name="divisionddl" (change)="onFilterByDivision('divisionId',division)">
 								<option value="" selected="">Select</option>
 								<option *ngFor="let division of divisionList" [value]="division.id">{{division.divisionName}}</option>
 							</select>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Category</label>
-						</div>
+					<div class="col-md-2">
 						<div class="filterDropdown">
+							<label>Category</label>
 							<select class="form-control" [(ngModel)]="category" name="categoryddl" (change)="onFilterByCategory()">
 								<option value="" selected="">Select</option>
 								<option *ngFor="let category of categoryList" [value]="category.id">{{category.categoryName}}</option>
 							</select>
 						</div>
-					</div>
-				</div>
-				<div class="row staticSearchRow">
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>From</label>
-						</div>
+					</div>	
+					<div class="col-md-2">						
 						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>To</label>
-						</div>
-						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
 							<label>Fee Plan</label>
-						</div>
-						<div class="filterDropdown">
 							<select class="form-control" [(ngModel)]="feeplan" name="feeplanddl" (change)="onFilterByFeePlan('feePlanId',feeplan)">
 								<option value="" selected="">Select</option>
 								<option *ngFor="let fee of feeplanList" [value]="fee.id">{{fee.feePlanName}}</option>
 							</select>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Type</label>
-						</div>
+					<div class="col-md-2">						
 						<div class="filterDropdown">
+							<label>Type</label>
 							<select class="form-control" [(ngModel)]="type" name="typeddl" (change)="onFilterBytype()">
 								<option value="" selected="">Select</option>
 								<option value="ACD" selected="">ACD</option>
@@ -160,10 +129,30 @@
 								<option value="TRN" selected="">TRN</option>
 							</select>
 						</div>
-
+					</div>			
+					<div class="col-md-2">						
+						<div class="filterDropdown">
+							<label style="margin-top: 10px;">From</label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+						</div>
 					</div>
+					<div class="col-md-2">					
+						<div class="filterDropdown">
+							<label style="margin-top: 10px;">To</label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
+						</div>
+					</div>					
+					<div class="col-md-2">
+						<button type="button" class="btn btn-primary filterSearchBtnInvoice" (click)="onSearchReport();">
+							Search
+						</button>
+					</div>
+
 				</div>
 				<div class="row staticSearchRow">
+					<div class="col-md-9"></div>
 					<div class="col-md-3" *ngIf="longList">
 						<div class="m-input-icon m-input-icon--left">
 							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
@@ -176,11 +165,7 @@
 							</span>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
-						Search
-					</button>
-					</div>
+					
 				</div>
 				<div class="table-responsive" *ngIf="longList">
 					<div class="tableBox">
