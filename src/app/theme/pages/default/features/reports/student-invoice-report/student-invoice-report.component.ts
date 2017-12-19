@@ -14,7 +14,8 @@ import { ConfirmationService } from 'primeng/primeng';
 import { InvoiceService } from '../../../_services/index';
 import { ScriptLoaderService } from './../../../../../../_services/script-loader.service';
 import { ClassService } from '../../../_services/class.service';
-
+import { Format } from '../../../_services/tableToXls/format';
+import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
 @Component({
     selector: "app-student-invoice-report-list",
     templateUrl: "./student-invoice-report.component.html",
@@ -141,7 +142,81 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.pageSize.push({ label: '300', value: 300 });
         this.pageSize.push({ label: '400', value: 400 });
     }
+    exporttoCSV() {
+        let exprtcsv: any[] = [];
+        let columns: any[] = [
+            {
+                display: 'Invoice No',
+                variable: 'invoiceNumber',
+                filter: 'text',
+            },
+            {
+                display: 'Date',
+                variable: 'dueDate',
+                filter: 'date'
+            },
+            {
+                display: 'Type',
+                variable: 'type',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'First Name',
+                variable: 'studentFirstName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Last Name',
+                variable: 'studentLastName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Class',
+                variable: 'className',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Division',
+                variable: 'divisionName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Fee Plan',
+                variable: 'feePlanName',
+                filter: 'text'
+            } ,
+            {
+                display: 'Status',
+                variable: 'status',
+                filter: 'text'
+            },
+            {
+                display: 'Amount',
+                variable: 'totalChargeAmount',
+                filter: 'text'
+            }
+            
+        ];
 
+        let exportFileName: string = "StudentInvoiceReport_";
+        (<any[]>JSON.parse(JSON.stringify(this.invoiceList))).forEach(x => {
+            var obj = new Object();
+            var frmt = new Format();
+            for (var i = 0; i < columns.length; i++) {
+                let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
+                obj[columns[i].display] = transfrmVal;
+            }
+            exprtcsv.push(obj);
+        }
+        );
+        DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+
+    }
     getDataCount(url) {
         Helpers.setLoading(true);
         this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
