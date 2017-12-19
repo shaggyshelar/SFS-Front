@@ -53,6 +53,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     ascSortCol4: boolean;  //Sorting for Column4
 
     onSerchClick: boolean = false;
+    onGridSearchKeyUp: boolean = false;
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
     filterQuery: string;
@@ -73,6 +74,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
     nextPageEnable: boolean; //To disable/enable prev page button
+    recordNotFound: boolean;
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
@@ -128,6 +130,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.boundryStart = 1;
             this.boundryEnd = this.boundry;
             this.longList = false;
+            this.recordNotFound = false;
             //this.getAllBoards();
             this.getClassList();
             this.getDivisionList();
@@ -189,7 +192,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 display: 'Fee Plan',
                 variable: 'feePlanName',
                 filter: 'text'
-            } ,
+            },
             {
                 display: 'Status',
                 variable: 'status',
@@ -200,7 +203,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 variable: 'totalChargeAmount',
                 filter: 'text'
             }
-            
+
         ];
 
         let exportFileName: string = "StudentInvoiceReport_";
@@ -294,9 +297,17 @@ export class StudentInvoiceReportComponent implements OnInit {
             response => {
                 Helpers.setLoading(false);
                 this.invoiceList = response;
-                this.longList = response.length > 0 ? true : false;
-                if (!this.longList) {
-                    this.firstPageNumber = 0;
+                if (!this.onGridSearchKeyUp) {
+                    this.recordNotFound = false;
+                    this.longList = response.length > 0 ? true : false;
+                    if (!this.longList) {
+                        this.firstPageNumber = 0;
+                    }
+                } else {
+                    this.recordNotFound =  response.length > 0 ? false : true;
+                    if (this.recordNotFound) {
+                        this.firstPageNumber = 0;
+                    }
                 }
             },
             error => {
@@ -518,9 +529,11 @@ export class StudentInvoiceReportComponent implements OnInit {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
+            this.onGridSearchKeyUp = false;
         } else {
+            this.onGridSearchKeyUp = true;
             this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
-            this.searchCountQuery = '&[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
+            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
