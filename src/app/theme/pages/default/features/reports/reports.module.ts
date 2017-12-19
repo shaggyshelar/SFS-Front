@@ -9,6 +9,8 @@ import { LayoutModule } from '../../../../layouts/layout.module';
 import { StudentInvoiceReportComponent } from './student-invoice-report/student-invoice-report.component';
 import { InvoiceService } from '../../../default/_services/invoice.service';
 import { ClassService } from '../../_services/class.service';
+import { FormatService } from '../../_services/tableToXls/format.service';
+import { DataGridUtil } from '../../_services/tableToXls/datagrid.util';
 import {
   DataTableModule,
   SharedModule,
@@ -61,7 +63,8 @@ const routes: Routes = [
   providers: [
     ConfirmationService,
     InvoiceService,
-    ClassService
+    ClassService,
+    FormatService,DataGridUtil
   ]
 })
 export class ReportsModule {

@@ -1,13 +1,9 @@
 ﻿import { Pipe, PipeTransform, Injectable } from '@angular/core';
 import {DatePipe} from '@angular/common';
 
-@Pipe({
-    name: 'format'
-})
-
 @Injectable()
-export class Format implements PipeTransform {
-    datePipe: DatePipe = new DatePipe('yMd');
+export class FormatService {
+   // datePipe: DatePipe = new DatePipe('yMd');
     transform(input: any, args: any): any {
         if (input == null) return '';
         var format = '';
