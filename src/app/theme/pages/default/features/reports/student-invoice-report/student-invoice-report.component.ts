@@ -14,7 +14,7 @@ import { ConfirmationService } from 'primeng/primeng';
 import { InvoiceService } from '../../../_services/index';
 import { ScriptLoaderService } from './../../../../../../_services/script-loader.service';
 import { ClassService } from '../../../_services/class.service';
-import { Format } from '../../../_services/tableToXls/format';
+import { FormatService } from '../../../_services/tableToXls/format.service';
 import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
 @Component({
     selector: "app-student-invoice-report-list",
@@ -206,7 +206,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         let exportFileName: string = "StudentInvoiceReport_";
         (<any[]>JSON.parse(JSON.stringify(this.invoiceList))).forEach(x => {
             var obj = new Object();
-            var frmt = new Format();
+            var frmt = new FormatService();
             for (var i = 0; i < columns.length; i++) {
                 let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
                 obj[columns[i].display] = transfrmVal;
