@@ -1128,3 +1128,35 @@ body .ui-dialog .ui-dialog-titlebar {
         font-family:Arial, Helvetica, sans-serif;
         width: 100%;
     }
+    .staticSearchInvoiceRow .filterDropdown {
+        padding-left: 0px;
+        display: block;
+        width: 100%;
+    }
+    .filterSearchBtnInvoice{
+        margin-top: 38px;
+    }
+    .staticSearchInvoiceRow .ui-inputtext {
+        background: #f4f5f8!important;
+        padding: 0.5em 0.75em!important;
+        border: 1px solid #f4f5f8!important;
+        border-radius: 0.25em!important;
+        font-size: 1em!important;
+        color: #575962 !important;
+        line-height: 1.25!important;
+        height: 37.69px!important;
+        width:100%;
+    }
+    .staticSearchInvoiceRow .ui-inputtext:focus {
+        border-color: #716aca !important;
+    }
+    .exportExcelBtn{
+        font-size: 13px;
+        float: right;
+        margin-top: -38px;
+    }
+    .exportExcelBtn i{
+        font-size: 16px!important;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
