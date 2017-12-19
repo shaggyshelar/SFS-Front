@@ -121,7 +121,7 @@
                                 <!--<h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6> -->
-                                <input type="radio" [disabled]="currentStatus!='Processed'"  name="statusDueDate" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()"  [(ngModel)]="radioVal"  value="1" />
+                                <input type="radio" [disabled]="invoice.status!='Processed'"  name="statusDueDate" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()"  [(ngModel)]="radioVal"  value="1" />
                                 <label class="invoiceEditLabel">Due Date</label>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
@@ -134,7 +134,7 @@
                                 <!--<h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>-->
-                                <input type="radio" name="statusDueDate"  [disabled]="currentStatus!='Processed'" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()" [(ngModel)]="radioVal" value="2" />
+                                <input type="radio" name="statusDueDate"  [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()" [(ngModel)]="radioVal" value="2" />
                                 &nbsp;<label class="invoiceEditLabel" style="margin-left: -3px;">Status</label>
                                 <h5 *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</h5>
                                 <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" *ngIf="radioVal==2" [disabled]="invoice.status!='Processed'">
