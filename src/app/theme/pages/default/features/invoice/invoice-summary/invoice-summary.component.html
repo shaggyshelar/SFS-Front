@@ -118,9 +118,10 @@
                                 <h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
+                                <input type="radio" name="statusDueDate" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()"  [(ngModel)]="radioVal"  value="1" />
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
-                                    [disabled]="currentStatus!='Processed'" yearRange="2000:2050" class="dueDateBox"></p-calendar>
+                                    [disabled]="currentStatus!='Processed' || radioVal!=1" yearRange="2000:2050" class="dueDateBox"></p-calendar>
                             </div>
                         </div>
 
@@ -129,18 +130,16 @@
                                 <h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>
-                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" [disabled]="invoice.status!='Processed'">
-                                    <option>Select</option>
-                                    <option value="Created" disabled>Created</option>
-                                     <option value="Processed" disabled>Processed</option>
+                                <input type="radio" name="statusDueDate" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()" [(ngModel)]="radioVal" value="2" />
+                                <h5 *ngIf="radioVal!=2">{{invoice.status}}</h5>
+                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" *ngIf="radioVal==2" [disabled]="invoice.status!='Processed'">
                                     <option value="Paid">Paid</option>
-                                     <option value="Settled" disabled>Settled</option>
                                     <option value="Closed">Closed</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6" *ngIf="currentStatus=='Paid' && statusChanged">
+                        <div class="col-md-6" *ngIf="currentStatus=='Paid' && statusChanged && radioVal==2">
                             <div class="invoiceLabelBox">
                                 <h6>Status Description</h6>
                                 <input type="text" name="statusdesc" [(ngModel)]="invoice.statusDesc" />
