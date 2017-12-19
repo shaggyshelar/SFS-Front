@@ -129,6 +129,9 @@
 										Date
 									</th>
 									<th title="">
+										Type
+									</th>
+									<th title="">
 										Student Name
 									</th>
 									<th title="">
@@ -150,6 +153,7 @@
 										</a>
 									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.type }}</td>
 									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>
 									<td>
 										<b>
