@@ -37,6 +37,9 @@ export class ClassService {
   getFeePlansBySchoolId(id: number) {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + id + '/FeePlans', AppSettings.requestOptions()).map((response: Response) => response.json());
   }
+  getCategoryBySchoolId(id: number) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + id + '/Schoolcategories', AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
 
   createClass(schoolClass: SchoolClass) {
     return this.http.post(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/SchoolClass/', schoolClass, AppSettings.requestOptions()).map((response: Response) => response.json());
