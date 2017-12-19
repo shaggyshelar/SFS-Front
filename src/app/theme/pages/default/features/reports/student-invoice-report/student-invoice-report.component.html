@@ -80,7 +80,6 @@
 								<option value="Processed">Processed</option>
 								<option value="Paid">Paid</option>
 								<option value="Settled">Settled</option>
-								<option value="Open">Open</option>
 								<option value="Closed">Closed</option>
 							</select>
 						</div>
@@ -108,15 +107,14 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
-							 placeholder="Search..." id="m_form_search">
-
-							<span class="m-input-icon__icon m-input-icon__icon--left">
-								<span>
-									<i class="la la-search"></i>
-								</span>
-							</span>
+						<div class="filterLabel">
+							<label>Category</label>
+						</div>
+						<div class="filterDropdown">
+							<select class="form-control" [(ngModel)]="category" name="categoryddl" (change)="onFilterByCategory()">
+								<option value="" selected="">Select</option>
+								<option *ngFor="let category of categoryList" [value]="category.id">{{category.categoryName}}</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -159,17 +157,32 @@
 								<option value="" selected="">Select</option>
 								<option value="ACD" selected="">ACD</option>
 								<option value="ADH" selected="">ADH</option>
-								<option value="ADH" selected="">TRN</option>
+								<option value="TRN" selected="">TRN</option>
 							</select>
-							<button type="button" class="btn btn-primary" (click)="onSearchReport();">
-								Search
-							</button>
 						</div>
 
 					</div>
 				</div>
+				<div class="row staticSearchRow">
+					<div class="col-md-3" *ngIf="longList">
+						<div class="m-input-icon m-input-icon--left">
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
+							 placeholder="Search..." id="m_form_search">
 
-				<div class="table-responsive">
+							<span class="m-input-icon__icon m-input-icon__icon--left">
+								<span>
+									<i class="la la-search"></i>
+								</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+						Search
+					</button>
+					</div>
+				</div>
+				<div class="table-responsive" *ngIf="longList">
 					<div class="tableBox">
 						<table class="staticTable" id="" width="100%">
 							<thead>
@@ -196,6 +209,9 @@
 										Fee Plan
 									</th>
 									<th title="">
+										Category
+									</th>
+									<th title="">
 										Status
 									</th>
 									<th title="">
@@ -206,7 +222,7 @@
 									</th> -->
 								</tr>
 							</thead>
-							<tbody *ngIf="longList">
+							<tbody>
 								<tr *ngFor='let row of invoiceList'>
 									<td>
 										{{row.invoiceNumber}}
@@ -217,6 +233,7 @@
 									<td>{{row.className}}</td>
 									<td>{{row.divisionName ? row.divisionName : ''}}</td>
 									<td>{{row.feePlanName ? row.feePlanName : ''}}</td>
+									<td>{{row.categoryName ? row.categoryName : ''}}</td>
 									<td>
 										<b>
 											{{row.status}}
@@ -284,6 +301,53 @@
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+
+				<div class="table-responsive" *ngIf="!longList && onSerchClick">
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<th title="">
+										Invoice No.
+									</th>
+									<th title="">
+										Date
+									</th>
+									<th title="">
+										Type
+									</th>
+									<th title="">
+										Student Name
+									</th>
+									<th title="">
+										Class
+									</th>
+									<th title="">
+										Division
+									</th>
+									<th title="">
+										Fee Plan
+									</th>
+									<th title="">
+										Category
+									</th>
+									<th title="">
+										Status
+									</th>
+									<th title="">
+										Amount
+									</th>
+									<!-- <th title="">
+										Action
+									</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								No Records Found...
+							</tbody>
+						</table>
 					</div>
 				</div>
 				<!--end: Datatable -->

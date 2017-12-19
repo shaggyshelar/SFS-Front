@@ -25,6 +25,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     divisionList: any = [];
     invoiceList = [];
     feeplanList = [];
+    categoryList = [];
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -36,6 +37,8 @@ export class StudentInvoiceReportComponent implements OnInit {
     class: string = '';
     division: string = '';
     feeplan: string = '';
+    type: string = '';
+    category: string = '';
     schoolId: any;
     currentPageNumber: number; //Stores Current Page Number
     url: string;           //Api url
@@ -48,18 +51,23 @@ export class StudentInvoiceReportComponent implements OnInit {
     ascSortCol3: boolean;  //Sorting for Column3
     ascSortCol4: boolean;  //Sorting for Column4
 
+    onSerchClick: boolean = false;
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
     filterQuery: string;
     filterQuery1: string;
     filterQuery2: string;
     filterQuery3: string;
+    filterQuery4: string;
+    filterQuery5: string;
     filter1CountQuery: string;  //Count number of records for filter1CountQuery
     filter2CountQuery: string;  //Count number of records for filter2CountQuery
     filter3CountQuery: string;
     filter4CountQuery: string;
     filter5CountQuery: string;
     filter6CountQuery: string;
+    filter7CountQuery: string;
+    filter8CountQuery: string;
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -98,6 +106,8 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.filterQuery1 = '';
             this.filterQuery2 = '';
             this.filterQuery3 = '';
+            this.filterQuery4 = '';
+            this.filterQuery5 = '';
             this.searchQuery = '';
             this.searchCountQuery = '';
             this.countQuery = '?';
@@ -107,6 +117,8 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.filter4CountQuery = '';
             this.filter5CountQuery = '';
             this.filter6CountQuery = '';
+            this.filter7CountQuery = '';
+            this.filter8CountQuery = '';
             this.lastPage = this.perPage;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
@@ -114,12 +126,13 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.boundry = 3;
             this.boundryStart = 1;
             this.boundryEnd = this.boundry;
-            this.longList = true;
+            this.longList = false;
             //this.getAllBoards();
             this.getClassList();
             this.getDivisionList();
             this.getFeePlanList();
-            this.getDataCount('');
+            this.getCategoryList();
+            //this.getDataCount('');
         }
         //Page Size Array
         this.pageSize = [];
@@ -189,6 +202,17 @@ export class StudentInvoiceReportComponent implements OnInit {
             }
             );
     }
+    getCategoryList() {
+        this.classService.getCategoryBySchoolId(this.schoolId)
+            .subscribe(
+            response => {
+                this.categoryList = response;
+            },
+            error => {
+                this.globalErrorHandler.handleError(error);
+            }
+            );
+    }
     getAllInvoice() {
         this.getUrl();
         this.invoiceService.getAllStudentInvoiceReport(this.url).subscribe(
@@ -211,6 +235,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.invoiceList = response;
                 this.longList = response.length > 0 ? true : false;
                 if (!this.longList) {
+                    this.onSerchClick = true;
                     this.firstPageNumber = 0;
                 }
             },
@@ -485,6 +510,34 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.boundry = 3;
         this.boundryEnd = this.boundry;
     }
+    onFilterBytype() {
+        if (this.type === '') {
+            this.filterQuery4 = '';
+            this.filter7CountQuery = '';
+        } else {
+            this.filterQuery4 = '&filter[where][type]=' + this.type;
+            this.filter7CountQuery = '&where[type] =' + this.type;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
+    onFilterByCategory() {
+        if (this.category === '') {
+            this.filterQuery5 = '';
+            this.filter8CountQuery = '';
+        } else {
+            this.filterQuery5 = '&filter[where][categoryid]=' + this.category;
+            this.filter8CountQuery = '&where[categoryid] =' + this.category;
+        }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
+    }
     sort(column, sortOrder) {
         if (sortOrder) {
             this.sortUrl = '&filter[order]=' + column + ' DESC';
@@ -498,22 +551,22 @@ export class StudentInvoiceReportComponent implements OnInit {
     /* Counting Number of records starts*/
     getQueryDataCount() {
         if (this.startDate && this.endDate) {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getFilteredDataCount(this.countQuery);
         }
         else {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getFilteredDataCount(this.countQuery);
         }
 
     }
     getSearchQueryData() {
         if (this.startDate && this.endDate) {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getDataCount(this.countQuery);
         }
         else {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getDataCount(this.countQuery);
         }
 
@@ -527,17 +580,15 @@ export class StudentInvoiceReportComponent implements OnInit {
         if (this.startDate && this.endDate) {
             if (this.startDate < this.endDate) {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
-                console.log(this.url);
+                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
                 this.getAllStudentInvoiceReport(this.url);
                 this.getQueryDataCount();
-            } else{
+            } else {
                 this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
             }
         } else {
             let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.sortUrl + this.searchQuery;
-            console.log(this.url);
+            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
             this.getAllStudentInvoiceReport(this.url);
             this.getQueryDataCount();
         }
