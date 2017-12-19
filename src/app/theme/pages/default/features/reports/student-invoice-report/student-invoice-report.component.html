@@ -75,7 +75,7 @@
 						</div>
 						<div class="filterDropdown">
 							<select class="form-control" [(ngModel)]="status" name="statusddl" (change)="onFilterByStatus('status',status)">
-								<option  value="" selected="">Select</option>
+								<option value="" selected="">Select</option>
 								<option value="Created">Created</option>
 								<option value="Processed">Processed</option>
 								<option value="Paid">Paid</option>
@@ -91,7 +91,7 @@
 						</div>
 						<div class="filterDropdown">
 							<select class="form-control" [(ngModel)]="class" name="classddl" (change)="onFilterByClass('classId',class)">
-								<option  value="" selected="">Select</option>
+								<option value="" selected="">Select</option>
 								<option *ngFor="let class of classList" [value]="class.id">{{class.className}}</option>
 							</select>
 						</div>
@@ -126,8 +126,8 @@
 							<label>From</label>
 						</div>
 						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" 
-							 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -151,9 +151,21 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
-							Search
-						</button>
+						<div class="filterLabel">
+							<label>Type</label>
+						</div>
+						<div class="filterDropdown">
+							<select class="form-control" [(ngModel)]="type" name="typeddl" (change)="onFilterBytype()">
+								<option value="" selected="">Select</option>
+								<option value="ACD" selected="">ACD</option>
+								<option value="ADH" selected="">ADH</option>
+								<option value="ADH" selected="">TRN</option>
+							</select>
+							<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+								Search
+							</button>
+						</div>
+
 					</div>
 				</div>
 
@@ -167,6 +179,9 @@
 									</th>
 									<th title="">
 										Date
+									</th>
+									<th title="">
+										Type
 									</th>
 									<th title="">
 										Student Name
@@ -197,6 +212,7 @@
 										{{row.invoiceNumber}}
 									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.type}}</td>
 									<td>{{row.studentFirstName ? row.studentFirstName : ''}} {{row.studentLastName ? row.studentLastName : ''}}</td>
 									<td>{{row.className}}</td>
 									<td>{{row.divisionName ? row.divisionName : ''}}</td>
