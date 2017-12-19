@@ -18,8 +18,8 @@ import { Helpers } from "./../../../../../../helpers";
 export class InvoiceSummaryComponent implements OnInit {
     params: number;
     academicYearForm: FormGroup;
-    invoice :any;
-    statusChanged=false;
+    invoice: any;
+    statusChanged = false;
     startDate: any;
     endDate: any;
     startAcademicYear: any;
@@ -27,7 +27,9 @@ export class InvoiceSummaryComponent implements OnInit {
     minEndDate: any;
     isEndYearSameAsStarYear: boolean = false
     isCurrentYearDisabled: boolean = false
-    currentStatus:string;
+    currentStatus: string;
+    oldDueDate: Date;
+    radioVal: number;
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -38,7 +40,7 @@ export class InvoiceSummaryComponent implements OnInit {
         private messageService: MessageService) {
     }
     ngOnInit() {
-        this.invoice={};        
+        this.invoice = {};
         this.startAcademicYear = '';
         this.endAcademicYear = '';
         this.minEndDate = new Date();
@@ -56,9 +58,10 @@ export class InvoiceSummaryComponent implements OnInit {
         this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
             response => {
                 this.invoice = response;
-               // this.invoice.invoiceStatus="Paid";
-               this.currentStatus=this.invoice.status;
+                // this.invoice.invoiceStatus="Paid";
+                this.currentStatus = this.invoice.status;
                 this.invoice.dueDate = new Date(response.dueDate);
+                this.oldDueDate = _.cloneDeep(this.invoice.dueDate);
                 Helpers.setLoading(false);
             },
             error => {
@@ -75,12 +78,22 @@ export class InvoiceSummaryComponent implements OnInit {
         //     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select invoice status' });
         //     return false;
         // }
-        else if(this.statusChanged && this.currentStatus=='Paid' && !this.invoice.statusDesc ){
+        else if (this.statusChanged && this.currentStatus == 'Paid' && !this.invoice.statusDesc) {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
-        this.invoice.dueDate=new Date(new Date(this.invoice.dueDate).setHours(22)).toISOString();
-        this.invoice.status=this.currentStatus;
+        else if(this.currentStatus != 'Paid'){
+            this.invoice.statusDesc='';
+        }
+        if (this.radioVal == 1) {
+            this.currentStatus=_.cloneDeep(this.invoice.status);
+         }
+         else if (this.radioVal == 2) {
+             this.invoice.dueDate = _.cloneDeep(this.oldDueDate);
+         }
+
+        this.invoice.dueDate = new Date(new Date(this.invoice.dueDate).setHours(22)).toISOString();
+        this.invoice.status = this.currentStatus;
         this.invoiceService.updateInvoice(this.invoice).subscribe(
             response => {
                 this.invoice = response;
@@ -90,11 +103,19 @@ export class InvoiceSummaryComponent implements OnInit {
                 this.globalErrorHandler.handleError(error);
             });
     }
-    onStatusChange()
-    {
-        this.statusChanged=true;
+    onStatusChange() {
+        this.statusChanged = true;
     }
     cancelInvoice() {
         this.router.navigate(['/features/invoice/list']);
+    }
+
+    onStatusDueDateClick() {
+        if (this.radioVal == 1) {
+           this.currentStatus=_.cloneDeep(this.invoice.status);
+        }
+        else if (this.radioVal == 2) {
+            this.invoice.dueDate = _.cloneDeep(this.oldDueDate);
+        }
     }
 }
