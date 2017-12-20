@@ -455,6 +455,11 @@ export class StudentListComponent implements OnInit {
         this.router.navigate(['/features/student/edit', student.id]);
     }
     onStudentDeleteClick(student: Student) {
+        if (student.isAcademicFeeProcessed) {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Student can not be deleted as academic fee already processed.' });
+            return;
+        }
+
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',
             header: 'Delete Confirmation',
