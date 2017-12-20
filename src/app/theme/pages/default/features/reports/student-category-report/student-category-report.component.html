@@ -177,7 +177,7 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody *ngIf="longList">
+							<tbody>
 								<tr *ngFor='let row of studentList'>
 									<!-- <td>{{row.id}}</td> -->
 									<td>{{row.gRNumber}}</td>
@@ -205,7 +205,7 @@
 									
 								</tr>
 							</tbody>
-							<tbody *ngIf="!longList">
+							<tbody *ngIf="recordNotFound">
 								No Records Found...
 							</tbody>
 

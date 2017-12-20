@@ -45,6 +45,7 @@ export class StudentCategoryReportComponent implements OnInit {
     ascSortCol6: boolean;  //Sorting for Column6
     ascSortCol7: boolean;  //Sorting for Column7
     onSerchClick: boolean = false;
+    onGridSearchKeyUp: boolean = false;
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
     filterQuery: string;   //Filter1 Api Query 
@@ -57,6 +58,7 @@ export class StudentCategoryReportComponent implements OnInit {
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
     nextPageEnable: boolean; //To disable/enable prev page button
+    recordNotFound: boolean;
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
@@ -114,6 +116,7 @@ export class StudentCategoryReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
         this.longList = false;
+        this.recordNotFound = false;
 
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
@@ -122,7 +125,7 @@ export class StudentCategoryReportComponent implements OnInit {
             //List of Classes
             this.filterCol1 = [];
             let val = this.classService.getAllClasses();
-            this.filterCol1.push({ label: '--Select--', value: 'select' });
+            this.filterCol1.push({ label: 'All', value: 'select' });
             val.subscribe((response) => {
                 for (let key in response) {
                     if (response.hasOwnProperty(key)) {
@@ -134,7 +137,7 @@ export class StudentCategoryReportComponent implements OnInit {
             //List of Categories
             this.filterCol2 = [];
             val = this.categoriesService.getAllCategories();
-            this.filterCol2.push({ label: '--Select--', value: 'select' });
+            this.filterCol2.push({ label: 'All', value: 'select' });
             val.subscribe((response) => {
                 for (let key in response) {
                     if (response.hasOwnProperty(key)) {
@@ -318,7 +321,9 @@ export class StudentCategoryReportComponent implements OnInit {
         if (searchString == '') {
             this.searchQuery = '';
             this.searchCountQuery = '';
+            this.onGridSearchKeyUp = false;
         } else {
+            this.onGridSearchKeyUp = true;
             this.searchQuery = '&filter[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&filter[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%";
             this.searchCountQuery = '&[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%";
         }
@@ -433,10 +438,19 @@ export class StudentCategoryReportComponent implements OnInit {
             response => {
                 Helpers.setLoading(false);
                 this.studentList = response;
-                this.longList = response.length > 0 ? true : false;
-                if (!this.longList) {
-                    this.firstPageNumber = 0;
+                if (!this.onGridSearchKeyUp) {
+                    this.recordNotFound = false;
+                    this.longList = response.length > 0 ? true : false;
+                    if (!this.longList) {
+                        this.firstPageNumber = 0;
+                    }
+                } else {
+                    this.recordNotFound = response.length > 0 ? false : true;
+                    if (this.recordNotFound) {
+                        this.firstPageNumber = 0;
+                    }
                 }
+
             },
             error => {
                 Helpers.setLoading(false);

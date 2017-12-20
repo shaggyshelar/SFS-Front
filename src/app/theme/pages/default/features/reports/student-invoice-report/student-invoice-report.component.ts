@@ -16,6 +16,7 @@ import { ScriptLoaderService } from './../../../../../../_services/script-loader
 import { ClassService } from '../../../_services/class.service';
 import { FormatService } from '../../../_services/tableToXls/format.service';
 import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
+import * as _ from 'lodash/index';
 @Component({
     selector: "app-student-invoice-report-list",
     templateUrl: "./student-invoice-report.component.html",
@@ -24,6 +25,7 @@ import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
 export class StudentInvoiceReportComponent implements OnInit {
     classList: any = [];
     divisionList: any = [];
+    _tempDivisionList: any =[];
     invoiceList = [];
     feeplanList = [];
     categoryList = [];
@@ -262,7 +264,8 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.classService.getDivisionBySchoolId(this.schoolId)
             .subscribe(
             response => {
-                this.divisionList = response;
+                this.divisionList = [];
+                this._tempDivisionList = _.cloneDeep(response);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -560,7 +563,9 @@ export class StudentInvoiceReportComponent implements OnInit {
         if (value === '') {
             this.filterQuery1 = '';
             this.filter2CountQuery = '';
+            this.divisionList = [];
         } else {
+            this.divisionList = _.filter(this._tempDivisionList, { classId: Number(value) });
             this.filterQuery1 = '&filter[where][' + column + ']=' + value;
             this.filter2CountQuery = '&where[' + column + '] =' + value;
         }
