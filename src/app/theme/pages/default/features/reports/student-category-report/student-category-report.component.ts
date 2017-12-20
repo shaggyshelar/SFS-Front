@@ -500,19 +500,19 @@ export class StudentCategoryReportComponent implements OnInit {
             ,
             {
                 display: 'Category',
-                variable: 'categoryName',
+                variable: 'StudentCategory.categoryName',
                 filter: 'text'
             }
             ,
             {
                 display: 'Class',
-                variable: 'StudentClass',
+                variable: 'StudentClass.StudentClass',
                 filter: 'text'
             }
             ,
             {
                 display: 'Division',
-                variable: 'StudentDivision',
+                variable: 'StudentDivision.StudentDivision',
                 filter: 'text'
             }
             ,
@@ -528,7 +528,7 @@ export class StudentCategoryReportComponent implements OnInit {
             },
             {
                 display: 'Father First Name ',
-                variable: 'fatherFirstName ',
+                variable: 'fatherFirstName',
                 filter: 'text'
             },
             {
@@ -542,8 +542,8 @@ export class StudentCategoryReportComponent implements OnInit {
                 filter: 'text'
             },
             {
-                display: 'Mother First Name ',
-                variable: 'motherFirstName ',
+                display: 'Mother First Name',
+                variable: 'motherFirstName',
                 filter: 'text'
             }
             ,
@@ -560,8 +560,8 @@ export class StudentCategoryReportComponent implements OnInit {
             }
             ,
             {
-                display: 'Guardian FirstName ',
-                variable: 'guardianFirstName ',
+                display: 'Guardian FirstName',
+                variable: 'guardianFirstName',
                 filter: 'text'
             }
             ,
@@ -621,8 +621,13 @@ export class StudentCategoryReportComponent implements OnInit {
             var obj = new Object();
             var frmt = new FormatService();
             for (var i = 0; i < columns.length; i++) {
-                let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
-                obj[columns[i].display] = transfrmVal;
+                if(columns[i].variable.indexOf(".") > -1){
+                    let transfrmVal = frmt.transform(x[columns[i].variable.split(".")[0]][columns[i].variable.split(".")[1]], columns[i].filter);
+                    obj[columns[i].display] = transfrmVal;
+                }else{
+                    let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
+                    obj[columns[i].display] = transfrmVal;
+                }
             }
             exprtcsv.push(obj);
         }
