@@ -506,13 +506,13 @@ export class StudentCategoryReportComponent implements OnInit {
             ,
             {
                 display: 'Class',
-                variable: 'StudentClass.StudentClass',
+                variable: 'StudentClass.className',
                 filter: 'text'
             }
             ,
             {
                 display: 'Division',
-                variable: 'StudentDivision.StudentDivision',
+                variable: 'StudentDivision.divisionName',
                 filter: 'text'
             }
             ,
