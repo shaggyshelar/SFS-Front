@@ -7,10 +7,13 @@ import { AuthGuard } from "../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { StudentInvoiceReportComponent } from './student-invoice-report/student-invoice-report.component';
+import { StudentCategoryReportComponent } from './student-category-report/student-category-report.component';
 import { InvoiceService } from '../../../default/_services/invoice.service';
 import { ClassService } from '../../_services/class.service';
 import { FormatService } from '../../_services/tableToXls/format.service';
 import { DataGridUtil } from '../../_services/tableToXls/datagrid.util';
+import { StudentService } from '../../_services/index';
+import { CategoriesService } from '../../_services/index';
 import {
   DataTableModule,
   SharedModule,
@@ -38,6 +41,14 @@ const routes: Routes = [
               //permissions: ['Student.Read']
             }
           },
+          {
+            path: 'category',
+            component: StudentCategoryReportComponent,
+            canActivate: [AuthGuard],
+            data: {
+              //permissions: ['Student.Read']
+            }
+          }
         ]
       }
     ]
@@ -58,13 +69,16 @@ const routes: Routes = [
     CalendarModule
   ], declarations: [
     ReportsComponent,
-    StudentInvoiceReportComponent
+    StudentInvoiceReportComponent,
+    StudentCategoryReportComponent
   ],
   providers: [
     ConfirmationService,
     InvoiceService,
     ClassService,
-    FormatService,DataGridUtil
+    FormatService, DataGridUtil,
+    StudentService,
+    CategoriesService,
   ]
 })
 export class ReportsModule {
