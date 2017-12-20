@@ -35,4 +35,5 @@ export class Student {
     zone : string;
     createdBy:number;
     createdOn:string;
+    isAcademicFeeProcessed:boolean;
 }
