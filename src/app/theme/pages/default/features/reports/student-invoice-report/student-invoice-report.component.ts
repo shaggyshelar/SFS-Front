@@ -96,7 +96,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            this.perPage = 10;
+            this.perPage = 100;
             this.currentPos = 0;
             this.currentPageNumber = 1;
             this.selectedPageSize = this.perPage;
@@ -142,7 +142,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         }
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '10', value: 10 });
+        this.pageSize.push({ label: '100', value: 100 });
         this.pageSize.push({ label: '200', value: 200 });
         this.pageSize.push({ label: '300', value: 300 });
         this.pageSize.push({ label: '400', value: 400 });
