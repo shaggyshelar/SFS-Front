@@ -61,7 +61,7 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
-						<input class="form-control m-input" type="text" formControlName="classCode" name="classCode" id="classCode" placeholder="Class Code">
+						<input class="form-control m-input" type="text" formControlName="classCode" maxlength="24" (keypress)="onClassCode($event)" name="classCode" id="classCode" placeholder="Class Code">
 						<div class="alertMsg" *ngIf="classForm.get('classCode').hasError('required') && classForm.get('classCode').touched">
 							Please enter Class Code
 						</div>
@@ -74,7 +74,7 @@
 						<span class="requiredField">*</span>
 					</label>
 					<div class="col-5">
-						<input class="form-control m-input" formControlName="className" type="text" placeholder="Class Name">
+						<input class="form-control m-input" formControlName="className" maxlength="50" type="text" placeholder="Class Name">
 						<div class="alertMsg" *ngIf="classForm.get('className').hasError('required') && classForm.get('className').touched">
 							Please enter Class Name
 						</div>

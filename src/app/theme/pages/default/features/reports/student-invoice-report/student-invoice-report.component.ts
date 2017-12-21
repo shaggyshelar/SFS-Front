@@ -25,7 +25,7 @@ import * as _ from 'lodash/index';
 export class StudentInvoiceReportComponent implements OnInit {
     classList: any = [];
     divisionList: any = [];
-    _tempDivisionList: any =[];
+    _tempDivisionList: any = [];
     invoiceList = [];
     feeplanList = [];
     categoryList = [];
@@ -96,7 +96,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //Default variable initialization
-            this.perPage = 100;
+            this.perPage = 10;
             this.currentPos = 0;
             this.currentPageNumber = 1;
             this.selectedPageSize = this.perPage;
@@ -142,7 +142,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         }
         //Page Size Array
         this.pageSize = [];
-        this.pageSize.push({ label: '100', value: 100 });
+        this.pageSize.push({ label: '10', value: 10 });
         this.pageSize.push({ label: '200', value: 200 });
         this.pageSize.push({ label: '300', value: 300 });
         this.pageSize.push({ label: '400', value: 400 });
@@ -179,6 +179,18 @@ export class StudentInvoiceReportComponent implements OnInit {
             }
             ,
             {
+                display: 'Student Code',
+                variable: 'studentCode',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Gr. No.',
+                variable: 'grNumber',
+                filter: 'text'
+            }
+            ,
+            {
                 display: 'Class',
                 variable: 'className',
                 filter: 'text'
@@ -207,21 +219,32 @@ export class StudentInvoiceReportComponent implements OnInit {
             }
 
         ];
-
-        let exportFileName: string = "StudentInvoiceReport_";
-        (<any[]>JSON.parse(JSON.stringify(this.invoiceList))).forEach(x => {
-            var obj = new Object();
-            var frmt = new FormatService();
-            for (var i = 0; i < columns.length; i++) {
-                let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
-                obj[columns[i].display] = transfrmVal;
-            }
-            exprtcsv.push(obj);
-        }
-        );
-        DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+        let url = '?filter[limit]=' + this.total + '&filter[skip]=' + this.currentPos + this.sortUrl;
+        Helpers.setLoading(true);
+        this.invoiceService.getAllStudentInvoiceReport(url).subscribe(
+            response => {
+                Helpers.setLoading(false);
+                let _tempList = response;
+                let exportFileName: string = "StudentInvoiceReport_";
+                (<any[]>JSON.parse(JSON.stringify(_tempList))).forEach(x => {
+                    var obj = new Object();
+                    var frmt = new FormatService();
+                    for (var i = 0; i < columns.length; i++) {
+                        let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
+                        obj[columns[i].display] = transfrmVal;
+                    }
+                    exprtcsv.push(obj);
+                }
+                );
+                DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+            },
+            error => {
+                Helpers.setLoading(false);
+                this.globalErrorHandler.handleError(error);
+            });
 
     }
+        
     getDataCount(url) {
         Helpers.setLoading(true);
         this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
@@ -307,7 +330,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                         this.firstPageNumber = 0;
                     }
                 } else {
-                    this.recordNotFound =  response.length > 0 ? false : true;
+                    this.recordNotFound = response.length > 0 ? false : true;
                     if (this.recordNotFound) {
                         this.firstPageNumber = 0;
                     }
@@ -535,8 +558,8 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.onGridSearchKeyUp = false;
         } else {
             this.onGridSearchKeyUp = true;
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%";
-            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%" + '&filter[where][or][2][gRNumber][like]=%' + searchString + "%" + '&filter[where][or][3][studentCode][like]=%' + searchString + "%";
+            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%" + '&[where][or][2][gRNumber][like]=%' + searchString + "%" + '&[where][or][3][studentCode][like]=%' + searchString + "%";;
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
