@@ -18,13 +18,13 @@ export class ClassAddEditComponent implements OnInit {
     errorMessage: any;
     params: number;
     classForm: FormGroup;
-    success:number;
+    success: number;
 
     constructor(
         private formBuilder: FormBuilder, private messageService: MessageService,
         private route: ActivatedRoute, private router: Router, private globalErrorHandler: GlobalErrorHandler,
         private classService: ClassService,
-        
+
     ) {
     }
 
@@ -84,6 +84,13 @@ export class ClassAddEditComponent implements OnInit {
     onCancel() {
         this.router.navigate(['/features/class/list']);
     }
-
+    onClassCode(str: any) {
+        if(!/^[a-z0-9]+$/i.test(str.key)) {
+            return false;
+        }
+       else{
+           return true;
+       }
+    }
 }
 

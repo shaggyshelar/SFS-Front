@@ -131,8 +131,8 @@
 									<th title="Categories">
 										Categories
 									</th>
-									<th title="Transaction Processed">
-										Transaction Processed
+									<th title="Plan Used/Unused">
+										Plan Used/Unused
 									</th>
 									
 									<th title="Actions">
@@ -147,7 +147,7 @@
 									<td>{{row.dueDate | date: 'MM/dd/yyyy'}}</td>
 									<td>{{row.classes}}</td>
 									<td>{{row.categories}}</td>
-									<td>{{row.isTransactionProcessed?'Yes':'No'}}</td>
+									<td>{{row.isTransactionProcessed?'Used':'Unused'}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditAdhocFeeClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Adhocfee.Update']">

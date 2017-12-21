@@ -616,4 +616,12 @@ export class TransportListComponent implements OnInit {
     setDateHour(datecval) {
         return new Date(new Date(datecval).setHours(22));
     }
+    onZoneCode(str: any) {
+        if(!/^[a-z0-9]+$/i.test(str.key)) {
+            return false;
+        }
+       else{
+           return true;
+       }
+    }
 }

@@ -161,7 +161,7 @@
                                     <tbody>
                                         <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
                                             <td>
-                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" [disabled]="(row.disabledZoneCode) && (disableFrequecy)">
+                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" maxlength="24" (keypress)="onZoneCode($event)" [disabled]="(row.disabledZoneCode) && (disableFrequecy)">
                                                 <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
                                                     Please enter Zone Code
                                                 </div>

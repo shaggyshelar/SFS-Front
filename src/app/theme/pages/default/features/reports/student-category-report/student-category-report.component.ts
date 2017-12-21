@@ -324,8 +324,8 @@ export class StudentCategoryReportComponent implements OnInit {
             this.onGridSearchKeyUp = false;
         } else {
             this.onGridSearchKeyUp = true;
-            this.searchQuery = '&filter[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&filter[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%";
-            this.searchCountQuery = '&[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%";
+            this.searchQuery = '&filter[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&filter[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%" + '&filter[where][or][3][gRNumber][like]=%' + searchString + "%" + '&filter[where][or][4][studentCode][like]=%' + searchString + "%";
+            this.searchCountQuery = '&[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%" + '&[where][or][3][gRNumber][like]=%' + searchString + "%" + '&[where][or][4][studentCode][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -616,23 +616,34 @@ export class StudentCategoryReportComponent implements OnInit {
 
         ];
 
-        let exportFileName: string = "StudentCategoryReport_";
-        (<any[]>JSON.parse(JSON.stringify(this.studentList))).forEach(x => {
-            var obj = new Object();
-            var frmt = new FormatService();
-            for (var i = 0; i < columns.length; i++) {
-                if(columns[i].variable.indexOf(".") > -1){
-                    let transfrmVal = frmt.transform(x[columns[i].variable.split(".")[0]][columns[i].variable.split(".")[1]], columns[i].filter);
-                    obj[columns[i].display] = transfrmVal;
-                }else{
-                    let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
-                    obj[columns[i].display] = transfrmVal;
+        let url = '?filter[limit]=' + this.total + '&filter[skip]=' + this.currentPos + this.sortUrl;
+        Helpers.setLoading(true);
+        this.studentService.getAllStudents(this.url).subscribe(
+            response => {
+                Helpers.setLoading(false);
+                let _tempList = response;
+                let exportFileName: string = "StudentCategoryReport_";
+                (<any[]>JSON.parse(JSON.stringify(_tempList))).forEach(x => {
+                    var obj = new Object();
+                    var frmt = new FormatService();
+                    for (var i = 0; i < columns.length; i++) {
+                        if (columns[i].variable.indexOf(".") > -1) {
+                            let transfrmVal = frmt.transform(x[columns[i].variable.split(".")[0]][columns[i].variable.split(".")[1]], columns[i].filter);
+                            obj[columns[i].display] = transfrmVal;
+                        } else {
+                            let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
+                            obj[columns[i].display] = transfrmVal;
+                        }
+                    }
+                    exprtcsv.push(obj);
                 }
-            }
-            exprtcsv.push(obj);
-        }
-        );
-        DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+                );
+                DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+            },
+            error => {
+                Helpers.setLoading(false);
+                this.globalErrorHandler.handleError(error);
+            });
 
     }
 }
