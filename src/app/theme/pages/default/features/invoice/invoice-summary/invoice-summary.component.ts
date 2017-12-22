@@ -30,6 +30,9 @@ export class InvoiceSummaryComponent implements OnInit {
     currentStatus: string;
     oldDueDate: Date;
     radioVal: number;
+    chargeAmount: number;
+    paidAmount: number;
+    totalBalance: number;
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -61,6 +64,9 @@ export class InvoiceSummaryComponent implements OnInit {
                 // this.invoice.invoiceStatus="Paid";
                 this.currentStatus = this.invoice.status;
                 this.invoice.dueDate = new Date(response.dueDate);
+                this.chargeAmount = response.totalChargeAmount ? response.totalChargeAmount : 0 ;
+                this.paidAmount = response.totalChargeAmountPaid ? response.totalChargeAmountPaid : 0;
+                this.totalBalance = this.paidAmount - this.chargeAmount;
                 this.oldDueDate = _.cloneDeep(this.invoice.dueDate);
                 Helpers.setLoading(false);
             },
@@ -82,15 +88,15 @@ export class InvoiceSummaryComponent implements OnInit {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please enter invoice description' });
             return false;
         }
-        else if(this.currentStatus != 'Paid'){
-            this.invoice.statusDesc='';
+        else if (this.currentStatus != 'Paid') {
+            this.invoice.statusDesc = '';
         }
         if (this.radioVal == 1) {
-            this.currentStatus=_.cloneDeep(this.invoice.status);
-         }
-         else if (this.radioVal == 2) {
-             this.invoice.dueDate = _.cloneDeep(this.oldDueDate);
-         }
+            this.currentStatus = _.cloneDeep(this.invoice.status);
+        }
+        else if (this.radioVal == 2) {
+            this.invoice.dueDate = _.cloneDeep(this.oldDueDate);
+        }
 
         this.invoice.dueDate = new Date(new Date(this.invoice.dueDate).setHours(22)).toISOString();
         this.invoice.status = this.currentStatus;
@@ -112,7 +118,7 @@ export class InvoiceSummaryComponent implements OnInit {
 
     onStatusDueDateClick() {
         if (this.radioVal == 1) {
-           this.currentStatus=_.cloneDeep(this.invoice.status);
+            this.currentStatus = _.cloneDeep(this.invoice.status);
         }
         else if (this.radioVal == 2) {
             this.invoice.dueDate = _.cloneDeep(this.oldDueDate);
