@@ -96,7 +96,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group m-form__group row" *ngIf="userRole == 'SuperAdmin'">
+				<div class="form-group m-form__group row" *ngIf="(userRole == 'SuperAdmin') && (!hideInstituteAndSchool)">
 					<label class="col-md-2 col-form-label" for="example-text-input">
 						Institute <span class="requiredField">*</span>
 					</label>
@@ -110,7 +110,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group m-form__group row"  *ngIf="userRole == 'SuperAdmin'">
+				<div class="form-group m-form__group row"  *ngIf="(userRole == 'SuperAdmin') && (!hideInstituteAndSchool)">
 					<label class="col-md-2 col-form-label" for="example-text-input">
 						School <span class="requiredField">*</span>
 					</label>
@@ -140,7 +140,7 @@
 						Role <span class="requiredField">*</span>
 					</label>
 					<div class="col-md-5">
-						<select class="form-control" formControlName="role">
+						<select class="form-control" formControlName="role" (change)="onRoleClick()">
 							<option [ngValue]="null" >Select</option>
 							<option *ngFor="let role of roleList" [ngValue]="role.id">{{role.displayName}}</option>
 						</select>

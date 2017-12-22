@@ -24,9 +24,11 @@ export class UserAddEditComponent implements OnInit {
     userRole: string;
     instituteList: any;
     schoolList: any;
+    _tempSchoolList: any;
     selectedInstitute: any;
     roleList: any;
     selectedSchoolsValidationError: boolean = false;
+    hideInstituteAndSchool: boolean = false;
     relatedSchoolList: any;
     currentUser: any;
 
@@ -60,7 +62,7 @@ export class UserAddEditComponent implements OnInit {
             this.roleList = [{
                 id: 1,
                 displayName: 'Super Admin'
-            },{
+            }, {
                 id: 2,
                 displayName: 'School Admin'
             }]
@@ -165,9 +167,15 @@ export class UserAddEditComponent implements OnInit {
         if (this.userRole == 'SuperAdmin') {
             this.selectedSchoolsValidationError = false
             let selectedSchools = [];
-            for (var index = 0; index < value.schools.length; index++) {
-                if (value.schools[index] == true) {
-                    selectedSchools.push(this.schoolList[index].id);
+            if (this.userForm.controls['role'].value === 1) {
+                this._tempSchoolList.forEach(element => {
+                    selectedSchools.push(element.id);
+                });
+            } else {
+                for (var index = 0; index < value.schools.length; index++) {
+                    if (value.schools[index] == true) {
+                        selectedSchools.push(this.schoolList[index].id);
+                    }
                 }
             }
             if (selectedSchools.length > 0) {
@@ -271,5 +279,25 @@ export class UserAddEditComponent implements OnInit {
             }, error => {
                 this.globalErrorHandler.handleError(error);
             })
+    }
+    onRoleClick() {
+        if (this.userForm.controls['role'].value === 1) {
+            this.hideInstituteAndSchool = true;
+              this.schoolList = [];
+            this.userForm.controls['institute'].setValue('null');
+            this._tempSchoolList = [];
+            this.userForm.removeControl('schools');
+            this.userForm.addControl('schools', this.buildSchools());
+            this.schoolService.getAllSchools('')
+                .subscribe((results: any) => {
+                    this._tempSchoolList = results;
+                    //this._tempSchoolList = this.updateSchoolList();
+                }, error => {
+                    this.globalErrorHandler.handleError(error);
+                })
+        } else {
+            
+            this.hideInstituteAndSchool = false;
+        }
     }
 }
