@@ -110,6 +110,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="invoiceLabelBox">
+                                <h6>Paid Description</h6>
+                                <h5>this is paid Description</h5>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row invoiceRow">
@@ -181,6 +188,36 @@
 
                         </tbody>
                     </table>
+                    <hr class="invoiceSummarySeparator"/> 
+                    <table class="table invoiceTable invoiceTotalTable">
+                        <tbody>                            
+                            <tr>
+                                <td style="border-top:none!important;">
+                                    Total Due    
+                                </td>        
+                                <td style="border-top:none!important;">
+                                    7000
+                                </td>                              
+                            </tr>
+                            <tr>
+                                <td>
+                                    Paid Amount
+                                </td>        
+                                <td>
+                                    5000
+                                </td>                              
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total Balance
+                                </td>        
+                                <td>
+                                    2000
+                                </td>                              
+                            </tr>
+
+                        </tbody>
+                    </table>
 
                     <!-- Total -->
                     <div class="invoiceTotalBox">
@@ -189,19 +226,22 @@
 
                     <hr>
 
-                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit invoiceSubmitBox">
                         <div class="m-form__actions m-form__actions--solid">
                             <div class="row">
-                                <div class="col-lg-6">
+                                
+                                <div class="col-lg-12 " style="text-align: center;">
                                     <!-- *ngIf="invoice.status=='Processed'" -->
                                     <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="invoice.status!='Processed'" [isAuthorize]="['Invoice.Update']"
                                         (click)="updateInvoice()">
                                         Update
                                     </button>
-                                    <button type="button" class="btn btn-secondary" (click)="cancelInvoice()">
+                                    
+                                    <button type="button" class="btn btn-secondary" (click)="cancelInvoice()" style="margin-left: 10px;">
                                         Cancel
                                     </button>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
