@@ -63,13 +63,13 @@ export class SchoolService {
   getUsersBySchoolId(url) {
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails?filter[include]=UserschoolUser&filter[where][schoolId]=' + schoolId + '&filter[where][createdBy]=' + currentUser.userId + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + schoolId + '/getUserForSchoolAdmin' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getUsersCountBySchoolId(url) {
     var schoolId = JSON.parse(localStorage.getItem('schoolId'));
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails/count?where[schoolId]=' + schoolId + '&where[createdBy]=' + currentUser.userId + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + schoolId + '/getUserCountForSchoolAdmin' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getProcessingDays() {
