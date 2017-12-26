@@ -193,26 +193,28 @@
                         <tbody>                            
                             <tr>
                                 <td style="border-top:none!important;">
-                                    Total Due    
+                                    Invoice Total    
                                 </td>        
                                 <td style="border-top:none!important;">
-                                    7000
+                                    {{chargeAmount}}
                                 </td>                              
                             </tr>
+                            <hr class="invoiceSummarySeparator" style="width:125%;"/> 
                             <tr>
                                 <td>
-                                    Paid Amount
+                                    Amount Paid 
                                 </td>        
                                 <td>
-                                    5000
+                                    {{paidAmount}}
                                 </td>                              
                             </tr>
+                            <hr class="invoiceSummarySeparator" style="width:125%;"/> 
                             <tr>
                                 <td>
-                                    Total Balance
+                                    Balance
                                 </td>        
                                 <td>
-                                    2000
+                                    {{totalBalance}}
                                 </td>                              
                             </tr>
 
@@ -220,11 +222,11 @@
                     </table>
 
                     <!-- Total -->
-                    <div class="invoiceTotalBox">
+                    <!-- <div class="invoiceTotalBox">
                         <span>Total Due &nbsp;&nbsp; : &nbsp;&nbsp;</span> Rs. {{invoice.totalChargeAmount}}
-                    </div>
+                    </div> -->
 
-                    <hr>
+                
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit invoiceSubmitBox">
                         <div class="m-form__actions m-form__actions--solid">
