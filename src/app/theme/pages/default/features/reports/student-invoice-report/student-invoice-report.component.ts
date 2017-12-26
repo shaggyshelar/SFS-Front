@@ -690,7 +690,7 @@ export class StudentInvoiceReportComponent implements OnInit {
 
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
     }
     onSearchReport() {
         if (this.startDate && this.endDate) {
