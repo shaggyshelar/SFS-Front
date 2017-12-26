@@ -465,6 +465,7 @@ export class StudentCategoryReportComponent implements OnInit {
                 this.studentList = response;
                 this.longList = response.length > 0 ? true : false;
                 if (!this.longList) {
+                    this.onSerchClick = true;
                     this.firstPageNumber = 0;
                 }
             },
