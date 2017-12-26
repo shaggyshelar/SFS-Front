@@ -101,18 +101,30 @@ export class UsersListComponent implements OnInit {
         this.getUrl();
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+        let _tempList: any = [];
         if (!_superAdmin) {
-            this.userList = this.schoolService.getUsersBySchoolId(this.url);
+            _tempList = this.schoolService.getUsersBySchoolId(this.url);
+
         }
         else {
             this.url = this.url + "&filter[where][roleId]=2";
-            this.userList = this.userService.getUsersForSuperuser(this.url);
+            _tempList = this.userService.getUsersForSuperuser(this.url);
         }
-        this.userList.subscribe((response) => {
-            this.longList = response.length > 0 ? true : false;
-            if (!this.longList) {
-                this.firstPageNumber = 0;
+        _tempList.subscribe((response: any) => {
+            if (response.users) {
+                this.longList = response.users.length > 0 ? true : false;
+                this.userList = response.users;
+                if (!this.longList) {
+                    this.firstPageNumber = 0;
+                }
+            } else {
+                this.longList = response.length > 0 ? true : false;
+                 this.userList = _tempList;
+                if (!this.longList) {
+                    this.firstPageNumber = 0;
+                }
             }
+
         }, error => {
             this.globalErrorHandler.handleError(error);
         });
@@ -351,7 +363,7 @@ export class UsersListComponent implements OnInit {
         let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
         if (!_superAdmin) {
             this.schoolService.getUsersCountBySchoolId(url).subscribe((response) => {
-                this.total = response.count;
+                this.total = response.users;
                 this.pages = Math.ceil(this.total / this.perPage);
                 this.generateCount();
                 this.setDisplayPageNumberRange();
@@ -383,7 +395,7 @@ export class UsersListComponent implements OnInit {
         if (_superAdmin) {
             this.url = '?filter[include]=role&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
         } else {
-            this.url = 'filter[include]=role&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+            this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
         }
     }
 

@@ -171,27 +171,27 @@
 										</tbody>
 
 										<tbody *ngIf="longList && userRole != 'SuperAdmin'">
-											<tr *ngFor='let row of userList | async'>
-												<td>{{row.UserschoolUser ? row.UserschoolUser.username : ''}}</td>
-												<td>{{ row.UserschoolUser && row.UserschoolUser.role ? row.UserschoolUser.role.displayName : ''}}</td>
-												<td>{{row.UserschoolUser ? row.UserschoolUser.phone : ''}}</td>
-												<td>{{row.UserschoolUser ? row.UserschoolUser.email : ''}}</td>
-												<td>{{row.UserschoolUser ? row.UserschoolUser.isActivate ? 'Yes' : 'No' : ''}}</td>
-												<td *ngIf="row.UserschoolUser">
-													<a href="javascript:;" (click)="onEditClick(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+											<tr *ngFor='let row of userList'>
+												<td>{{row.username}}</td>
+												<td>{{row.role.displayName}}</td>
+												<td>{{row.phone}}</td>
+												<td>{{row.email}}</td>
+												<td>{{row.isActivate ? 'Yes' : 'No'}}</td>
+												<td *ngIf="row">
+													<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													 title="Edit" [isAuthorize]="['User.Update']">
 														<i class="la la-edit"></i>
 													</a>
-													<a href="javascript:;" (click)="onDelete(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													<a href="javascript:;" (click)="onDelete(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													 title="Delete" [isAuthorize]="['User.Delete']">
 														<i class="la la-close"></i>
 													</a>
-													<a href="javascript:;" *ngIf="row.UserschoolUser.isBolocked" (click)="unblockuser(row.UserschoolUser)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+													<a href="javascript:;" *ngIf="row.isBolocked" (click)="unblockuser(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													title="Unblock user" [isAuthorize]="['User.Update']">
 													   <i class="fa fa-unlock"></i>
 												   </a>
 												</td>
-												<td *ngIf="!row.UserschoolUser"> </td>
+												<td *ngIf="!row"> </td>
 											</tr>
 										</tbody>
 										<tbody *ngIf="!longList">
