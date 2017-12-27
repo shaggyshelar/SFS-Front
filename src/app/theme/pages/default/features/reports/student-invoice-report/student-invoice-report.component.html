@@ -153,7 +153,7 @@
 				</div>
 				<div class="row staticSearchRow">
 					<div class="col-md-9"></div>
-					<div class="col-md-3" *ngIf="(longList) || (!longlist && onSerchClick)">
+					<div class="col-md-3" *ngIf="(longList) || (!longList && onSerchClick)">
 						<div class="m-input-icon m-input-icon--left">
 							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
 							 placeholder="Search..." id="m_form_search">
