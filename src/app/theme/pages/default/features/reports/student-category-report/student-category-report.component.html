@@ -77,7 +77,7 @@
 						</button>
 					</div>
 
-					<div class="col-md-3" *ngIf="longList">
+					<div class="col-md-3" *ngIf="(longList) || (!longlist && onSerchClick)">
 						<div class="m-input-icon m-input-icon--left">
 							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
 							 (keyup)="searchString(searchValue)">
