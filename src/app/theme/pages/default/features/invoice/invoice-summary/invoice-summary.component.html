@@ -110,10 +110,10 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="invoice.status === 'Paid'">
                             <div class="invoiceLabelBox">
                                 <h6>Paid Description</h6>
-                                <h5>this is paid Description</h5>
+                                <h5>{{invoice.statusDesc ? invoice.statusDesc : ''}}</h5>
                             </div>
                         </div>
 
