@@ -15,4 +15,8 @@ export class UserSchoolDetailsService {
         requestOptions.params = params;
         return this.http.get(AppSettings.API_ENDPOINT + 'Userschooldetails/', requestOptions).map((response: Response) => response.json());
     }
+
+    getDashboardDetails(id) {
+        return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + id+'/getDashboardDetails', AppSettings.requestOptions()).map((response: Response) => response.json());
+      }
 }

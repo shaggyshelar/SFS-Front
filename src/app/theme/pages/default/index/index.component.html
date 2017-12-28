@@ -12,12 +12,11 @@
 				Select School
 			</label>
 			<div class="col-md-8">
-				<select class="form-control m-input">
-					<option>School 1</option>
-					<option>School 2</option>
-					<option>School 3</option>
-					<option>School 4</option>
-				</select>
+				<!-- <select class="form-control m-input" name="schoolDDl"  [(ngModel)]="selectedSchoolId" (change)="onSchoolChange()" >
+					<option *ngFor="let item of schoolList" [ngValue]="item.Id">{{item.schoolName}}</option>
+				</select> -->
+				<p-dropdown class="feePlanBox" [options]="schoolList" [style]="{'width':'100%'}" [(ngModel)]="selectedSchoolId" name="schoolDDl"
+				(onChange)="onSchoolChange()"></p-dropdown>
 			</div>
 		</div>
 	</div>
@@ -42,8 +41,7 @@
 							For all students
 						</h5>
 						<span class="m-widget24__stats m--font-brand">
-							Rs. 17,00,00,000
-						</span>
+							Rs. {{dashBoardDetails.dueAmount}}						</span>
 						
 					</div>
 				</div>
@@ -60,7 +58,7 @@
 							For all students
 						</h5>
 						<span class="m-widget24__stats m--font-info">
-							Rs. 8,00,00,000
+							Rs.  {{dashBoardDetails.paidAmount}}	
 						</span>
 					   
 					</div>
@@ -79,7 +77,7 @@
 							For current year
 						</h5>
 						<span class="m-widget24__stats m--font-danger">
-							2,100
+							{{dashBoardDetails.toatalStudnetCount}}	
 						</span>
 						
 					</div>
