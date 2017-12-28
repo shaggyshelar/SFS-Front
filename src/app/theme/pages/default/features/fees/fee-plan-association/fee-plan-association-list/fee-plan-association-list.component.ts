@@ -166,6 +166,16 @@ export class FeePlanAssociationListComponent implements OnInit {
         this.router.navigate(['/features/feePlanAssociation/edit', feePlanAssociation.feePlanId]);
     }
     onDeleteClick(feePlanAssociation: any) {
+        if(feePlanAssociation.isTransactionProcessed)
+        {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Fee Plan Already Processed.Not Available For Association Delete.' });
+            return false;
+        }
+        if(feePlanAssociation.categories.length==0 && feePlanAssociation.classes.length==0  )
+        {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Fee Plan Association Not Available For Delete.' });
+            return false;
+        }
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',
             header: 'Delete Confirmation',
