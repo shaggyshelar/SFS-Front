@@ -117,7 +117,8 @@ export class FeePlanAssociationListComponent implements OnInit {
                         feePlanId: item.id,
                         feePlanName: item.feePlanName,
                         schoolId: item.schoolId,
-                        isTransactionProcessed: item.isTransactionProcessed
+                        isTransactionProcessed: item.isTransactionProcessed,
+                        academicYear:item.academicYear
                     })
                     this.feePlanAssociationList[index].classes = '';
                     this.feePlanAssociationList[index].categories = '';
@@ -170,7 +171,7 @@ export class FeePlanAssociationListComponent implements OnInit {
             header: 'Delete Confirmation',
             icon: 'fa fa-trash',
             accept: () => {
-                this.feePlanAssociationService.deleteFeePlanAssociation(feePlanAssociation.feePlanId).subscribe(
+                this.feePlanAssociationService.deleteFeePlanAssociation(feePlanAssociation.feePlanId,feePlanAssociation.academicYear).subscribe(
                     results => {
                         this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Deleted Successfully' });
                         if ((this.currentPageNumber - 1) * this.perPage == (this.total - 1)) {
