@@ -24,6 +24,7 @@ import { CategoriesService } from '../../../_services/categories.service';
     templateUrl: "./feehead-payment-report.component.html",
     encapsulation: ViewEncapsulation.None,
 })
+
 export class FeeheadPaymentReportComponent implements OnInit {
     schoolList: any[];
     total: number;         //Number Of records
@@ -73,9 +74,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     startDate: Date;
     endDate: Date;
     status: string = '';
-    filterValue1: string; //HTML values
-    filterValue2: string; //HTML values
-    searchValue: string; //HTML values
+    filterValue1:any[]; //HTML values
+    filterValue2: any[]; //HTML values
+    searchValue: any[]; //HTML values
     selectedPageSize: number = 25; //HTML values
 
     classList: any;
@@ -94,6 +95,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     ngOnInit() {
         this.schoolList = [];
         this.pageSize = [];
+        this.filterCol1 = [];
+        this.filterCol2 = [];
+        this.filterCol3 = [];
         this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
@@ -136,6 +140,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.longList = false;
         this.recordNotFound = false;
 
+        
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
