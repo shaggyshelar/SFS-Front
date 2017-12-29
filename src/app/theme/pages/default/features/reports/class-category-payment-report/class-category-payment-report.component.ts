@@ -47,9 +47,9 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     ascSortCol7: boolean;  //Sorting for Column7
     onSerchClick: boolean = false;
     onGridSearchKeyUp: boolean = false;
-    filterCol1: any;       //Filter1 values 
-    filterCol2: any;       //Filter2 values 
-    filterCol3: any;       //Filter2 values 
+    filterCol1: SelectItem[];       //Filter1 values 
+    filterCol2: SelectItem[];       //Filter2 values 
+    filterCol3: SelectItem[];       //Filter2 values 
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
