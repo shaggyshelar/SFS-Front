@@ -74,6 +74,14 @@ const routes: Routes = [
         "path": "features\/reports\/studentCategoryReports",
         "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
       },
+      {
+        "path": "features\/reports\/feeheadPaymentReports",
+        "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
+      },
+      {
+        "path": "features\/reports\/classCategoryPaymentReports",
+        "loadChildren": ".\/pages\/default\/features\/reports\/reports.module#ReportsModule"
+      },
       // {
       //   "path": "features\/masterManagement",
       //   "loadChildren": ".\/pages\/default\/features\/master_management\/master_management.module#MasterManagementModule"
@@ -130,9 +138,13 @@ const routes: Routes = [
         "path": "features\/adhocFee",
         "loadChildren": ".\/pages\/default\/features\/fees\/fee-adhoc\/fee-adhoc.module#AdhocFeeModule"
       },
-       {
+      {
         "path": "features\/transport",
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-transport\/fees-transport.module#TransportModule"
+      },
+      {
+        "path": "features\/audit",
+        "loadChildren": ".\/pages\/default\/features\/audit_trail\/audit.module#AuditModule"
       },
       {
         "path": "",

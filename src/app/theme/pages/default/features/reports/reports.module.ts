@@ -8,6 +8,8 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { StudentInvoiceReportComponent } from './student-invoice-report/student-invoice-report.component';
 import { StudentCategoryReportComponent } from './student-category-report/student-category-report.component';
+import { FeeheadPaymentReportComponent } from './feehead-payment-report/feehead-payment-report.component';
+import { ClassCategoryPaymentReportComponent } from './class-category-payment-report/class-category-payment-report.component';
 import { InvoiceService } from '../../../default/_services/invoice.service';
 import { ClassService } from '../../_services/class.service';
 import { FormatService } from '../../_services/tableToXls/format.service';
@@ -15,6 +17,7 @@ import { DataGridUtil } from '../../_services/tableToXls/datagrid.util';
 import { StudentService } from '../../_services/index';
 import { CategoriesService } from '../../_services/index';
 import {
+  MultiSelectModule,
   DataTableModule,
   SharedModule,
   ButtonModule,
@@ -48,6 +51,22 @@ const routes: Routes = [
             data: {
               //permissions: ['Student.Read']
             }
+          },
+          {
+            path: 'feeheadreport',
+            component: FeeheadPaymentReportComponent,
+            canActivate: [AuthGuard],
+            data: {
+              //permissions: ['Student.Read']
+            }
+          },
+          {
+            path: 'classcategoryreport',
+            component: ClassCategoryPaymentReportComponent,
+            canActivate: [AuthGuard],
+            data: {
+              //permissions: ['Student.Read']
+            }
           }
         ]
       }
@@ -62,6 +81,8 @@ const routes: Routes = [
     LayoutModule,
     FormsModule,
     // primeng modules
+    MultiSelectModule,
+    DataTableModule,
     SharedModule,
     ButtonModule,
     DropdownModule,
@@ -70,7 +91,9 @@ const routes: Routes = [
   ], declarations: [
     ReportsComponent,
     StudentInvoiceReportComponent,
-    StudentCategoryReportComponent
+    StudentCategoryReportComponent,
+    FeeheadPaymentReportComponent,
+    ClassCategoryPaymentReportComponent
   ],
   providers: [
     ConfirmationService,

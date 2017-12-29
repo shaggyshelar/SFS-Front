@@ -1,0 +1,119 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Reports
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Student
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Feehead Payment Report
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="row headerRowListing">
+				<div class="col-xl-12">
+					<h3 class="ListingHeading">
+						School List
+					</h3>
+					<!-- <button class="btn btn-info exportExcelBtn" (click)="exporttoCSV()" [disabled]="!longList"><i class="flaticon-download"></i> Export to Excel</button> -->
+				</div>
+			</div>
+		</div>
+		<div class="m-portlet__body">
+
+			<div class="">
+				<!--begin: Search Form -->
+				<div class="row staticSearchRow">
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label>Fee Head</label>
+							<p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
+							 name="feeHeadName" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="filterDropdown">
+							<label style="margin-top: 10px;">From<span class="requiredField">*</span></label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="filterDropdown">
+							<label style="margin-top: 10px;">To<span class="requiredField">*</span></label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label>Status</label>
+							<p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label></label>
+							<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+							Search
+						</button>
+						</div>
+					</div>
+				</div>
+
+				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="feeHeadName" exportFilename="class-category">
+					<p-header>Feehead Payment Report
+						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right"></button>
+					</p-header>
+					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['feeHeadName']}}</ng-template>
+
+					<p-column field="feeHeadName" header="Fee Head Name">
+						<ng-template let-col let-car="rowData" pTemplate="body">
+							<span></span>
+						</ng-template>
+					</p-column>
+					<p-column field="type" header="Type">
+					</p-column>
+					<p-column field="status" header="Status"></p-column>
+					<p-column field="amount" header="Amount" [style]="{'text-align': 'right'}"></p-column>
+					<ng-template pTemplate="rowgroupfooter" let-car>
+						<td colspan="3" style="text-align: right">Total</td>
+						<td style="text-align: right">{{calculateGroupTotal(car['feeHeadName'])}}</td>
+					</ng-template>
+				</p-dataTable>
+
+				<!--end: Datatable -->
+			</div>
+		</div>
+	</div>
+</div>
