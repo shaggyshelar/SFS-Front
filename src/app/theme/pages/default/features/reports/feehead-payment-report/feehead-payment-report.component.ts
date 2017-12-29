@@ -56,8 +56,8 @@ export class FeeheadPaymentReportComponent implements OnInit {
     filterQuery5: string;
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
-    filter1CountQuery: string;  //Count number of records for filter1CountQuery
-    filter2CountQuery: string;  //Count number of records for filter2CountQuery
+    filter1CountQuery: string;
+    filter2CountQuery: string;  
     filter3CountQuery: string;
     filter4CountQuery: string;
     filter5CountQuery: string;
@@ -94,9 +94,6 @@ export class FeeheadPaymentReportComponent implements OnInit {
     ngOnInit() {
         this.schoolList = [];
         this.pageSize = [];
-        this.filterCol1 = [];
-        this.filterCol2 = [];
-        this.filterCol3 = [];
         this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
@@ -144,7 +141,6 @@ export class FeeheadPaymentReportComponent implements OnInit {
         } else {
             //this.getDataCount('');
             //List of Classes
-            this.filterCol1 = [];
             let val = this.classService.getAllClasses();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -155,7 +151,6 @@ export class FeeheadPaymentReportComponent implements OnInit {
             });
 
             //List of Categories
-            this.filterCol2 = [];
             val = this.invoiceService.getFeeheadList();
             val.subscribe((response) => {
                 for (let key in response.result) {
@@ -166,7 +161,6 @@ export class FeeheadPaymentReportComponent implements OnInit {
             });
 
             //List of Status
-            this.filterCol3 = [];
             this.filterCol3 = [
                 { label: 'Created', value: 'Created' },
                 { label: 'Processed', value: 'Processed' },

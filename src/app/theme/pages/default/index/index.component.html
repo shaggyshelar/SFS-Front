@@ -41,7 +41,7 @@
 							For all students
 						</h5>
 						<span class="m-widget24__stats m--font-brand">
-							Rs. {{dashBoardDetails.dueAmount}}						</span>
+							Rs. {{dashBoardDetails.dueAmount | number}}						</span>
 						
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 							For all students
 						</h5>
 						<span class="m-widget24__stats m--font-info">
-							Rs.  {{dashBoardDetails.paidAmount}}	
+							Rs.  {{dashBoardDetails.paidAmount | number}}	
 						</span>
 					   
 					</div>
@@ -77,7 +77,7 @@
 							For current year
 						</h5>
 						<span class="m-widget24__stats m--font-danger">
-							{{dashBoardDetails.toatalStudnetCount}}	
+							{{dashBoardDetails.toatalStudnetCount | number}}	
 						</span>
 						
 					</div>
