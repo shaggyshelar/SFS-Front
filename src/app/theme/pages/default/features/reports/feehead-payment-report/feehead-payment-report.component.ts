@@ -92,6 +92,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.schoolList = [];
         this.pageSize = [];
         this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });

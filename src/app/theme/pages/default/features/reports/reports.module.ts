@@ -41,7 +41,7 @@ const routes: Routes = [
             component: StudentInvoiceReportComponent,
             canActivate: [AuthGuard],
             data: {
-              //permissions: ['Student.Read']
+              permissions: ['Vwinvoicereport.Read']
             }
           },
           {
@@ -49,7 +49,7 @@ const routes: Routes = [
             component: StudentCategoryReportComponent,
             canActivate: [AuthGuard],
             data: {
-              //permissions: ['Student.Read']
+              permissions: ['StudentCategoryReport.Read']
             }
           },
           {
@@ -57,7 +57,7 @@ const routes: Routes = [
             component: FeeheadPaymentReportComponent,
             canActivate: [AuthGuard],
             data: {
-              //permissions: ['Student.Read']
+              permissions: ['FeeHeadPaymentReport.Read']
             }
           },
           {
@@ -65,7 +65,7 @@ const routes: Routes = [
             component: ClassCategoryPaymentReportComponent,
             canActivate: [AuthGuard],
             data: {
-              //permissions: ['Student.Read']
+              permissions: ['CategoryClassPaymentReport.Read']
             }
           }
         ]

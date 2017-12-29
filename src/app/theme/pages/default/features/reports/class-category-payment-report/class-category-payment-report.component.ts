@@ -93,6 +93,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.schoolList = [];
         this.groupData = [];
         this.pageSize = [];
         this.pageSize.push({ label: '25', value: 25 });
