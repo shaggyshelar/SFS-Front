@@ -53,7 +53,7 @@
 			<div class="">
 				<!--begin: Search Form -->
 				<div class="row staticSearchRow">
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="filterDropdown">
 							<label>Fee Head</label>
 							<p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
@@ -62,12 +62,19 @@
 					</div>
 					<div class="col-md-3">
 						<div class="filterDropdown">
+							<label>Status</label>
+							<p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
 							<label style="margin-top: 10px;">From<span class="requiredField">*</span></label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<div class="filterDropdown">
 							<label style="margin-top: 10px;">To<span class="requiredField">*</span></label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
@@ -76,15 +83,8 @@
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
-							<label>Status</label>
-							<p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
-							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
-						</div>
-					</div>
-					<div class="col-md-2">
-						<div class="filterDropdown">
 							<label></label>
-							<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+							<button type="button" class="btn btn-primary" (click)="onSearchReport();" style="margin-top: 35px;">
 							Search
 						</button>
 						</div>
@@ -93,7 +93,7 @@
 
 				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="feeHeadName" exportFilename="class-category">
 					<p-header>Feehead Payment Report
-						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right"></button>
+						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;" *ngIf="schoolList.length > 0"></button>
 					</p-header>
 					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['feeHeadName']}}</ng-template>
 

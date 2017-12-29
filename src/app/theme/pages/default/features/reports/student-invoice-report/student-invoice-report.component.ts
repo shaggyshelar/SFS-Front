@@ -53,6 +53,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     ascSortCol2: boolean;  //Sorting for Column2
     ascSortCol3: boolean;  //Sorting for Column3
     ascSortCol4: boolean;  //Sorting for Column4
+    ascSortCol5: boolean;  //Sorting for Column5
 
     onSerchClick: boolean = false;
     onGridSearchKeyUp: boolean = false;
@@ -107,6 +108,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.ascSortCol2 = true;
             this.ascSortCol3 = true;
             this.ascSortCol4 = true;
+            this.ascSortCol5 = true;
             this.filterQuery = '';
             this.filterQuery1 = '';
             this.filterQuery2 = '';

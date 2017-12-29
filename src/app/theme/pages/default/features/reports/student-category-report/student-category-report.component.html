@@ -101,22 +101,32 @@
 										#
 									</th> -->
 									<th title="">
-										Gr.No.
+										<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">								
+ 										Gr.No.		
+ 									</a>
 									</th>
 									<th title="">
-										Student Code
+										<a href="" (click)="sort('studentCode',ascSortCol5 = !ascSortCol5)">							
+ 										Student Code		
+										</a>
 									</th>
 									<th title="">
-										Name
+										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">										
+ 										Name		
+ 									</a>
 									</th>
 									<th title="">
-										Category
+										<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">							
+											Category		
+ 									</a>
 									</th>
 									<th title="">
-										Class
+										<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">		 								
+ 										Class		
+										</a>
 									</th>
-									<th title="">
-										Division
+									<th title="">								
+ 										Division
 									</th>
 									<th title="">
 										Gender
@@ -177,20 +187,20 @@
 
 									<td>{{row.studentGender ? row.studentGender : ''}}</td>
 									<td>{{row.email ? row.email : ''}}</td>
-									<td>{{row.fatherFirstName  + " " + row.fatherLastName}}</td>
+									<td>{{row.fatherFirstName + " " + row.fatherLastName}}</td>
 									<td>{{row.fatherMobile ? row.fatherMobile : ''}}</td>
-									<td>{{row.motherFirstName  + " " + row.motherLastName}}</td>
+									<td>{{row.motherFirstName + " " + row.motherLastName}}</td>
 									<td>{{row.motherMobile ? row.motherMobile : ''}}</td>
-									<td>{{row.guardianFirstName  + " " + row.guardianLastName}}</td>
+									<td>{{row.guardianFirstName + " " + row.guardianLastName}}</td>
 									<td>{{row.guardianMobile ? row.guardianMobile : ''}}</td>
 									<td>{{row.academicYear ? row.academicYear : ''}}</td>
 									<td>{{row.city ? row.city : ''}}</td>
 									<td>{{row.state ? row.state : ''}}</td>
-									 <td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
-									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td> 
+									<td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
+									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td>
 									<td>{{row.phone ? row.phone : ''}}</td>
 									<td>{{row.bloodGroup ? row.bloodGroup : ''}}</td>
-									
+
 								</tr>
 							</tbody>
 							<tbody *ngIf="recordNotFound">
