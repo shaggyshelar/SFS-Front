@@ -43,13 +43,17 @@ export class IndexComponent implements OnInit, AfterViewInit {
         }
         else if (localStorage.getItem("schoolId") && localStorage.getItem("schoolId") != "null" && localStorage.getItem("schoolId") != "0")
           this.selectedSchoolId = parseInt(localStorage.getItem("schoolId"));
-        else
+        else if (this.schoolList.length > 0)
           this.selectedSchoolId = this.schoolList[0].value;
+
+        if (this.selectedSchoolId > 0)
+          this.onSchoolChange();
       },
       error => {
         Helpers.setLoading(true);
         this.globalErrorHandler.handleError(error);
       });
+
   }
   ngAfterViewInit() {
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
@@ -63,10 +67,10 @@ export class IndexComponent implements OnInit, AfterViewInit {
       results => {
         Helpers.setLoading(false);
 
-        if (results.length > 0) {
-          this.dashBoardDetails.dueAmount = results[0].dueAmount;
-          this.dashBoardDetails.paidAmount = results[0].paidAmount;
-          this.dashBoardDetails.toatalStudnetCount = results[0].toatalStudnetCount;
+        if (results.result.length > 0) {
+          this.dashBoardDetails.dueAmount = results.result[0].dueAmount;
+          this.dashBoardDetails.paidAmount = results.result[0].paidAmount;
+          this.dashBoardDetails.toatalStudnetCount = results.result[0].toatalStudnetCount;
         }
       },
       error => {
