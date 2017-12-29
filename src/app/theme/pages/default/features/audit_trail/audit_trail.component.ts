@@ -349,4 +349,101 @@ export class AuditTrailComponent implements OnInit {
     onSearchReport(){
         this.getrecordsByFilter();
     }
+    exporttoCSV() {
+        let exprtcsv: any[] = [];
+        let columns: any[] = [
+            {
+                display: 'Invoice No',
+                variable: 'invoiceNumber',
+                filter: 'text',
+            },
+            {
+                display: 'Date',
+                variable: 'dueDate',
+                filter: 'date'
+            },
+            {
+                display: 'Type',
+                variable: 'type',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'First Name',
+                variable: 'studentFirstName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Last Name',
+                variable: 'studentLastName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Student Code',
+                variable: 'studentCode',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Gr. No.',
+                variable: 'grNumber',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Class',
+                variable: 'className',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Division',
+                variable: 'divisionName',
+                filter: 'text'
+            }
+            ,
+            {
+                display: 'Fee Plan',
+                variable: 'feePlanName',
+                filter: 'text'
+            },
+            {
+                display: 'Status',
+                variable: 'status',
+                filter: 'text'
+            },
+            {
+                display: 'Amount',
+                variable: 'totalChargeAmount',
+                filter: 'text'
+            }
+
+        ];
+        let url = '?filter[limit]=' + this.total + '&filter[skip]=' + this.currentPos + this.sortUrl;
+        Helpers.setLoading(true);
+        this.commonService.getAllAudit(url).subscribe(
+            response => {
+                Helpers.setLoading(false);
+                let _tempList = response;
+                let exportFileName: string = "AuditTrailReport_";
+                (<any[]>JSON.parse(JSON.stringify(_tempList))).forEach(x => {
+                    var obj = new Object();
+                    var frmt = new FormatService();
+                    for (var i = 0; i < columns.length; i++) {
+                        let transfrmVal = frmt.transform(x[columns[i].variable], columns[i].filter);
+                        obj[columns[i].display] = transfrmVal;
+                    }
+                    exprtcsv.push(obj);
+                }
+                );
+                DataGridUtil.downloadcsv(exprtcsv, exportFileName);
+            },
+            error => {
+                Helpers.setLoading(false);
+                this.globalErrorHandler.handleError(error);
+            });
+
+    }
 }
