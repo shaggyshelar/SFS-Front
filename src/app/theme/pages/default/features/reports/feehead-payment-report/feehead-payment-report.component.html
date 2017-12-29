@@ -93,7 +93,7 @@
 
 				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="feeHeadName" exportFilename="class-category">
 					<p-header>Feehead Payment Report
-						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right"></button>
+						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;" *ngIf="schoolList.length > 0"></button>
 					</p-header>
 					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['feeHeadName']}}</ng-template>
 
