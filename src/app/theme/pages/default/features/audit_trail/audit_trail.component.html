@@ -1,0 +1,199 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Reports
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Audit
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Trail
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="row headerRowListing">
+				<div class="col-xl-12">
+					<h3 class="ListingHeading">
+						Audit List
+					</h3>
+					<button class="btn btn-info exportExcelBtn" (click)="exporttoCSV()" [disabled]="!longList">
+						<i class="flaticon-download"></i> Export to Excel</button>
+				</div>
+			</div>
+		</div>
+		<div class="m-portlet__body">
+
+			<div class="">
+				<!--begin: Search Form -->
+				<div class="row staticSearchRow">
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>From</label>
+						</div>
+						<div class="filterDropdown">
+							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="filterLabel">
+							<label>To</label>
+						</div>
+						<div class="filterDropdown">
+							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+							Search
+						</button>
+					</div>
+				</div>
+
+				<div class="table-responsive" *ngIf="longList">
+					<!--begin: Datatable -->
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<!-- <th title="Field #1">
+										#
+									</th> -->
+									<th title="">
+										<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">
+											Gr.No.
+										</a>
+									</th>
+									<th title="">
+										<a href="" (click)="sort('studentCode',ascSortCol5 = !ascSortCol5)">
+											Student Code
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
+											Name
+										</a>
+									</th>
+									<th title="">
+										<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">
+											Category
+										</a>
+									</th>
+									<th title="">
+										<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">
+											Class
+										</a>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor='let row of auditList'>
+									<!-- <td>{{row.id}}</td> -->
+									<td>{{row.gRNumber}}</td>
+									<td>{{row.studentCode}}</td>
+									<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
+									<td>{{row.StudentCategory ? row.StudentCategory.categoryName : ''}}</td>
+									<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
+									<td></td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="recordNotFound">
+								No Records Found...
+							</tbody>
+
+						</table>
+					</div>
+					<!-- Pagination -->
+					<div class="PaginationBox">
+
+						<div class="row">
+							<div class="col-md-6">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination">
+										<li [ngClass]="{'page-item' : true}" title="Go to First Page">
+											<a [ngClass]="{'page-link' : true, 'prev':true}" (click)="visitFirstPage()">
+												<i class="la la-angle-double-left leftIcon"></i>
+											</a>
+										</li>
+										<!-- <li class="page-item">
+																		<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="visitFirstPage()">
+																			<i class="fa fa-arrows leftIcon"></i>
+																		</a>
+																	</li> -->
+										<li class="page-item" title="Previous">
+											<a [ngClass]="{'disabled': prePageEnable ,'page-link' : true, 'prev':true}" (click)="morePreviousPages()">
+												<i class="la la-angle-left leftIcon"></i>
+											</a>
+										</li>
+										<li [ngClass]="{'cursorNone' : currentPageCheck(item), 'page-item' : true}" *ngFor="let item of arr">
+											<!-- <a my-link="false" [ngClass]="{'active' : true, 'page-link' : currentPageCheck(item)}" (click)="pageClick(item)">{{item}}</a> -->
+											<a my-link="false" [ngClass]="{'disabled' : currentPageCheck(item), 'active' : currentPageCheck(item), 'page-link' : true}"
+											 (click)="pageClick(item)">{{item}}</a>
+										</li>
+										<li class="page-item" title="Next">
+											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="moreNextPages()">
+												<i class="la la-angle-right rightIcon"></i>
+											</a>
+										</li>
+										<!-- <li class="page-item">
+																		<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="nextPage()">
+																			<i class="fa fa-arrows rightIcon"></i>
+																		</a>
+																	</li> -->
+										<li class="page-item" title="Go to Last Page">
+											<a [ngClass]="{'disabled': nextPageEnable ,'page-link' : true, 'next':true}" class="page-link next" (click)="visitLastPage()">
+												<i class="la la-angle-double-right rightIcon"></i>
+											</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+
+							<div class="col-md-6 showRecordsBox">
+								<div class="showRecordsLabel">
+									<label>Displaying {{firstPageNumber}} - {{lastPage}} of {{total}} records</label>
+								</div>
+								<div class="showRecordsDropdown">
+									<p-dropdown class="recordSelect" [style]="{'width':'100%'}" [(ngModel)]="selectedPageSize" [options]="pageSize" name="CategoryId"
+									 (ngModelChange)="pageSizeChanged(selectedPageSize)"></p-dropdown>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+				<!--end: Datatable -->
+			</div>
+		</div>
+	</div>
+</div>

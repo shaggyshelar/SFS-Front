@@ -8,7 +8,9 @@ import { AppSettings } from '../../../../app-settings';
 export class CommonService {
   constructor(private http: Http) {
   }
-
+  perPage: any = 25;
+  currentPos: any = 0;
+  currentPageNumber: any = 1;
   getGender() {
     let gender = ["Male", "Female", "Other"];
     return gender;
@@ -61,6 +63,13 @@ export class CommonService {
     let configurationKeys = [{ "keyName": "AggregatorId", "Name": "Aggregator ID", "keyValue": "" },
     { "keyName": "AggregatorKey", "Name": "Aggregator Key", "keyValue": "" }];
     return configurationKeys;
+  }
+
+  getAllAudit(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  getAuditCount(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }
