@@ -89,41 +89,39 @@
 										#
 									</th> -->
 									<th title="">
-										<a href="" (click)="sort('gRNumber',ascSortCol7 = !ascSortCol7)">
-											Gr.No.
-										</a>
+										School Name
 									</th>
 									<th title="">
-										<a href="" (click)="sort('studentCode',ascSortCol5 = !ascSortCol5)">
-											Student Code
-										</a>
+										Table Name
 									</th>
 									<th title="">
-										<a href="#" (click)="sort('studentFirstName',ascSortCol1 = !ascSortCol1)">
-											Name
-										</a>
+										Action
 									</th>
 									<th title="">
-										<a href="#" (click)="sort('categoryId',ascSortCol2 = !ascSortCol2)">
-											Category
-										</a>
+										Id
 									</th>
 									<th title="">
-										<a href="" (click)="sort('classId',ascSortCol3 = !ascSortCol3)">
-											Class
-										</a>
+										New
 									</th>
+									<th title="">
+										Old
+									</th>
+									<th title="">
+										Created On
+									</th>
+
 								</tr>
 							</thead>
 							<tbody>
 								<tr *ngFor='let row of auditList'>
 									<!-- <td>{{row.id}}</td> -->
-									<td>{{row.gRNumber}}</td>
-									<td>{{row.studentCode}}</td>
-									<td>{{row.studentFirstName + " " + row.studentLastName}}</td>
-									<td>{{row.StudentCategory ? row.StudentCategory.categoryName : ''}}</td>
-									<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
-									<td></td>
+									<td>{{row.schoolName}}</td>
+									<td>{{row.tableName}}</td>
+									<td>{{row.action}}</td>
+									<td>{{row.id}}</td>
+									<td>{{row.new}}</td>
+									<td>{{row.old}}</td>
+									<td>{{row.createdOn | date : 'dd-MM-yyyy'}}</td>
 								</tr>
 							</tbody>
 							<tbody *ngIf="recordNotFound">

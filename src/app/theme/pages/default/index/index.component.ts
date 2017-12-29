@@ -54,7 +54,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
           this.onSchoolChange();
       },
       error => {
-        Helpers.setLoading(true);
+        Helpers.setLoading(false);
         this.globalErrorHandler.handleError(error);
       });
 
@@ -66,6 +66,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
 
   onSchoolChange() {
+    Helpers.setLoading(true);
     this.userSchoolDetailsService.getDashboardDetails(this.selectedSchoolId)
       .subscribe(
       results => {
@@ -78,7 +79,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         }
       },
       error => {
-        Helpers.setLoading(true);
+        Helpers.setLoading(false);
         this.globalErrorHandler.handleError(error);
       });
   }
