@@ -46,9 +46,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     ascSortCol7: boolean;  //Sorting for Column7
     onSerchClick: boolean = false;
     onGridSearchKeyUp: boolean = false;
-    filterCol1: any;       //Filter1 values 
-    filterCol2: any;       //Filter2 values 
-    filterCol3: any; 
+    filterCol1: SelectItem[];       //Filter1 values 
+    filterCol2: SelectItem[];       //Filter2 values 
+    filterCol3: SelectItem[]; 
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
@@ -94,6 +94,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     ngOnInit() {
         this.schoolList = [];
         this.pageSize = [];
+        this.filterCol1 = [];
+        this.filterCol2 = [];
+        this.filterCol3 = [];
         this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
