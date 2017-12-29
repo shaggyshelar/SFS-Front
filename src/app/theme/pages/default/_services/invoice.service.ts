@@ -52,6 +52,15 @@ export class InvoiceService {
     return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/invoiceReports/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
+  getAllCategoryClassPaymentReport(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'CategoryClassPaymentReports/getCategoryClassPaymentReport?schoolId=' + localStorage.getItem("schoolId") + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  getFeeheadPaymentReport(url) {
+    return this.http.get(AppSettings.API_ENDPOINT + 'FeeHeadPaymentReports/getFeeheadPaymentReport?schoolId=' + localStorage.getItem("schoolId") + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
+  getFeeheadList() {
+    return this.http.get(AppSettings.API_ENDPOINT + 'FeeHeadPaymentReports/getFeeheadListReport?schoolId=' + localStorage.getItem("schoolId"), AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
   updateInvoice(invoice: any) {
     return this.http.patch(AppSettings.API_ENDPOINT + 'invoices/' + invoice.id, invoice, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
