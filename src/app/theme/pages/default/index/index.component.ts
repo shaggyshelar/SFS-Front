@@ -14,6 +14,8 @@ import * as _ from 'lodash/index';
 })
 export class IndexComponent implements OnInit, AfterViewInit {
   selectedSchoolId: number;
+  superAdmin: any;
+  selectSchool: boolean = true;
   dashBoardDetails = {
     "dueAmount": 0,
     "paidAmount": 0,
@@ -26,7 +28,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.selectedSchoolId = 0;
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let _superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
+    this.superAdmin = _.find(currentUser.roles, { 'name': 'SuperAdmin' });
     Helpers.setLoading(true);
     this.userSchoolDetailsService.getSchoolsByUser(currentUser.userId)
       .subscribe(
@@ -38,11 +40,13 @@ export class IndexComponent implements OnInit, AfterViewInit {
             this.schoolList.push({ label: results[key].UserschoolSchool.schoolName, value: results[key].UserschoolSchool.id });
           }
         }
-        if (!_superAdmin && (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0")) {
+        if (!this.superAdmin && (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0")) {
           this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         }
-        else if (localStorage.getItem("schoolId") && localStorage.getItem("schoolId") != "null" && localStorage.getItem("schoolId") != "0")
+        else if (localStorage.getItem("schoolId") && localStorage.getItem("schoolId") != "null" && localStorage.getItem("schoolId") != "0") {
           this.selectedSchoolId = parseInt(localStorage.getItem("schoolId"));
+          this.selectSchool = false;
+        }
         else if (this.schoolList.length > 0)
           this.selectedSchoolId = this.schoolList[0].value;
 
