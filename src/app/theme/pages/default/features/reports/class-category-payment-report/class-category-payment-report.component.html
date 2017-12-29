@@ -116,7 +116,7 @@
 					<p-header>Class/Category Payment Report
 						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;" *ngIf="schoolList.length > 0"></button>
 					</p-header>
-					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['categoryName']}}</ng-template>
+					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData["categoryName"]}}</ng-template>
 
 					<p-column field="categoryName" header="Category">
 						<ng-template let-col let-car="rowData" pTemplate="body">
@@ -129,7 +129,7 @@
 					<p-column field="amount" header="Amount"></p-column>
 					<ng-template pTemplate="rowgroupfooter" let-car>
 						<td colspan="3">Total</td>
-						<td style="text-align: right">{{calculateGroupTotal(car['categoryid']) }}</td>
+						<td style="text-align: right">{{calculateGroupTotal(car["categoryid"]) }}</td>
 					</ng-template>
 				</p-dataTable>
 

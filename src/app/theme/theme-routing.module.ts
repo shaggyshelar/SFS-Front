@@ -142,10 +142,10 @@ const routes: Routes = [
         "path": "features\/transport",
         "loadChildren": ".\/pages\/default\/features\/fees\/fees-transport\/fees-transport.module#TransportModule"
       },
-      // {
-      //   "path": "features\/audit",
-      //   "loadChildren": ".\/pages\/default\/features\/audit_trail\/audit.module#AuditModule"
-      // },
+      {
+        "path": "features\/audit",
+        "loadChildren": ".\/pages\/default\/features\/audit_trail\/audit.module#AuditModule"
+      },
       {
         "path": "",
         "redirectTo": "index",

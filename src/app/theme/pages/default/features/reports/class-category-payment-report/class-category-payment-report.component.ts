@@ -96,6 +96,9 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.schoolList = [];
         this.groupData = [];
         this.pageSize = [];
+        this.filterCol1 = [];
+        this.filterCol2 = [];
+        this.filterCol3 = [];
         this.pageSize.push({ label: '25', value: 25 });
         this.pageSize.push({ label: '50', value: 50 });
         this.pageSize.push({ label: '100', value: 100 });
@@ -167,11 +170,11 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
             //List of Status
             this.filterCol3 = [];
             this.filterCol3 = [
-                { label: 'Created', value: 'Created' },
-                { label: 'Processed', value: 'Processed' },
-                { label: 'Paid', value: 'Paid' },
-                { label: 'Settled', value: 'Settled' },
-                { label: 'Closed', value: 'Closed' }
+                { label: "Created", value: "Created" },
+                { label:"Processed", value: "Processed" },
+                { label:"Paid", value: "Paid" },
+                { label:"Settled", value: "Settled" },
+                { label:"Closed", value: "Closed" }
             ];
         }
     }

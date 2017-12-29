@@ -89,7 +89,7 @@ export class AuditTrailComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.longList = true;
             //this.getAllBoards();
-            this.getDataCount('');
+            //this.getDataCount('');
         }
         //Page Size Array
         this.pageSize = [];
@@ -115,11 +115,11 @@ export class AuditTrailComponent implements OnInit {
 
     getAllAudit() {
         Helpers.setLoading(true);
-        this.getUrl();
+        //this.getUrl();
         this.commonService.getAllAudit(this.url).subscribe(
             response => {
-                this.auditList = response;
-                this.longList = response.length > 0 ? true : false;
+                this.auditList = response.result;
+                this.longList = response.result.length > 0 ? true : false;
                 if (!this.longList) {
                     this.firstPageNumber = 0;
                 }
@@ -133,19 +133,29 @@ export class AuditTrailComponent implements OnInit {
     setStartDate(value) {
         if (value) {
             this.startDate = value;
-            if (this.endDate && (this.startDate > this.endDate)) {
-                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
-            }
+            this.filter1CountQuery = '&[where][and][0][dueDate][gt] =' + new Date(this.startDate).toISOString();
+        } else {
+            this.filter1CountQuery = '';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
     }
 
     setEndDate(value) {
         if (value) {
             this.endDate = value;
-            if (this.startDate && (this.startDate > this.endDate)) {
-                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'End Date should be greater than Start Date' });
-            }
+            this.filter2CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate.setHours(22)).toISOString();
+        } else {
+            this.filter2CountQuery = '';
         }
+        this.currentPos = 0;
+        this.currentPageNumber = 1;
+        this.boundryStart = 1;
+        this.boundry = 3;
+        this.boundryEnd = this.boundry;
     }
     /*Pagination Function's Starts*/
 
@@ -346,8 +356,19 @@ export class AuditTrailComponent implements OnInit {
     }
     /* Counting Number of records ends*/
 
-    onSearchReport(){
-        this.getrecordsByFilter();
+    onSearchReport() {
+        if (this.startDate && this.endDate) {
+            if (this.startDate < this.endDate) {
+                let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString()  + this.sortUrl + this.searchQuery;
+                this.getAllAudit();
+                this.getQueryDataCount();
+            } else {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
+            }
+        } else {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select start date and end date' });
+        }
     }
     exporttoCSV() {
         let exprtcsv: any[] = [];
