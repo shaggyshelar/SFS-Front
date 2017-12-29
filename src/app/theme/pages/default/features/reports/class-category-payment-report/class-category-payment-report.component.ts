@@ -49,7 +49,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     onGridSearchKeyUp: boolean = false;
     filterCol1: SelectItem[];       //Filter1 values 
     filterCol2: SelectItem[];       //Filter2 values 
-    filterCol3: SelectItem[];       //Filter2 values 
+    filterCol3: SelectItem[]; 
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
@@ -74,9 +74,9 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     startDate: Date;
     endDate: Date;
     status: string = '';
-    filterValue1: string; //HTML values
-    filterValue2: string; //HTML values
-    searchValue: string; //HTML values
+    filterValue1:any[]; //HTML values
+    filterValue2: any[]; //HTML values
+    searchValue: any[]; //HTML values
     selectedPageSize: number = 25; //HTML values
 
     classList: any;
@@ -146,7 +146,6 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         } else {
             //this.getDataCount('');
             //List of Classes
-            this.filterCol1 = [];
             let val = this.classService.getAllClasses();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -157,7 +156,6 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
             });
 
             //List of Categories
-            this.filterCol2 = [];
             val = this.categoriesService.getAllCategories();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -168,7 +166,6 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
             });
 
             //List of Status
-            this.filterCol3 = [];
             this.filterCol3 = [
                 { label: "Created", value: "Created" },
                 { label:"Processed", value: "Processed" },
