@@ -66,7 +66,8 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     localStorage.removeItem('schoolHeader');
     this.schoolHeader = "School Fee System";
     this.logoUrl = "./assets/img/phiLogo.png";
-    this._router.navigate(['/']);
+    window.location.href = '/'
+    // this._router.navigate(['/']);
   }
 
 }

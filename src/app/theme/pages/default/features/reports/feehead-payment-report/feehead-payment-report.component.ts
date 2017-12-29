@@ -81,7 +81,6 @@ export class FeeheadPaymentReportComponent implements OnInit {
 
     classList: any;
     categoryList: any;
-    @ViewChild('fileupload')
     myInputVariable: any;
 
     myFile: any;
