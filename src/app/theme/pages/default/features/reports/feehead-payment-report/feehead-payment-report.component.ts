@@ -47,9 +47,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     ascSortCol7: boolean;  //Sorting for Column7
     onSerchClick: boolean = false;
     onGridSearchKeyUp: boolean = false;
-    filterCol1: SelectItem[];       //Filter1 values 
-    filterCol2: SelectItem[];       //Filter2 values 
-    filterCol3: SelectItem[]; 
+    filterCol1: any;       //Filter1 values 
+    filterCol2: any;       //Filter2 values 
+    filterCol3: any; 
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
@@ -74,9 +74,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
     startDate: Date;
     endDate: Date;
     status: string = '';
-    filterValue1:any[]; //HTML values
-    filterValue2: any[]; //HTML values
-    searchValue: any[]; //HTML values
+    filterValue1:any; //HTML values
+    filterValue2: any; //HTML values
+    searchValue: any; //HTML values
     selectedPageSize: number = 25; //HTML values
 
     classList: any;
@@ -146,6 +146,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
         } else {
             //this.getDataCount('');
             //List of Classes
+            this.filterCol1.push({ label: "All", value: "Select" });
             let val = this.classService.getAllClasses();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -156,6 +157,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
             });
 
             //List of Categories
+            this.filterCol2.push({ label: "All", value: "Select" });
             val = this.invoiceService.getFeeheadList();
             val.subscribe((response) => {
                 for (let key in response.result) {
@@ -167,6 +169,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
 
             //List of Status
             this.filterCol3 = [
+                { label: "All", value: "Select" },
                 { label: 'Created', value: 'Created' },
                 { label: 'Processed', value: 'Processed' },
                 { label: 'Paid', value: 'Paid' },
@@ -365,7 +368,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     }
 
     filterByValue() {
-        if (this.filterValue1.length === 0) {
+        if (this.filterValue1 === 'Select') {
             this.filterQuery = '';
             this.filter1CountQuery = '';
         } else {
@@ -382,7 +385,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     }
 
     filterByValue2() {
-        if (this.filterValue2.length === 0) {
+        if (this.filterValue2 === 'Select') {
             this.filterQuery2 = '';
             this.filter2CountQuery = '';
         } else {
@@ -450,7 +453,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
-        if (this.status.length === 0 ) {
+        if (this.status=== 'Select' ) {
             this.filterQuery5 = '';
             this.filter5CountQuery = '';
         } else {

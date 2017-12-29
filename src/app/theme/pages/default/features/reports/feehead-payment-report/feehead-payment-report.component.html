@@ -56,15 +56,19 @@
 					<div class="col-md-3">
 						<div class="filterDropdown">
 							<label>Fee Head</label>
-							<p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
-							 name="feeHeadName" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
+							<p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
+							 name="feeHeadName"></p-dropdown> 
+							<!-- <p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
+							 name="feeHeadName" defaultLabel="All" maxSelectedLabels=1></p-multiSelect> -->
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="filterDropdown">
 							<label>Status</label>
-							<p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
-							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect>
+							<!-- <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect> -->
+							  <p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl"></p-dropdown> 
 						</div>
 					</div>
 					<div class="col-md-2">

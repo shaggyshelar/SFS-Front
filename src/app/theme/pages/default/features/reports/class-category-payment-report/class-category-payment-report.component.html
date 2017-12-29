@@ -58,8 +58,8 @@
 							<label>Class</label>
 						</div>
 						<div class="filterDropdown">
-							<!-- <p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue()"
-							 name="instituteId"></p-dropdown> -->
+							 <p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue()"
+							 name="instituteId"></p-dropdown> 
 							   <!-- <p-multiSelect [options]="filterCol1" [(ngModel)]="filterValue1" [style]="{'width':'100%'}" (ngModelChange)="filterByValue()"
 								name="instituteId" defaultLabel="All" maxSelectedLabels = 1></p-multiSelect>  -->
 						</div>
@@ -69,8 +69,8 @@
 							<label>Category</label>
 						</div>
 						<div class="filterDropdown">
-							<!-- <p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
-							 name="university"></p-dropdown> -->
+							 <p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
+							 name="university"></p-dropdown> 
 							   <!-- <p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
 								name="university" defaultLabel="All" maxSelectedLabels = 1></p-multiSelect>  -->
 						</div>
@@ -100,8 +100,10 @@
 							<label>Status</label>
 						</div>
 						<div class="filterDropdown">
-							 <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
-								name="statusddl" defaultLabel="All" maxSelectedLabels = 1></p-multiSelect> 
+							<p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl"></p-dropdown> 
+							 <!-- <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
+								name="statusddl" defaultLabel="All" maxSelectedLabels = 1></p-multiSelect>  -->
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -128,7 +130,7 @@
 					<p-column field="status" header="Status"></p-column>
 					<p-column field="amount" header="Amount"></p-column>
 					<ng-template pTemplate="rowgroupfooter" let-car>
-						<td colspan="3">Total</td>
+						<td colspan="3" style="text-align: right">Total</td>
 						<td style="text-align: right">{{calculateGroupTotal(car["categoryid"]) }}</td>
 					</ng-template>
 				</p-dataTable>
