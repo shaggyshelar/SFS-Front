@@ -66,10 +66,10 @@ export class CommonService {
   }
 
   getAllAudit(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Vwauditlogs/' + localStorage.getItem('schoolId') + '/getAuditDetails/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
   getAuditCount(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem('schoolId') + '/Adhocfees/count' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Vwauditlogs/' + localStorage.getItem('schoolId') + '/getAuditDetailsCount' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
 }
