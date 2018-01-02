@@ -49,7 +49,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     onGridSearchKeyUp: boolean = false;
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
-    filterCol3: any; 
+    filterCol3: any;
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
@@ -74,7 +74,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
     startDate: Date;
     endDate: Date;
     status: string = '';
-    filterValue1:any; //HTML values
+    filterValue1: any; //HTML values
     filterValue2: any; //HTML values
     searchValue: any; //HTML values
     selectedPageSize: number = 25; //HTML values
@@ -146,7 +146,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         } else {
             //this.getDataCount('');
             //List of Classes
-            this.filterCol1.push({ label: "All", value: "Select" });
+            this.filterCol1.push({ label: "All", value: "All" });
             let val = this.classService.getAllClasses();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -154,10 +154,13 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
                         this.filterCol1.push({ label: response[key].className, value: response[key].id });
                     }
                 }
+                _.forEach(this.filterCol1, function (listItem) {
+                    listItem.selected = true;
+                });
             });
 
             //List of Categories
-            this.filterCol2.push({ label: "All", value: "Select" });
+            this.filterCol2.push({ label: "All", value: "All" });
             val = this.categoriesService.getAllCategories();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -165,17 +168,49 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
                         this.filterCol2.push({ label: response[key].categoryName, value: response[key].id });
                     }
                 }
+                _.forEach(this.filterCol2, function (listItem) {
+                    listItem.selected = true;
+                });
             });
 
             //List of Status
             this.filterCol3 = [
-                { label: "All", value: "Select" },
+                { label: "All", value: "All" },
                 { label: "Created", value: "Created" },
-                { label:"Processed", value: "Processed" },
-                { label:"Paid", value: "Paid" },
-                { label:"Settled", value: "Settled" },
-                { label:"Closed", value: "Closed" }
+                { label: "Processed", value: "Processed" },
+                { label: "Paid", value: "Paid" },
+                { label: "Settled", value: "Settled" },
+                { label: "Closed", value: "Closed" }
             ];
+            _.forEach(this.filterCol3, function (listItem) {
+                listItem.selected = true;
+            });
+
+        }
+
+    }
+
+    checkSelected(item: any, itemList: any) {
+        if (item.value == 'All') {
+            if (item.selected) {
+                _.forEach(itemList, function (listItem) {
+                    listItem.selected = true;
+                });
+            }
+            else {
+                _.forEach(itemList, function (listItem) {
+                    listItem.selected = false;
+                });
+            }
+        }
+        else {
+            if (itemList.length > 0)
+                itemList[0].selected = true;
+
+            _.forEach(itemList, function (listItem) {
+                if (listItem.selected == false)
+                    itemList[0].selected = false;
+            });
         }
     }
 
@@ -367,14 +402,28 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         //this.getAllSchools();
     }
 
-    filterByValue() {
-        if (this.filterValue1 === 'Select') {
-            this.filterQuery = '';
-            this.filter1CountQuery = '';
-        } else {
+    filterByClass() {
+        // if (this.filterValue1 === 'Select') {
+        //     this.filterQuery = '';
+        //     this.filter1CountQuery = '';
+        // } else {
+
+        let vm = this;
+        vm.filterValue1 = '';
+        let allSelected = false;
+        this.filterCol1.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.filterValue1 = vm.filterValue1 + element.value + ',';
+        });
+        if (vm.filterValue1 != '') {
+            vm.filterValue1 = vm.filterValue1.substr(0, vm.filterValue1.length - 1);
             this.filterQuery = '&classIds=' + this.filterValue1;
             this.filter1CountQuery = '&where[classId] =' + this.filterValue1;
         }
+
+        //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -384,14 +433,26 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         //this.getQueryDataCount();
     }
 
-    filterByValue2() {
-        if (this.filterValue2 === 'Select') {
-            this.filterQuery2 = '';
-            this.filter2CountQuery = '';
-        } else {
+    filterByCategory() {
+        // if (this.filterValue2 === 'Select') {
+        //     this.filterQuery2 = '';
+        //     this.filter2CountQuery = '';
+        // } else {
+        let vm = this;
+        vm.filterValue2 = '';
+        let allSelected = false;
+        this.filterCol2.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.filterValue2 = vm.filterValue2 + element.value + ',';
+        });
+        if (vm.filterValue2 != '') {
+            vm.filterValue2 = vm.filterValue2.substr(0, vm.filterValue2.length - 1);
             this.filterQuery2 = '&categoryIds=' + this.filterValue2;
             this.filter2CountQuery = '&where[categoryId] =' + this.filterValue2;
         }
+        //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -453,10 +514,17 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
-        if (this.status === 'Select') {
-            this.filterQuery5 = '';
-            this.filter5CountQuery = '';
-        } else {
+        let vm = this;
+        vm.status = '';
+        let allSelected = false;
+        this.filterCol3.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.status = vm.status + element.value + ',';
+        });
+        if (vm.status != '') {
+            vm.status = vm.status.substr(0, vm.status.length - 1);
             this.filterQuery5 = '&statuses=' + this.status;
             this.filter5CountQuery = '&where[status] =' + this.status;
         }
@@ -467,6 +535,9 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onSearchReport() {
+        this.filterByClass();
+        this.filterByCategory();
+        this.onFilterByStatus();
         if (this.startDate && this.endDate) {
             if (this.startDate < this.endDate) {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
