@@ -409,7 +409,9 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         // } else {
 
         let vm = this;
+        this.filterQuery ='';
         vm.filterValue1 = '';
+        this.filter1CountQuery ='';
         let allSelected = false;
         this.filterCol1.forEach(function (element) {
             if (element.selected && element.value == 'All')
@@ -438,6 +440,8 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         //     this.filterQuery2 = '';
         //     this.filter2CountQuery = '';
         // } else {
+            this.filterQuery2 ='';
+            this.filter2CountQuery ='';
         let vm = this;
         vm.filterValue2 = '';
         let allSelected = false;
@@ -514,6 +518,8 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
+        this.filterQuery5 ='';
+        this.filter5CountQuery = '';
         let vm = this;
         vm.status = '';
         let allSelected = false;
