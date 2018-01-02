@@ -176,7 +176,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
             //List of Status
             this.filterCol3 = [
                 { label: "All", value: "All" },
-                { label: "Created", value: "Created" },
+                // { label: "Created", value: "Created" },
                 { label: "Processed", value: "Processed" },
                 { label: "Paid", value: "Paid" },
                 { label: "Settled", value: "Settled" },
