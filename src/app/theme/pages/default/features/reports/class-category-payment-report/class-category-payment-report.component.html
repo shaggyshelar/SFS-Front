@@ -57,7 +57,7 @@
 						<div class="filterLabel">
 							<label>Class</label>
 						</div>
-						<div class="filterDropdown">
+						<div class="filterDropdown filterDropdownMultiselect">
 							
 							<!-- <p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue()"
 							 name="instituteId"></p-dropdown> -->
@@ -74,7 +74,7 @@
 						<div class="filterLabel">
 							<label>Category</label>
 						</div>
-						<div class="filterDropdown">
+						<div class="filterDropdown filterDropdownMultiselect">
 							<!-- <p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
 							 name="university"></p-dropdown> -->
 							 <ul>
@@ -88,33 +88,9 @@
 					</div>
 					<div class="col-md-3">
 						<div class="filterLabel">
-							<label style="margin-top: 10px;">From
-								<span class="requiredField">*</span>
-							</label>
-						</div>
-						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label style="margin-top: 10px;">To
-								<span class="requiredField">*</span>
-							</label>
-						</div>
-						<div class="filterDropdown">
-							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
-							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
-						</div>
-					</div>
-				</div>
-				<div class="row staticSearchRow">
-					<div class="col-md-3">
-						<div class="filterLabel">
 							<label>Status</label>
 						</div>
-						<div class="filterDropdown">
+						<div class="filterDropdown filterDropdownMultiselect">
 							<!-- <p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
 							 name="statusddl"></p-dropdown>  -->
 							<!-- <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
@@ -126,8 +102,35 @@
 							</ul>
 						</div>
 					</div>
+					
+				</div>
+				<div class="row staticSearchRow">
+
 					<div class="col-md-2">
-						<button type="button" class="btn btn-primary" (click)="onSearchReport();">
+						<div class="">
+							<label style="margin-top: 10px;">From
+								<span class="requiredField">*</span>
+							</label>
+						</div>
+						<div class="filterDropdown filterDropdownFrom" style="padding-left: 0;">
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="">
+							<label style="margin-top: 10px;">To
+								<span class="requiredField">*</span>
+							</label>
+						</div>
+						<div class="filterDropdown filterDropdownTo" style="padding-left: 0;">
+							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
+						</div>
+					</div>
+					
+					<div class="col-md-2" style="padding-top: 39px;">
+						<button type="button" class="btn btn-primary btn-sm" (click)="onSearchReport();">
 							Search
 						</button>
 					</div>
