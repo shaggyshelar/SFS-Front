@@ -175,7 +175,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
             //List of Status
             this.filterCol3 = [
                 { label: "All", value: "All" },
-                // { label: 'Created', value: 'Created' },
+                { label: 'Created', value: 'Created' },
                 { label: 'Processed', value: 'Processed' },
                 { label: 'Paid', value: 'Paid' },
                 { label: 'Settled', value: 'Settled' },
@@ -435,9 +435,9 @@ export class FeeheadPaymentReportComponent implements OnInit {
         let allSelected = false;
         this.filterCol2.forEach(function (element) {
             if (element.selected && element.value == 'All')
-            allSelected = true;
-        else if (element.selected && element.value != 'All' && !allSelected)
-            vm.filterValue2 = vm.filterValue2 + element.value + ',';
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.filterValue2 = vm.filterValue2 + element.value + ',';
         });
 
         this.filterQuery2 = '&feeHeadNames=' + this.filterValue2;
@@ -504,13 +504,18 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
-        if (this.status === 'Select') {
-            this.filterQuery5 = '';
-            this.filter5CountQuery = '';
-        } else {
-            this.filterQuery5 = '&statuses=' + this.status;
-            this.filter5CountQuery = '&where[status] =' + this.status;
-        }
+        let vm = this;
+        vm.status = '';
+        let allSelected = false;
+        this.filterCol3.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.status = vm.status + element.value + ',';
+        });
+        this.filterQuery5 = '&statuses=' + this.status;
+        this.filter5CountQuery = '&where[status] =' + this.status;
+
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -518,6 +523,8 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onSearchReport() {
+        this.onFilterByStatus();
+        this.filterByValue2();
         if (this.startDate && this.endDate) {
             if (this.startDate < this.endDate) {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;

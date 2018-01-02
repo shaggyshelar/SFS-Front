@@ -137,7 +137,7 @@
 				</div>
 
 
-				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="categoryid" exportFilename="class-category">
+				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="categoryid" exportFilename="class-category" [rows]="100"  [pageLinks]="3" [rowsPerPageOptions]="[100,200,300]">
 					<p-header>Class/Category Payment Report
 						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;"
 						 *ngIf="schoolList.length > 0"></button>
