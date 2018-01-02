@@ -54,8 +54,11 @@
 				<!--begin: Search Form -->
 				<div class="row staticSearchRow">
 					<div class="col-md-3">
-						<div class="filterDropdown">
+						<div class="filterLabel">
 							<label>Fee Head</label>
+						</div>
+						<div class="filterDropdown filterDropdownMultiselect" style="width: 50%;">
+							
 							<!-- <p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
 							 name="feeHeadName"></p-dropdown> -->
 							<!-- <p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
@@ -68,8 +71,10 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<div class="filterDropdown">
+						<div class="filterLabel">
 							<label>Status</label>
+						</div>
+						<div class="filterDropdown filterDropdownMultiselect">							
 							<!-- <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
 							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect> -->
 							<!-- <p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
@@ -83,7 +88,7 @@
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
-							<label style="margin-top: 10px;">From
+							<label>From
 								<span class="requiredField">*</span>
 							</label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
@@ -92,7 +97,7 @@
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
-							<label style="margin-top: 10px;">To
+							<label>To
 								<span class="requiredField">*</span>
 							</label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
@@ -102,7 +107,7 @@
 					<div class="col-md-2">
 						<div class="filterDropdown">
 							<label></label>
-							<button type="button" class="btn btn-primary" (click)="onSearchReport();" style="margin-top: 35px;">
+							<button type="button" class="btn btn-primary btn-sm" (click)="onSearchReport();" style="margin-top: 29px;">
 								Search
 							</button>
 						</div>
