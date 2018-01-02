@@ -56,10 +56,15 @@
 					<div class="col-md-3">
 						<div class="filterDropdown">
 							<label>Fee Head</label>
-							<p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
-							 name="feeHeadName"></p-dropdown> 
+							<!-- <p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2()"
+							 name="feeHeadName"></p-dropdown> -->
 							<!-- <p-multiSelect [options]="filterCol2" [(ngModel)]="filterValue2" [style]="{'width':'100%'}" (ngModelChange)="filterByValue2()"
 							 name="feeHeadName" defaultLabel="All" maxSelectedLabels=1></p-multiSelect> -->
+							<ul>
+								<li *ngFor="let n of filterCol2">
+									<input type="checkbox" [(ngModel)]="n.selected" (change)="checkSelected(n,filterCol2);"> {{n.label}}
+								</li>
+							</ul>
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -67,20 +72,29 @@
 							<label>Status</label>
 							<!-- <p-multiSelect [options]="filterCol3" [(ngModel)]="status" [style]="{'width':'100%'}" (ngModelChange)="onFilterByStatus()"
 							 name="statusddl" defaultLabel="All" maxSelectedLabels=1></p-multiSelect> -->
-							  <p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
-							 name="statusddl"></p-dropdown> 
+							<!-- <p-dropdown class="" [options]="filterCol3" [style]="{'width':'100%'}" [(ngModel)]="status" (ngModelChange)="onFilterByStatus()"
+							 name="statusddl"></p-dropdown>  -->
+							<ul>
+								<li *ngFor="let n of filterCol3">
+									<input type="checkbox" [(ngModel)]="n.selected" (change)="checkSelected(n,filterCol3);"> {{n.label}}
+								</li>
+							</ul>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
-							<label style="margin-top: 10px;">From<span class="requiredField">*</span></label>
+							<label style="margin-top: 10px;">From
+								<span class="requiredField">*</span>
+							</label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
-							<label style="margin-top: 10px;">To<span class="requiredField">*</span></label>
+							<label style="margin-top: 10px;">To
+								<span class="requiredField">*</span>
+							</label>
 							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
 						</div>
@@ -89,15 +103,16 @@
 						<div class="filterDropdown">
 							<label></label>
 							<button type="button" class="btn btn-primary" (click)="onSearchReport();" style="margin-top: 35px;">
-							Search
-						</button>
+								Search
+							</button>
 						</div>
 					</div>
 				</div>
 
 				<p-dataTable #dt [value]="schoolList" rowGroupMode="subheader" groupField="feeHeadName" exportFilename="class-category">
 					<p-header>Feehead Payment Report
-						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;" *ngIf="schoolList.length > 0"></button>
+						<button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right;margin-top: -7px;"
+						 *ngIf="schoolList.length > 0"></button>
 					</p-header>
 					<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['feeHeadName']}}</ng-template>
 

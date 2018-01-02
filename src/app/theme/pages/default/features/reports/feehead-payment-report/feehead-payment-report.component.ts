@@ -19,6 +19,7 @@ import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
 import { Student } from "../../../_models/student";
 import { StudentService } from '../../../_services/student.service';
 import { CategoriesService } from '../../../_services/categories.service';
+import * as _ from 'lodash/index';
 @Component({
     selector: "app-feehead-payment-report-list",
     templateUrl: "./feehead-payment-report.component.html",
@@ -49,7 +50,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     onGridSearchKeyUp: boolean = false;
     filterCol1: any;       //Filter1 values 
     filterCol2: any;       //Filter2 values 
-    filterCol3: any; 
+    filterCol3: any;
     filterQuery: string;   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     filterQuery3: string;
@@ -58,7 +59,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
     filter1CountQuery: string;
-    filter2CountQuery: string;  
+    filter2CountQuery: string;
     filter3CountQuery: string;
     filter4CountQuery: string;
     filter5CountQuery: string;
@@ -74,7 +75,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
     startDate: Date;
     endDate: Date;
     status: string = '';
-    filterValue1:any; //HTML values
+    filterValue1: any; //HTML values
     filterValue2: any; //HTML values
     searchValue: any; //HTML values
     selectedPageSize: number = 25; //HTML values
@@ -139,13 +140,13 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.longList = false;
         this.recordNotFound = false;
 
-        
+
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
             //this.getDataCount('');
             //List of Classes
-            this.filterCol1.push({ label: "All", value: "Select" });
+            this.filterCol1.push({ label: "All", value: "All" });
             let val = this.classService.getAllClasses();
             val.subscribe((response) => {
                 for (let key in response) {
@@ -154,9 +155,11 @@ export class FeeheadPaymentReportComponent implements OnInit {
                     }
                 }
             });
-
+            _.forEach(this.filterCol1, function (listItem) {
+                listItem.selected = true;
+            });
             //List of Categories
-            this.filterCol2.push({ label: "All", value: "Select" });
+            this.filterCol2.push({ label: "All", value: "All" });
             val = this.invoiceService.getFeeheadList();
             val.subscribe((response) => {
                 for (let key in response.result) {
@@ -164,17 +167,23 @@ export class FeeheadPaymentReportComponent implements OnInit {
                         this.filterCol2.push({ label: response.result[key].feeHeadName, value: response.result[key].feeHeadName });
                     }
                 }
+                _.forEach(this.filterCol2, function (listItem) {
+                    listItem.selected = true;
+                });
             });
 
             //List of Status
             this.filterCol3 = [
-                { label: "All", value: "Select" },
+                { label: "All", value: "All" },
                 { label: 'Created', value: 'Created' },
                 { label: 'Processed', value: 'Processed' },
                 { label: 'Paid', value: 'Paid' },
                 { label: 'Settled', value: 'Settled' },
                 { label: 'Closed', value: 'Closed' }
             ];
+            _.forEach(this.filterCol3, function (listItem) {
+                listItem.selected = true;
+            });
         }
     }
 
@@ -367,13 +376,22 @@ export class FeeheadPaymentReportComponent implements OnInit {
     }
 
     filterByValue() {
-        if (this.filterValue1 === 'Select') {
-            this.filterQuery = '';
-            this.filter1CountQuery = '';
-        } else {
-            this.filterQuery = '&classIds=' + this.filterValue1;
-            this.filter1CountQuery = '&where[classId] =' + this.filterValue1;
-        }
+        // if (this.filterValue1 === 'Select') {
+        //     this.filterQuery = '';
+        //     this.filter1CountQuery = '';
+        // } else {
+        let vm = this;
+        vm.filterValue1 = '';
+        let allSelected = false;
+        this.filterCol2.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.filterValue1 = vm.filterValue1 + element.value + ',';
+        });
+        this.filterQuery = '&classIds=' + this.filterValue1;
+        this.filter1CountQuery = '&where[classId] =' + this.filterValue1;
+        //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -382,15 +400,49 @@ export class FeeheadPaymentReportComponent implements OnInit {
 
         //this.getQueryDataCount();
     }
+    checkSelected(item: any, itemList: any) {
+        if (item.value == 'All') {
+            if (item.selected) {
+                _.forEach(itemList, function (listItem) {
+                    listItem.selected = true;
+                });
+            }
+            else {
+                _.forEach(itemList, function (listItem) {
+                    listItem.selected = false;
+                });
+            }
+        }
+        else {
+            if (itemList.length > 0)
+                itemList[0].selected = true;
+
+            _.forEach(itemList, function (listItem) {
+                if (listItem.selected == false)
+                    itemList[0].selected = false;
+            });
+        }
+    }
+
 
     filterByValue2() {
-        if (this.filterValue2 === 'Select') {
-            this.filterQuery2 = '';
-            this.filter2CountQuery = '';
-        } else {
-            this.filterQuery2 = '&feeHeadNames=' + this.filterValue2;
-            this.filter2CountQuery = '&where[categoryId] =' + this.filterValue2;
-        }
+        // if (this.filterValue2 === 'Select') {
+        //     this.filterQuery2 = '';
+        //     this.filter2CountQuery = '';
+        // } else {
+        let vm = this;
+        vm.filterValue2 = '';
+        let allSelected = false;
+        this.filterCol2.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+            allSelected = true;
+        else if (element.selected && element.value != 'All' && !allSelected)
+            vm.filterValue2 = vm.filterValue2 + element.value + ',';
+        });
+
+        this.filterQuery2 = '&feeHeadNames=' + this.filterValue2;
+        this.filter2CountQuery = '&where[categoryId] =' + this.filterValue2;
+        //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
         this.boundryStart = 1;
@@ -452,7 +504,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
-        if (this.status=== 'Select' ) {
+        if (this.status === 'Select') {
             this.filterQuery5 = '';
             this.filter5CountQuery = '';
         } else {
@@ -753,7 +805,7 @@ export class FeeheadPaymentReportComponent implements OnInit {
             });
 
     }
-        calculateGroupTotal(feeHeadName: string) {
+    calculateGroupTotal(feeHeadName: string) {
         let total = 0;
 
         if (this.schoolList) {
