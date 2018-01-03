@@ -12,7 +12,9 @@ export class InvoiceService {
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
-
+  status: any = 'Select';
+  startDate: Date;
+  endDate: Date;
   getAllInvoices(url) {
     let params: URLSearchParams = new URLSearchParams();
     // params.set('filter[where][schoolId]', id);
