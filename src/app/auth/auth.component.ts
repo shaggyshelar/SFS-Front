@@ -12,7 +12,7 @@ import { Helpers } from "../helpers";
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash/index';
 import { UserSchoolDetailsService } from '../theme/pages/default/_services/userschooldetails.service';
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Component({
   selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
   templateUrl: './templates/login-1.component.html',
@@ -37,7 +37,13 @@ export class AuthComponent implements OnInit {
     private _globalErrorHandler: GlobalErrorHandler,
     private _userSchoolDetailsService: UserSchoolDetailsService,
     private storeService: StoreService,
+    private _cookieService: CookieService,
     private cfr: ComponentFactoryResolver) {
+    if (_cookieService.get('remember')) {
+      this.model.username = this._cookieService.get('username');
+      this.model.password = this._cookieService.get('password');
+      this.model.remember = this._cookieService.get('remember');
+    }
   }
 
   ngOnInit() {
@@ -59,6 +65,15 @@ export class AuthComponent implements OnInit {
     this._authService.login(this.model.username, this.model.password)
       .subscribe(
       data => {
+        if (this.model.remember) {
+          this._cookieService.put('username',this.model.username);
+          this._cookieService.put('password',this.model.password);
+          this._cookieService.put('remember',this.model.remember);
+        }
+        else{
+          this._cookieService.removeAll();
+        }
+
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.storeService.getPermission();
         if (currentUser && currentUser.user) {

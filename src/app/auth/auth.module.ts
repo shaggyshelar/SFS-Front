@@ -14,6 +14,7 @@ import { AuthenticationService } from "./_services/authentication.service";
 import { UserService } from "./_services/user.service";
 import { fakeBackendProvider } from "./_helpers/index";
 import { UserSchoolDetailsService } from '../theme/pages/default/_services/userschooldetails.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserSchoolDetailsService } from '../theme/pages/default/_services/users
     fakeBackendProvider,
     MockBackend,
     BaseRequestOptions,
-    UserSchoolDetailsService
+    UserSchoolDetailsService,
+    CookieService
   ],
   entryComponents: [AlertComponent]
 })
