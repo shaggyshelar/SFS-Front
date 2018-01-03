@@ -12,7 +12,8 @@ import { Helpers } from "../helpers";
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash/index';
 import { UserSchoolDetailsService } from '../theme/pages/default/_services/userschooldetails.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+// import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
   templateUrl: './templates/login-1.component.html',
@@ -66,12 +67,12 @@ export class AuthComponent implements OnInit {
       .subscribe(
       data => {
         if (this.model.remember) {
-          this._cookieService.put('username',this.model.username);
-          this._cookieService.put('password',this.model.password);
-          this._cookieService.put('remember',this.model.remember);
+          this._cookieService.set('username',this.model.username);
+          this._cookieService.set('password',this.model.password);
+          this._cookieService.set('remember',this.model.remember);
         }
         else{
-          this._cookieService.removeAll();
+          this._cookieService.deleteAll();
         }
 
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
