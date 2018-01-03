@@ -85,7 +85,14 @@ export class InvoiceListComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.longList = true;
             //this.getAllBoards();
-            this.getDataCount('');
+            this.status = this.invoiceService.status;
+            this.startDate = this.invoiceService.startDate;
+            this.endDate = this.invoiceService.endDate;
+            if(this.status === 'Select' && this.startDate === undefined && this.endDate === undefined){
+                this.getDataCount('');
+            }else{
+                this.getrecordsByFilter();
+            }
         }
         //Page Size Array
         this.pageSize = [];
@@ -190,6 +197,9 @@ export class InvoiceListComponent implements OnInit {
         this.invoiceService.perPage = this.perPage;
         this.invoiceService.currentPos = this.currentPos;
         this.invoiceService.currentPageNumber = this.currentPageNumber;
+        this.invoiceService.status = this.status;
+        this.invoiceService.startDate = this.startDate;
+        this.invoiceService.endDate = this.endDate;
         this.router.navigate(['/features/invoice/summary/' + id]);
     }
     moreNextPages() {
