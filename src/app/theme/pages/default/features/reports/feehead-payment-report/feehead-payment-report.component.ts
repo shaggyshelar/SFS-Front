@@ -382,6 +382,8 @@ export class FeeheadPaymentReportComponent implements OnInit {
         // } else {
         let vm = this;
         vm.filterValue1 = '';
+        this.filterQuery = '';
+        this.filter1CountQuery = '';
         let allSelected = false;
         this.filterCol2.forEach(function (element) {
             if (element.selected && element.value == 'All')
@@ -389,8 +391,11 @@ export class FeeheadPaymentReportComponent implements OnInit {
             else if (element.selected && element.value != 'All' && !allSelected)
                 vm.filterValue1 = vm.filterValue1 + element.value + ',';
         });
-        this.filterQuery = '&classIds=' + this.filterValue1;
-        this.filter1CountQuery = '&where[classId] =' + this.filterValue1;
+        if (vm.filterValue1 != '') {
+            vm.filterValue1 = vm.filterValue1.substr(0, vm.filterValue1.length - 1);
+            this.filterQuery = '&classIds=' + this.filterValue1;
+            this.filter1CountQuery = '&where[classId] =' + this.filterValue1;
+        }
         //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -431,17 +436,21 @@ export class FeeheadPaymentReportComponent implements OnInit {
         //     this.filter2CountQuery = '';
         // } else {
         let vm = this;
+        this.filterQuery2 = '';
+        this.filter2CountQuery = '';
         vm.filterValue2 = '';
         let allSelected = false;
         this.filterCol2.forEach(function (element) {
             if (element.selected && element.value == 'All')
-            allSelected = true;
-        else if (element.selected && element.value != 'All' && !allSelected)
-            vm.filterValue2 = vm.filterValue2 + element.value + ',';
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.filterValue2 = vm.filterValue2 + element.value + ',';
         });
-
-        this.filterQuery2 = '&feeHeadNames=' + this.filterValue2;
-        this.filter2CountQuery = '&where[categoryId] =' + this.filterValue2;
+        if (vm.filterValue2 != '') {
+            vm.filterValue2 = vm.filterValue2.substr(0, vm.filterValue2.length - 1);
+            this.filterQuery2 = '&feeHeadNames=' + this.filterValue2;
+            this.filter2CountQuery = '&where[categoryId] =' + this.filterValue2;
+        }
         //}
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -504,10 +513,20 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onFilterByStatus() {
-        if (this.status === 'Select') {
-            this.filterQuery5 = '';
-            this.filter5CountQuery = '';
-        } else {
+        let vm = this;
+        vm.status = '';
+        let allSelected = false;
+        this.filterQuery5 = '';
+        this.filter5CountQuery = '';
+        this.filterCol3.forEach(function (element) {
+            if (element.selected && element.value == 'All')
+                allSelected = true;
+            else if (element.selected && element.value != 'All' && !allSelected)
+                vm.status = vm.status + element.value + ',';
+        });
+
+        if (vm.status != '') {
+            vm.status = vm.status.substr(0, vm.status.length - 1);
             this.filterQuery5 = '&statuses=' + this.status;
             this.filter5CountQuery = '&where[status] =' + this.status;
         }
@@ -518,6 +537,8 @@ export class FeeheadPaymentReportComponent implements OnInit {
         this.boundryEnd = this.boundry;
     }
     onSearchReport() {
+        this.onFilterByStatus();
+        this.filterByValue2();
         if (this.startDate && this.endDate) {
             if (this.startDate < this.endDate) {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
