@@ -1279,3 +1279,12 @@ body .ui-dialog .ui-dialog-titlebar {
         color:#000;
         font-size: 13px;
     }
+
+    .ui-cell-data{
+        font-weight: 600!important;
+        color: #000!important;
+    }
+    .ui-datatable .ui-datatable-data>tr>td, .ui-datatable .ui-datatable-tfoot>tr>td, .ui-datatable .ui-datatable-thead>tr>th, body .ui-datatable .ui-datatable-header{
+        font-weight: 600!important;
+        color: #000!important; 
+    }
