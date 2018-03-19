@@ -48,6 +48,8 @@
                         <div class="col-md-6">
                             <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
                                 <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;margin-top: -2px;">{{invoice.status}}</span>
+                                <!--<a class="btn btn-circle btn-icon-only btn-default"><i class="fa fa-print"></i></a>-->
+                                <button class=" btn m-badge  m-badge--info m-badge--wide" style="font-size:10px;margin-top: -2px;" (click)="printDoc()" ><i class="fa fa-print"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;Print</span></button>
                             </h3>
                         </div>
                         <div class="col-md-1">
@@ -128,7 +130,7 @@
                                 <!--<h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6> -->
-                                <input type="radio" [disabled]="invoice.status!='Processed'"  name="statusDueDate" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()"  [(ngModel)]="radioVal"  value="1" />
+                                <input type="radio" [disabled]="invoice.status!='Processed'"  name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)" value="1" />
                                 <label class="invoiceEditLabel">Due Date</label>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
@@ -141,7 +143,7 @@
                                 <!--<h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>-->
-                                <input type="radio" name="statusDueDate"  [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick()" (blur)="onStatusDueDateClick()" [(ngModel)]="radioVal" value="2" />
+                                <input type="radio" name="statusDueDate"  [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)" value="2" />
                                 &nbsp;<label class="invoiceEditLabel" style="margin-left: -3px;">Status</label>
                                 <h5 *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</h5>
                                 <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" *ngIf="radioVal==2" [disabled]="invoice.status!='Processed'">
@@ -247,6 +249,189 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!--this is test section of the page [hidden]="!showPrintPart"-->
+
+            <div class="invoiceContainer" id="invoice-content" >
+                <div class="invoiceHeader">
+
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width:30%;">
+                                <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="label label-success customBadge" style="font-size:12px;">{{invoice.status}}</span>
+                                </h3>
+                            </td>
+                            <td class="alignRight" style="width:70%;">
+                                <div class="invoiceLabelBox">
+                                    <h6>Invoice No.</h6>
+                                    <h5><b style="font-weight:500;font-style:italic;color:#fff!important;">{{invoice.invoiceNumber}}</b></h5>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="row invoiceRow">
+                        <table style="width: 98%;margin-left: 1%;margin-right: 1%;">
+                            <tr>
+                                <td style="width:40%;">
+                                    <div class="invoiceLabelBox">
+                                        <h6>Invoice to</h6>
+                                        <h5>Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
+                                        <h5>Id: {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>
+                                        <h5>Class: {{invoice.studentData?invoice.studentData.StudentClass.className:''}} Division:
+                                            {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}
+                                        </h5>
+                                        <h5>Category: {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
+                                    </div>
+                                </td>
+                                <td style="width:60%;vertical-align: text-bottom;">
+                                    <div class="invoiceLabelBox">
+                                        <h6>Description</h6>
+                                        <h5>{{invoice.desc}}</h5>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <div class="row invoiceRow">
+
+                        <table style="width: 98%;margin-left: 1%;margin-right: 1%;">
+                            <tr>
+                                <td style="width:20%;">
+                                    <div class="invoiceLabelBox" style="padding-left: 20px;padding-right: 20px;">
+                                        <h6>Date</h6>
+                                        <h5>{{ invoice.dueDate? (invoice.createdOn | date: 'MM/dd/yyyy'):'' }}</h5>
+                                    </div>
+                                </td>
+                                <td class="" style="width:20%;">
+                                    <div class="invoiceLabelBox" style="padding-left: 20px;padding-right: 20px;">
+                                        <h6>Paid On</h6>
+                                        <h5><span *ngIf="!invoice.paymentDate ; else paymentDateElse">NA</span> <span #paymentDateElse>{{invoice.paymentDate | date: 'MM/dd/yyyy'}}</span></h5>
+                                    </div>
+                                </td>
+                                <td class="" style="width:20%;">
+                                    <div class="invoiceLabelBox" style="padding-left: 20px;padding-right: 20px;">
+                                        <h6>Settled On</h6>
+                                        <h5><span *ngIf="!invoice.settlementDate ; else settlementDateElse">NA</span> <span #settlementDateElse>{{invoice.settlementDate | date: 'MM/dd/yyyy'}}</span></h5>
+                                    </div>
+                                </td>
+                                <td class="" style="width:18%;padding-left:2%;">
+                                    <div class="invoiceLabelBox">
+                                        <h6>Paid Description</h6>
+                                        <h5>{{invoice.statusDesc ? invoice.statusDesc : ''}}</h5>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row invoiceRow">
+                        <table style="width: 98%;margin-left: 1%;margin-right: 1%;">
+                            <tr>
+                                <td colspan="4">
+                                    <div class="col-md-12" style="margin-top: -10px;">
+                                        <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;">
+                                    <!--<div class="col-md-12" style="margin-top: -10px;">
+                                        <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label>
+                                    </div>-->
+                                    <div class="invoiceLabelBox" style="padding-left: 20px;padding-right: 20px;">
+                                        <input type="radio" [disabled]="invoice.status!='Processed'" name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)"
+                                           [(ngModel)]="radioVal" value="1" />
+                                        <label class="invoiceEditLabel">Due Date</label><br>
+                                        <span class="" style="color:#fff;">{{invoice.dueDate | date: 'MM-dd-yyyy' }}</span>
+                                        <!--<h6>Status <i class="la la-edit invoiceEdit"></i></h6>
+                                        <select class="form-control m-input invoiceText" style="color:#fff;">
+																<option disabled="" selected="">Select</option>										
+																<option>Paid</option>
+																<option>Open</option>
+																<option>Closed</option>
+																<option>Created</option>
+																<option>Processed</option>
+																<option>Settled</option>
+																<option>Cancelled</option>
+															</select>  -->
+                                    </div>
+                                </td>
+                                <td style="width:20%;">
+                                    <div class="invoiceLabelBox" style="padding-left: 20px;padding-right: 20px;">
+                                        <input type="radio" name="statusDueDate" [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)"
+                                           [(ngModel)]="radioVal" value="2" /> &nbsp;
+                                        <label class="invoiceEditLabel" style="margin-left: -3px;">Status</label>
+                                        <h5 *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</h5>
+                                        
+                                        <h5 *ngIf="radioVal==2" class="invoiceStatusLabel">{{currentStatus}}</h5>
+                                    </div>
+                                </td>
+                                <td style="width:20%;" colspan="2">
+                                    <div class="invoiceLabelBox" *ngIf="currentStatus=='Paid' && statusChanged && radioVal==2">
+                                        <label class="invoiceEditLabel">Status Description</label>
+                                        <br>
+                                        <span class="hackedDueDate whiteText" style="color: white;">{{invoice.statusDesc}}</span>
+                                        <!--<span style="color:#fff;" #noStatusDesc> NA </span>-->
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="invoiceBody">
+                    <table class="table invoiceTable">
+                        <tr>
+                            <th>
+                                Fee Heads
+                            </th>
+                            <th>
+                                Amount <span class="invoiceSubTh">(In rupees)</span>
+                            </th>
+                        </tr>
+                        <tr *ngFor='let row of invoice.invoiceDetails'>
+                            <td>
+                                {{row.feeHeadName}}
+                            </td>
+                            <td>
+                                {{row.chargeAmount}}
+                            </td>
+                        </tr>
+                        <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
+                        <tr>
+                            <td style="border-top:none!important;">
+                                Invoice Total
+                            </td>
+                            <td style="border-top:none!important;">
+                                {{chargeAmount}}
+                            </td>
+                        </tr>
+                        <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
+                        <tr>
+                            <td>
+                                Amount Paid
+                            </td>
+                            <td>
+                                {{paidAmount}}
+                            </td>
+                        </tr>
+                        <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
+                        <tr>
+                            <td>
+                                Balance
+                            </td>
+                            <td>
+                                {{totalBalance}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <br>
