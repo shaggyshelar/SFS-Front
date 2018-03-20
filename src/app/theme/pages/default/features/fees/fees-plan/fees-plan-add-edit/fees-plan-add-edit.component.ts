@@ -264,7 +264,6 @@ export class FeesPlanAddEditComponent implements OnInit {
         _feePlanDetails.push(feePlanDetailObj);
       }
     });
-    console.log(_feePlanDetails);
   }
   checkMaxSequenceNumber(index) {
     let vm = this;
@@ -329,9 +328,7 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   removeFeeHeadDetails(item, rowNum) {
     let deletedFeeHeadItem = _.find(this.staticFeeHeadList, { 'value': item.feeHeadId });
-    console.log(this.feePlanManagement[0],this.feePlanManagement[1]);
     this.feePlanManagement.splice(rowNum, 1);
-    console.log(this.feePlanManagement[0]);
     if (deletedFeeHeadItem) {
       this.feePlanManagement.forEach(element => {
         element.feeHeadList.push(deletedFeeHeadItem);
@@ -349,7 +346,6 @@ export class FeesPlanAddEditComponent implements OnInit {
     let newHeadList = _.filter(vm.staticFeeHeadList, function (item) {
       return _.findIndex(vm.feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
-  console.log(feeItem.feeHeadId);
     let feeObj = {
       contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
