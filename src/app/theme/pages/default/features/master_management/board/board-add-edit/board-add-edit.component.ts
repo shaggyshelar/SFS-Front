@@ -7,7 +7,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 
 import { BoardService } from '../../../../_services/index';
-import { Boards } from "../../../../_models/Boards";
+import { Boards } from "../../../../_models/boards";
 import { Helpers } from "../../../../../../../helpers";
 @Component({
   selector: "app-board-add-edit",

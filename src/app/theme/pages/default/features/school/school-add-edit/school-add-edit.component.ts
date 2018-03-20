@@ -10,7 +10,7 @@ import { SchoolService } from '../../../_services/school.service';
 import { ImageUploadService } from '../../../_services/imageUpload.service';
 import { InstitutesService } from '../../../_services/institute.service';
 import { BoardService } from '../../../_services/board.service';
-import { School } from "../../../_models/School";
+import { School } from "../../../_models/school";
 import { ViewChild } from '@angular/core';
 import { Helpers } from "../../../../../../helpers";
 

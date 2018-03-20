@@ -13,14 +13,41 @@ import { SchoolService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 import * as _ from 'lodash/index';
 import { retry } from 'rxjs/operator/retry';
-
+@Pipe({name: 'rowsFees'})
+export class rowsFees implements PipeTransform {
+  transform(value: number, objLength:Object[],items:Object[]): Number[] {
+    var itemsPushed =[];
+    var filtered = _.filter(items,{feeHeadId: value });
+    for (var i=0;i<objLength.length;i++) { 
+      var temp =  objLength[i];
+      var singleFee = _.filter(filtered,function(j){
+        if (typeof j.dueDate == 'object') {
+          return j.dueDate.toISOString().split('T')[0]==temp['date'].toISOString().split('T')[0]; 
+        } else {
+          return j.dueDate.split('T')[0]==temp['date'].toISOString().split('T')[0]; 
+        }
+      
+      })
+      if (singleFee.length) {
+        itemsPushed.push(singleFee[0].feeCharges);
+      } else {
+        itemsPushed.push('-');
+      }
+  }
+    return itemsPushed;
+  }
+}
 @Component({
   selector: "app-users-list",
   templateUrl: "./fees-plan-add-edit.component.html",
   encapsulation: ViewEncapsulation.None,
+  providers: [ rowsFees ]
 })
 
 export class FeesPlanAddEditComponent implements OnInit {
+  previewVisible: boolean = false;
+  feePlanPreviewDetails = [];
+  totals = [];
   staticFeeHeadList = [];
   params: number;
   feeHeadList = [];
@@ -48,6 +75,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     feeHeadId: 0,
     amount: 0,
     confirmAmount: 0,
+    name:'',
   }];
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -63,6 +91,27 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.getSchoolDetails();
+    
+  }
+  showDialog(_feeplan:FeePlan) {
+    this.onPreview(_feeplan);
+    this.totals = [];
+    var fre = this.frequency;
+    fre.forEach((item,i)=> { 
+      var total = 0 ;
+      var filterDate = _.filter(this.feePlanPreviewDetails,function(j){
+        if (typeof j.dueDate == 'object') {
+          return j.dueDate.toISOString().split('T')[0]==item['date'].toISOString().split('T')[0]; 
+        } else {
+          return j.dueDate.split('T')[0]==item['date'].toISOString().split('T')[0]; 
+        }
+      });
+      _.forEach(filterDate, function(item) {
+         total +=  item.feeCharges;
+      });
+      this.totals.push(total);
+     });
+    this.previewVisible = !this.previewVisible;
   }
   onAlert() {
     this.confirmationService.confirm({
@@ -94,6 +143,7 @@ export class FeesPlanAddEditComponent implements OnInit {
           .subscribe((results: any) => {
             let index = 0;
             this.planeName = results.feePlanName;
+            this.feePlanDetails = _.sortBy(results.FeePlanDetails, ['feeHeadId','sequenceNumber']);results.FeePlanDetails;
             this.planeDesc = results.feePlanDescription;
             this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
@@ -145,13 +195,81 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   onFeeHeadChange(record, index) {
     let tempFeeHead = _.find(this.staticFeeHeadList, { 'value': record.feeHeadId });
+    this.feePlanManagement[index].name = tempFeeHead.label;
     record.frequencyName = tempFeeHead.frequencyName;
     this.checkMaxSequenceNumber(index);
   }
 
+  onPreview(_feeplan:FeePlan) {
+    this.feePlanPreviewDetails = [];
+    let _staticFeeHeadList = this.staticFeeHeadList;
+    let _selectedAcademicYear = this.selectedAcademicYear;
+    let _frequency = this.frequency;
+    let _maxLength = this.frequency.length;
+    let _feePlanDetails = this.feePlanPreviewDetails;
+    let _vm = this;
+    _.forEach(this.feePlanManagement, function (value) {
+      let tempFeeHead = _.find(_staticFeeHeadList, { 'value': value.feeHeadId });
+      for (let index = 0; index < tempFeeHead.frequencyValue; index++) {
+        let feePlanDetailObj = new FeePlanDetails();
+        feePlanDetailObj.feePlanId = _feeplan.id;
+
+        feePlanDetailObj.feeHeadId = value.feeHeadId;
+        feePlanDetailObj.schoolId = parseInt(localStorage.getItem('schoolId'));
+        feePlanDetailObj.academicYear = _selectedAcademicYear;
+        feePlanDetailObj.feeCharges = value.amount;
+        if (tempFeeHead.frequencyValue == 1) {
+          feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+          feePlanDetailObj.sequenceNumber = 1;
+        }
+        else if (tempFeeHead.frequencyValue == 2) {
+          if (index == 1 && _maxLength == 12) {
+            feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else if (index == 1 && _maxLength == 4) {
+            feePlanDetailObj.dueDate = new Date(_frequency[2].date.toString());
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else if (index == 1 && _maxLength == 2) {
+            feePlanDetailObj.dueDate = new Date(_frequency[1].date.toString());
+            feePlanDetailObj.sequenceNumber = 7;
+          }
+          else {
+            feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+            feePlanDetailObj.sequenceNumber = 1;
+          }
+        }
+        else if (tempFeeHead.frequencyValue == 4) {
+          if (_maxLength == 4 || index == 0) {
+            feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+            feePlanDetailObj.sequenceNumber = index + 1;
+          }
+          else if (index == 1 && _maxLength == 12) {
+            feePlanDetailObj.dueDate = new Date(_frequency[3].date.toString());
+            feePlanDetailObj.sequenceNumber = 4;
+          }
+          else if (index == 2 && _maxLength == 12) {
+            feePlanDetailObj.dueDate = new Date(_frequency[6].date.toString());
+            feePlanDetailObj.sequenceNumber = 7;
+          } else if (index == 3 && _maxLength == 12) {
+            feePlanDetailObj.dueDate = new Date(_frequency[9].date.toString());
+            feePlanDetailObj.sequenceNumber = 10;
+          }
+        }
+        else if (tempFeeHead.frequencyValue == 12) {
+          feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
+          feePlanDetailObj.sequenceNumber = index + 1;
+        }
+        _feePlanDetails.push(feePlanDetailObj);
+      }
+    });
+    console.log(_feePlanDetails);
+  }
   checkMaxSequenceNumber(index) {
     let vm = this;
     vm.sequenceNumberArr = [];
+    
     _.forEach(this.feePlanManagement, function (record) {
       let tempFeeHead = _.find(vm.staticFeeHeadList, { 'value': record.feeHeadId });
       if (tempFeeHead) {
@@ -211,7 +329,9 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   removeFeeHeadDetails(item, rowNum) {
     let deletedFeeHeadItem = _.find(this.staticFeeHeadList, { 'value': item.feeHeadId });
+    console.log(this.feePlanManagement[0],this.feePlanManagement[1]);
     this.feePlanManagement.splice(rowNum, 1);
+    console.log(this.feePlanManagement[0]);
     if (deletedFeeHeadItem) {
       this.feePlanManagement.forEach(element => {
         element.feeHeadList.push(deletedFeeHeadItem);
@@ -226,22 +346,17 @@ export class FeesPlanAddEditComponent implements OnInit {
       return false;
     }
     let vm = this;
-    // let _feePlanManagement = this.feePlanManagement;
-    // let _staticFeeHeadList = this.staticFeeHeadList;
     let newHeadList = _.filter(vm.staticFeeHeadList, function (item) {
       return _.findIndex(vm.feePlanManagement, { 'feeHeadId': item.value }) === -1;
     });
-  //   _.forEach(this.feePlanManagement, function(feeplanObj) {
-  //    feeplanObj.feeHeadList=   _.remove(feeplanObj.feeHeadList, function(feeheadObj) {
-  //      return feeheadObj.value != feeItem.feeHeadId ;
-  //    });
-  //  });
+  console.log(feeItem.feeHeadId);
     let feeObj = {
       contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
       feeHeadId: 0,
       amount: 0,
       confirmAmount: 0,
+      name: ''
     };
 
     this.feePlanManagement.push(_.cloneDeep(feeObj))
@@ -269,7 +384,6 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   addFeeHeadOnEdit(feeItem) {
-
     let _feePlanManagement = this.feePlanManagement;
     let _staticFeeHeadList = this.staticFeeHeadList;
     let newHeadList = _.filter(_staticFeeHeadList, function (item) {
@@ -282,11 +396,13 @@ export class FeesPlanAddEditComponent implements OnInit {
         return feeheadObj.value != temp.feeHeadId;
       });
     });
+    let name = _.find(this.feeHeadList, { value: temp.feeHeadId });
     this.feePlanManagement.push({
       contRoleId: Math.floor(Math.random() * 2000),
       feeHeadList: newHeadList,
       feeHeadId: temp.feeHeadId,
       amount: temp.feeCharges,
+      name: name.label,
       frequencyName: tempFeeHead.frequencyName,
       confirmAmount: temp.feeCharges,
     })

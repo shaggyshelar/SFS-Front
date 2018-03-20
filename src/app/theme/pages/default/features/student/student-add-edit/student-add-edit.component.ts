@@ -13,7 +13,7 @@ import { AcademicYearService } from '../../../_services/academic-year.service';
 import { CategoriesService } from '../../../_services/categories.service';
 import { TransportService } from '../../../_services/transport.service';
 import { Helpers } from "../../../../../../helpers";
-import { Student } from "../../../_models/Student";
+import { Student } from "../../../_models/student";
 
 @Component({
     selector: "app-students-list",

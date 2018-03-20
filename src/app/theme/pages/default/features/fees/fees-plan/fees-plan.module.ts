@@ -2,7 +2,7 @@ import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FeesPlanAddEditComponent } from './fees-plan-add-edit/fees-plan-add-edit.component';
+import { FeesPlanAddEditComponent, rowsFees } from './fees-plan-add-edit/fees-plan-add-edit.component';
 import { FeesPlanListComponent } from './fees-plan-list/fees-plan-list.component';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../../default.component';
@@ -19,7 +19,8 @@ import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
-  CalendarModule
+  CalendarModule,
+  DialogModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -72,10 +73,12 @@ const routes: Routes = [
     ReactiveFormsModule,
     ButtonModule,
     DropdownModule,
+    DialogModule,
     ConfirmDialogModule,
     CalendarModule
   ], declarations: [
     FeesPlanComponent,
+    rowsFees,
     FeesPlanListComponent,
     FeesPlanAddEditComponent,
   ],

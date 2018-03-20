@@ -8,7 +8,7 @@ import { GlobalErrorHandler } from '../../../../../../_services/error-handler.se
 import { MessageService } from '../../../../../../_services/message.service';
 
 import { RoleService, FeatureService, PermissionService } from '../../../_services/index';
-import { Role } from "../../../_models/Role";
+import { Role } from "../../../_models/role";
 import { Helpers } from "../../../../../../helpers";
 
 /** Component Declaration */

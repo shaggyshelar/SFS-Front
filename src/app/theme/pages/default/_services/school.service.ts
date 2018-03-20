@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, RequestOptions, Response, URLSearchParams } from "@angular/http";
 
-import { School } from "../_models/School";
+import { School } from "../_models/school";
 import { AppSettings } from '../../../../app-settings';
 
 @Injectable()

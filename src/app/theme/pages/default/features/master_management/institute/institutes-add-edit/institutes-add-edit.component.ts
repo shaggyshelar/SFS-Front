@@ -6,7 +6,7 @@ import { SelectItem } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { InstitutesService } from '../../../../_services/institute.service';
-import { Institutes } from "../../../../_models/Institutes";
+import { Institutes } from "../../../../_models/institutes";
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({

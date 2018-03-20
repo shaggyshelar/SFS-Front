@@ -6,7 +6,7 @@ import { SelectItem } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
 import { DivisionService } from '../../../../_services/division.service';
-import { Division } from "../../../../_models/Division";
+import { Division } from "../../../../_models/division";
 import { ClassService } from '../../../../_services/class.service';
 import { Helpers } from "../../../../../../../helpers";
 
