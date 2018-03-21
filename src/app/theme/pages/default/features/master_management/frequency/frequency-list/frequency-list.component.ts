@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
 import { MessageService } from '../../../../../../../_services/message.service';
-import { Frequencies } from "../../../../_models/Frequencies";
+import { Frequencies } from "../../../../_models/frequencies";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { FrequencyService } from '../../../../_services/frequency.service';
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
-    templateUrl: "./Frequency-list.component.html",
+    templateUrl: "./frequency-list.component.html",
     encapsulation: ViewEncapsulation.None,
 })
 export class FrequenciesListComponent implements OnInit {

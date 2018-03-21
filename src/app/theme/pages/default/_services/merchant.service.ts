@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, RequestOptions, Response, URLSearchParams } from "@angular/http";
 
-import { Merchant } from "../_models/Merchant";
+import { Merchant } from "../_models/merchant";
 import { AppSettings } from '../../../../app-settings';
 
 @Injectable()

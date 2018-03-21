@@ -7,7 +7,7 @@ import { InvoiceService } from '../../../_services/index';
 import { GlobalErrorHandler } from './../../../../../../_services/error-handler.service';
 import { MessageService } from './../../../../../../_services/message.service';
 import { AcademicYearService } from './../../../_services/index';
-import { Boards } from "./../../../_models/Boards";
+import { Boards } from "./../../../_models/boards";
 import { Helpers } from "./../../../../../../helpers";
 @Component({
   selector: "app-invoice-summary",
