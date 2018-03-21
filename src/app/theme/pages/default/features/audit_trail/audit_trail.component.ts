@@ -191,15 +191,12 @@ export class AuditTrailComponent implements OnInit {
     }
 
     showPop(rowId){
-        this.selectedRow = {id:0,schoolName:'',old:"",new:""};
+        this.selectedRow = {id:0,schoolName:'',old:'',new:''};
         
-        this.selectedRow = _.filter(this.auditList,{id:rowId})[0];
-        this.selectedRow.old = JSON.stringify(this.selectedRow.old, null, 2);
-        this.selectedRow.new = JSON.stringify(this.selectedRow.new, null, 2);
-        console.log(JSON.stringify(this.selectedRow.old, null, 2));
-        console.log(this.selectedRow.new);
+        this.selectedRow = Object.assign({},_.filter(this.auditList,{id:rowId})[0]);
+        this.selectedRow.old = JSON.stringify(JSON.parse(this.selectedRow.old), null, 2);
+        this.selectedRow.new = JSON.stringify(JSON.parse(this.selectedRow.new), null, 2);
         this.popupVisible = !this.popupVisible;
-        console.log(rowId);
     }
 
     moreNextPages() {
