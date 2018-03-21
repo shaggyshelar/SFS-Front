@@ -12,6 +12,7 @@ import { ClassService } from '../../_services/class.service';
 import { FormatService } from '../../_services/tableToXls/format.service';
 import { DataGridUtil } from '../../_services/tableToXls/datagrid.util';
 import { CommonService } from '../../_services/common.service';
+import * as _ from 'lodash/index';
 
 @Component({
     selector: "audit_trail",
@@ -20,6 +21,8 @@ import { CommonService } from '../../_services/common.service';
 })
 export class AuditTrailComponent implements OnInit {
     auditList = [];
+    popupVisible:boolean = false;
+    selectedRow:{id:0,schoolName:'',old:string,new:string};
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -69,6 +72,8 @@ export class AuditTrailComponent implements OnInit {
             this.currentPos = this.commonService.currentPos;
             this.currentPageNumber = this.commonService.currentPageNumber;
             this.selectedPageSize = this.perPage;
+            this.selectedRow={id:0,schoolName:'',old:'',new:''};
+            this.popupVisible =false;
             this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
@@ -183,6 +188,15 @@ export class AuditTrailComponent implements OnInit {
         }
 
         //for()
+    }
+
+    showPop(rowId){
+        this.selectedRow = {id:0,schoolName:'',old:'',new:''};
+        
+        this.selectedRow = Object.assign({},_.filter(this.auditList,{id:rowId})[0]);
+        this.selectedRow.old = JSON.stringify(JSON.parse(this.selectedRow.old), null, 2);
+        this.selectedRow.new = JSON.stringify(JSON.parse(this.selectedRow.new), null, 2);
+        this.popupVisible = !this.popupVisible;
     }
 
     moreNextPages() {

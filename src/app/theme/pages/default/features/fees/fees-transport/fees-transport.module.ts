@@ -7,6 +7,7 @@ import { LayoutModule } from '../../../../../layouts/layout.module';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { TransportComponent } from './fees-transport.component';
 import { TransportListComponent } from './fees-transport-list/fees-transport-list.component';
+import { VerifyTransportListComponent } from './verify-fees-transport-list/verify-fees-transport-list.component';
 import { TransportService, FrequencyService, AcademicYearService,SchoolService } from '../../../../default/_services/index';
 import {
   DataTableModule,
@@ -34,6 +35,14 @@ const routes: Routes = [
               permissions: ['Zone.Read']
             }
           },
+          {
+            path: 'verifyList',
+            component: VerifyTransportListComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['Zone.Read']
+            }
+          },
         ]
       }
     ]
@@ -55,6 +64,7 @@ const routes: Routes = [
   declarations: [
     TransportComponent,
     TransportListComponent,
+    VerifyTransportListComponent
   ],
   providers: [
     ConfirmationService,

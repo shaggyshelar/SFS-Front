@@ -283,6 +283,20 @@
 								</span>
 							</a>
 						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplan.Read']">
+							<a routerLink="/features/fees/feesPlan/verifyList" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Verify Fee Plan
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
 						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplanassociation.Read']">
 							<a routerLink="/features/feePlanAssociation/list" class="m-menu__link">
 								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -325,6 +339,20 @@
 								</span>
 							</a>
 						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Zone.Read']">
+								<a routerLink="/features/transport/verifyList" class="m-menu__link">
+									<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+										<span></span>
+									</i>
+									<span class="m-menu__link-title">
+										<span class="m-menu__link-wrap">
+											<span class="m-menu__link-text">
+												Verify Transport/Zone
+											</span>
+										</span>
+									</span>
+								</a>
+							</li>
 					</ul>
 				</div>
 			</li>
@@ -422,7 +450,7 @@
 								</span>
 							</a>
 						</li>
-						<!-- <li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Vwauditlog.Read']">
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Vwauditlog.Read']">
 							<a routerLink="/features/audit/trail" class="m-menu__link">
 								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 									<span></span>
@@ -435,7 +463,7 @@
 									</span>
 								</span>
 							</a>
-						</li> -->
+						</li>
 					</ul>
 				</div>
 			</li>
