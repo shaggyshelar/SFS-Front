@@ -4,6 +4,7 @@ export class FeePlan {
   feePlanName: string;
   academicYear: string;
   feePlanDescription: string;
+  isVerified:boolean;
 }
 
 export class FeePlanDetails {

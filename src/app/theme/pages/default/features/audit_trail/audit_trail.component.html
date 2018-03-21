@@ -37,6 +37,21 @@
 <!-- END: Subheader -->
 
 <div class="m-content">
+	<p-dialog header="{{selectedRow.schoolName}}" [(visible)]="popupVisible" modal='true' >
+			<div class="container-fluid">
+					<div class="row">
+					  <div class="col-md-6">
+						<h4 class="text-center">Old JSON</h4>
+						<pre>{{selectedRow.old}}</pre>
+					  </div>
+					  <div class="col-md-6">
+						<h4  class="text-center">New JSON</h4>
+						<pre>{{selectedRow.new}}</pre>
+					  </div>
+					</div>
+				  </div>
+	
+				</p-dialog>
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
@@ -78,7 +93,7 @@
 						</button>
 					</div>
 				</div>
-
+				
 				<div class="table-responsive" *ngIf="longList">
 					<!--begin: Datatable -->
 					<div class="tableBox">
@@ -101,26 +116,18 @@
 										Id
 									</th>
 									<th title="">
-										New
-									</th>
-									<th title="">
-										Old
-									</th>
-									<th title="">
 										Created On
 									</th>
 
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor='let row of auditList'>
+								<tr *ngFor='let row of auditList' style='cursor: pointer;' (click)='showPop(row.id)' title='Show Details'>
 									<!-- <td>{{row.id}}</td> -->
 									<td>{{row.schoolName}}</td>
 									<td>{{row.tableName}}</td>
 									<td>{{row.action}}</td>
 									<td>{{row.id}}</td>
-									<td>{{row.new}}</td>
-									<td>{{row.old}}</td>
 									<td>{{row.createdOn | date : 'dd-MM-yyyy'}}</td>
 								</tr>
 							</tbody>

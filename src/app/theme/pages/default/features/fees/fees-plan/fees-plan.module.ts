@@ -4,13 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FeesPlanAddEditComponent } from './fees-plan-add-edit/fees-plan-add-edit.component';
 import { FeesPlanListComponent } from './fees-plan-list/fees-plan-list.component';
+import { VerifyFeesPlanListComponent } from './verify-fees-plan-list/verify-fees-plan-list.component';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
 import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
-import { FeesPlanComponent } from '../fees-plan/fees-plan.component';
+import { FeesPlanComponent, } from './fees-plan.component';
+
 import { AcademicYearService, SchoolService } from '../../../_services/index';
 import {
   DataTableModule,
@@ -49,6 +51,14 @@ const routes: Routes = [
             }
           },
           {
+            path: 'verifyList',
+            component: VerifyFeesPlanListComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['Feeplan.Update']
+            }
+          },
+          {
             path: 'edit/:feeId',
             component: FeesPlanAddEditComponent,
             canActivate: [AuthGuard],
@@ -79,6 +89,7 @@ const routes: Routes = [
   ], declarations: [
     FeesPlanComponent,
     FeesPlanListComponent,
+    VerifyFeesPlanListComponent,
     FeesPlanAddEditComponent,
   ],
   providers: [
