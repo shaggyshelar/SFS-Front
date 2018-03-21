@@ -19,7 +19,8 @@ import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
-  CalendarModule
+  CalendarModule,
+  DialogModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ButtonModule,
     DropdownModule,
+    DialogModule,
     ConfirmDialogModule,
     CalendarModule
   ], declarations: [

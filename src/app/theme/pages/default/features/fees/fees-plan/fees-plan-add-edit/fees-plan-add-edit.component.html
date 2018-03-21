@@ -158,10 +158,10 @@
 							<input class="form-control m-input feePlanText" type="text" name="{{'frequencyName'+fee.contRoleId}}" [(ngModel)]="fee.frequencyName" readonly disabled>
 						</div>
 						<div class="col-md-2">
-							<input class="form-control m-input feePlanText" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
+							<input  class="form-control m-input feePlanText" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
 						</div>
 						<div class="col-md-2">
-							<input class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
+							<input  class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
 						</div>
 						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan">
 							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0"
@@ -180,7 +180,7 @@
 					<!--<div class="form-group m-form__group row">
 						<div class="col-md-3" *ngFor="let item of frequency;let rowNum=index;let lastRowNum=last">
 							<label for="example-text-input" class="col-form-label" style="width:100%;">
-								Date {{rowNum+1}}
+								Date {{rowNum+1}}_feeplan
 							</label>
 							<p-calendar placeholder="Due date" name="{{'Date'+rowNum}}" [required]="true" [monthNavigator]="false" [yearNavigator]="false"
 							 yearRange="academicYearRange" [(ngModel)]="item.date" [maxDate]="maxDate" dateFormat="dd/mm/yy" disabled [minDate]="minDate"
@@ -199,7 +199,7 @@
 							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed">
 								{{ params ? 'Update' : 'Save' }}
 							</button>
-							<button class="btn" data-toggle="modal" data-target="#preview">Preview</button>
+							<input type='button' class="btn" (click)="showDialog(feePlanForm)" value='Preview'/>
 							<!-- <button type="reset" class="btn btn-secondary">
 									Preview
 								</button> -->
@@ -211,32 +211,43 @@
 					</div>
 				</div>
 			</div>
+			<p-dialog header="{{planeName}}" [(visible)]="previewVisible" modal='true' >
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+						<table border='1'>
+							<thead>
+								<th>Fee Head</th>
+								<th>Frequency</th>
+								<th *ngFor="let item of frequency; let myIndex = index">
+									{{item.date | date: 'MMM-yy'}}
+								</th>
+							</thead>
+							<tbody>
+								<tr *ngFor="let feePlan of feeHeadAmounts; let myIndex = index">
+									<td>{{feePlan.name}}</td>
+									<td>{{feePlan.frequencyName}}</td>
+									<td *ngFor="let item of feePlan.charges;let myIndex = index">
+										<p>{{item}}</p>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<th>Total</th>
+								<th></th>
+								<td *ngFor="let item of totals; let myIndex = index">
+									<p>{{item}}</p>
+								</td>
+							</tfoot>
+						</table>
+						</div>
+					</div>
+					</div>
 
+			</p-dialog>
+			
 			<!-- preview modal -->
-			<div class="modal fade modal fade bd-example-modal-lg" id="preview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-				<div class="modal-dialog modal-lg" role="document">
-					<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">{{planeName}}</h5>
-					</div>
-					<div class="modal-body bg-white txt-blk" id="print-content">
-						<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12">
-							<table>
-								<thead></thead>
-
-							</table>
-							</div>
-						</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-					</div>
-				</div>
-				</div>
+			
 		</form>
 		<!--end::Form-->
 

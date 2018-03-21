@@ -8,7 +8,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 
 import { AcademicYearService } from '../../../../_services/index';
-import { Boards } from "../../../../_models/Boards";
+import { Boards } from "../../../../_models/boards";
 import { Helpers } from "../../../../../../../helpers";
 
 @Component({
