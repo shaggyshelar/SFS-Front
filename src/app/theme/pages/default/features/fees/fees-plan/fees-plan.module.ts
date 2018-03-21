@@ -2,7 +2,7 @@ import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FeesPlanAddEditComponent, rowsFees } from './fees-plan-add-edit/fees-plan-add-edit.component';
+import { FeesPlanAddEditComponent } from './fees-plan-add-edit/fees-plan-add-edit.component';
 import { FeesPlanListComponent } from './fees-plan-list/fees-plan-list.component';
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { DefaultComponent } from '../../../default.component';
@@ -78,7 +78,6 @@ const routes: Routes = [
     CalendarModule
   ], declarations: [
     FeesPlanComponent,
-    rowsFees,
     FeesPlanListComponent,
     FeesPlanAddEditComponent,
   ],
