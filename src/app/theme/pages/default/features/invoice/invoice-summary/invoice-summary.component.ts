@@ -163,20 +163,20 @@ const invoiceStyle = `body{
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .invoiceHeader{
-	background-color: #8b86ce;
-	background-image: linear-gradient(315deg, #8b86ce 0%, #716aca 56%);
+	/*background-color: #8b86ce;
+	background-image: linear-gradient(315deg, #8b86ce 0%, #716aca 56%);*/
 	padding: 1.5em;
 }
 @media print{
   .invoiceHeader{
-		background-color: #8b86ce!important;		
+		/*background-color: #8b86ce!important;	*/
 	}
 }
 .alignRight{
 	text-align:right;
 }
 .invoiceMainHeading{
-	color:#fff;
+	color:#000;
 	margin-bottom:0;
 	font-size: 22px;
 }
@@ -187,7 +187,7 @@ const invoiceStyle = `body{
     letter-spacing: 1px;
 }
 .invoiceLabelBox h5{
-	color: #fff;
+	color: #000;
     font-size: 13px;
     margin-bottom: 0;
     font-weight: 300;
@@ -234,7 +234,7 @@ const invoiceStyle = `body{
 .invoiceTotalBox{
 	background: #565656;
 	font-family: Roboto;
-    color: #fff;
+    color: #000;
     width: 250px;
     padding: 10px 20px;
     text-align: center;
@@ -273,7 +273,7 @@ const invoiceStyle = `body{
 .invoiceText:focus{
 	background: #6760bd;
 	border-color:#6760bd;
-	color: #e8e5e5;
+	color: #000;
 	-webkit-box-shadow: inset 0px -2px 14px 3px rgba(89,79,197,1);
 	-moz-box-shadow: inset 0px -2px 14px 3px rgba(89,79,197,1);
 	box-shadow: inset 0px -2px 14px 3px rgba(89,79,197,1);
@@ -312,38 +312,38 @@ const invoiceStyle = `body{
 
 @media print{
     .invoiceMainHeading {
-		color: #fff!important;		
+		color: #000!important;		
 	}
 	.label-success {
 		background-color: #5cb85c!important;
-		color: #fff!important;
+		color: #000!important;
 		border-color: #5cb85c!important;
 	}
 	.invoiceLabelBox h6 {
-		color: #f7f7f7!important;		
+		color: #000!important;		
 	}
 	.invoiceLabelBox h5 {
-		color: #fff!important;
+		color: #000!important;
 	}
 	.invoiceTotalBox {
 		background: #565656!important;
 	}
 	.invoiceTotalBox {
-        color: #fff!important;
+        color: #000!important;
 	}
 	.invoiceTotalBox span {
-		color: #fff!important;
+		color: #000!important;
 	}
 	.invoiceText {
        background: #6760bd!important;
 	}
 	select{
-		color: #fff!important;
+		color: #000!important;
 	}
 }
 
 .noteText {
-    color: #fff !important;
+    color: #000 !important;
     font-size: 12px !important;
     margin-bottom: 13px !important;
     font-weight: 300 !important;
@@ -353,24 +353,25 @@ const invoiceStyle = `body{
 }
 
 .invoiceStatusLabel {
-        color: #fff !important;
+        color: #000 !important;
         font-size: 12px !important;
         margin-bottom: 0 !important;
         font-weight: 400 !important;
         line-height: 1.4em !important;
         padding: 5px !important;
         letter-spacing: 0px;
-        background-color: rgba(0,0,0,0.4);
+        background-color: #fff;
         text-align: center;
         border-radius: 26px;
         margin-top: 1px;
     }
 
 .invoiceEditLabel {
-    color: #fff;
+    color: #000;
     /* margin-bottom: 15px; */
     /* margin-top: -5px; */
     position: absolute;
+    font-size: 12px !important;
 }
 
 .hackedDueDate {
@@ -414,6 +415,6 @@ th {
 }
 
 .whiteText {
-    color: #fff !important;
+    color: #000 !important;
 }
 `;
