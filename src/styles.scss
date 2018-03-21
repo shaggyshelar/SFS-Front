@@ -1295,3 +1295,40 @@ body .ui-dialog .ui-dialog-titlebar {
         font-size: 12px;
         font-family: Roboto;
     }
+    
+    /********** D. 21 March 2018 **********/
+
+    .invoiceFilterRow .ui-inputtext {
+        width: 100%;
+    }
+    .feePlanDialogTable{
+        width: 100%;
+    }
+    .feePlanDialogTable thead th{
+        padding:5px;
+        background: #f1f1f1;
+        font-family: Roboto;
+        color:#000;
+        font-size: 12px;
+        text-align:center;
+        border:1px solid #ddd;
+    }
+    .feePlanDialogTable tr td{
+        padding:5px;
+        background: #fff;
+        font-family: Roboto;
+        color:#000;
+        font-size: 12px;
+        text-align:center;
+        border:1px solid #ddd;
+        font-weight: 400;
+    }
+    .feePlanDialogTable tfoot th{
+        padding:5px;
+        background: #f5f5f5;
+        font-family: Roboto;
+        color:#000;
+        font-size: 12px;
+        text-align:center;
+        border:1px solid #ddd;
+    }
