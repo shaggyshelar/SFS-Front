@@ -21,6 +21,7 @@ import {
   ConfirmDialogModule,
   CalendarModule,
   ConfirmationService,
+  DialogModule
 } from 'primeng/primeng';
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
     ButtonModule,
     DropdownModule,
     ConfirmDialogModule,
+    DialogModule,
     CalendarModule
   ], declarations: [
     AuditComponent,

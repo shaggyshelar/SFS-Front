@@ -27,6 +27,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   totals = [];
   staticFeeHeadList = [];
   params: number;
+  from: string;
   feeHeadList = [];
   academicYearList = [];
   sequenceNumberArr = [];
@@ -36,6 +37,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   paymentProcessDate: number;
   academicYearRange: string;
   isTransactionProcessed: boolean;
+  isVerified:boolean;
   planeName: '';
   planeDesc: '';
   minDate: Date;
@@ -132,6 +134,9 @@ export class FeesPlanAddEditComponent implements OnInit {
 
   checkForEdit() {
     Helpers.setLoading(true);
+    this.route.queryParams.forEach((params: Params) => {
+      this.from = params['from'];
+    });
     this.route.params.forEach((params: Params) => {
       this.params = params['feeId'];
       if (this.params) {
@@ -144,6 +149,7 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
             this.isTransactionProcessed = results.isTransactionProcessed;
+            this.isVerified = results.isVerified;
             if (this.isTransactionProcessed) {
               this.onAlert();
             }
@@ -471,7 +477,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onCancelFeePlan() {
-    this.router.navigate(['/features/fees/feesPlan/list']);
+    this.router.navigate(['/features/fees/feesPlan/verifyList']);
   }
 
   saveFeePlanDetails(_feeplan: FeePlan) {

@@ -196,8 +196,8 @@
 				<div class="m-form__actions m-form__actions--solid lessPaddingFeePlanFooter">
 					<div class="row">
 						<div class="col-lg-6">
-							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed">
-								{{ params ? 'Update' : 'Save' }}
+							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed || isVerified">
+								{{ params ? from == 'verify' ? 'Verify':'Update' : 'Save' }}
 							</button>
 							<input type='button' class="btn" (click)="showDialog(feePlanForm)" value='Preview'/>
 							<!-- <button type="reset" class="btn btn-secondary">
