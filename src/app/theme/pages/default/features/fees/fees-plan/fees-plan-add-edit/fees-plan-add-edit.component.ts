@@ -13,40 +13,17 @@ import { SchoolService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
 import * as _ from 'lodash/index';
 import { retry } from 'rxjs/operator/retry';
-@Pipe({name: 'rowsFees'})
-export class rowsFees implements PipeTransform {
-  transform(value: number, objLength:Object[],items:Object[]): Number[] {
-    var itemsPushed =[];
-    var filtered = _.filter(items,{feeHeadId: value });
-    for (var i=0;i<objLength.length;i++) { 
-      var temp =  objLength[i];
-      var singleFee = _.filter(filtered,function(j){
-        if (typeof j.dueDate == 'object') {
-          return j.dueDate.toISOString().split('T')[0]==temp['date'].toISOString().split('T')[0]; 
-        } else {
-          return j.dueDate.split('T')[0]==temp['date'].toISOString().split('T')[0]; 
-        }
-      
-      })
-      if (singleFee.length) {
-        itemsPushed.push(singleFee[0].feeCharges);
-      } else {
-        itemsPushed.push('-');
-      }
-  }
-    return itemsPushed;
-  }
-}
+
 @Component({
   selector: "app-users-list",
   templateUrl: "./fees-plan-add-edit.component.html",
-  encapsulation: ViewEncapsulation.None,
-  providers: [ rowsFees ]
+  encapsulation: ViewEncapsulation.None
 })
 
 export class FeesPlanAddEditComponent implements OnInit {
   previewVisible: boolean = false;
   feePlanPreviewDetails = [];
+  feeHeadAmounts = [];
   totals = [];
   staticFeeHeadList = [];
   params: number;
@@ -96,21 +73,40 @@ export class FeesPlanAddEditComponent implements OnInit {
   showDialog(_feeplan:FeePlan) {
     this.onPreview(_feeplan);
     this.totals = [];
-    var fre = this.frequency;
-    fre.forEach((item,i)=> { 
-      var total = 0 ;
-      var filterDate = _.filter(this.feePlanPreviewDetails,function(j){
-        if (typeof j.dueDate == 'object') {
-          return j.dueDate.toISOString().split('T')[0]==item['date'].toISOString().split('T')[0]; 
+    this.feeHeadAmounts = [];
+    var frequency = this.frequency;
+    var feeManagement =  this.feePlanManagement;
+    var tablePreview =  this.feeHeadAmounts;
+    var total = Array.apply(null, Array(frequency.length)).map(Number.prototype.valueOf,0);
+    feeManagement.forEach((fee,j)=> {
+      var tempPreview = {};
+      var charges =[];
+      
+      tempPreview = {name:fee.name, frequencyName:fee.frequencyName, charges:[]};
+      frequency.forEach((item,i)=> {
+         console.log(i);
+        var filterDate = _.filter(this.feePlanPreviewDetails,function(j){
+          if (j.feeHeadId == fee.feeHeadId && typeof j.dueDate == 'object') {
+            
+            return j.dueDate.toISOString().split('T')[0]==item['date'].toISOString().split('T')[0];
+             
+          } else if(j.feeHeadId == fee.feeHeadId && typeof j.dueDate != 'object') {
+            return j.dueDate.split('T')[0]==item['date'].toISOString().split('T')[0]; 
+          }
+        });
+        if (filterDate.length) {
+          total[i] +=  filterDate[0].feeCharges;
+          charges.push(filterDate[0].feeCharges);
         } else {
-          return j.dueDate.split('T')[0]==item['date'].toISOString().split('T')[0]; 
+          total[i] +=  0;
+          charges.push('-');
         }
-      });
-      _.forEach(filterDate, function(item) {
-         total +=  item.feeCharges;
-      });
-      this.totals.push(total);
-     });
+       
+       });
+       this.totals=total;
+       tempPreview['charges'] = charges;
+       tablePreview.push(tempPreview);
+    });
     this.previewVisible = !this.previewVisible;
   }
   onAlert() {
