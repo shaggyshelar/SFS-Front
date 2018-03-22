@@ -21,6 +21,9 @@ import { SchoolService } from '../../../../_services/index';
 export class TransportListComponent implements OnInit {
     schoolList: SelectItem[];
     listDisable: boolean;
+    previewVisible: boolean = false;
+    previewHeader: any = [];
+    previewRow: any = [];
     schoolId: string;
     frequencyId: number = null;
     academicYear: string;
@@ -44,6 +47,7 @@ export class TransportListComponent implements OnInit {
     confirmZoneCostErr: boolean = false;
     isRequired: boolean = false;
     paymentProcessDate: number;
+    
     constructor(
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
@@ -68,6 +72,65 @@ export class TransportListComponent implements OnInit {
         }
 
 
+    }
+    calculateDateForPreview() {
+        this.previewHeader =[];
+        var frequency = _.filter(this.frequencyList,{id:this.frequencyId})[0];
+        switch (frequency.frequencyValue) {
+            case 12:
+            var date = new Date(this.minDate);
+            var temp = new Date(date);
+            for(var i=0;i<12;i++) {
+                var temp = new Date(date);
+                temp.setMonth(temp.getMonth()+i);
+                this.previewHeader.push({sDate:temp,eDate:''});
+            }
+                break;
+            case 4:
+            var date = new Date(this.minDate);
+            for(var i=0;i<4;i++) {
+                var temp = new Date(date);
+                date.setMonth(date.getMonth()+(i==0?2:3));
+                temp.setMonth(temp.getMonth()+(i==0?0:1));
+                this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+            }
+                break;
+            case 2:
+            var date = new Date(this.minDate);
+            for(var i=0;i<2;i++) {
+
+                var temp = new Date(date);
+                date.setMonth(date.getMonth()+(i==0?5:6));
+                temp.setMonth(temp.getMonth()+(i==0?0:1));
+                this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+            }
+                break;
+            case 1:
+            var date = new Date(this.minDate);
+            var temp = new Date(date);
+            date.setMonth(date.getMonth()+11);
+            this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+            break;
+        }
+    }
+    showDialog() {
+        this.calculateDateForPreview();
+        this.previewRow = [];
+        var row= {};
+        this.transportList.forEach(item=>{
+            row ={
+                name:item.zoneCode,
+                desc:item.zoneDescription,
+                charges:[],
+                totalAmount:item.zoneCost*this.previewHeader.length
+            };
+            var charges=[];
+            this.previewHeader.forEach(itemPrice=>{
+                row['charges'].push(item.zoneCost);
+            });
+            this.previewRow.push(row);
+        });
+        this.previewVisible = !this.previewVisible;
     }
     getSchoolDetails() {
         let schoolId = parseInt(localStorage.getItem('schoolId'));
@@ -148,6 +211,7 @@ export class TransportListComponent implements OnInit {
         }
     }
     addRowAndSave(row: any, rowNum: any) {
+        row.isVerified = false;
         if (!row.disableFrequecy) {
             this.onSaveTransportRows(row, rowNum);
         }
@@ -300,7 +364,9 @@ export class TransportListComponent implements OnInit {
                     let count1 = 0;
                     let count2 = 0;
                     _tempUpdateList.forEach(element => {
+                        element.isVerified = false;
                         this.tempTransportList.forEach(element1 => {
+                            
                             if ((element.id === element1.id)
                                 && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.zoneCost !== element1.zoneCost)) {
                                 count++;
@@ -358,6 +424,7 @@ export class TransportListComponent implements OnInit {
                             }
                             else if ((element.id === element1.id)
                                 && (element.zoneCode === element1.zoneCode || element.zoneDescription === element1.zoneDescription || element.zoneCost === element1.zoneCost)) {
+                                    
                                 count2++;
                                 let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
                                 this.frequency.forEach(freq => {
@@ -501,6 +568,7 @@ export class TransportListComponent implements OnInit {
         }
     }
     onSaveTransportRows(row: any, rowNum: any) {
+        row.isVerified = false;
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
             if (row.zoneCost === row.confirmZoneCost) {
                 if (row.id === null) {

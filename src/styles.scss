@@ -1332,3 +1332,15 @@ body .ui-dialog .ui-dialog-titlebar {
         text-align:center;
         border:1px solid #ddd;
     }
+    /************** D. 22 March 2018 **************/    
+.feePlanDialog .ui-dialog{
+    position: fixed!important;
+    margin: 0 auto!important;
+    left: 0!important;
+    right: 0!important;
+    top: 50%!important;
+    transform: translateY(-50%)!important;
+    color: #fff!important;
+    z-index: 9999999999999!important;
+    width: 60%!important;
+}

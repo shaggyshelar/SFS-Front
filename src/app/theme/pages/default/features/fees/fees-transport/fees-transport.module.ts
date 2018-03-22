@@ -16,6 +16,7 @@ import {
   DropdownModule,
   ConfirmDialogModule,
   ConfirmationService,
+  DialogModule
 } from 'primeng/primeng';
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
     ButtonModule,
     DropdownModule,
     ConfirmDialogModule,
+    DialogModule
   ],
   declarations: [
     TransportComponent,
