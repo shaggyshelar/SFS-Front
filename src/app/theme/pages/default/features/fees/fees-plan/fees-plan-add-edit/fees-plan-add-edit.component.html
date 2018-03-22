@@ -219,14 +219,16 @@
 							<thead>
 								<th>Fee Head</th>
 								<th>Frequency</th>
-								<th *ngFor="let item of frequency; let myIndex = index">
-									{{item.date | date: 'MMM-yy'}}
+								<th>Amount</th>
+								<th *ngFor="let item of previewHeader; let myIndex = index">
+										{{item.sDate | date: 'MMM-yy'}} <span [hidden]='item.eDate == ""?true:false'>TO</span> {{item.eDate | date: 'MMM-yy'}}
 								</th>
 							</thead>
 							<tbody>
 								<tr *ngFor="let feePlan of feeHeadAmounts; let myIndex = index">
 									<td>{{feePlan.name}}</td>
 									<td>{{feePlan.frequencyName}}</td>
+									<td>{{feePlan.totalAmount}}</td>
 									<td *ngFor="let item of feePlan.charges;let myIndex = index">
 										{{item}}
 									</td>
