@@ -18,6 +18,7 @@
         </button>
     </p-footer>
 </p-confirmDialog>
+
 <div class="m-subheader">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -60,6 +61,36 @@
     <div class="m-portlet">
         <div class="row">
             <div class="col-lg-12">
+                    <p-dialog header="Transport Plan" [(visible)]="previewVisible" modal='true' class="feePlanDialog">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="">
+                                    <table border='1' class="feePlanDialogTable">
+                                        <thead>
+                                            <th>Zone Name</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th *ngFor="let item of previewHeader; let myIndex = index">
+                                                {{item.sDate | date: 'MMM-yy'}} <span [hidden]='item.eDate == ""?true:false'>TO</span> {{item.eDate | date: 'MMM-yy'}}
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let transport of previewRow; let myIndex = index">
+                                                <td>{{transport.name}}</td>
+                                                <td>{{transport.desc}}</td>
+                                                <td>{{transport.totalAmount}}</td>
+                                                <td *ngFor="let item of transport.charges;let myIndex = index">
+                                                    {{item}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                                    </div>
+                                </div>
+                                </div>
+                        
+                        </p-dialog>
                 <!--begin::Form-->
                 <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" style="margin-bottom: 7em;">
                     <div class="m-portlet__head">
@@ -232,6 +263,7 @@
                                             (click)="onSaveTransport()" *ngIf="!disableFrequecy">
                                             Save
                                         </button>
+                                        <input [hidden]="frequencyId ==null ? true :false" type='button' class="btn m-btn m-btn--air m-btn--custom" style="margin-top:25px;margin-bottom: 40px;" (click)="showDialog(feePlanForm)" value='Preview'/> 
 
                                     </div>
                                 </div>
@@ -241,6 +273,7 @@
                     </div>
 
                 </div>
+                
                 <!--end::Form-->
             </div>
         </div>

@@ -27,6 +27,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   totals = [];
   staticFeeHeadList = [];
   params: number;
+  previewHeader:any = [];
   from: string;
   feeHeadList = [];
   academicYearList = [];
@@ -72,21 +73,60 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.getSchoolDetails();
     
   }
+  calculateDateForPreview() {
+    this.previewHeader =[];
+    switch (this.maxsequenceNumber) {
+        case 12:
+        var date = new Date(this.minDate);
+        var temp = new Date(date);
+        for(var i=0;i<12;i++) {
+            var temp = new Date(date);
+            temp.setMonth(temp.getMonth()+i);
+            this.previewHeader.push({sDate:temp,eDate:''});
+        }
+            break;
+        case 4:
+        var date = new Date(this.minDate);
+        for(var i=0;i<4;i++) {
+            var temp = new Date(date);
+            date.setMonth(date.getMonth()+(i==0?2:3));
+            temp.setMonth(temp.getMonth()+(i==0?0:1));
+            this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+        }
+            break;
+        case 2:
+        for(var i=0;i<2;i++) {
+          var date = new Date(this.minDate);
+            var temp = new Date(date);
+            date.setMonth(date.getMonth()+(i==0?5:6));
+            temp.setMonth(temp.getMonth()+(i==0?0:1));
+            this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+        }
+            break;
+        case 1:
+        var date = new Date(this.minDate);
+        var temp = new Date(date);
+        date.setMonth(date.getMonth()+11);
+        this.previewHeader.push({sDate:temp,eDate:new Date(date)});
+        break;
+    }
+}
   showDialog(_feeplan:FeePlan) {
     this.onPreview(_feeplan);
+    this.calculateDateForPreview();
     this.totals = [];
     this.feeHeadAmounts = [];
     var frequency = this.frequency;
     var feeManagement =  this.feePlanManagement;
     var tablePreview =  this.feeHeadAmounts;
     var total = Array.apply(null, Array(frequency.length)).map(Number.prototype.valueOf,0);
+    var allTotal = 0;
     feeManagement.forEach((fee,j)=> {
       var tempPreview = {};
       var charges =[];
       
-      tempPreview = {name:fee.name, frequencyName:fee.frequencyName, charges:[]};
+      tempPreview = {name:fee.name, frequencyName:fee.frequencyName, charges:[], totalAmount:0};
       frequency.forEach((item,i)=> {
-         console.log(i);
         var filterDate = _.filter(this.feePlanPreviewDetails,function(j){
           if (j.feeHeadId == fee.feeHeadId && typeof j.dueDate == 'object') {
             
@@ -98,7 +138,9 @@ export class FeesPlanAddEditComponent implements OnInit {
         });
         if (filterDate.length) {
           total[i] +=  filterDate[0].feeCharges;
+          tempPreview['totalAmount'] +=filterDate[0].feeCharges;
           charges.push(filterDate[0].feeCharges);
+          allTotal += filterDate[0].feeCharges;
         } else {
           total[i] +=  0;
           charges.push('-');
@@ -109,6 +151,7 @@ export class FeesPlanAddEditComponent implements OnInit {
        tempPreview['charges'] = charges;
        tablePreview.push(tempPreview);
     });
+    this.totals.splice(0, 0,allTotal);
     this.previewVisible = !this.previewVisible;
   }
   onAlert() {
