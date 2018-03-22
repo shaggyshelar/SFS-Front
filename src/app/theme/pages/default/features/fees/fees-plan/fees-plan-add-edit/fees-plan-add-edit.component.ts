@@ -156,8 +156,8 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
   onAlert() {
     this.confirmationService.confirm({
-      message: 'Record Already Processed.Not Available For Update.',
-      header: 'Processed',
+      message: 'Record Is Verified and Unavailable For Update.',
+      header: 'Verified',
       icon: 'fa fa-info',
       reject: () => {
       }
@@ -193,7 +193,7 @@ export class FeesPlanAddEditComponent implements OnInit {
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
             this.isTransactionProcessed = results.isTransactionProcessed;
             this.isVerified = results.isVerified;
-            if (this.isTransactionProcessed) {
+            if (this.isVerified) {
               this.onAlert();
             }
             if (uniqFeeHead.length > 0) {
@@ -490,6 +490,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       _feeplan.feePlanDescription = this.planeDesc;
       _feeplan.academicYear = this.selectedAcademicYear;
       _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
+      _feeplan.isVerified = this.from == 'verify' ? true :false;
       if (!this.params) {
         this.feesService.createFeePlan(_feeplan)
           .subscribe(
@@ -520,7 +521,9 @@ export class FeesPlanAddEditComponent implements OnInit {
   }
 
   onCancelFeePlan() {
-    this.router.navigate(['/features/fees/feesPlan/verifyList']);
+    this.from == 'verify' ? 
+    this.router.navigate(['/features/fees/feesPlan/verifyList']):
+    this.router.navigate(['/features/fees/feesPlan/list']);
   }
 
   saveFeePlanDetails(_feeplan: FeePlan) {
@@ -595,7 +598,7 @@ export class FeesPlanAddEditComponent implements OnInit {
         else {
           this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: 'Record Created Successfully' });
         }
-        this.router.navigate(['/features/fees/feesPlan/list']);
+        this.from == 'verify' ? this.router.navigate(['/features/fees/feesPlan/verifyList']) :this.router.navigate(['/features/fees/feesPlan/list']);
       },
       error => {
         this.globalErrorHandler.handleError(error);

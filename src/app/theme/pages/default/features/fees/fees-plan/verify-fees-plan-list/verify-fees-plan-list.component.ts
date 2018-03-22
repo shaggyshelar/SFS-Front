@@ -360,7 +360,7 @@ export class VerifyFeesPlanListComponent implements OnInit {
   }
   getUrl() {
     let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+    this.url = '?filter[limit]=' + this.perPage + '&filter[where][isVerified]=false&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
   }
   /* Counting Number of records ends*/
 }
