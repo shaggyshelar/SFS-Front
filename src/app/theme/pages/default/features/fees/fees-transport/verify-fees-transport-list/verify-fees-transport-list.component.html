@@ -49,7 +49,7 @@
                             <span class="m-nav__link-text">
                                 List
                             </span>
-                        </a>
+                            </a>
                     </li>
                 </ul>
             </div>
@@ -222,7 +222,7 @@
                                                         <i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                     </button> 
                                                     <button  [isAuthorize]="['VerifyTransport.Update']" title="Verify" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            (click)="onSaveTransportRows(row,rowNum)" *ngIf="!row.isVerified">
+                                                            (click)="onSaveTransportRows(row,rowNum)" *ngIf="(!row.isVerified) || ((!row.disableFrequecy) && (disableFrequecy))">
                                                         <i class="la la-check-circle" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                     </button>
                                                     <button  [isAuthorize]="['VerifyTransport.Update']" title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
@@ -241,10 +241,9 @@
                                                             *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
                                                         <i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
                                                     </button>  
-                                                     <button  [isAuthorize]="['VerifyTransport.Update']" title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!row.disableFrequecy)&&(disableFrequecy)" (click)="onSaveTransportRows(row,rowNum)">
+                                                     <!-- <button  [isAuthorize]="['VerifyTransport.Update']" title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!row.disableFrequecy)&&(disableFrequecy)" (click)="onSaveTransportRows(row,rowNum)">
                                                         <i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button> 
-                                                    </div>
+                                                    </button>  -->                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>

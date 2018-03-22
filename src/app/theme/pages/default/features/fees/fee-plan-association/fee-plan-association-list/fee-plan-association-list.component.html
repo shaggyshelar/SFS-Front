@@ -116,8 +116,8 @@
 									<th title="">
 										Category
 									</th>
-									<th title="Plan Used/Unused">
-										Plan Used/Unused
+									<th title="Status">
+											Status
 									</th>
 									<th title="">
 										Actions
@@ -129,7 +129,7 @@
 									<td>{{row.feePlanName}}</td>
 									<td>{{row.classes}}</td>
 									<td>{{row.categories}}</td>
-									<td>{{row.isTransactionProcessed?'Used':'Unused'}}</td>
+									<td>{{row.isVerified?'Verified':'Not Verified'}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Feeplanassociation.Update']">

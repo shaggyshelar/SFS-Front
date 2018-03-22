@@ -95,8 +95,8 @@ export class FeesPlanAddEditComponent implements OnInit {
         }
             break;
         case 2:
+        var date = new Date(this.minDate);
         for(var i=0;i<2;i++) {
-          var date = new Date(this.minDate);
             var temp = new Date(date);
             date.setMonth(date.getMonth()+(i==0?5:6));
             temp.setMonth(temp.getMonth()+(i==0?0:1));
