@@ -176,7 +176,7 @@
 								</tr>
 							</thead>
 							<tbody *ngIf="longList">
-								<tr *ngFor='let row of studentList | async'>
+								<tr *ngFor='let row of studentList'>
 									<!-- <td>{{row.id}}</td> -->
 									<td>{{row.gRNumber}}</td>
 									<td>{{row.studentCode}}</td>
@@ -185,7 +185,7 @@
 									<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
 									<td>{{row.StudentDivision ? row.StudentDivision.divisionName : ''}}</td>
 									<td>
-										<button class="btn btn-outline-brand btn-sm regProcessBtn">Register & Process</button>
+										<button [disabled]='!(row.isFeePlanVerified==1 && row.isAcademicFeeProcessed==0)' class="btn btn-outline-brand btn-sm regProcessBtn">Register & Process</button>
 									</td>
 									<!-- <td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
 									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td> -->
