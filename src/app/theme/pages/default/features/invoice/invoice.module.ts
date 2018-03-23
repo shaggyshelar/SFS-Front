@@ -10,6 +10,7 @@ import { InvoiceService } from './../../_services/index';
 import { InvoiceComponent  } from './invoice.component';
 import { InvoiceListComponent  } from './invoice-list/invoice-list.component';
 import { InvoiceSummaryComponent  } from './invoice-summary/invoice-summary.component';
+import { ClassService } from '../../_services/class.service';
 
 import {
   DropdownModule,
@@ -75,7 +76,8 @@ const routes: Routes = [
   ],
   providers: [
     ConfirmationService,
-    InvoiceService
+    InvoiceService,
+    ClassService
   ],
 })
 export class InvoiceModule {

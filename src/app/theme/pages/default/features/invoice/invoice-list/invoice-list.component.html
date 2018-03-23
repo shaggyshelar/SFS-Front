@@ -1,4 +1,4 @@
-<div class="m-subheader" [isAuthorize]="['AcademicYear.Read']" style="display:none;">
+<div class="m-subheader" [isAuthorize]="['Invoice.Read']" style="display:none;">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
@@ -41,10 +41,11 @@
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="row headerRowListing">
-				<div class="col-xl-8">
+				<div class="col-xl-12">
 					<h3 class="ListingHeading">
 						Invoice List
 					</h3>
+					<button class="btn btn-info exportExcelBtn" (click)="exporttoCSV()" [disabled]="!longList"><i class="flaticon-download"></i> Export to Excel</button>
 				</div>
 				<!--<div class="col-xl-4">
 					<a href="javascript:;" (click)="onAddSchool()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right">
@@ -67,58 +68,70 @@
 			<div class="">
 
 				<!--begin: Datatable -->
-				<div class="row staticSearchRow invoiceFilterRow">
+				<div class="row staticSearchRow staticSearchInvoiceRow">
+
 					<div class="col-md-2">
-						<label>Student Name</label>
-						<input type="text" class="form-control" />
-					</div>	
-					<div class="col-md-2">
-						<label>Division</label>
-						<input type="text" class="form-control" />
+						<div class="filterDropdown">
+							<label>Status</label>
+							<select class="form-control" [(ngModel)]="status" name="statusddl" (change)="onFilterByStatus('status',status)">
+								<option value="" selected="">All</option>
+								<option value="Created">Created</option>
+								<option value="Processed">Processed</option>
+								<option value="Paid">Paid</option>
+								<option value="Settled">Settled</option>
+								<option value="Closed">Closed</option>
+							</select>
+						</div>
 					</div>
 					<div class="col-md-2">
-						<div class="">
-							<label>From</label>
+						<div class="filterDropdown">
+							<label>Class</label>
+							<select class="form-control" [(ngModel)]="class" name="classddl" (change)="onFilterByClass('classId',class)">
+								<option value="" selected="">All</option>
+								<option *ngFor="let class of classList" [value]="class.id">{{class.className}}</option>
+							</select>
 						</div>
-						<div class="">
-							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label>Division</label>
+							<select class="form-control" [(ngModel)]="division" name="divisionddl" (change)="onFilterByDivision('divisionId',division)">
+								<option value="" selected="">All</option>
+								<option *ngFor="let division of divisionList" [value]="division.id">{{division.divisionName}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label>Category</label>
+							<select class="form-control" [(ngModel)]="category" name="categoryddl" (change)="onFilterByCategory()">
+								<option value="" selected="">All</option>
+								<option *ngFor="let category of categoryList" [value]="category.id">{{category.categoryName}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="filterDropdown">
+							<label >From</label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-2">
-						<div class="">
-							<label>To</label>
-						</div>
-						<div class="">
-							<p-calendar [style]="{'width':'100%'}" placeholder="Due date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+						<div class="filterDropdown">
+							<label >To</label>
+							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<label>Category</label>
-						<input type="text" class="form-control" />
-					</div>
-					<div class="col-md-2">
-						<div class="">
-							<label>Status</label>
-						</div>
-						<div class="">
-							<select class="form-control" [(ngModel)]="status" (change)="onStatusChange()" name="statusddl">
-								<option value="Select">All</option>
-								<option value="Created" >Created</option>
-                                    <option value="Processed" >Processed</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Settled" >Settled</option>
-                                    <option value="Closed">Closed</option>
-							</select>
-						</div>
-					</div>
-					
+
+				</div>
+				<div class="row staticSearchRow">
 					<div class="col-md-9"></div>
-					<div class="col-md-3">
+					<div class="col-md-3" *ngIf="(longList) || (!longList && onSerchClick)">
 						<div class="m-input-icon m-input-icon--left">
-							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue,false)"
-							 placeholder="Search..." id="m_form_search" style="margin-top: 15px;">
+							<input type="text" class="form-control m-input m-input--solid" [(ngModel)]="searchValue" (keyup)="searchString(searchValue)"
+							 placeholder="Search..." id="m_form_search">
 
 							<span class="m-input-icon__icon m-input-icon__icon--left">
 								<span>
@@ -127,9 +140,9 @@
 							</span>
 						</div>
 					</div>
-				</div>
 
-				<div class="table-responsive">
+				</div>
+				<div class="table-responsive" *ngIf="longList">
 					<div class="tableBox">
 						<table class="staticTable" id="" width="100%">
 							<thead>
@@ -170,7 +183,7 @@
 									</td>
 									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.type }}</td>
-									<td>{{row.studentData!=null?row.studentData.studentFirstName+' '+row.studentData.studentMiddleName+' '+row.studentData.studentLastName:''}}</td>
+									<td>{{row.studentFirstName ? row.studentFirstName : ''}} {{row.studentLastName ? row.studentLastName : ''}}</td>
 									<td>
 										<b>
 											{{row.status}}
@@ -184,6 +197,9 @@
 								</tr>
 							</tbody>
 							<tbody *ngIf="!longList">
+								No Records Found...
+							</tbody>
+							<tbody *ngIf="recordNotFound">
 								No Records Found...
 							</tbody>
 						</table>
@@ -238,6 +254,53 @@
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+
+				<div class="table-responsive" *ngIf="!longList && onSerchClick">
+					<div class="tableBox">
+						<table class="staticTable" id="" width="100%">
+							<thead>
+								<tr>
+									<th title="">
+										Invoice No.
+									</th>
+									<th title="">
+										Date
+									</th>
+									<th title="">
+										Type
+									</th>
+									<th title="">
+										Student Name
+									</th>
+									<th title="">
+										Class
+									</th>
+									<th title="">
+										Division
+									</th>
+									<th title="">
+										Fee Plan
+									</th>
+									<th title="">
+										Category
+									</th>
+									<th title="">
+										Status
+									</th>
+									<th title="">
+										Amount
+									</th>
+									<!-- <th title="">
+										Action
+									</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								No Records Found...
+							</tbody>
+						</table>
 					</div>
 				</div>
 				<!--end: Datatable -->
