@@ -130,7 +130,9 @@ export class VerifyTransportListComponent implements OnInit {
             });
             this.previewRow.push(row);
         });
-        this.previewVisible = !this.previewVisible;
+        setTimeout(() => {
+            this.previewVisible = !this.previewVisible;
+        }, 10);
     }
     getSchoolDetails() {
         let schoolId = parseInt(localStorage.getItem('schoolId'));

@@ -211,7 +211,7 @@
 					</div>
 				</div>
 			</div>
-			<p-dialog header="{{planeName}}" [(visible)]="previewVisible" modal='true' class="feePlanDialog">
+			<p-dialog [responsive]='true' header="{{planeName}}" [(visible)]="previewVisible" modal='true' >
 				<div class="container-fluid">
 					<div class="row">
 						<div class="" style="margin:0 auto;">
@@ -247,7 +247,6 @@
 					</div>
 
 			</p-dialog>
-			
 			<!-- preview modal -->
 			
 		</form>

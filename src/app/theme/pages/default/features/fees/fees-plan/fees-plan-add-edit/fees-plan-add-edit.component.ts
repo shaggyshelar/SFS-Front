@@ -152,7 +152,9 @@ export class FeesPlanAddEditComponent implements OnInit {
        tablePreview.push(tempPreview);
     });
     this.totals.splice(0, 0,allTotal);
-    this.previewVisible = !this.previewVisible;
+    setTimeout(() => {
+      this.previewVisible = !this.previewVisible;
+  }, 10);
   }
   onAlert() {
     this.confirmationService.confirm({
