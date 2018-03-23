@@ -27,7 +27,7 @@ export class StudentService {
   //  }
 
   getAllStudents(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/Students' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Students/' + localStorage.getItem("schoolId") + '/getStudentDetails' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getStudentById(id: number) {
