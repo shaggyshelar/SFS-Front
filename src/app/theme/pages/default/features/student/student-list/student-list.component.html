@@ -185,7 +185,7 @@
 									<td>{{row.StudentClass ? row.StudentClass.className : ''}}</td>
 									<td>{{row.StudentDivision ? row.StudentDivision.divisionName : ''}}</td>
 									<td>
-										<button [disabled]='!(row.isFeePlanVerified==1) && !(row.isAcadamicFeeProcessed==0)' class="btn btn-outline-brand btn-sm regProcessBtn">Register & Process</button>
+										<button [disabled]='!(row.isFeePlanVerified==1 && row.isAcademicFeeProcessed==0)' class="btn btn-outline-brand btn-sm regProcessBtn">Register & Process</button>
 									</td>
 									<!-- <td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
 									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td> -->
