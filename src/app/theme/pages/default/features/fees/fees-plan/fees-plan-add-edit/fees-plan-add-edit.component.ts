@@ -11,6 +11,7 @@ import { ConfirmationService } from 'primeng/primeng';
 import { AcademicYearService } from '../../../../_services/index';
 import { SchoolService } from '../../../../_services/index';
 import { Helpers } from "../../../../../../../helpers";
+import { StoreService } from "../../../../../../../_services/store.service";
 import * as _ from 'lodash/index';
 import { retry } from 'rxjs/operator/retry';
 
@@ -43,6 +44,7 @@ export class FeesPlanAddEditComponent implements OnInit {
   planeDesc: '';
   minDate: Date;
   maxDate: Date;
+  canVerify: boolean = false;
   frequency = [{
     sequenceNumber: 1,
     date: new Date()
@@ -64,6 +66,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     private feesService: FeesService,
     private globalErrorHandler: GlobalErrorHandler,
     private confirmationService: ConfirmationService,
+    private storeService : StoreService,
     private messageService: MessageService) {
   }
   ngOnInit() {
@@ -71,8 +74,21 @@ export class FeesPlanAddEditComponent implements OnInit {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.getSchoolDetails();
+    this.checkPermission();
     
   }
+  checkPermission() {
+    let userHasPermissions = false;
+    this.storeService.permissionsList.subscribe((response) => {
+        if (response) {
+            var permission = _.filter(response,{permissionName:'VerifyFeePlan.Update'})[0];
+            this.canVerify = permission ? true:false;
+        }
+    }, error => {
+        console.log("Auth Fail");
+    });
+
+}
   calculateDateForPreview() {
     this.previewHeader =[];
     switch (this.maxsequenceNumber) {
@@ -492,7 +508,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       _feeplan.feePlanDescription = this.planeDesc;
       _feeplan.academicYear = this.selectedAcademicYear;
       _feeplan.schoolId = parseInt(localStorage.getItem('schoolId'));
-      _feeplan.isVerified = this.from == 'verify' ? true :false;
+      _feeplan.isVerified = this.from == 'verify' ? this.canVerify ? true:false :false;
       if (!this.params) {
         this.feesService.createFeePlan(_feeplan)
           .subscribe(
