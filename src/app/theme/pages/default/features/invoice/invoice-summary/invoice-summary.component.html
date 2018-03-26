@@ -49,7 +49,10 @@
                             <h3 class="invoiceMainHeading">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
                                 <span class="m-badge  m-badge--success m-badge--wide" style="font-size:10px;margin-top: -2px;">{{invoice.status}}</span>
                                 <!--<a class="btn btn-circle btn-icon-only btn-default"><i class="fa fa-print"></i></a>-->
-                                <button class=" btn m-badge  m-badge--info m-badge--wide" style="font-size:10px;margin-top: -2px;" (click)="printDoc()" ><i class="fa fa-print" style="vertical-align: middle;margin-right: 4px;"></i><span>Print</span></button>
+                                <button class=" btn m-badge  m-badge--info m-badge--wide" style="font-size:10px;margin-top: -2px;" (click)="printDoc()">
+                                    <i class="fa fa-print" style="vertical-align: middle;margin-right: 4px;"></i>
+                                    <span>Print</span>
+                                </button>
                             </h3>
                         </div>
                         <div class="col-md-1">
@@ -122,15 +125,23 @@
                     </div>
 
                     <div class="row invoiceRow">
-                         <div class="col-md-12" style="margin-top: -10px;">
-                             <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label>
-                         </div>
+                        <div class="col-md-12" style="margin-top: -10px;">
+                            <label class="noteText">NOTE : You can either select
+                                <i>
+                                    <b>Due Date</b>
+                                </i> or
+                                <i>
+                                    <b>Status</b>
+                                </i>
+                            </label>
+                        </div>
                         <div class="col-md-2">
                             <div class="invoiceLabelBox">
                                 <!--<h6>Due Date
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6> -->
-                                <input type="radio" [disabled]="invoice.status!='Processed'"  name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)" value="1" />
+                                <input type="radio" [disabled]="invoice.status!='Processed'" name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)"
+                                    value="1" />
                                 <label class="invoiceEditLabel">Due Date</label>
                                 <p-calendar dateFormat="mm-dd-yy" [style]="{'width':'100%'}" [(ngModel)]="invoice.dueDate" name="dueDate" [minDate]='minEndDate'
                                     placeholder="Due date" readonlyInput="true" [monthNavigator]="true" [yearNavigator]="true"
@@ -143,10 +154,12 @@
                                 <!--<h6>Status
                                     <i class="la la-edit invoiceEdit"></i>
                                 </h6>-->
-                                <input type="radio" name="statusDueDate"  [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)" value="2" />
-                                &nbsp;<label class="invoiceEditLabel" style="margin-left: -3px;">Status</label>
+                                <input type="radio" name="statusDueDate" [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)"
+                                    value="2" /> &nbsp;
+                                <label class="invoiceEditLabel" style="margin-left: -3px;">Status</label>
                                 <h5 *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</h5>
-                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" *ngIf="radioVal==2" [disabled]="invoice.status!='Processed'">
+                                <select class="form-control m-input invoiceText" (change)="onStatusChange()" [(ngModel)]="currentStatus" *ngIf="radioVal==2"
+                                    [disabled]="invoice.status!='Processed'">
                                     <option value="Paid">Paid</option>
                                     <option value="Closed">Closed</option>
                                 </select>
@@ -190,43 +203,43 @@
 
                         </tbody>
                     </table>
-                    <hr class="invoiceSummarySeparator"/> 
+                    <hr class="invoiceSummarySeparator" />
                     <table class="table invoiceTable invoiceTotalTable">
-                        <tbody>                            
+                        <tbody>
                             <tr>
                                 <td style="border-top:none!important;">
-                                    Invoice Total    
-                                </td>        
+                                    Invoice Total
+                                </td>
                                 <td style="border-top:none!important;">
                                     {{chargeAmount}}
-                                </td>                              
+                                </td>
                             </tr>
-                            <hr class="invoiceSummarySeparator" style="width:125%;"/> 
+                            <hr class="invoiceSummarySeparator" style="width:125%;" />
                             <tr>
                                 <td>
-                                    Late Fee                
-                                </td>  
+                                    Late Fee
+                                </td>
                                 <td>
                                     {{lateFee}}
-                                </td>    
-                            </tr>    
-                            <hr class="invoiceSummarySeparator" style="width:125%;"/> 
+                                </td>
+                            </tr>
+                            <hr class="invoiceSummarySeparator" style="width:125%;" />
                             <tr>
                                 <td>
-                                    Amount Paid 
-                                </td>        
+                                    Amount Paid
+                                </td>
                                 <td>
                                     {{paidAmount}}
-                                </td>                              
+                                </td>
                             </tr>
-                            <hr class="invoiceSummarySeparator" style="width:125%;"/> 
+                            <hr class="invoiceSummarySeparator" style="width:125%;" />
                             <tr>
                                 <td>
                                     Balance
-                                </td>        
+                                </td>
                                 <td>
                                     {{totalBalance}}
-                                </td>                              
+                                </td>
                             </tr>
 
                         </tbody>
@@ -237,24 +250,24 @@
                         <span>Total Due &nbsp;&nbsp; : &nbsp;&nbsp;</span> Rs. {{invoice.totalChargeAmount}}
                     </div> -->
 
-                
+
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit invoiceSubmitBox">
                         <div class="m-form__actions m-form__actions--solid">
                             <div class="row">
-                                
+
                                 <div class="col-lg-12 " style="text-align: center;">
                                     <!-- *ngIf="invoice.status=='Processed'" -->
                                     <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="invoice.status!='Processed'" [isAuthorize]="['Invoice.Update']"
                                         (click)="updateInvoice()">
                                         Update
                                     </button>
-                                    
+
                                     <button type="button" class="btn btn-secondary" (click)="cancelInvoice()" style="margin-left: 10px;">
                                         Cancel
                                     </button>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -263,101 +276,110 @@
 
             <!--this is test section of the page [hidden]="!showPrintPart"-->
             <div style="display:none;">
-            <div class="invoiceContainer" id="invoice-content" style='display:none'>
-                <div class="invoiceHeader">
+                <div class="invoiceContainer" id="invoice-content" style='display:none'>
+                    <div class="invoiceHeader">
 
-                    <table style="width: 100%;">
-                        <tr>
-                            <td style="width:30%;">
-                                <h3 class="invoiceMainHeading" style="margin-bottom:0;margin-top:0;">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
-                                   <!-- <span class="label label-success customBadge" style="font-size:12px;">{{invoice.status}}</span> -->
-                                </h3>
-                            </td>
-                            <td class="alignRight" style="width:70%;">
-                                <div class="invoiceLabelBox">
-                                    <h6 style="margin-bottom:0;margin-top:0;">Invoice No.</h6>
-                                    <h5 style="margin-bottom:0;margin-top:0;"><b style="font-weight:500;font-style:italic;color:#000!important;">{{invoice.invoiceNumber}}</b></h5>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="row invoiceRow">
-                        <table style="width: 98%;margin-left: 0%;margin-right: 1%;">
+                        <table style="width: 100%;">
                             <tr>
-                                <td style="width:40%;">
+                                <td style="width:30%;">
+                                    <h3 class="invoiceMainHeading" style="margin-bottom:0;margin-top:0;">INVOICE &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <!-- <span class="label label-success customBadge" style="font-size:12px;">{{invoice.status}}</span> -->
+                                    </h3>
+                                </td>
+                                <td class="alignRight" style="width:70%;">
                                     <div class="invoiceLabelBox">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Invoice to</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;">Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
-                                        <h5 style="margin-bottom:0;margin-top:0;">Id: {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>
-                                        <h5 style="margin-bottom:0;margin-top:0;">Class: {{invoice.studentData?invoice.studentData.StudentClass.className:''}} Division:
-                                            {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}
+                                        <h6 style="margin-bottom:0;margin-top:0;">Invoice No.</h6>
+                                        <h5 style="margin-bottom:0;margin-top:0;">
+                                            <b style="font-weight:500;font-style:italic;color:#000!important;">{{invoice.invoiceNumber}}</b>
                                         </h5>
-                                        <h5 style="margin-bottom:0;margin-top:0;">Category: {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
-                                    </div>
-                                </td>
-                                <td style="width:60%;vertical-align: text-bottom;">
-                                    <div class="invoiceLabelBox">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Description</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;">{{invoice.desc}}</h5>
                                     </div>
                                 </td>
                             </tr>
                         </table>
 
-                    </div>
+                        <div class="row invoiceRow">
+                            <table style="width: 98%;margin-left: 0%;margin-right: 1%;">
+                                <tr>
+                                    <td style="width:40%;">
+                                        <div class="invoiceLabelBox">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Invoice to</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">Student Name : {{invoice.studentData?invoice.studentData.studentFirstName+' '+invoice.studentData.studentLastName:''}}</h5>
+                                            <h5 style="margin-bottom:0;margin-top:0;">Id: {{invoice.studentData?invoice.studentData.studentCode:''}}</h5>
+                                            <h5 style="margin-bottom:0;margin-top:0;">Class: {{invoice.studentData?invoice.studentData.StudentClass.className:''}}
+                                                Division: {{invoice.studentData?invoice.studentData.StudentDivision.divisionName:''}}
+                                            </h5>
+                                            <h5 style="margin-bottom:0;margin-top:0;">Category: {{invoice.studentData?invoice.studentData.StudentCategory.categoryName:''}}</h5>
+                                        </div>
+                                    </td>
+                                    <td style="width:60%;vertical-align: text-bottom;">
+                                        <div class="invoiceLabelBox">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Description</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">{{invoice.desc}}</h5>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
 
-                    <div class="row invoiceRow" style="margin-bottom:0;margin-top:0;">
+                        </div>
 
-                        <table style="width: 98%;margin-left: 0%;margin-right: 0%;">
-                            <tr>
-                                <td style="width:20%;">
-                                    <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Date</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;">{{ invoice.dueDate? (invoice.createdOn | date: 'MM/dd/yyyy'):'' }}</h5>
-                                    </div>
-                                </td>
-                                <td class="" style="width:20%;">
-                                    <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Paid On</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;"><span *ngIf="!invoice.paymentDate ; else paymentDateElse">NA</span> <span #paymentDateElse>{{invoice.paymentDate | date: 'MM/dd/yyyy'}}</span></h5>
-                                    </div>
-                                </td>
-                                <td class="" style="width:20%;">
-                                    <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Settled On</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;"><span *ngIf="!invoice.settlementDate ; else settlementDateElse">NA</span> <span #settlementDateElse>{{invoice.settlementDate | date: 'MM/dd/yyyy'}}</span></h5>
-                                    </div>
-                                </td>
-                                <td class="" style="width:18%;padding-left:0%;">
-                                    <div class="invoiceLabelBox">
-                                        <h6 style="margin-bottom:0;margin-top:0;">Paid Description</h6>
-                                        <h5 style="margin-bottom:0;margin-top:0;">{{invoice.statusDesc ? invoice.statusDesc : ''}}</h5>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="row invoiceRow" style="margin-top:0;">
-                        <table style="width: 98%;margin-left: 0%;margin-right: 0%;">
-                            <tr>
-                                <td colspan="4">
-                                    <div class="col-md-12" style="margin-top: -10px;">
-                                       <!-- <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label> -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:100%;">
-                                    <!--<div class="col-md-12" style="margin-top: -10px;">
+                        <div class="row invoiceRow" style="margin-bottom:0;margin-top:0;">
+
+                            <table style="width: 98%;margin-left: 0%;margin-right: 0%;">
+                                <tr>
+                                    <td style="width:20%;">
+                                        <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Date</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">{{ invoice.dueDate? (invoice.createdOn | date: 'MM/dd/yyyy'):'' }}</h5>
+                                        </div>
+                                    </td>
+                                    <td class="" style="width:20%;">
+                                        <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Paid On</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">
+                                                
+                                                <span>{{ !invoice.paymentDate?'NA': invoice.paymentDate | date: 'MM/dd/yyyy'}}</span>
+                                            </h5>
+                                        </div>
+                                    </td>
+                                    <td class="" style="width:20%;">
+                                        <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Settled On</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">
+                                               
+                                                <span>{{ !invoice.settlementDate?'NA': invoice.settlementDate | date: 'MM/dd/yyyy'}}</span>
+                                            </h5>
+                                        </div>
+                                    </td>
+                                    <td class="" style="width:18%;padding-left:0%;">
+                                        <div class="invoiceLabelBox">
+                                            <h6 style="margin-bottom:0;margin-top:0;">Paid Description</h6>
+                                            <h5 style="margin-bottom:0;margin-top:0;">{{invoice.statusDesc ? invoice.statusDesc : ''}}</h5>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row invoiceRow" style="margin-top:0;">
+                            <table style="width: 98%;margin-left: 0%;margin-right: 0%;">
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="col-md-12" style="margin-top: -10px;">
+                                            <!-- <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:100%;">
+                                        <!--<div class="col-md-12" style="margin-top: -10px;">
                                         <label class="noteText">NOTE : You can either select <i><b>Due Date</b></i> or <i><b>Status</b></i></label>
                                     </div>-->
-                                    <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;float:left;margin-right:250px;">
-                                       <!-- <input type="radio" [disabled]="invoice.status!='Processed'" name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)"
+                                        <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;float:left;margin-right:250px;">
+                                            <!-- <input type="radio" [disabled]="invoice.status!='Processed'" name="statusDueDate" (click)="onStatusDueDateClick(1)" (blur)="onStatusDueDateClick(1)"
                                            [(ngModel)]="radioVal" value="1" /> -->
-                                        <label class="invoiceEditLabel">Due Date : {{invoice.dueDate | date: 'MM-dd-yyyy' }}</label> <br/>
-                                       <!-- <span class="" style="color:#fff;"></span> -->
-                                        <!--<h6>Status <i class="la la-edit invoiceEdit"></i></h6>
+                                            <label class="invoiceEditLabel">Due Date : {{invoice.dueDate | date: 'MM-dd-yyyy' }}</label>
+                                            <br/>
+                                            <!-- <span class="" style="color:#fff;"></span> -->
+                                            <!--<h6>Status <i class="la la-edit invoiceEdit"></i></h6>
                                         <select class="form-control m-input invoiceText" style="color:#fff;">
 																<option disabled="" selected="">Select</option>										
 																<option>Paid</option>
@@ -368,92 +390,94 @@
 																<option>Settled</option>
 																<option>Cancelled</option>
 															</select>  -->
-                                    </div>
-                               
-                                    <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;margin-top:0;margin-bottom:0;">
-                                        <!--<input type="radio" name="statusDueDate" [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)"
+                                        </div>
+
+                                        <div class="invoiceLabelBox" style="padding-left: 0px;padding-right: 0px;margin-top:0;margin-bottom:0;">
+                                            <!--<input type="radio" name="statusDueDate" [disabled]="invoice.status!='Processed'" (click)="onStatusDueDateClick(2)" (blur)="onStatusDueDateClick(2)"
                                            [(ngModel)]="radioVal" value="2" /> &nbsp; -->
-                                        <label class="invoiceEditLabel" style="margin-left: -3px;margin-top:0;">Status :  <span *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</span>
-                                        
-                                        <span *ngIf="radioVal==2" class="invoiceStatusLabel">{{currentStatus}}</span>
-                                        </label>
-                                       
-                                    </div>
+                                            <label class="invoiceEditLabel" style="margin-left: -3px;margin-top:0;">Status :
+                                                <span *ngIf="radioVal!=2" class="invoiceStatusLabel">{{invoice.status}}</span>
+
+                                                <span *ngIf="radioVal==2" class="invoiceStatusLabel">{{currentStatus}}</span>
+                                            </label>
+
+                                        </div>
+                                    </td>
+                                    <td style="width:20%;" colspan="2">
+                                        <div class="invoiceLabelBox" *ngIf="currentStatus=='Paid' && statusChanged && radioVal==2">
+                                            <label class="invoiceEditLabel">Status Description</label>
+                                            <br>
+                                            <span class="hackedDueDate whiteText" style="color: white;">{{invoice.statusDesc}}</span>
+                                            <!--<span style="color:#fff;" #noStatusDesc> NA </span>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="invoiceBody">
+                        <table class="table invoiceTable">
+                            <tr>
+                                <th style="font-size:11px;">
+                                    Fee Heads
+                                </th>
+                                <th style="font-size:11px;text-align:right;">
+                                    Amount
+                                    <span class="invoiceSubTh">(In rupees)</span>
+                                </th>
+                            </tr>
+                            <tr *ngFor='let row of invoice.invoiceDetails'>
+                                <td style="font-size:11px;">
+                                    {{row.feeHeadName}}
                                 </td>
-                                <td style="width:20%;" colspan="2">
-                                    <div class="invoiceLabelBox" *ngIf="currentStatus=='Paid' && statusChanged && radioVal==2">
-                                        <label class="invoiceEditLabel">Status Description</label>
-                                        <br>
-                                        <span class="hackedDueDate whiteText" style="color: white;">{{invoice.statusDesc}}</span>
-                                        <!--<span style="color:#fff;" #noStatusDesc> NA </span>-->
-                                    </div>
+                                <td style="font-size:11px;text-align:right;">
+                                    {{row.chargeAmount}}
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td style="font-size:11px;">
+                                    <b>Invoice Total</b>
+                                </td>
+                                <td style="font-size:11px;text-align:right;">
+                                    {{chargeAmount}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-size:11px;">
+                                    <b>Late Fee </b>
+                                </td>
+                                <td style="font-size:11px;text-align:right;">
+                                    {{lateFee}}
+                                </td>
+                            </tr>
+                            <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
+                            <tr>
+                                <td style="font-size:11px;">
+                                    <b> Amount Paid</b>
+                                </td>
+                                <td style="font-size:11px;text-align:right;">
+                                    {{paidAmount}}
+                                </td>
+                            </tr>
+                            <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
+                            <tr>
+                                <td style="font-size:11px;">
+                                    <b>Balance</b>
+                                </td>
+                                <td style="font-size:11px;text-align:right;">
+                                    {{totalBalance}}
+                                </td>
+                            </tr>
+
+                            </tbody>
                         </table>
                     </div>
                 </div>
-
-                <div class="invoiceBody">
-                    <table class="table invoiceTable">
-                        <tr>
-                            <th style="font-size:11px;">
-                                Fee Heads
-                            </th>
-                            <th style="font-size:11px;text-align:right;">
-                                Amount <span class="invoiceSubTh">(In rupees)</span>
-                            </th>
-                        </tr>
-                        <tr *ngFor='let row of invoice.invoiceDetails'>
-                            <td style="font-size:11px;">
-                                {{row.feeHeadName}}
-                            </td>
-                            <td style="font-size:11px;text-align:right;">
-                                {{row.chargeAmount}}
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="font-size:11px;">
-                                <b>Invoice Total</b>
-                            </td>
-                            <td style="font-size:11px;text-align:right;">
-                                {{chargeAmount}}
-                            </td>
-                        </tr>
-                       
-                        <tr>
-                            <td style="font-size:11px;">
-                                <b>Late Fee </b>
-                            </td>
-                            <td style="font-size:11px;text-align:right;">
-                                {{lateFee}}
-                            </td>
-                        </tr>                        
-                        <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
-                        <tr>
-                            <td style="font-size:11px;">
-                               <b> Amount Paid</b>
-                            </td>
-                            <td style="font-size:11px;text-align:right;">
-                                {{paidAmount}}
-                            </td>
-                        </tr>
-                        <!--<hr class="invoiceSummarySeparator" style="width:125%;" />-->
-                        <tr>
-                            <td style="font-size:11px;">
-                                <b>Balance</b>
-                            </td>
-                            <td style="font-size:11px;text-align:right;">
-                                {{totalBalance}}
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
             </div>
-            </div>
-           
+
         </div>
     </div>
 </div>
