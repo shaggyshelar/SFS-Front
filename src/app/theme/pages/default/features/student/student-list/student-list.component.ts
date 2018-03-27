@@ -200,6 +200,22 @@ export class StudentListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
+    registerAndProcess(studentId,schoolId){
+        let params = {
+            studentId,
+            schoolId
+        };
+        this.studentService.registerAndProcess(params)
+            .subscribe(
+            results => {
+                console.log(results);
+                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: results.Message });
+            }, error => {
+                console.log(error);
+                this.globalErrorHandler.handleError(error);
+            });
+    }
+
     visitFirstPage() {
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;

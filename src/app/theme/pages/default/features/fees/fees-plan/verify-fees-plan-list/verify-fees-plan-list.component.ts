@@ -122,7 +122,7 @@ export class VerifyFeesPlanListComponent implements OnInit {
     this.feesService.perPage = this.perPage;
     this.feesService.currentPos = this.currentPos;
     this.feesService.currentPageNumber = this.currentPageNumber;
-    this.router.navigate(['/features/fees/feesPlan/edit', data.id], { queryParams: { from: 'verify' } });
+    this.router.navigate(['/features/fees/feesPlan/verify', data.id], { queryParams: { from: 'verify' } });
   }
   onfeesDeleteClick(data: FeePlan) {
     this.confirmationService.confirm({

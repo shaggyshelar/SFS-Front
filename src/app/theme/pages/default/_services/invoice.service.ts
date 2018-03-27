@@ -9,12 +9,31 @@ export class InvoiceService {
   constructor(private http: Http) {
   }
 
-  perPage: any = 25;
+  perPage: any = 100;
   currentPos: any = 0;
   currentPageNumber: any = 1;
-  status: any = 'Select';
+  status: any = '';
   startDate: Date;
   endDate: Date;
+  class: string = '';
+  division: string= '';
+  category:string= '';
+  divisionList: any = []; 
+  filter1CountQuery='';
+  filter2CountQuery='';
+  filter3CountQuery='';
+  filter4CountQuery='';
+  filter5CountQuery='';
+  filter6CountQuery='';
+  filter7CountQuery='';
+  filter8CountQuery='';
+  filter9CountQuery='';
+  filterQuery='';
+  filterQuery1='';
+  filterQuery2='';
+  filterQuery3='';
+  filterQuery4='';
+  filterQuery5='';
   getAllInvoices(url) {
     let params: URLSearchParams = new URLSearchParams();
     // params.set('filter[where][schoolId]', id);

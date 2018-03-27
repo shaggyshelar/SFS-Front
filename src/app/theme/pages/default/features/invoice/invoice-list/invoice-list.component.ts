@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { SelectItem } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
@@ -17,6 +17,8 @@ import { ClassService } from '../../../_services/class.service';
 import { FormatService } from '../../../_services/tableToXls/format.service';
 import { DataGridUtil } from '../../../_services/tableToXls/datagrid.util';
 import * as _ from 'lodash/index';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/pairwise';
 @Component({
     selector: "app-invoice-list",
     templateUrl: "./invoice-list.component.html",
@@ -31,8 +33,8 @@ export class InvoiceListComponent implements OnInit {
     feeplanList = [];
     categoryList = [];
     total: number;         //Number Of records
-    currentPos: number;    //Current Page
-    perPage: number;       //Number of records to be displayed per page
+    currentPos: number=0;    //Current Page
+    perPage: number=100;       //Number of records to be displayed per page
     firstPageNumber: number;
     lastPage: number;
     startDate: Date;
@@ -44,8 +46,9 @@ export class InvoiceListComponent implements OnInit {
     type: string = '';
     category: string = '';
     schoolId: any;
-    currentPageNumber: number; //Stores Current Page Number
+    currentPageNumber: number=1; //Stores Current Page Number
     url: string;           //Api url
+    urlPrev: string = '';
     sortUrl: string;       //Sort Api Url
     pages: number;         //Number of pages in pagination
     arr: number[] = [];    //Array for Number of pages in pagination
@@ -60,20 +63,21 @@ export class InvoiceListComponent implements OnInit {
     onGridSearchKeyUp: boolean = false;
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
-    filterQuery: string;
-    filterQuery1: string;
-    filterQuery2: string;
-    filterQuery3: string;
-    filterQuery4: string;
-    filterQuery5: string;
-    filter1CountQuery: string;  //Count number of records for filter1CountQuery
-    filter2CountQuery: string;  //Count number of records for filter2CountQuery
-    filter3CountQuery: string;
-    filter4CountQuery: string;
-    filter5CountQuery: string;
-    filter6CountQuery: string;
-    filter7CountQuery: string;
-    filter8CountQuery: string;
+    countQueryPrev: string = '';    //Count number of records query
+    filterQuery: string= '';
+    filterQuery1: string= '';
+    filterQuery2: string= '';
+    filterQuery3: string= '';
+    filterQuery4: string= '';
+    filterQuery5: string= '';
+    filter1CountQuery: string= '';  //Count number of records for filter1CountQuery
+    filter2CountQuery: string= '';  //Count number of records for filter2CountQuery
+    filter3CountQuery: string= '';
+    filter4CountQuery: string= '';
+    filter5CountQuery: string= '';
+    filter6CountQuery: string= '';
+    filter7CountQuery: string= '';
+    filter8CountQuery: string= '';
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -84,6 +88,7 @@ export class InvoiceListComponent implements OnInit {
     boundryEnd: number;
     searchValue: string; //HTML values
     selectedPageSize: number = 25; //HTML values
+    static previousUrl:any;
     constructor(private router: Router,
         private messageService: MessageService,
         private globalErrorHandler: GlobalErrorHandler,
@@ -91,42 +96,89 @@ export class InvoiceListComponent implements OnInit {
         private invoiceService: InvoiceService,
         private classService: ClassService,
         private _script: ScriptLoaderService) {
-    }
+            this.router.events
+        .filter(e => e instanceof NavigationStart)
+        .pairwise().subscribe((e) => {
+            InvoiceListComponent.setSubscribeData(e);
+        });
+        var urls = InvoiceListComponent.previousUrl? InvoiceListComponent.previousUrl :[{'url':'dem1'},{'url':'dem2'}];
+        let previousUrl = urls[0]['url'].split('list')[0];
+            if(previousUrl.indexOf('/features/invoice/')==0) {
+                this.perPage = this.invoiceService.perPage;
+                this.currentPos = this.invoiceService.currentPos;
+                this.currentPageNumber = this.invoiceService.currentPageNumber;
+                this.startDate=this.invoiceService.startDate;
+                this.endDate = this.invoiceService.endDate;
+                this.status= this.invoiceService.status;
+                this.class= this.invoiceService.class;
+                this.division= this.invoiceService.division;
+                this.category= this.invoiceService.category;
+                this.filter1CountQuery= this.invoiceService.filter1CountQuery;
+                this.divisionList = this.invoiceService.divisionList;
+                this.filter2CountQuery= this.invoiceService.filter2CountQuery;
+                this.filter3CountQuery= this.invoiceService.filter3CountQuery;
+                this.filter4CountQuery= this.invoiceService.filter4CountQuery;
+                this.filter5CountQuery= this.invoiceService.filter5CountQuery;
+                this.filter6CountQuery= this.invoiceService.filter6CountQuery;
+                this.filter7CountQuery= this.invoiceService.filter7CountQuery;
+                this.filter8CountQuery= this.invoiceService.filter8CountQuery;
+                this.filterQuery= this.invoiceService.filterQuery;
+                this.filterQuery1= this.invoiceService.filterQuery1;
+                this.filterQuery2= this.invoiceService.filterQuery2;
+                this.filterQuery3= this.invoiceService.filterQuery3;
+                this.filterQuery4= this.invoiceService.filterQuery4;
+                this.filterQuery5= this.invoiceService.filterQuery5;
+             }  //else {
+            //     this.perPage = 100;
+            //     this.currentPos = 0;
+            //     this.currentPageNumber = 1;
+            //     this.url = '';
+            //     this.status= '';
+            //     this.class= '';
+            //     this.division= '';
+            //     this.category= '';
+            // }
 
+            
+    }
+    static setSubscribeData(data){
+        InvoiceListComponent.previousUrl=data;
+        
+    }
     ngOnInit() {
+        var urls = InvoiceListComponent.previousUrl? InvoiceListComponent.previousUrl :[{'url':'dem1'},{'url':'dem2'}];
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
+            
+            
             //Default variable initialization
-            this.perPage = 100;
-            this.currentPos = 0;
-            this.currentPageNumber = 1;
+            
             this.selectedPageSize = this.perPage;
             this.schoolId = localStorage.getItem("schoolId");
-            this.url = '';
             this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
             this.ascSortCol2 = true;
             this.ascSortCol3 = true;
             this.ascSortCol4 = true;
             this.ascSortCol5 = true;
-            this.filterQuery = '';
-            this.filterQuery1 = '';
-            this.filterQuery2 = '';
-            this.filterQuery3 = '';
-            this.filterQuery4 = '';
-            this.filterQuery5 = '';
+            // this.filterQuery = '';
+            // this.filterQuery1 = '';
+            // this.filterQuery2 = '';
+            // this.filterQuery3 = '';
+            // this.filterQuery4 = '';
+            // this.filterQuery5 = '';
             this.searchQuery = '';
             this.searchCountQuery = '';
             this.countQuery = '?';
-            this.filter1CountQuery = '';
-            this.filter2CountQuery = '';
-            this.filter3CountQuery = '';
-            this.filter4CountQuery = '';
-            this.filter5CountQuery = '';
-            this.filter6CountQuery = '';
-            this.filter7CountQuery = '';
-            this.filter8CountQuery = '';
+            // this.filter1CountQuery = '';
+            // this.filter2CountQuery = '';
+            // this.filter3CountQuery = '';
+            // this.filter4CountQuery = '';
+            // this.filter5CountQuery = '';
+            // this.filter6CountQuery = '';
+            // this.filter7CountQuery = '';
+            // this.filter8CountQuery = '';
             this.lastPage = this.perPage;
             this.firstPageNumber = 1;
             this.prePageEnable = false;
@@ -142,7 +194,7 @@ export class InvoiceListComponent implements OnInit {
             this.getFeePlanList();
             this.getCategoryList();
             this.onSearchReport();
-            this.getDataCount('');
+            //this.getDataCount('');
         }
         //Page Size Array
         this.pageSize = [];
@@ -291,7 +343,7 @@ export class InvoiceListComponent implements OnInit {
         this.classService.getDivisionBySchoolId(this.schoolId)
             .subscribe(
             response => {
-                this.divisionList = [];
+                this.divisionList = this.invoiceService.divisionList;
                 this._tempDivisionList = _.cloneDeep(response);
             },
             error => {
@@ -371,6 +423,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
         this.onSearchReport();
     }
@@ -502,6 +555,27 @@ export class InvoiceListComponent implements OnInit {
         this.invoiceService.perPage = this.perPage;
         this.invoiceService.currentPos = this.currentPos;
         this.invoiceService.currentPageNumber = this.currentPageNumber;
+        this.invoiceService.class = this.class;
+        this.invoiceService.division = this.division;
+        this.invoiceService.status = this.status;
+        this.invoiceService.endDate = this.endDate;
+        this.invoiceService.startDate = this.startDate;
+        this.invoiceService.category = this.category;
+        this.invoiceService.filter1CountQuery= this.filter1CountQuery;
+        this.invoiceService.filter2CountQuery = this.filter2CountQuery;
+        this.invoiceService.filter3CountQuery= this.filter3CountQuery;
+        this.invoiceService.filter4CountQuery= this.filter4CountQuery;
+        this.invoiceService.filter5CountQuery= this.filter5CountQuery;
+        this.invoiceService.filter6CountQuery= this.filter6CountQuery;
+        this.invoiceService.filter7CountQuery= this.filter7CountQuery;
+        this.invoiceService.filter8CountQuery= this.filter8CountQuery;
+        this.invoiceService.filterQuery= this.filterQuery;
+        this.invoiceService.filterQuery1= this.filterQuery1;
+        this.invoiceService.filterQuery2= this.filterQuery2;
+        this.invoiceService.filterQuery3= this.filterQuery3;
+        this.invoiceService.filterQuery4= this.filterQuery4;
+        this.invoiceService.filterQuery5= this.filterQuery5;
+        this.invoiceService.divisionList = this.divisionList;
         this.router.navigate(['/features/invoice/summary/' + id]);
     }
     nextPage() {
@@ -572,6 +646,7 @@ export class InvoiceListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundry = 3;
         this.boundryEnd = this.boundry;
+        
         this.getSearchQueryData();
     }
     onFilterByStatus(column, value) {
@@ -587,6 +662,7 @@ export class InvoiceListComponent implements OnInit {
         this.boundryStart = 1;
         this.boundry = 3;
         this.boundryEnd = this.boundry;
+        
         this.onSearchReport();
     }
     onFilterByClass(column, value) {
@@ -603,6 +679,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
         this.onSearchReport();
     }
@@ -618,6 +695,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
         this.onSearchReport();
     }
@@ -633,6 +711,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
     }
     onFilterBytype() {
@@ -647,6 +726,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
     }
     onFilterByCategory() {
@@ -661,6 +741,7 @@ export class InvoiceListComponent implements OnInit {
         this.currentPageNumber = 1;
         this.boundryStart = 1;
         this.boundry = 3;
+        
         this.boundryEnd = this.boundry;
         this.onSearchReport();
     }
@@ -677,13 +758,16 @@ export class InvoiceListComponent implements OnInit {
     /* Counting Number of records starts*/
     getQueryDataCount() {
         if (this.startDate && this.endDate) {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery ;
+            
             this.getFilteredDataCount(this.countQuery);
         }
         else {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
+            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery ;
+            
             this.getFilteredDataCount(this.countQuery);
         }
+
 
     }
     getSearchQueryData() {
@@ -692,7 +776,7 @@ export class InvoiceListComponent implements OnInit {
             this.getDataCount(this.countQuery);
         }
         else {
-            this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
+            this.countQuery =  '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getDataCount(this.countQuery);
         }
 
@@ -700,13 +784,13 @@ export class InvoiceListComponent implements OnInit {
 
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
+        this.url = this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
     }
     onSearchReport() {
         if (this.startDate && this.endDate) {
             if (this.startDate < this.endDate) {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
+                this.url =  this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
                 this.getAllStudentInvoiceReport(this.url);
                 this.getQueryDataCount();
             } else {

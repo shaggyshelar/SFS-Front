@@ -55,7 +55,8 @@ export class FeesService {
   }
 
   getFeePlanById(id: number) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Feeplans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
+    var schoolId = JSON.parse(localStorage.getItem('schoolId'));
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ schoolId + '/Feeplans/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   createFeePlan(fees: FeePlan) {
