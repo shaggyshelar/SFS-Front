@@ -103,7 +103,6 @@ export class InvoiceListComponent implements OnInit {
         });
         var urls = InvoiceListComponent.previousUrl? InvoiceListComponent.previousUrl :[{'url':'dem1'},{'url':'dem2'}];
         let previousUrl = urls[0]['url'].split('list')[0];
-            console.log(previousUrl);
             if(previousUrl.indexOf('/features/invoice/')==0) {
                 this.perPage = this.invoiceService.perPage;
                 this.currentPos = this.invoiceService.currentPos;
@@ -143,7 +142,6 @@ export class InvoiceListComponent implements OnInit {
             
     }
     static setSubscribeData(data){
-        console.log(data);
         InvoiceListComponent.previousUrl=data;
         
     }
@@ -759,7 +757,6 @@ export class InvoiceListComponent implements OnInit {
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        console.log("1. ",this.countQuery)
         if (this.startDate && this.endDate) {
             this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery ;
             
@@ -774,7 +771,6 @@ export class InvoiceListComponent implements OnInit {
 
     }
     getSearchQueryData() {
-        console.log("2. ",this.countQuery)
         if (this.startDate && this.endDate) {
             this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.filter3CountQuery + this.filter4CountQuery + this.filter5CountQuery + this.filter6CountQuery + this.filter7CountQuery + this.filter8CountQuery + this.searchCountQuery;
             this.getDataCount(this.countQuery);
