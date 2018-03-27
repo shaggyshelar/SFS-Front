@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { GlobalErrorHandler } from '../../../../../../_services/error-handler.service';
@@ -12,7 +12,8 @@ import { CommonService } from '../../../_services/common.service';
 import { Student } from "../../../_models/student";
 import { ViewChild } from '@angular/core';
 import { Helpers } from "../../../../../../helpers";
-
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/pairwise';
 @Component({
     selector: "app-student-list",
     templateUrl: "./student-list.component.html",
@@ -38,14 +39,14 @@ export class StudentListComponent implements OnInit {
     ascSortCol5: boolean;  //Sorting for Column5
     ascSortCol6: boolean;  //Sorting for Column6
     ascSortCol7: boolean;  //Sorting for Column7
-    filterCol1: any;       //Filter1 values 
-    filterCol2: any;       //Filter2 values 
-    filterQuery: string;   //Filter1 Api Query 
-    filterQuery2: string;  //Filter2 Api Query 
+    filterCol1: any = [];       //Filter1 values 
+    filterCol2: any = [];       //Filter2 values 
+    filterQuery: string = '';   //Filter1 Api Query 
+    filterQuery2: string = '';  //Filter2 Api Query 
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
-    filter1CountQuery: string;  //Count number of records for filter1CountQuery
-    filter2CountQuery: string;  //Count number of records for filter2CountQuery
+    filter1CountQuery: string = '';  //Count number of records for filter1CountQuery
+    filter2CountQuery: string = '';  //Count number of records for filter2CountQuery
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
     prePageEnable: boolean; //To disable/enable prev page button
@@ -53,7 +54,7 @@ export class StudentListComponent implements OnInit {
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
-
+    static previousUrl: any;
     filterValue1: string; //HTML values
     filterValue2: string; //HTML values
     searchValue: string; //HTML values
@@ -69,8 +70,27 @@ export class StudentListComponent implements OnInit {
         private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private commonService: CommonService,
         private classService: ClassService, private confirmationService: ConfirmationService, private categoriesService: CategoriesService
     ) {
+        this.router.events
+            .filter(e => e instanceof NavigationStart)
+            .pairwise().subscribe((e) => {
+                StudentListComponent.setSubscribeData(e);
+            });
+        var urls = StudentListComponent.previousUrl ? StudentListComponent.previousUrl : [{ 'url': 'dem1' }, { 'url': 'dem2' }];
+        let previousUrl = urls[0]['url'].split('list')[0];
+        if (previousUrl.indexOf('/features/student/') == 0) {
+            this.filterQuery = this.studentService.filterQuery;
+            this.filterQuery2 = this.studentService.filterQuery2;
+            this.filter1CountQuery = this.studentService.filter1CountQuery;
+            this.filter2CountQuery = this.studentService.filter2CountQuery;
+            this.filterCol1 = this.studentService.filterCol1;
+            this.filterCol2 = this.studentService.filterCol2;
+            this.filterValue1 = this.studentService.filterValue1;
+            this.filterValue2 = this.studentService.filterValue2;
+        }
     }
-
+    static setSubscribeData(data) {
+        StudentListComponent.previousUrl = data;
+    }
     ngOnInit() {
         this.pageSize = [];
         this.pageSize.push({ label: '25', value: 25 });
@@ -92,12 +112,10 @@ export class StudentListComponent implements OnInit {
         this.ascSortCol5 = true;
         this.ascSortCol6 = true;
         this.ascSortCol7 = true;
-        this.filterQuery = '';
-        this.filterQuery2 = '';
+
         this.searchQuery = '';
         this.countQuery = '?';
-        this.filter1CountQuery = '';
-        this.filter2CountQuery = '';
+
         this.lastPage = this.perPage;
         this.firstPageNumber = 1;
         this.prePageEnable = false;
@@ -111,30 +129,35 @@ export class StudentListComponent implements OnInit {
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
-            this.getDataCount('');
+            this.getQueryDataCount();
             //List of Classes
-            this.filterCol1 = [];
             let val = this.classService.getAllClasses();
-            this.filterCol1.push({ label: '--Select--', value: 'select' });
-            val.subscribe((response) => {
-                for (let key in response) {
-                    if (response.hasOwnProperty(key)) {
-                        this.filterCol1.push({ label: response[key].className, value: response[key].id });
-                    }
-                }
-            });
+            if (!this.filterCol1.length) {
+                this.filterCol1 = [];
 
-            //List of Categories
-            this.filterCol2 = [];
-            val = this.categoriesService.getAllCategories();
-            this.filterCol2.push({ label: '--Select--', value: 'select' });
-            val.subscribe((response) => {
-                for (let key in response) {
-                    if (response.hasOwnProperty(key)) {
-                        this.filterCol2.push({ label: response[key].categoryName, value: response[key].id });
+                this.filterCol1.push({ label: '--Select--', value: 'select' });
+                val.subscribe((response) => {
+                    for (let key in response) {
+                        if (response.hasOwnProperty(key)) {
+                            this.filterCol1.push({ label: response[key].className, value: response[key].id });
+                        }
                     }
-                }
-            });
+                });
+            }
+            if (!this.filterCol2.length) {
+
+                //List of Categories
+                this.filterCol2 = [];
+                val = this.categoriesService.getAllCategories();
+                this.filterCol2.push({ label: '--Select--', value: 'select' });
+                val.subscribe((response) => {
+                    for (let key in response) {
+                        if (response.hasOwnProperty(key)) {
+                            this.filterCol2.push({ label: response[key].categoryName, value: response[key].id });
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -200,20 +223,22 @@ export class StudentListComponent implements OnInit {
         this.getQueryDataCount();
     }
 
-    registerAndProcess(studentId,schoolId){
+    registerAndProcess(studentId, schoolId) {
+        Helpers.setLoading(true);
         let params = {
             studentId,
             schoolId
         };
         this.studentService.registerAndProcess(params)
             .subscribe(
-            results => {
-                console.log(results);
-                this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: results.Message });
-            }, error => {
-                console.log(error);
-                this.globalErrorHandler.handleError(error);
-            });
+                results => {
+                    this.getAllStudents();
+                    Helpers.setLoading(false);
+                    this.messageService.addMessage({ severity: 'success', summary: 'Success', detail: results.Message });
+                }, error => {
+                    Helpers.setLoading(false);
+                    this.globalErrorHandler.handleError(error);
+                });
     }
 
     visitFirstPage() {
@@ -390,7 +415,8 @@ export class StudentListComponent implements OnInit {
 
     }
     getDataCount(url) {
-        this.studentService.getStudentCount(url).subscribe((response) => {
+        //this.getUrl();
+        this.studentService.getStudentCount(url == '' ? this.url : url).subscribe((response) => {
             this.total = response.count;
             this.pages = Math.ceil(this.total / this.perPage);
             this.generateCount();
@@ -470,6 +496,14 @@ export class StudentListComponent implements OnInit {
         this.studentService.perPage = this.perPage;
         this.studentService.currentPos = this.currentPos;
         this.studentService.currentPageNumber = this.currentPageNumber;
+        this.studentService.filterQuery = this.filterQuery;
+        this.studentService.filterQuery2 = this.filterQuery2;
+        this.studentService.filter1CountQuery = this.filter1CountQuery;
+        this.studentService.filter2CountQuery = this.filter2CountQuery;
+        this.studentService.filterCol1 = this.filterCol1;
+        this.studentService.filterCol2 = this.filterCol2;
+        this.studentService.filterValue1 = this.filterValue1;
+        this.studentService.filterValue2 = this.filterValue2;
         this.router.navigate(['/features/student/edit', student.id]);
     }
     onStudentDeleteClick(student: Student) {

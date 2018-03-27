@@ -12,7 +12,14 @@ export class StudentService {
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
-
+  filter1CountQuery = '';
+  filter2CountQuery = '';
+  filterQuery = '';
+  filterQuery2 = '';
+  filterCol1 = [];
+  filterCol2 = [];
+  filterValue1 = '';
+  filterValue2 = '';
   addStudents(file) {
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
