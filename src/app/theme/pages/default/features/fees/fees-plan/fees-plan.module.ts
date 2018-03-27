@@ -66,6 +66,14 @@ const routes: Routes = [
               permissions: ['Feeplan.Update']
             }
           },
+          {
+            path: 'verify/:feeId',
+            component: FeesPlanAddEditComponent,
+            canActivate: [AuthGuard],
+            data: {
+              permissions: ['VerifyFeePlan.Update']
+            }
+          },
         ]
       }
     ]
