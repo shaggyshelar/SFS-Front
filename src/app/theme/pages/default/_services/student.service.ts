@@ -38,6 +38,9 @@ export class StudentService {
   updateStudent(student: Student) {
     return this.http.put(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/Students/' + student.id, student, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
+  registerAndProcess(params: any) {
+    return this.http.post(AppSettings.LOGIN_API_ENDPOINT + 'registerStudent', params, AppSettings.requestOptions()).map((response: Response) => response.json());
+  }
 
   deleteStudent(id: number) {
     return this.http.delete(AppSettings.API_ENDPOINT + 'Students/deleteRecord/' + id, AppSettings.requestOptions()).map((response: Response) => response.json());
