@@ -67,7 +67,7 @@ export class InvoiceSummaryComponent implements OnInit {
         this.currentStatus = this.invoice.status;
         this.invoice.dueDate = new Date(response.dueDate);
         this.chargeAmount = response.totalChargeAmount ? response.totalChargeAmount : 0;
-        this.paidAmount = response.totalChargeAmountPaid ? response.totalChargeAmountPaid : 5800;
+        this.paidAmount = response.totalChargeAmountPaid ? response.totalChargeAmountPaid : 0;
         this.lateFee = response.calculatedLateFees ? response.calculatedLateFees : 0;
         this.totalBalance = this.paidAmount - this.chargeAmount -this.lateFee;
         this.oldDueDate = _.cloneDeep(this.invoice.dueDate);
