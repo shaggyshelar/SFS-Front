@@ -13,6 +13,10 @@ export class DivisionService {
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
+  filterCol1: any = [];
+  filterQuery: string='';
+  filter1CountQuery: string='';
+  filterValue1: string='';
 
   getAllDivisionList(url) {
     //return this.http.get(AppSettings.API_ENDPOINT + 'Schools/'+ localStorage.getItem("schoolId")+'/SchoolDivision' + url, AppSettings.requestOptions()).map((response: Response) => response.json());

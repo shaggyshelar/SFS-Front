@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
 import { GlobalErrorHandler } from '../../../../../../../_services/error-handler.service';
@@ -9,7 +9,8 @@ import { ClassService } from '../../../../_services/class.service';
 import { Division } from "../../../../_models/division";
 import { ScriptLoaderService } from '../../../../../../../_services/script-loader.service';
 import { Helpers } from "../../../../../../../helpers";
-
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/pairwise';
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
     templateUrl: "./division-list.component.html",
@@ -35,13 +36,13 @@ export class DivisionListComponent implements OnInit {
     ascSortCol5: boolean;  //Sorting for Column5
     ascSortCol6: boolean;  //Sorting for Column6
     ascSortCol7: boolean;  //Sorting for Column7
-    filterCol1: any;       //Filter1 values 
+    filterCol1: any =[];       //Filter1 values 
     filterCol2: any;       //Filter2 values 
-    filterQuery: string;   //Filter1 Api Query 
+    filterQuery: string='';   //Filter1 Api Query 
     filterQuery2: string;  //Filter2 Api Query 
     searchQuery: string;   //Search Api Query 
     countQuery: string;    //Count number of records query
-    filter1CountQuery: string;  //Count number of records for filter1CountQuery
+    filter1CountQuery: string='';  //Count number of records for filter1CountQuery
     filter2CountQuery: string;  //Count number of records for filter2CountQuery
     searchCountQuery: string;
     longList: boolean;     //To show now records found message
@@ -50,8 +51,8 @@ export class DivisionListComponent implements OnInit {
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
-
-    filterValue1: string; //HTML values
+    static previousUrl:any;
+    filterValue1: string=''; //HTML values
     filterValue2: string; //HTML values
     searchValue: string; //HTML values
     selectedPageSize: number = 25; //HTML values
@@ -63,8 +64,23 @@ export class DivisionListComponent implements OnInit {
         private classService: ClassService,
         private confirmationService: ConfirmationService,
     ) {
+        this.router.events
+            .filter(e => e instanceof NavigationStart)
+            .pairwise().subscribe((e) => {
+                DivisionListComponent.setSubscribeData(e);
+            });
+        var urls = DivisionListComponent.previousUrl ? DivisionListComponent.previousUrl : [{ 'url': 'dem1' }, { 'url': 'dem2' }];
+        let previousUrl = urls[0]['url'].split('list')[0];
+        if (previousUrl.indexOf('/features/division/') == 0) {
+            this.filterQuery = this.divisionService.filterQuery;
+            this.filter1CountQuery = this.divisionService.filter1CountQuery;
+            this.filterCol1 = this.divisionService.filterCol1;
+            this.filterValue1 = this.divisionService.filterValue1;
+        }
     }
-
+    static setSubscribeData(data) {
+        DivisionListComponent.previousUrl = data;
+    }
     ngOnInit() {
         //Page Size Array
         this.pageSize = [];
@@ -89,11 +105,9 @@ export class DivisionListComponent implements OnInit {
         this.ascSortCol5 = true;
         this.ascSortCol6 = true;
         this.ascSortCol7 = true;
-        this.filterQuery = '';
         this.filterQuery2 = '';
         this.searchQuery = '';
         this.countQuery = '?';
-        this.filter1CountQuery = '';
         this.filter2CountQuery = '';
         this.lastPage = this.perPage;
         this.firstPageNumber = 1;
@@ -104,11 +118,14 @@ export class DivisionListComponent implements OnInit {
         this.boundryEnd = this.boundry;
         this.searchCountQuery = '';
         this.longList = true;
-        this.filterCol1 = [];
+        
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
         } else {
-            let val = this.classService.getAllClasses();
+            
+            if(!this.filterCol1.length) {
+                this.filterCol1 = [];
+                let val = this.classService.getAllClasses();
             this.filterCol1.push({ label: '--Select--', value: 'select' });
             val.subscribe((response) => {
                 for (let key in response) {
@@ -117,8 +134,10 @@ export class DivisionListComponent implements OnInit {
                     }
                 }
             });
+            }
+            
             this.getAllDivisions();
-            this.getDataCount('');
+            this.getQueryDataCount();
         }
     }
     getAllDivisions() {
@@ -143,6 +162,10 @@ export class DivisionListComponent implements OnInit {
         this.divisionService.perPage = this.perPage;
         this.divisionService.currentPos = this.currentPos;
         this.divisionService.currentPageNumber = this.currentPageNumber;
+        this.divisionService.filterQuery = this.filterQuery;
+        this.divisionService.filter1CountQuery = this.filter1CountQuery;
+        this.divisionService.filterCol1 = this.filterCol1;
+        this.divisionService.filterValue1 = this.filterValue1;
         this.router.navigate(['/features/division/edit', division.id]);
     }
     onDivisionDeleteClick(division: Division) {
@@ -171,6 +194,13 @@ export class DivisionListComponent implements OnInit {
 
     }
     onAddDivision() {
+        this.divisionService.perPage = this.perPage;
+        this.divisionService.currentPos = this.currentPos;
+        this.divisionService.currentPageNumber = this.currentPageNumber;
+        this.divisionService.filterQuery = this.filterQuery;
+        this.divisionService.filter1CountQuery = this.filter1CountQuery;
+        this.divisionService.filterCol1 = this.filterCol1;
+        this.divisionService.filterValue1 = this.filterValue1;
         this.router.navigate(['/features/division/add']);
     }
 

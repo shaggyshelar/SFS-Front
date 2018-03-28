@@ -12,6 +12,10 @@ export class FeesService {
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
+  filterQuery: string ='';   //Filter1 Api Query 
+  filter1CountQuery: string='';
+  frequencyIdList: any = [];
+  filterValue1: string='';
 
   getAllFees() {
     return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads', AppSettings.requestOptions()).map((response: Response) => response.json());
@@ -22,7 +26,7 @@ export class FeesService {
   }
 
   getFeesCount(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads/count?&where[schoolId]='+localStorage.getItem('schoolId'), AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Feeheads/count?&where[schoolId]='+localStorage.getItem('schoolId')+url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getFeeById(id: number) {
