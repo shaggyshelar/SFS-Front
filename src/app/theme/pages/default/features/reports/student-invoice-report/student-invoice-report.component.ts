@@ -269,6 +269,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.pages = Math.ceil(this.total / this.perPage);
                 this.generateCount();
                 this.setDisplayPageNumberRange();
+                this.getAllInvoice();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
