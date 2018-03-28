@@ -37,7 +37,7 @@
 <!-- END: Subheader -->
 
 <div class="m-content">
-	<p-dialog header="{{selectedRow.schoolName}}" [(visible)]="popupVisible" modal='true' >
+	<p-dialog header="{{selectedRow.schoolName}}" *ngIf="popupVisible" [(visible)]="popupVisible" modal='true' >
 			<div class="container-fluid">
 					<div class="row">
 					  <div class="col-md-6">
