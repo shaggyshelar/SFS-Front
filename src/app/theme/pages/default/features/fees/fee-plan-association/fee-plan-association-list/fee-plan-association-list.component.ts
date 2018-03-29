@@ -118,7 +118,8 @@ export class FeePlanAssociationListComponent implements OnInit {
                         feePlanName: item.feePlanName,
                         schoolId: item.schoolId,
                         isTransactionProcessed: item.isTransactionProcessed,
-                        academicYear:item.academicYear
+                        academicYear:item.academicYear,
+                        isVerified: item.isVerified
                     })
                     this.feePlanAssociationList[index].classes = '';
                     this.feePlanAssociationList[index].categories = '';

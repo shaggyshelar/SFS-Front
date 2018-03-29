@@ -11,7 +11,7 @@ import { HrefPreventDefaultDirective } from '../../_directives/href-prevent-defa
 import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
 import { IsAuthorizeDirective } from '../../_directives/isAuthorize.directive';
 import { ImageUploadService } from '../pages/default/_services/imageUpload.service';
-
+import { DateIst } from '../pages/default/features/datePipe/date-ist.pipe';
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -23,6 +23,7 @@ import { ImageUploadService } from '../pages/default/_services/imageUpload.servi
     HrefPreventDefaultDirective,
     UnwrapTagDirective,
     IsAuthorizeDirective,
+    DateIst  
   ],
   exports: [
     LayoutComponent,
@@ -33,7 +34,7 @@ import { ImageUploadService } from '../pages/default/_services/imageUpload.servi
     ScrollTopComponent,
     HrefPreventDefaultDirective,
     IsAuthorizeDirective,
-    
+    DateIst  
   ],
   providers: [
     ImageUploadService,

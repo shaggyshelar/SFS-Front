@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from '../../../default.component';
 import { LayoutModule } from '../../../../../layouts/layout.module';
-
 import { AuthGuard } from "../../../../../../auth/_guards/auth.guard";
 import { AcademicYearService  } from '../../../_services/index';
 import { AcademicYearComponent } from './academic-year.component';

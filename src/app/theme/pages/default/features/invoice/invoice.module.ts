@@ -11,7 +11,6 @@ import { InvoiceComponent  } from './invoice.component';
 import { InvoiceListComponent  } from './invoice-list/invoice-list.component';
 import { InvoiceSummaryComponent  } from './invoice-summary/invoice-summary.component';
 import { ClassService } from '../../_services/class.service';
-import { DateIst } from '../datePipe/date-ist.pipe';
 import {
   DropdownModule,
   CalendarModule,
@@ -44,14 +43,6 @@ const routes: Routes = [
               permissions: ['Invoice.Update']
             }
           },
-          // {
-          //   path: 'edit/:id',
-          //   component: AcademicYearAddEditComponent,
-          //   canActivate: [AuthGuard],
-          //   data: {
-          //     permissions: ['AcademicYear.Update']
-          //   }
-          // },
         ]
       }
     ]
@@ -72,8 +63,7 @@ const routes: Routes = [
   declarations: [
     InvoiceComponent,
     InvoiceListComponent,
-    InvoiceSummaryComponent,
-    DateIst  
+    InvoiceSummaryComponent
   ],
   providers: [
     ConfirmationService,
