@@ -639,8 +639,8 @@ export class InvoiceListComponent implements OnInit {
             this.onGridSearchKeyUp = false;
         } else {
             this.onGridSearchKeyUp = true;
-            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%" + '&filter[where][or][3][studentFirstName][like]=%' + searchString + "%";
-            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%"+ '&[where][or][3][studentFirstName][like]=%' + searchString + "%";
+            this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%" + '&filter[where][or][3][studentFirstName][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
+            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%"+ '&[where][or][3][studentFirstName][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
