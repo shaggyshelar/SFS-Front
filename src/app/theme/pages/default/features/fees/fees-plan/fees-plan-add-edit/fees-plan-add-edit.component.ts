@@ -30,6 +30,9 @@ export class FeesPlanAddEditComponent implements OnInit {
   params: number;
   previewHeader:any = [];
   from: string;
+  createdBy: String;
+  updatedBy: String;
+  verifiedBy: String;
   feeHeadList = [];
   academicYearList = [];
   sequenceNumberArr = [];
@@ -210,6 +213,9 @@ export class FeesPlanAddEditComponent implements OnInit {
             this.feePlanManagement = [];
             let uniqFeeHead = _.uniqBy(results.FeePlanDetails, 'feeHeadId');
             this.isTransactionProcessed = results.isTransactionProcessed;
+            this.createdBy = results.createdByUserDetails ? results.createdByUserDetails.username:null;
+            this.updatedBy = results.updatedByUserDetails ? results.updatedByUserDetails.username:null;
+            this.verifiedBy = results.verifiedByUserDetails ? results.verifiedByUserDetails.username:null;
             this.isVerified = results.isVerified;
             if (this.isVerified) {
               this.onAlert();

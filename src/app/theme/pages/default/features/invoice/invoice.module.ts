@@ -11,7 +11,7 @@ import { InvoiceComponent  } from './invoice.component';
 import { InvoiceListComponent  } from './invoice-list/invoice-list.component';
 import { InvoiceSummaryComponent  } from './invoice-summary/invoice-summary.component';
 import { ClassService } from '../../_services/class.service';
-
+import { DateIst } from '../datePipe/date-ist.pipe';
 import {
   DropdownModule,
   CalendarModule,
@@ -67,12 +67,13 @@ const routes: Routes = [
     ReactiveFormsModule,
     DropdownModule,
     CalendarModule,
-    ConfirmDialogModule,    
+    ConfirmDialogModule,  
   ],
   declarations: [
     InvoiceComponent,
     InvoiceListComponent,
     InvoiceSummaryComponent,
+    DateIst  
   ],
   providers: [
     ConfirmationService,
