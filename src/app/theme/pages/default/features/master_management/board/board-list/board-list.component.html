@@ -134,7 +134,7 @@
 								<tr *ngFor='let row of boardList | async'>
 									<td>{{row.boardName}}</td>
 									<td>{{row.boardDescription}}</td>
-									<td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td>
+									<td>{{row.createdOn | dateIst | date: 'MM/dd/yyyy'}}</td>
 									<td>
 										<a href="javascript:;" (click)="onEditBoardClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Board.Update']">

@@ -187,8 +187,8 @@
 									<td>
 										<button (click)="registerAndProcess(row.id,row.schoolId)" [disabled]='!(row.isFeePlanVerified==1 && row.isAcademicFeeProcessed==0)' class="btn btn-outline-brand btn-sm regProcessBtn">Register & Process</button>
 									</td>
-									<!-- <td>{{row.studentDateOfBirth | date:'yyyy-MM-dd'}}</td>
-									<td>{{row.dateOfJoining | date:'yyyy-MM-dd'}}</td> -->
+									<!-- <td>{{row.studentDateOfBirth | dateIst | date:'yyyy-MM-dd'}}</td>
+									<td>{{row.dateOfJoining | dateIst | date:'yyyy-MM-dd'}}</td> -->
 									<td>
 										<a href="javascript:;" (click)="onEditStudentClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['Student.Update']">

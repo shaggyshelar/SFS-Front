@@ -118,7 +118,6 @@ export class ClassListComponent implements OnInit {
         this.classList = this.classService.getAllClassList(this.url);
 
         this.classList.subscribe((response) => {
-            console.log(response);
             this.longList = response.length > 0 ? true : false;
             if (!this.longList) {
                 this.firstPageNumber = 0;

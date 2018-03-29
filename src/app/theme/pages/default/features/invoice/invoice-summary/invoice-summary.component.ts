@@ -9,6 +9,7 @@ import { MessageService } from './../../../../../../_services/message.service';
 import { AcademicYearService } from './../../../_services/index';
 import { Boards } from "./../../../_models/boards";
 import { Helpers } from "./../../../../../../helpers";
+import { DateIst } from '../../datePipe/date-ist.pipe';
 @Component({
   selector: "app-invoice-summary",
   templateUrl: "./invoice-summary.component.html",
@@ -63,9 +64,9 @@ export class InvoiceSummaryComponent implements OnInit {
     this.invoiceService.getInvoiceSumary(this.params, url).subscribe(
       response => {
         this.invoice = response;
+        this.invoice.dueDate = new DateIst().transform(response.dueDate);
         // this.invoice.invoiceStatus="Paid";
         this.currentStatus = this.invoice.status;
-        this.invoice.dueDate = new Date(response.dueDate);
         this.chargeAmount = response.totalChargeAmount ? response.totalChargeAmount : 0;
         this.paidAmount = response.totalChargeAmountPaid ? response.totalChargeAmountPaid : 0;
         this.lateFee = response.calculatedLateFees ? response.calculatedLateFees : 0;

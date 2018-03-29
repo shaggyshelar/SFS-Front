@@ -70,7 +70,7 @@ const routes: Routes = [
   declarations: [
     BoardComponent,
     BoardListComponent,
-    BoardAddEditComponent,
+    BoardAddEditComponent
   ],
   providers: [
     BoardService,

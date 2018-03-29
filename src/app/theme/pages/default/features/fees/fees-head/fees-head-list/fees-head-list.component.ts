@@ -328,7 +328,6 @@ if(!this.frequencyIdList.length) {
 
   }
   getDataCount(url) {
-    console.log(url)
     if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
       this.getAllFees();
     } else {

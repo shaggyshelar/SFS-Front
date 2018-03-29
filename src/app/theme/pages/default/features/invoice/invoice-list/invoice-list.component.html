@@ -181,7 +181,7 @@
 											<u>{{row.invoiceNumber}}</u>
 										</a>
 									</td>
-									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.dueDate| dateIst | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.type }}</td>
 									<td>{{row.studentFirstName ? row.studentFirstName : ''}} {{row.studentLastName ? row.studentLastName : ''}}</td>
 									<td>

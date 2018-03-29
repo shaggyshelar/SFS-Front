@@ -590,7 +590,11 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.filterQuery1 = '';
             this.filter2CountQuery = '';
             this.divisionList = [];
+            this.division ='';
         } else {
+            this.division ='';
+            this.filterQuery2 = '';
+            this.filter3CountQuery = '';
             this.divisionList = _.filter(this._tempDivisionList, { classId: Number(value) });
             this.filterQuery1 = '&filter[where][' + column + ']=' + value;
             this.filter2CountQuery = '&where[' + column + '] =' + value;
