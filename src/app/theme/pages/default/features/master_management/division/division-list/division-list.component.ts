@@ -121,6 +121,7 @@ export class DivisionListComponent implements OnInit {
         
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             
             if(!this.filterCol1.length) {

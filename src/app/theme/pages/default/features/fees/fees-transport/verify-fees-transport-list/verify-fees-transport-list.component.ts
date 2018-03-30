@@ -12,6 +12,7 @@ import { Helpers } from "../../../../../../../helpers";
 import { TransportService, FrequencyService, AcademicYearService } from '../../../../../default/_services/index';
 import { ConfirmationService } from 'primeng/primeng';
 import { SchoolService } from '../../../../_services/index';
+import { RootData } from '@angular/core/src/view';
 
 @Component({
     selector: "verify-app-transport-list",
@@ -49,6 +50,7 @@ export class VerifyTransportListComponent implements OnInit {
     paymentProcessDate: number;
     
     constructor(
+        private router: Router,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
         private transportServics: TransportService,
@@ -66,6 +68,7 @@ export class VerifyTransportListComponent implements OnInit {
         // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             this.schoolId = localStorage.getItem("schoolId");
             this.getSchoolDetails();

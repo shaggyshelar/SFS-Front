@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, NgModule } from '@angular/core';
 import { Helpers } from '../../../../helpers';
+import { Router } from '@angular/router';
 import { ScriptLoaderService } from '../../../../_services/script-loader.service';
 import { UserSchoolDetailsService } from '../../default/_services/userschooldetails.service';
 import { GlobalErrorHandler } from '../../../../_services/error-handler.service';
@@ -22,7 +23,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     "toatalStudnetCount": 0
   };
   schoolList = [];
-  constructor(private _script: ScriptLoaderService, private messageService: MessageService, private globalErrorHandler: GlobalErrorHandler, private userSchoolDetailsService: UserSchoolDetailsService) {
+  constructor(private router:Router,private _script: ScriptLoaderService, private messageService: MessageService, private globalErrorHandler: GlobalErrorHandler, private userSchoolDetailsService: UserSchoolDetailsService) {
 
   }
   ngOnInit() {
@@ -42,6 +43,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         }
         if (!this.superAdmin && (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0")) {
           this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+          this.router.navigate(['/selectSchool']);
         }
         else if (localStorage.getItem("schoolId") && localStorage.getItem("schoolId") != "null" && localStorage.getItem("schoolId") != "0") {
           this.selectedSchoolId = parseInt(localStorage.getItem("schoolId"));

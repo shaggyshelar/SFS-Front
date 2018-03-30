@@ -95,6 +95,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     ngOnInit() {
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             //Default variable initialization
             this.perPage = 100;
@@ -700,9 +701,6 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
     }
     onSearchReport() {
-        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
-            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-        } else {
             if (this.startDate && this.endDate) {
                 if (this.startDate < this.endDate) {
                     let currentPos = this.currentPos > -1 ? this.currentPos : 0;
@@ -719,6 +717,5 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.getQueryDataCount();
             }
         }
-    }
     /* Counting Number of records ends*/
 }

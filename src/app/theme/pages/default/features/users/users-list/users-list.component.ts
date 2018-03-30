@@ -353,7 +353,7 @@ export class UsersListComponent implements OnInit {
         if (_superAdmin) {
             this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
         } else {
-            this.countQuery = this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+            this.countQuery = '?' +this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
         }
         this.getDataCount(this.countQuery);
     }

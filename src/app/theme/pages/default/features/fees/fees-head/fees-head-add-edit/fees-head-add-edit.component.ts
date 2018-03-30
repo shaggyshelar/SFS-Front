@@ -39,6 +39,7 @@ export class FeesHeadAddEditComponent implements OnInit {
 
     if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+      this.router.navigate(['/selectSchool']);
     }
 
     this.feesForm = this.formBuilder.group({
@@ -126,6 +127,7 @@ export class FeesHeadAddEditComponent implements OnInit {
     } else {
       if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
         this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        this.router.navigate(['/selectSchool']);
       } else {
         value.schoolId = localStorage.getItem("schoolId");
         this.feesService.createFees(value)

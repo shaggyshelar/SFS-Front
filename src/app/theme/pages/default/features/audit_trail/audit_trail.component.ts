@@ -21,8 +21,8 @@ import * as _ from 'lodash/index';
 })
 export class AuditTrailComponent implements OnInit {
     auditList = [];
-    popupVisible:boolean = false;
-    selectedRow:{id:0,schoolName:'',old:string,new:string};
+    popupVisible: boolean = false;
+    selectedRow: { id: 0, schoolName: '', old: string, new: string };
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -53,7 +53,7 @@ export class AuditTrailComponent implements OnInit {
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
-    recordNotFound : boolean = false;
+    recordNotFound: boolean = false;
     searchValue: string; //HTML values
     selectedPageSize: number = 25; //HTML values
     constructor(private router: Router,
@@ -67,14 +67,15 @@ export class AuditTrailComponent implements OnInit {
     ngOnInit() {
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             //Default variable initialization
             this.perPage = this.commonService.perPage;
             this.currentPos = this.commonService.currentPos;
             this.currentPageNumber = this.commonService.currentPageNumber;
             this.selectedPageSize = this.perPage;
-            this.selectedRow={id:0,schoolName:'',old:'',new:''};
-            this.popupVisible =false;
+            this.selectedRow = { id: 0, schoolName: '', old: '', new: '' };
+            this.popupVisible = false;
             this.url = '';
             this.sortUrl = '&filter[order]=createdOn DESC';
             this.ascSortCol1 = true;
@@ -96,13 +97,13 @@ export class AuditTrailComponent implements OnInit {
             this.longList = false;
             //this.getAllBoards();
             //this.getDataCount('');
+            //Page Size Array
+            this.pageSize = [];
+            this.pageSize.push({ label: '25', value: 25 });
+            this.pageSize.push({ label: '50', value: 50 });
+            this.pageSize.push({ label: '100', value: 100 });
+            this.pageSize.push({ label: '200', value: 200 });
         }
-        //Page Size Array
-        this.pageSize = [];
-        this.pageSize.push({ label: '25', value: 25 });
-        this.pageSize.push({ label: '50', value: 50 });
-        this.pageSize.push({ label: '100', value: 100 });
-        this.pageSize.push({ label: '200', value: 200 });
     }
 
     getDataCount(url) {
@@ -120,7 +121,7 @@ export class AuditTrailComponent implements OnInit {
     }
 
     getAllAudit() {
-        
+
         this.getUrl();
         this.commonService.getAllAudit(this.url).subscribe(
             response => {
@@ -130,7 +131,7 @@ export class AuditTrailComponent implements OnInit {
                 if (!this.longList) {
                     this.firstPageNumber = 0;
                 }
-                if (this.recordNotFound ) {
+                if (this.recordNotFound) {
                     this.firstPageNumber = 0;
                 }
                 Helpers.setLoading(false);
@@ -195,10 +196,10 @@ export class AuditTrailComponent implements OnInit {
         //for()
     }
 
-    showPop(rowId){
-        this.selectedRow = {id:0,schoolName:'',old:'',new:''};
-        
-        this.selectedRow = Object.assign({},_.filter(this.auditList,{id:rowId})[0]);
+    showPop(rowId) {
+        this.selectedRow = { id: 0, schoolName: '', old: '', new: '' };
+
+        this.selectedRow = Object.assign({}, _.filter(this.auditList, { id: rowId })[0]);
         this.selectedRow.old = JSON.stringify(JSON.parse(this.selectedRow.old), null, 2);
         this.selectedRow.new = JSON.stringify(JSON.parse(this.selectedRow.new), null, 2);
         this.popupVisible = !this.popupVisible;
@@ -380,12 +381,12 @@ export class AuditTrailComponent implements OnInit {
 
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][createdOn][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][createdOn][lt]=' + new Date(this.endDate.setHours(22)).toISOString()  + this.sortUrl + this.searchQuery;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][createdOn][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][createdOn][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.sortUrl + this.searchQuery;
     }
     /* Counting Number of records ends*/
 
     onSearchReport() {
-        
+
         if (this.startDate && this.endDate) {
 
             if (this.startDate < this.endDate) {
@@ -399,6 +400,7 @@ export class AuditTrailComponent implements OnInit {
             }
         } else {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select start date and end date' });
+            this.router.navigate(['/selectSchool']);
         }
     }
     exporttoCSV() {
