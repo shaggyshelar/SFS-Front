@@ -335,7 +335,7 @@ export class UsersListComponent implements OnInit {
             this.searchCountQuery = '';
         } else {
             this.searchQuery = '&filter[where][username][like]=%' + searchString + '%';
-            this.searchCountQuery = '&[where][username][like]=%' + searchString + '%';
+            this.searchCountQuery = '&where[username][like]=%' + searchString + '%';
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
