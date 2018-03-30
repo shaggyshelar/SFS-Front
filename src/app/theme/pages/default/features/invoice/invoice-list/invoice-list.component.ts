@@ -149,6 +149,7 @@ export class InvoiceListComponent implements OnInit {
         var urls = InvoiceListComponent.previousUrl? InvoiceListComponent.previousUrl :[{'url':'dem1'},{'url':'dem2'}];
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             
             
@@ -640,7 +641,7 @@ export class InvoiceListComponent implements OnInit {
         } else {
             this.onGridSearchKeyUp = true;
             this.searchQuery = '&filter[where][or][0][invoiceNumber][like]=%' + searchString + "%" + '&filter[where][or][1][status][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%" + '&filter[where][or][3][studentFirstName][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
-            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%"+ '&[where][or][3][studentFirstName][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
+            this.searchCountQuery = '&where[or][0][invoiceNumber][like]=%' + searchString + "%" + '&where[or][1][status][like]=%' + searchString + "%" + '&where[or][2][studentLastName][like]=%' + searchString + "%"+ '&where[or][3][studentFirstName][like]=%' + searchString + "%"+ '&where[or][4][studentFullName][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;

@@ -23,6 +23,7 @@ export class MerchantListComponent implements OnInit {
     schoolId: string;
     merchantList: Merchant[];
     constructor(
+        private router:Router,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
         private userSchoolDetailsService: UserSchoolDetailsService,
@@ -36,7 +37,9 @@ export class MerchantListComponent implements OnInit {
         //let schoolId = JSON.parse(localStorage.getItem('schoolId'));
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+
             this.listDisable = false;
+            this.router.navigate(['/selectSchool']);
         } else {
             this.schoolId = localStorage.getItem("schoolId");
             this.listDisable = true;

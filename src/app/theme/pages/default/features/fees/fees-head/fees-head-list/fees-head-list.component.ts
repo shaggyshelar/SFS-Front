@@ -350,6 +350,7 @@ if(!this.frequencyIdList.length) {
       let currentPos = this.currentPos > -1 ? this.currentPos : 0;
       this.url = '?&filter[where][schoolId]=0&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+      this.router.navigate(['/selectSchool']);
     } else {
       let currentPos = this.currentPos > -1 ? this.currentPos : 0;
       this.url = '?&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;

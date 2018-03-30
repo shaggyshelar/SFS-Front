@@ -105,6 +105,7 @@ export class ClassListComponent implements OnInit {
         this.longList = true;
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             this.getAllClasses();
             this.getDataCount('');

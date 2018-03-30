@@ -128,6 +128,7 @@ export class StudentListComponent implements OnInit {
 
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+            this.router.navigate(['/selectSchool']);
         } else {
             this.getQueryDataCount();
             //List of Classes
@@ -354,7 +355,7 @@ export class StudentListComponent implements OnInit {
             this.searchCountQuery = '';
         } else {
             this.searchQuery = '&filter[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&filter[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&filter[where][or][2][studentLastName][like]=%' + searchString + "%" + '&filter[where][or][3][gRNumber][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
-            this.searchCountQuery = '&[where][or][0][studentFirstName][like]=%' + searchString + "%" + '&[where][or][1][studentMiddleName][like]=%' + searchString + "%" + '&[where][or][2][studentLastName][like]=%' + searchString + "%" + '&[where][or][3][gRNumber][like]=%' + searchString + "%"+ '&filter[where][or][4][studentFullName][like]=%' + searchString + "%";
+            this.searchCountQuery = '&where[or][0][studentFirstName][like]=%' + searchString + "%" + '&where[or][1][studentMiddleName][like]=%' + searchString + "%" + '&where[or][2][studentLastName][like]=%' + searchString + "%" + '&where[or][3][gRNumber][like]=%' + searchString + "%"+ '&where[or][4][studentFullName][like]=%' + searchString + "%";
         }
         this.currentPos = 0;
         this.currentPageNumber = 1;
