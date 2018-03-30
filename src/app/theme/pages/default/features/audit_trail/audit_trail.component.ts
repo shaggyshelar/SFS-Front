@@ -385,9 +385,11 @@ export class AuditTrailComponent implements OnInit {
     /* Counting Number of records ends*/
 
     onSearchReport() {
-        Helpers.setLoading(true);
+        
         if (this.startDate && this.endDate) {
+
             if (this.startDate < this.endDate) {
+                Helpers.setLoading(true);
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
                 this.getUrl();
                 this.getAllAudit();

@@ -246,7 +246,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             });
 
     }
-        
+
     getDataCount(url) {
         Helpers.setLoading(true);
         this.invoiceService.getStudentInvoiceReportCount(url).subscribe(
@@ -278,46 +278,46 @@ export class StudentInvoiceReportComponent implements OnInit {
     getClassList() {
         this.classService.getClassBySchoolId(this.schoolId)
             .subscribe(
-            response => {
-                this.classList = response;
-            },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            }
+                response => {
+                    this.classList = response;
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                }
             );
     }
     getDivisionList() {
         this.classService.getDivisionBySchoolId(this.schoolId)
             .subscribe(
-            response => {
-                this.divisionList = [];
-                this._tempDivisionList = _.cloneDeep(response);
-            },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            }
+                response => {
+                    this.divisionList = [];
+                    this._tempDivisionList = _.cloneDeep(response);
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                }
             );
     }
     getFeePlanList() {
         this.classService.getFeePlansBySchoolId(this.schoolId)
             .subscribe(
-            response => {
-                this.feeplanList = response;
-            },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            }
+                response => {
+                    this.feeplanList = response;
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                }
             );
     }
     getCategoryList() {
         this.classService.getCategoryBySchoolId(this.schoolId)
             .subscribe(
-            response => {
-                this.categoryList = response;
-            },
-            error => {
-                this.globalErrorHandler.handleError(error);
-            }
+                response => {
+                    this.categoryList = response;
+                },
+                error => {
+                    this.globalErrorHandler.handleError(error);
+                }
             );
     }
     getAllInvoice() {
@@ -590,9 +590,9 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.filterQuery1 = '';
             this.filter2CountQuery = '';
             this.divisionList = [];
-            this.division ='';
+            this.division = '';
         } else {
-            this.division ='';
+            this.division = '';
             this.filterQuery2 = '';
             this.filter3CountQuery = '';
             this.divisionList = _.filter(this._tempDivisionList, { classId: Number(value) });
@@ -700,20 +700,24 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
     }
     onSearchReport() {
-        if (this.startDate && this.endDate) {
-            if (this.startDate < this.endDate) {
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            if (this.startDate && this.endDate) {
+                if (this.startDate < this.endDate) {
+                    let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+                    this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
+                    this.getAllStudentInvoiceReport(this.url);
+                    this.getQueryDataCount();
+                } else {
+                    this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
+                }
+            } else {
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
+                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
                 this.getAllStudentInvoiceReport(this.url);
                 this.getQueryDataCount();
-            } else {
-                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Start Date should be less than End Date' });
             }
-        } else {
-            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
-            this.getAllStudentInvoiceReport(this.url);
-            this.getQueryDataCount();
         }
     }
     /* Counting Number of records ends*/

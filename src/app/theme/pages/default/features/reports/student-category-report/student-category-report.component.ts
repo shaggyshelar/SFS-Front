@@ -369,10 +369,14 @@ export class StudentCategoryReportComponent implements OnInit {
         //this.getQueryDataCount();
     }
     onSearchReport() {
-        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
-        this.getAllStudentCategoryReport(this.url);
-        this.getQueryFilterDataCount();
+        if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
+            this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
+        } else {
+            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+            this.getAllStudentCategoryReport(this.url);
+            this.getQueryFilterDataCount();
+        }
 
     }
     sort(column, sortOrder) {
