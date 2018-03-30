@@ -165,7 +165,7 @@
 						<div class="col-md-2">
 							<input  class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
 						</div>
-						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan">
+						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan" *ngIf='!isVerified'>
 							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0"
 							 (click)="removeFeeHeadDetails(fee,rowNum)">
 								<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
