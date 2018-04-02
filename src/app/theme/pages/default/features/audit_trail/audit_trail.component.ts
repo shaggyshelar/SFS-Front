@@ -400,7 +400,6 @@ export class AuditTrailComponent implements OnInit {
             }
         } else {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please select start date and end date' });
-            this.router.navigate(['/selectSchool']);
         }
     }
     exporttoCSV() {
