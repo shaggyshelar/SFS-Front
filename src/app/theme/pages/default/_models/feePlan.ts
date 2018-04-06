@@ -17,4 +17,6 @@ export class FeePlanDetails {
   academicYear: string;
   isTransactionProcessed: number;
   schoolId: number;
+  isQuarterSkipped : boolean;
+  numberOfQuarterSkipped: number;
 }
