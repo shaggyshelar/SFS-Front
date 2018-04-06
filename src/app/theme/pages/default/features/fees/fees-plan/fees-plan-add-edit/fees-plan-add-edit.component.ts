@@ -79,7 +79,7 @@ export class FeesPlanAddEditComponent implements OnInit {
     Helpers.setLoading(true);
     this.minDate = new Date();
     this.maxDate = new Date();
-    this.skipQuarter = [{ label: '--Skip--', value: 0 }, { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 }];
+    this.skipQuarter = [{ label: '--Select--', value: 0 }, { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 }];
     this.getSchoolDetails();
     this.checkPermission();
 
