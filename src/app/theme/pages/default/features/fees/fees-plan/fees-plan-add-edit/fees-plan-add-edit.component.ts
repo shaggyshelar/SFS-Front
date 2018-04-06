@@ -298,6 +298,7 @@ export class FeesPlanAddEditComponent implements OnInit {
           feePlanDetailObj.schoolId = parseInt(localStorage.getItem('schoolId'));
           feePlanDetailObj.academicYear = _selectedAcademicYear;
           feePlanDetailObj.feeCharges = index ==3 ? 4*value.amount-(3-value.skipQuarter)*(splitAmount+value.amount):value.amount+splitAmount;
+          //feePlanDetailObj.feeCharges = value.amount;
           if (tempFeeHead.frequencyValue == 1) {
             feePlanDetailObj.dueDate = new Date(_frequency[index].date.toString());
             feePlanDetailObj.sequenceNumber = 1;
@@ -481,10 +482,12 @@ export class FeesPlanAddEditComponent implements OnInit {
       
       let temp = 0;
       this.feePlanDetails.map((item)=>{
-        temp += item.feeCharges;
+        if(item.feeHeadId==feeItem.feeHeadId) {
+          temp += item.feeCharges;
+        }
       })
       
-      amount = temp/4;
+      amount = temp/4;      
     } 
     this.feePlanManagement.push({
       contRoleId: Math.floor(Math.random() * 2000),
