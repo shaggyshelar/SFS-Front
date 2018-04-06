@@ -169,8 +169,11 @@
 						<div class="col-md-2">
 							<input  class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" step="1" [(ngModel)]="fee.confirmAmount">
 						</div>
-						<div class="col-md-4 feePlanAddBtn feePlanAddBtnPlan" *ngIf='!isVerified'>
+						<div class="col-md-2" style='width: 100px;'>
 								<p-dropdown class="feePlanBox"  [disabled]="fee.frequencyName=='Quarterly'?null:''" [options]="skipQuarter" [(ngModel)]="fee.skipQuarter" name="{{'skip'+fee.contRoleId}}"></p-dropdown>
+							</div>
+						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan" *ngIf='!isVerified'>
+								
 							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0"
 							 (click)="removeFeeHeadDetails(fee,rowNum)">
 								<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
