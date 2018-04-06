@@ -146,7 +146,7 @@
 								<tr *ngFor='let row of adhocFeeList'>
 									<td>{{row.adhocfeeName}}</td>
 									<td>{{row.adhocfeeDescription}}</td>
-									<td>{{row.dueDate | dateIst | date: 'MM/dd/yyyy'}}</td>
+									<td>{{row.dueDate | date: 'MM/dd/yyyy'}}</td>
 									<td>{{row.classes}}</td>
 									<td>{{row.categories}}</td>
 									<td>{{row.isTransactionProcessed?'Used':'Unused'}}</td>

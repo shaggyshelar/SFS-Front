@@ -90,7 +90,6 @@ export class VerifyFeesPlanListComponent implements OnInit {
     //this.getAllFeePlan();
     if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-      this.router.navigate(['/selectSchool']);
     }
     else {
       this.getDataCount('');
@@ -123,7 +122,7 @@ export class VerifyFeesPlanListComponent implements OnInit {
     this.feesService.perPage = this.perPage;
     this.feesService.currentPos = this.currentPos;
     this.feesService.currentPageNumber = this.currentPageNumber;
-    this.router.navigate(['/features/fees/feesPlan/verify', data.id], { queryParams: { from: 'verify' } });
+    this.router.navigate(['/features/fees/feesPlan/edit', data.id], { queryParams: { from: 'verify' } });
   }
   onfeesDeleteClick(data: FeePlan) {
     this.confirmationService.confirm({
@@ -361,7 +360,7 @@ export class VerifyFeesPlanListComponent implements OnInit {
   }
   getUrl() {
     let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-    this.url = '?filter[limit]=' + this.perPage + '&filter[where][isVerified]=false&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
+    this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
   }
   /* Counting Number of records ends*/
 }

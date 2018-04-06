@@ -1,284 +1,248 @@
 <p-confirmDialog #cd>
-        <p-footer>
-            <button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
+    <p-footer>
+        <button type="button" class="btn btn-accent m-btn m-btn--icon" (click)="cd.accept()">
+            <span>
+                <i class="la la-check"></i>
                 <span>
-                    <i class="la la-check"></i>
-                    <span>
-                        Yes
-                    </span>
+                    Yes
                 </span>
-            </button>
-            <button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+            </span>
+        </button>
+        <button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+            <span>
+                <i class="la la-close"></i>
                 <span>
-                    <i class="la la-close"></i>
-                    <span>
-                        No
-                    </span>
+                    No
                 </span>
-            </button>
-        </p-footer>
-    </p-confirmDialog>
-    
-    <div class="m-subheader">
-        <div class="d-flex align-items-center">
-            <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">
-                    Verify Fees
-                </h3>
-                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                    <li class="m-nav__item m-nav__item--home">
-                        <a href="#" class="m-nav__link m-nav__link--icon">
-                            <i class="m-nav__link-icon la la-home"></i>
-                        </a>
-                    </li>
-                    <li class="m-nav__separator">
-                        -
-                    </li>
-                    <li class="m-nav__item">
-                        <a class="m-nav__link">
-                            <span class="m-nav__link-text">
-                               Transport
-                            </span>
-                        </a>
-                    </li>
-                    <li class="m-nav__separator">
-                        -
-                    </li>
-                    <li class="m-nav__item">
-                        <a class="m-nav__link">
-                            <span class="m-nav__link-text">
-                                List
-                            </span>
-                            </a>
-                    </li>
-                </ul>
-            </div>
+            </span>
+        </button>
+    </p-footer>
+</p-confirmDialog>
+<div class="m-subheader">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Fees
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                           Transport
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            List
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="m-content">
-    
-        <!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
-        <div class="m-portlet">
-            <div class="row">
-                <div class="col-lg-12">
-                        <p-dialog header="Transport Plan" [(visible)]="previewVisible" modal='true' class="">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="" style="margin:0 auto;">
-                                        <table border='1' class="feePlanDialogTable">
-                                            <thead>
-                                                <th>Zone Name</th>
-                                                <th>Description</th>
-                                                <th>Amount</th>
-                                                <th *ngFor="let item of previewHeader; let myIndex = index">
-                                                    {{item.sDate | date: 'MMM-yy'}} <span [hidden]='item.eDate == ""?true:false'>TO</span> {{item.eDate | date: 'MMM-yy'}}
-                                                </th>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let transport of previewRow; let myIndex = index">
-                                                    <td>{{transport.name}}</td>
-                                                    <td>{{transport.desc}}</td>
-                                                    <td>{{transport.totalAmount}}</td>
-                                                    <td *ngFor="let item of transport.charges;let myIndex = index">
-                                                        {{item}}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            
-                                        </table>
-                                        </div>
-                                    </div>
-                                    </div>
-                            
-                            </p-dialog>
-                    <!--begin::Form-->
-                    <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" style="margin-bottom: 7em;">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                    <h3 class="m-portlet__head-text">
-                                        Add/Edit Transport
-                                    </h3>
-    
-                                </div>
+</div>
+<div class="m-content">
+
+    <!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+    <div class="m-portlet">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--begin::Form-->
+                <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" style="margin-bottom: 7em;">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">
+                                    Add/Edit Transport
+                                </h3>
+
                             </div>
-    
-                            <!--Required Field Note-->
-                            <label class="requiredFieldNote">Note: &nbsp;&nbsp;
-                                <b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
-    
                         </div>
-                        <div class="m-portlet__body" style="padding-bottom: 2em;">
-                            <div class="form-group m-form__group zoneRow row">
-                                <div class="col-md-12">
-                                    <label for="example-text-input" class="col-form-label">
-                                        Payment Frequency
-                                        <span class="requiredField">*</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-control m-input" [(ngModel)]="frequencyId" placeholder="select" [disabled]="disableFrequecy">
-                                        <option [ngValue]="null">Select</option>
-                                        <!-- <option [ngValue]="">Select</option>		 -->
-                                        <option *ngFor="let item of frequencyList" [ngValue]="item.id">{{item.frequencyName}}</option>
-                                    </select>
-                                    <div class="alertMsg" *ngIf="isFrequencySelected">
-                                        Please select Payment Frequency
-                                    </div>
-                                </div>
-                                <div class="col-md-9"></div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <div class="col-md-12">
-                                    <span class="m-form__help">
-                                        <b style="font-weight:600;">Note :</b> Once saved, Payment frequency for Transport can not be changed for current
-                                        academic year.
-                                        <br/>
-                                        <b style="font-weight:600;">
-                                            <i>Please select payment frequency carefully.</i>
-                                        </b>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <div class="col-md-12">
-                                    <label for="example-text-input" class="col-form-label">
-                                        Academic Year
-                                    </label>
-                                </div>
-                                <div class="col-md-5" style="margin-top: -15px;">
-                                    <label class="col-form-label" style="font-weight: bold">
-                                        {{academicYear}}
-                                    </label>
-                                </div>
-                                <!-- <div class="col-md-3">
-                            <select class="form-control m-input" [(ngModel)]="academicYear" (change)="onAcademicYear($event.target.value)">
-                                 <option [ngValue]="null" >Select</option> 
-                                 <option [value]="null">Select</option>		  
-                                <option *ngFor="let item of academicYearList" [value]="item.academicYear">{{item.academicYear}}</option>
-                            </select>
-                            <div class="alertMsg" *ngIf="isAcademicYearSelected">
-                                Please select Academic Year
-                            </div>
-                        </div> -->
-                            </div>
-    
-    
-                    <!-- Table -->
-                    <div class="form-group m-form__group row">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <div class="tableBox zoneTableBox">
-                                    <table class="staticTable zoneTable" id="" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th title="">
-                                                    Zone Code <span class="requiredField">*</span>
-                                                </th>
-                                                <th title="">
-                                                    Description
-                                                </th>
-                                                <th title="">
-                                                    Amount <span class="requiredField">*</span>
-                                                </th>
-                                                <th title="">
-                                                    Confirm Amount <span class="requiredField">*</span>
-                                                </th>
-                                                <th title="">
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
-                                                <td>
-                                                    <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" maxlength="24" (keypress)="onZoneCode($event)" [disabled]="(row.disabledZoneCode) && (disableFrequecy)">
-                                                    <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
-                                                        Please enter Zone Code
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <textarea class="form-control m-input" id="txtZoneDesc{{rowNum}}" rows="2" style="resize:none;" [(ngModel)]="row.zoneDescription" [disabled]="row.disableFrequecy"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control m-input" id="txtZoneCost{{rowNum}}" [(ngModel)]="row.zoneCost" [disabled]="row.disableFrequecy">
-                                                    <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
-                                                        Please enter Zone Cost
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control m-input" id="txtZoneConfirmCost{{rowNum}}" [(ngModel)]="row.confirmZoneCost" [disabled]="row.disableFrequecy">
-                                                    <div class="alertMsg" id="confirmzonecost{{rowNum}}" style="display:none;">
-                                                        Confirm Amount doesnt match to Amount
-                                                    </div>
-                                                    <div class="alertMsg" id="confirmzonecostReq{{rowNum}}" style="display:none;">
-                                                        Please enter Confirm Zone Cost
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="">
-                                                     <button [isAuthorize]="['VerifyTransport.Update']" title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            (click)="enableEdit(rowNum,row)" *ngIf="row.disableFrequecy">
-                                                        <i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button> 
-                                                    <button  [isAuthorize]="['VerifyTransport.Update']" title="Verify" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            (click)="onSaveTransportRows(row,rowNum)" *ngIf="(!row.isVerified) || ((!row.disableFrequecy) && (disableFrequecy))">
-                                                        <i class="la la-check-circle" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>
-                                                    <button  [isAuthorize]="['VerifyTransport.Update']" title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            (click)="addRowAndSave(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(disableFrequecy)">
-                                                        <i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>
-                                                    <button  [isAuthorize]="['VerifyTransport.Update']" title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            (click)="addRow(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(!disableFrequecy)">
-                                                        <i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>
-                                                    <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            *ngIf="transportList.length > 1" (click)="onDeleteTransport(row,rowNum)">
-                                                        <i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>  -->
-                                                     <button  [isAuthorize]="['VerifyTransport.Update']" title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                                                            *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
-                                                        <i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>  
-                                                     <!-- <button  [isAuthorize]="['VerifyTransport.Update']" title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!row.disableFrequecy)&&(disableFrequecy)" (click)="onSaveTransportRows(row,rowNum)">
-                                                        <i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
-                                                    </button>  -->                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <div class="alertMsg" *ngIf="rowErr">
-                                                        Please fill the require fields of selected row or delete it.
-                                                </div>
-                                            </tr>
-    
-                                                </tbody>
-                                            </table>
-    
-                                            <!-- Add Button -->
-    
-                                            <!-- <br>
-                                    <button type="button" class="btn btn-primary btn-sm" style="margin-top:25px;" (click)="addRow()">
-                                                    <i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
-                                                    Add New
-                                                </button> -->
-                                            <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" style="margin-top:25px;margin-bottom: 40px;"
-                                                (click)="onSaveTransport()" *ngIf="!disableFrequecy">
-                                                Save
-                                            </button>
-                                            <input [hidden]="frequencyId ==null ? true :false" type='button' class="btn m-btn m-btn--air m-btn--custom" style="margin-top:25px;margin-bottom: 40px;" (click)="showDialog()" value='Preview'/> 
-    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-    
-                        </div>
-    
+
+                        <!--Required Field Note-->
+                        <label class="requiredFieldNote">Note: &nbsp;&nbsp;
+                            <b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+
                     </div>
-                    
-                    <!--end::Form-->
+                    <div class="m-portlet__body" style="padding-bottom: 2em;">
+                        <div class="form-group m-form__group zoneRow row">
+                            <div class="col-md-12">
+                                <label for="example-text-input" class="col-form-label">
+                                    Payment Frequency
+                                    <span class="requiredField">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control m-input" [(ngModel)]="frequencyId" placeholder="select" [disabled]="disableFrequecy">
+                                    <option [ngValue]="null">Select</option>
+                                    <!-- <option [ngValue]="">Select</option>		 -->
+                                    <option *ngFor="let item of frequencyList" [ngValue]="item.id">{{item.frequencyName}}</option>
+                                </select>
+                                <div class="alertMsg" *ngIf="isFrequencySelected">
+                                    Please select Payment Frequency
+                                </div>
+                            </div>
+                            <div class="col-md-9"></div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="col-md-12">
+                                <span class="m-form__help">
+                                    <b style="font-weight:600;">Note :</b> Once saved, Payment frequency for Transport can not be changed for current
+                                    academic year.
+                                    <br/>
+                                    <b style="font-weight:600;">
+                                        <i>Please select payment frequency carefully.</i>
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="col-md-12">
+                                <label for="example-text-input" class="col-form-label">
+                                    Academic Year
+                                </label>
+                            </div>
+                            <div class="col-md-5" style="margin-top: -15px;">
+                                <label class="col-form-label" style="font-weight: bold">
+                                    {{academicYear}}
+                                </label>
+                            </div>
+                            <!-- <div class="col-md-3">
+                        <select class="form-control m-input" [(ngModel)]="academicYear" (change)="onAcademicYear($event.target.value)">
+                             <option [ngValue]="null" >Select</option> 
+                             <option [value]="null">Select</option>		  
+							<option *ngFor="let item of academicYearList" [value]="item.academicYear">{{item.academicYear}}</option>
+                        </select>
+                        <div class="alertMsg" *ngIf="isAcademicYearSelected">
+                            Please select Academic Year
+                        </div>
+                    </div> -->
+                        </div>
+
+
+                <!-- Table -->
+                <div class="form-group m-form__group row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <div class="tableBox zoneTableBox">
+                                <table class="staticTable zoneTable" id="" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th title="">
+                                                Zone Code <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Description
+                                            </th>
+                                            <th title="">
+                                                Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Confirm Amount <span class="requiredField">*</span>
+                                            </th>
+                                            <th title="">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of transportList;let rowNum=index;let lastRowNum=last;">
+                                            <td>
+                                                <input class="form-control m-input" id="txtZoneCode{{rowNum}}" type="text" [(ngModel)]="row.zoneCode" maxlength="24" (keypress)="onZoneCode($event)" [disabled]="(row.disabledZoneCode) && (disableFrequecy)">
+                                                <div class="alertMsg" id="zonecode{{rowNum}}" style="display:none;">
+                                                    Please enter Zone Code
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control m-input" id="txtZoneDesc{{rowNum}}" rows="2" style="resize:none;" [(ngModel)]="row.zoneDescription" [disabled]="row.disableFrequecy"></textarea>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" id="txtZoneCost{{rowNum}}" [(ngModel)]="row.zoneCost" [disabled]="row.disableFrequecy">
+                                                <div class="alertMsg" id="zonecost{{rowNum}}" style="display:none;">
+                                                    Please enter Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control m-input" id="txtZoneConfirmCost{{rowNum}}" [(ngModel)]="row.confirmZoneCost" [disabled]="row.disableFrequecy">
+                                                <div class="alertMsg" id="confirmzonecost{{rowNum}}" style="display:none;">
+                                                    Confirm Amount doesnt match to Amount
+                                                </div>
+                                                <div class="alertMsg" id="confirmzonecostReq{{rowNum}}" style="display:none;">
+                                                    Please enter Confirm Zone Cost
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                 <button title="Edit" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="enableEdit(rowNum,row)" *ngIf="row.disableFrequecy">
+													<i class="la la-edit" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+                                                </button> 
+                                                <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRowAndSave(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(disableFrequecy)">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                <button title="Add New" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        (click)="addRow(row,rowNum)" *ngIf="(rowNum === transportList.length -1)&&(!disableFrequecy)">
+													<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>
+                                                <!-- <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="transportList.length > 1" (click)="onDeleteTransport(row,rowNum)">
+													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+                                                </button>  -->
+                                                 <button title="Delete" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                                                        *ngIf="row.id === null" (click)="onDeleteTransport(row,rowNum)">
+													<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button>  
+                                                 <button title="Save" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" *ngIf="(!row.disableFrequecy)&&(disableFrequecy)" (click)="onSaveTransportRows(row,rowNum)">
+													<i class="la la-save" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+												</button> 
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <div class="alertMsg" *ngIf="rowErr">
+                                                    Please fill the require fields of selected row or delete it.
+                                            </div>
+                                        </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <!-- Add Button -->
+
+                                        <!-- <br>
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-top:25px;" (click)="addRow()">
+												<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i> 
+												Add New
+											</button> -->
+                                        <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" style="margin-top:25px;margin-bottom: 40px;"
+                                            (click)="onSaveTransport()" *ngIf="!disableFrequecy">
+                                            Save
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
+                <!--end::Form-->
             </div>
         </div>
     </div>
+</div>

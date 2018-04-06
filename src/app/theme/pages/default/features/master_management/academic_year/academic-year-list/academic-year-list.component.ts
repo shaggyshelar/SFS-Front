@@ -64,7 +64,6 @@ export class AcademicYearListComponent implements OnInit {
         this.pageSize.push({ label: '200', value: 200 });
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            this.router.navigate(['/selectSchool']);
         } else {
             //Default variable initialization
             this.perPage = this.academicYearService.perPage;

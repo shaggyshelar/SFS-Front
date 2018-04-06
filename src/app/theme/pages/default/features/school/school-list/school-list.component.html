@@ -86,28 +86,24 @@
 				<!--begin: Search Form -->
 				<div class="row staticSearchRow">
 					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Institute</label>
-						</div>
-						<div class="filterDropdown">
+						<div class="">
+							<label>Institute</label>						
 							<p-dropdown class="" [options]="filterCol1" [style]="{'width':'100%'}" [(ngModel)]="filterValue1" (ngModelChange)="filterByValue('instituteId',filterValue1)"
 							 name="instituteId"></p-dropdown>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="filterLabel">
-							<label>Board</label>
-						</div>
-						<div class="filterDropdown">
+					<div class="col-md-2">
+						<div class="">
+							<label>Board</label>						
 							<p-dropdown class="" [options]="filterCol2" [style]="{'width':'100%'}" [(ngModel)]="filterValue2" (ngModelChange)="filterByValue2('boardId',filterValue2)"
 							 name="university"></p-dropdown>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 
 					</div>
 
-					<div class="col-md-3">
+					<div class="col-md-3" style="padding-top: 22px;">
 						<div class="m-input-icon m-input-icon--left">
 							<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" [(ngModel)]="searchValue"
 							 (keyup)="searchString(searchValue)">

@@ -121,8 +121,6 @@
 					</div>
 
 					<!--******************************************-->
-					
-					<!--******************************************-->
 					<div class="form-group m-form__group row lessPadding" style="padding-top: 5px !important;padding-bottom: 10px !important;">
 						<div class="col-md-2">
 							<label for="example-text-input" class="col-form-label feePlanLabel">
@@ -146,13 +144,8 @@
 								<span class="requiredField">*</span>
 							</label>
 						</div>
-						<div class="col-md-2">
-								<label for="example-text-input" class="col-form-label feePlanLabel">
-									Skip Quarter
-								</label>
-							</div>
 					</div>
-					
+
 					<div class="form-group m-form__group row lessPadding" *ngFor="let fee of feePlanManagement;let rowNum=index;let lastRowNum=last"
 					 style="padding-top: 0px !important;padding-bottom: 10px !important;">
 
@@ -160,6 +153,7 @@
 							<p-dropdown class="feePlanBox" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+fee.contRoleId}}"
 							 (onChange)="onFeeHeadChange(fee,rowNum)"></p-dropdown>
 						</div>
+						
 						<div class="col-md-2">
 							<input class="form-control m-input feePlanText" type="text" name="{{'frequencyName'+fee.contRoleId}}" [(ngModel)]="fee.frequencyName" readonly disabled>
 						</div>
@@ -169,11 +163,7 @@
 						<div class="col-md-2">
 							<input  class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
 						</div>
-						<div class="col-md-2" style='max-width: 12%'>
-								<p-dropdown class="feePlanBox"  [disabled]="fee.frequencyName=='Quarterly'?null:''" [options]="skipQuarter" [(ngModel)]="fee.skipQuarter" name="{{'skip'+fee.contRoleId}}"></p-dropdown>
-							</div>
-						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan" *ngIf='!isVerified'>
-								
+						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan">
 							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0"
 							 (click)="removeFeeHeadDetails(fee,rowNum)">
 								<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
@@ -181,8 +171,6 @@
 							<button title="Add New" type="button" class="btn btn-primary m-btn--pill feePlanActionBtn" *ngIf="lastRowNum" (click)="addFeeHeadDetails(fee)">
 								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
 							</button>
-							
-							
 						</div>
 					</div>
 					<!--******************************************-->
@@ -203,25 +191,7 @@
 				</div>
 				<!--+++++++++++++++++++++++++++++-->
 			</div>
-			<!--******************************************-->
-			<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
-			<div class="form-group m-form__group row lessPadding" style="padding-top: 5px !important;padding-bottom: 10px !important;">
-				<div class="col-md-4" *ngIf='createdBy'>
-					<label for="example-text-input" class="col-form-label feePlanLabel">
-						<b>Created by: </b> {{createdBy}}
-					</label>
-				</div>
-				<div class="col-md-4" *ngIf='updatedBy'>
-					<label for="example-text-input" class="col-form-label feePlanLabel">
-						<b>Updated By:</b> {{updatedBy}}
-					</label>
-				</div>
-				<div class="col-md-4" *ngIf='verifiedBy'>
-					<label for="example-text-input" class="col-form-label feePlanLabel">
-						<b>Verified By:</b> {{verifiedBy}}
-					</label>
-				</div>
-			</div>
+
 			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 				<div class="m-form__actions m-form__actions--solid lessPaddingFeePlanFooter">
 					<div class="row">
@@ -241,7 +211,7 @@
 					</div>
 				</div>
 			</div>
-			<p-dialog [responsive]='true' header="{{planeName}}" [(visible)]="previewVisible" modal='true' >
+			<p-dialog header="{{planeName}}" [(visible)]="previewVisible" modal='true' class="feePlanDialog">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="" style="margin:0 auto;">
@@ -277,6 +247,7 @@
 					</div>
 
 			</p-dialog>
+			
 			<!-- preview modal -->
 			
 		</form>

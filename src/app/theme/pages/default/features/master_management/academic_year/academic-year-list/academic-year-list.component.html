@@ -139,11 +139,11 @@
 							</thead>
 							<tbody *ngIf="longList">
 								<tr *ngFor='let row of academicYearList | async'>
-									<td>{{row.startDate | dateIst | date: 'MM/dd/yyyy'}}</td>
-									<td>{{row.endDate | dateIst | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.startDate | date: 'MM/dd/yyyy'}}</td>
+									<td>{{row.endDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.academicYear}}</td>
 									<td>{{row.isCurrent ? 'Yes' : 'No' }}</td>
-									<!-- <td>{{row.createdOn | dateIst | date: 'MM/dd/yyyy'}}</td> -->
+									<!-- <td>{{row.createdOn | date: 'MM/dd/yyyy'}}</td> -->
 									<td>
 										<a href="javascript:;" (click)="onEditAcademicYearClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 										 title="Edit" [isAuthorize]="['AcademicYear.Update']">

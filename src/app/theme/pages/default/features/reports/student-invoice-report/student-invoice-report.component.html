@@ -1,4 +1,4 @@
-<div class="m-subheader" [isAuthorize]="['Vwinvoicereport.Read']" style="display:none;">
+<div class="m-subheader" [isAuthorize]="['AcademicYear.Read']" style="display:none;">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
@@ -228,7 +228,7 @@
 									<td>
 										{{row.invoiceNumber}}
 									</td>
-									<td>{{row.dueDate | dateIst | date: 'MM/dd/yyyy' }}</td>
+									<td>{{row.dueDate | date: 'MM/dd/yyyy' }}</td>
 									<td>{{row.type}}</td>
 									<td>{{row.studentFirstName ? row.studentFirstName : ''}} {{row.studentLastName ? row.studentLastName : ''}}</td>
 									<td>{{row.studentCode}}</td>

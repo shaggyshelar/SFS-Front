@@ -120,7 +120,6 @@ export class StudentCategoryReportComponent implements OnInit {
 
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            this.router.navigate(['/selectSchool']);
         } else {
             //this.getDataCount('');
             //List of Classes
@@ -370,10 +369,10 @@ export class StudentCategoryReportComponent implements OnInit {
         //this.getQueryDataCount();
     }
     onSearchReport() {
-            let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-            this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
-            this.getAllStudentCategoryReport(this.url);
-            this.getQueryFilterDataCount();
+        let currentPos = this.currentPos > -1 ? this.currentPos : 0;
+        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.filterQuery2 + this.sortUrl + this.searchQuery;
+        this.getAllStudentCategoryReport(this.url);
+        this.getQueryFilterDataCount();
 
     }
     sort(column, sortOrder) {
@@ -438,15 +437,15 @@ export class StudentCategoryReportComponent implements OnInit {
         this.studentService.getAllStudents(this.url).subscribe(
             response => {
                 Helpers.setLoading(false);
-                this.studentList = response['_students'];
+                this.studentList = response;
                 if (!this.onGridSearchKeyUp) {
                     this.recordNotFound = false;
-                    this.longList = response['_students'].length > 0 ? true : false;
+                    this.longList = response.length > 0 ? true : false;
                     if (!this.longList) {
                         this.firstPageNumber = 0;
                     }
                 } else {
-                    this.recordNotFound = response['_students'].length > 0 ? false : true;
+                    this.recordNotFound = response.length > 0 ? false : true;
                     if (this.recordNotFound) {
                         this.firstPageNumber = 0;
                     }
@@ -463,8 +462,8 @@ export class StudentCategoryReportComponent implements OnInit {
         this.studentService.getAllStudents(this.url).subscribe(
             response => {
                 Helpers.setLoading(false);
-                this.studentList = response['_students'];
-                this.longList = response['_students'].length > 0 ? true : false;
+                this.studentList = response;
+                this.longList = response.length > 0 ? true : false;
                 if (!this.longList) {
                     this.onSerchClick = true;
                     this.firstPageNumber = 0;
@@ -623,7 +622,7 @@ export class StudentCategoryReportComponent implements OnInit {
         this.studentService.getAllStudents(this.url).subscribe(
             response => {
                 Helpers.setLoading(false);
-                let _tempList = response['_students'];
+                let _tempList = response;
                 let exportFileName: string = "StudentCategoryReport_";
                 (<any[]>JSON.parse(JSON.stringify(_tempList))).forEach(x => {
                     var obj = new Object();

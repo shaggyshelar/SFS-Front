@@ -41,7 +41,7 @@ const routes: Routes = [
             component: VerifyTransportListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['VerifyTransport.Read']
+              permissions: ['Zone.Read']
             }
           },
         ]
