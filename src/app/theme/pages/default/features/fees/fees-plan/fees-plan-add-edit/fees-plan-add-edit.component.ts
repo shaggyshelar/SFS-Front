@@ -451,7 +451,7 @@ export class FeesPlanAddEditComponent implements OnInit {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Amount' });
       return false;
     }
-    if (feeItem.amount && parseInt(feeItem.amount) < 0 && feeItem.amount %1 != 0) {
+    if (feeItem.amount && parseInt(feeItem.amount) < 0) {
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount' });
       return false;
     }
