@@ -204,7 +204,10 @@ export class TransportListComponent implements OnInit {
     }
     addRow(row: any, rowNum: any) {
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
-            if (row.zoneCost === row.confirmZoneCost) {
+            if (row.zoneCost<0  || row.confirmZoneCost<0) {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount  at Row Number: ' + (rowNum + 1) });
+            }
+            else if (row.zoneCost === row.confirmZoneCost) {
                 this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '', 'confirmZoneCost': null });
             } else {
                 this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (rowNum + 1) });
@@ -339,6 +342,11 @@ export class TransportListComponent implements OnInit {
                 if (this.transportList[i].zoneCode === '' || this.transportList[i].zoneCost === null || this.transportList[i].confirmZoneCost === null) {
                     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please fill the require fields at Row Number: ' + (i + 1) });
                     this.isRequired = true;
+                    break;
+                }
+                if (this.transportList[i].zoneCost <0 ||  this.transportList[i].confirmZoneCost <0) {
+                    this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount at Row Number: ' + (i + 1) });
+                    this.confirmZoneCostErr = true;
                     break;
                 }
                 if (this.transportList[i].zoneCost !== this.transportList[i].confirmZoneCost) {
@@ -574,7 +582,10 @@ export class TransportListComponent implements OnInit {
     onSaveTransportRows(row: any, rowNum: any) {
         row.isVerified = false;
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
-            if (row.zoneCost === row.confirmZoneCost) {
+            if (row.zoneCost<0 || row.confirmZoneCost<0) {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount at Row Number: ' + (rowNum + 1) });
+            }
+            else if (row.zoneCost === row.confirmZoneCost) {
                 if (row.id === null) {
                     row.frequencyId = this.frequencyId;
                     row.academicyear = this.academicYear;

@@ -49,8 +49,8 @@ export class AdhocFeeAddEditComponent implements OnInit {
             dueDate: ['', [Validators.required]],
             //invoiceDetailText: [''],
             invoiceDescription: ['', [Validators.required]],
-            adhocFeeCharges: ['', [Validators.required]],
-            adhocConfirmFeeCharges: [null, [Validators.required]],
+            adhocFeeCharges: ['', [Validators.required,Validators.min(1)]],
+            adhocConfirmFeeCharges: [null, [Validators.required,Validators.min(1)]],
             classes: [],
             categories: []
         });

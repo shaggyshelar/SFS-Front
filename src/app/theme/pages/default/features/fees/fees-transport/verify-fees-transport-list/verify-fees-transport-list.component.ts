@@ -205,7 +205,10 @@ export class VerifyTransportListComponent implements OnInit {
     }
     addRow(row: any, rowNum: any) {
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
-            if (row.zoneCost === row.confirmZoneCost) {
+            if (row.zoneCost<0  || row.confirmZoneCost<0) {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount  at Row Number: ' + (rowNum + 1) });
+            }
+            else if (row.zoneCost === row.confirmZoneCost) {
                 this.transportList.push({ 'id': null, 'schoolId': null, 'frequencyId': null, 'zoneCode': '', 'zoneDescription': '', 'zoneCost': null, 'academicyear': '', 'confirmZoneCost': null });
             } else {
                 this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (rowNum + 1) });
@@ -344,6 +347,11 @@ export class VerifyTransportListComponent implements OnInit {
                 }
                 if (this.transportList[i].zoneCost !== this.transportList[i].confirmZoneCost) {
                     this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Amount and Confirm Amount do not match at Row Number: ' + (i + 1) });
+                    this.confirmZoneCostErr = true;
+                    break;
+                }
+                if (this.transportList[i].zoneCost <0 ||  this.transportList[i].confirmZoneCost <0) {
+                    this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount at Row Number: ' + (i + 1) });
                     this.confirmZoneCostErr = true;
                     break;
                 }
@@ -573,7 +581,10 @@ export class VerifyTransportListComponent implements OnInit {
     onSaveTransportRows(row: any, rowNum: any) {
         row.isVerified = true;
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
-            if (row.zoneCost === row.confirmZoneCost) {
+            if (row.zoneCost<0 || row.confirmZoneCost<0) {
+                this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Enter Valid Amount at Row Number: ' + (rowNum + 1) });
+            }
+             else if (row.zoneCost === row.confirmZoneCost) {
                 if (row.id === null) {
                     row.frequencyId = this.frequencyId;
                     row.academicyear = this.academicYear;
