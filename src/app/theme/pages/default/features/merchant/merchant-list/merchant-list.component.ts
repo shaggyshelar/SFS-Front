@@ -55,7 +55,6 @@ export class MerchantListComponent implements OnInit {
                         this.schoolList.push({ label: response[key].UserschoolSchool.schoolName, value: response[key].schoolId });
                     }
                 }
-                debugger;
             },
             error => {
                 this.globalErrorHandler.handleError(error);
