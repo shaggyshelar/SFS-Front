@@ -12,14 +12,7 @@ export class StudentService {
   perPage: any = 25;
   currentPos: any = 0;
   currentPageNumber: any = 1;
-  filter1CountQuery = '';
-  filter2CountQuery = '';
-  filterQuery = '';
-  filterQuery2 = '';
-  filterCol1 = [];
-  filterCol2 = [];
-  filterValue1 = '';
-  filterValue2 = '';
+
   addStudents(file) {
     let reqObj = AppSettings.requestOptions();
     reqObj.headers["_headers"].delete("content-type");
@@ -34,7 +27,7 @@ export class StudentService {
   //  }
 
   getAllStudents(url) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'Students/' + localStorage.getItem("schoolId") + '/getStudentDetails' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
+    return this.http.get(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/Students' + url, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   getStudentById(id: number) {
@@ -44,9 +37,6 @@ export class StudentService {
 
   updateStudent(student: Student) {
     return this.http.put(AppSettings.API_ENDPOINT + 'Schools/' + localStorage.getItem("schoolId") + '/Students/' + student.id, student, AppSettings.requestOptions()).map((response: Response) => response.json());
-  }
-  registerAndProcess(params: any) {
-    return this.http.post(AppSettings.LOGIN_API_ENDPOINT + 'registerStudent', params, AppSettings.requestOptions()).map((response: Response) => response.json());
   }
 
   deleteStudent(id: number) {

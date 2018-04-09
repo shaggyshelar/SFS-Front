@@ -23,7 +23,6 @@ export class ConfigurationListComponent implements OnInit {
     schoolId: string;
     listDisable: boolean;
     constructor(
-        private router: Router,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -37,9 +36,7 @@ export class ConfigurationListComponent implements OnInit {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            
             this.listDisable = false;
-            this.router.navigate(['/selectSchool']);
         } else {
             this.schoolId = localStorage.getItem("schoolId");
             this.listDisable = true;

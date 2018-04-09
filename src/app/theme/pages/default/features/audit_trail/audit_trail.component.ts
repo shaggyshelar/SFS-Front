@@ -21,8 +21,8 @@ import * as _ from 'lodash/index';
 })
 export class AuditTrailComponent implements OnInit {
     auditList = [];
-    popupVisible: boolean = false;
-    selectedRow: { id: 0, schoolName: '', old: string, new: string };
+    popupVisible:boolean = false;
+    selectedRow:{id:0,schoolName:'',old:string,new:string};
     total: number;         //Number Of records
     currentPos: number;    //Current Page
     perPage: number;       //Number of records to be displayed per page
@@ -53,7 +53,6 @@ export class AuditTrailComponent implements OnInit {
     boundry: number;
     boundryStart: number;
     boundryEnd: number;
-    recordNotFound: boolean = false;
     searchValue: string; //HTML values
     selectedPageSize: number = 25; //HTML values
     constructor(private router: Router,
@@ -67,17 +66,16 @@ export class AuditTrailComponent implements OnInit {
     ngOnInit() {
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            this.router.navigate(['/selectSchool']);
         } else {
             //Default variable initialization
             this.perPage = this.commonService.perPage;
             this.currentPos = this.commonService.currentPos;
             this.currentPageNumber = this.commonService.currentPageNumber;
             this.selectedPageSize = this.perPage;
-            this.selectedRow = { id: 0, schoolName: '', old: '', new: '' };
-            this.popupVisible = false;
+            this.selectedRow={id:0,schoolName:'',old:'',new:''};
+            this.popupVisible =false;
             this.url = '';
-            this.sortUrl = '&filter[order]=createdOn DESC';
+            this.sortUrl = '&filter[order]=id ASC';
             this.ascSortCol1 = true;
             this.ascSortCol2 = true;
             this.ascSortCol3 = true;
@@ -94,16 +92,16 @@ export class AuditTrailComponent implements OnInit {
             this.boundry = 3;
             this.boundryStart = 1;
             this.boundryEnd = this.boundry;
-            this.longList = false;
+            this.longList = true;
             //this.getAllBoards();
             //this.getDataCount('');
-            //Page Size Array
-            this.pageSize = [];
-            this.pageSize.push({ label: '25', value: 25 });
-            this.pageSize.push({ label: '50', value: 50 });
-            this.pageSize.push({ label: '100', value: 100 });
-            this.pageSize.push({ label: '200', value: 200 });
         }
+        //Page Size Array
+        this.pageSize = [];
+        this.pageSize.push({ label: '25', value: 25 });
+        this.pageSize.push({ label: '50', value: 50 });
+        this.pageSize.push({ label: '100', value: 100 });
+        this.pageSize.push({ label: '200', value: 200 });
     }
 
     getDataCount(url) {
@@ -121,17 +119,13 @@ export class AuditTrailComponent implements OnInit {
     }
 
     getAllAudit() {
-
-        this.getUrl();
+        Helpers.setLoading(true);
+        //this.getUrl();
         this.commonService.getAllAudit(this.url).subscribe(
             response => {
-                this.auditList = response;
-                this.longList = true;
-                this.recordNotFound = response.length == 0 ? true : false;
+                this.auditList = response.result;
+                this.longList = response.result.length > 0 ? true : false;
                 if (!this.longList) {
-                    this.firstPageNumber = 0;
-                }
-                if (this.recordNotFound) {
                     this.firstPageNumber = 0;
                 }
                 Helpers.setLoading(false);
@@ -144,7 +138,7 @@ export class AuditTrailComponent implements OnInit {
     setStartDate(value) {
         if (value) {
             this.startDate = value;
-            this.filter1CountQuery = '&[where][and][0][createdOn][gt] =' + new Date(this.startDate).toISOString();
+            this.filter1CountQuery = '&[where][and][0][dueDate][gt] =' + new Date(this.startDate).toISOString();
         } else {
             this.filter1CountQuery = '';
         }
@@ -158,7 +152,7 @@ export class AuditTrailComponent implements OnInit {
     setEndDate(value) {
         if (value) {
             this.endDate = value;
-            this.filter2CountQuery = '&[where][and][1][createdOn][lt] =' + new Date(this.endDate.setHours(22)).toISOString();
+            this.filter2CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate.setHours(22)).toISOString();
         } else {
             this.filter2CountQuery = '';
         }
@@ -196,17 +190,16 @@ export class AuditTrailComponent implements OnInit {
         //for()
     }
 
-    showPop(rowId) {
-        this.selectedRow = { id: 0, schoolName: '', old: '', new: '' };
-
-        this.selectedRow = Object.assign({}, _.filter(this.auditList, { id: rowId })[0]);
+    showPop(rowId){
+        this.selectedRow = {id:0,schoolName:'',old:'',new:''};
+        
+        this.selectedRow = Object.assign({},_.filter(this.auditList,{id:rowId})[0]);
         this.selectedRow.old = JSON.stringify(JSON.parse(this.selectedRow.old), null, 2);
         this.selectedRow.new = JSON.stringify(JSON.parse(this.selectedRow.new), null, 2);
         this.popupVisible = !this.popupVisible;
     }
 
     moreNextPages() {
-        Helpers.setLoading(true);
         if (this.boundryEnd + 1 <= this.pages) {
             this.boundryStart = this.boundryEnd + 1;
             this.currentPageNumber = this.boundryStart;
@@ -220,7 +213,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     morePreviousPages() {
-        Helpers.setLoading(true);
         if (this.boundryStart - this.boundry > 0) {
             this.boundryStart = this.boundryStart - this.boundry;
             this.boundryEnd = this.boundryStart + this.boundry - 1;
@@ -230,7 +222,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     pageSizeChanged(size) {
-        Helpers.setLoading(true);
         this.perPage = size;
         this.currentPos = 0;
         this.currentPageNumber = 1;
@@ -241,7 +232,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     visitFirstPage() {
-        Helpers.setLoading(true);
         if (this.boundryStart > this.boundry) {
             this.currentPos = 0;
             this.currentPageNumber = 1;
@@ -254,7 +244,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     visitLastPage() {
-        Helpers.setLoading(true);
         for (var index = 0; this.currentPos + this.perPage < this.total; index++) {
             this.currentPos += this.perPage;
             this.currentPageNumber++;
@@ -281,7 +270,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     backPage() {
-        Helpers.setLoading(true);
         if (this.currentPos - this.perPage >= 0) {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
@@ -294,7 +282,6 @@ export class AuditTrailComponent implements OnInit {
         }
     }
     nextPage() {
-        Helpers.setLoading(true);
         if (this.currentPos + this.perPage < this.total) {
             this.currentPos += this.perPage;
             this.currentPageNumber++;
@@ -309,7 +296,6 @@ export class AuditTrailComponent implements OnInit {
     }
 
     pageClick(pageNumber) {
-        Helpers.setLoading(true);
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
@@ -356,14 +342,13 @@ export class AuditTrailComponent implements OnInit {
         this.searchCountQuery = '';
         if (this.startDate && this.endDate) {
             let newCount = count++;
-            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][createdOn][gte]=" + new Date(this.startDate).toISOString() + "&filter[where][and][" + newCount + "][createdOn][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
-            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][createdOn][gte]=" + new Date(this.startDate).toISOString() + "&[where][and][" + newCount + "][createdOn][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
+            this.searchQuery = this.searchQuery + "&filter[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&filter[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
+            this.searchCountQuery = this.searchCountQuery + "&[where][and][" + count + "][dueDate][gte]=" + new Date(this.startDate).toISOString() + "&[where][and][" + newCount + "][dueDate][lte]=" + new Date(this.endDate.setHours(23)).toISOString();
         }
         this.getQueryDataCount();
     }
 
     sort(column, sortOrder) {
-        Helpers.setLoading(true);
         if (sortOrder) {
             this.sortUrl = '&filter[order]=' + column + ' DESC';
         } else {
@@ -375,24 +360,21 @@ export class AuditTrailComponent implements OnInit {
 
     /* Counting Number of records starts*/
     getQueryDataCount() {
-        this.countQuery = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
+        this.countQuery = '?' + this.filter1CountQuery + this.filter2CountQuery + this.searchCountQuery;
         this.getDataCount(this.countQuery);
     }
 
     getUrl() {
         let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-        this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][createdOn][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][createdOn][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.sortUrl + this.searchQuery;
+        this.url = '?filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.sortUrl + this.searchQuery;
     }
     /* Counting Number of records ends*/
 
     onSearchReport() {
-
         if (this.startDate && this.endDate) {
-
             if (this.startDate < this.endDate) {
-                Helpers.setLoading(true);
                 let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-                this.getUrl();
+                this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString()  + this.sortUrl + this.searchQuery;
                 this.getAllAudit();
                 this.getQueryDataCount();
             } else {
@@ -412,7 +394,7 @@ export class AuditTrailComponent implements OnInit {
             },
             {
                 display: 'Date',
-                variable: 'createdOn',
+                variable: 'dueDate',
                 filter: 'date'
             },
             {

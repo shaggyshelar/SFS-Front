@@ -143,7 +143,6 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
 
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            this.router.navigate(['/selectSchool']);
         } else {
             //this.getDataCount('');
             //List of Classes
@@ -622,15 +621,15 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.studentService.getAllStudents(this.url).subscribe(
             response => {
                 Helpers.setLoading(false);
-                this.schoolList = response['_students'];
+                this.schoolList = response;
                 if (!this.onGridSearchKeyUp) {
                     this.recordNotFound = false;
-                    this.longList = response['_students'].length > 0 ? true : false;
+                    this.longList = response.length > 0 ? true : false;
                     if (!this.longList) {
                         this.firstPageNumber = 0;
                     }
                 } else {
-                    this.recordNotFound = response['_students'].length > 0 ? false : true;
+                    this.recordNotFound = response.length > 0 ? false : true;
                     if (this.recordNotFound) {
                         this.firstPageNumber = 0;
                     }
@@ -824,7 +823,7 @@ export class ClassCategoryPaymentReportComponent implements OnInit {
         this.studentService.getAllStudents(this.url).subscribe(
             response => {
                 Helpers.setLoading(false);
-                let _tempList = response['_students'];
+                let _tempList = response;
                 let exportFileName: string = "StudentCategoryReport_";
                 (<any[]>JSON.parse(JSON.stringify(_tempList))).forEach(x => {
                     var obj = new Object();

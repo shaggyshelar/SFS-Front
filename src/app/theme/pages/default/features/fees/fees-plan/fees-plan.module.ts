@@ -12,7 +12,7 @@ import { FeesService } from '../../../_services/fees.service';
 import { FrequencyService } from '../../../_services/frequency.service';
 import { CommonService } from '../../../_services/common.service';
 import { FeesPlanComponent, } from './fees-plan.component';
-import { StoreService } from "../../../../../../_services/store.service";
+
 import { AcademicYearService, SchoolService } from '../../../_services/index';
 import {
   DataTableModule,
@@ -55,7 +55,7 @@ const routes: Routes = [
             component: VerifyFeesPlanListComponent,
             canActivate: [AuthGuard],
             data: {
-              permissions: ['VerifyFeePlan.Read']
+              permissions: ['Feeplan.Update']
             }
           },
           {
@@ -64,14 +64,6 @@ const routes: Routes = [
             canActivate: [AuthGuard],
             data: {
               permissions: ['Feeplan.Update']
-            }
-          },
-          {
-            path: 'verify/:feeId',
-            component: FeesPlanAddEditComponent,
-            canActivate: [AuthGuard],
-            data: {
-              permissions: ['VerifyFeePlan.Update']
             }
           },
         ]
@@ -106,8 +98,7 @@ const routes: Routes = [
     CommonService,
     ConfirmationService,
     AcademicYearService,
-    SchoolService,
-    StoreService
+    SchoolService
   ],
 })
 export class FeesPlanModule {

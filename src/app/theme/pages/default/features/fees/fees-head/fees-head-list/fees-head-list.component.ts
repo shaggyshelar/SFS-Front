@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
 import { FeesService } from '../../../../_services/fees.service';
@@ -9,8 +9,7 @@ import { GlobalErrorHandler } from '../../../../../../../_services/error-handler
 import { MessageService } from '../../../../../../../_services/message.service';
 import { SelectItem } from 'primeng/primeng';
 import { FrequencyService } from '../../../../_services/frequency.service';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/pairwise';
+
 
 @Component({
   selector: "app-users-list",
@@ -41,10 +40,10 @@ export class FeesHeadListComponent implements OnInit {
   ascSortCol6: boolean;  //Sorting for Column6
   ascSortCol7: boolean;  //Sorting for Column7
   filterCol1: any;       //Filter1 values 
-  filterQuery: string ='';   //Filter1 Api Query 
+  filterQuery: string;   //Filter1 Api Query 
   searchQuery: string;   //Search Api Query 
   countQuery: string;    //Count number of records query
-  filter1CountQuery: string='';  //Count number of records for filter1CountQuery
+  filter1CountQuery: string;  //Count number of records for filter1CountQuery
   searchCountQuery: string;
   longList: boolean;     //To show now records found message
   prePageEnable: boolean; //To disable/enable prev page button
@@ -52,32 +51,14 @@ export class FeesHeadListComponent implements OnInit {
   boundry: number;
   boundryStart: number;
   boundryEnd: number;
-  filterValue1: string=''; //HTML values
+  filterValue1: string; //HTML values
   searchValue: string; //HTML values
   selectedPageSize: number = 25; //HTML values
-  static previousUrl:any;
-  frequencyIdList: SelectItem[] = [];
+
+  frequencyIdList: SelectItem[];
 
   constructor(private router: Router, private feesService: FeesService, private globalErrorHandler: GlobalErrorHandler, private messageService: MessageService, private frequencyService: FrequencyService, private confirmationService: ConfirmationService) {
-  
-    this.router.events
-        .filter(e => e instanceof NavigationStart)
-        .pairwise().subscribe((e) => {
-          FeesHeadListComponent.setSubscribeData(e);
-        });
-        var urls = FeesHeadListComponent.previousUrl? FeesHeadListComponent.previousUrl :[{'url':'dem1'},{'url':'dem2'}];
-        let previousUrl = urls[0]['url'].split('list')[0];
-            if(previousUrl.indexOf('/features/fees/feesHead/')==0) {
-              this.frequencyIdList = this.feesService.frequencyIdList;
-              this.filterQuery = this.feesService.filterQuery;
-              this.filter1CountQuery = this.feesService.filter1CountQuery;
-              this.filterValue1 = this.feesService.filterValue1;
-            }
   }
-  static setSubscribeData(data){
-    FeesHeadListComponent.previousUrl=data;
-    
-}
   ngOnInit() {
 
     this.pageSize = [];
@@ -85,8 +66,8 @@ export class FeesHeadListComponent implements OnInit {
     this.pageSize.push({ label: '50', value: 50 });
     this.pageSize.push({ label: '100', value: 100 });
     this.pageSize.push({ label: '200', value: 200 });
-if(!this.frequencyIdList.length) {
-  let val = this.frequencyService.getAllFrequency();
+
+    let val = this.frequencyService.getAllFrequency();
     this.frequencyIdList = [];
     this.frequencyIdList.push({ label: '--Select--', value: 'select' });
     val.subscribe((response) => {
@@ -96,8 +77,6 @@ if(!this.frequencyIdList.length) {
         }
       }
     });
-}
-    
 
     //Default variable initialization
     this.perPage = this.feesService.perPage;
@@ -113,8 +92,10 @@ if(!this.frequencyIdList.length) {
     this.ascSortCol5 = true;
     this.ascSortCol6 = true;
     this.ascSortCol7 = true;
+    this.filterQuery = '';
     this.searchQuery = '';
     this.countQuery = '?';
+    this.filter1CountQuery = '';
     this.lastPage = this.perPage;
     this.firstPageNumber = 1;
     this.prePageEnable = false;
@@ -124,7 +105,7 @@ if(!this.frequencyIdList.length) {
     this.boundryEnd = this.boundry;
     this.searchCountQuery = '';
     this.longList = true;
-    this.getQueryDataCount();
+    this.getDataCount('');
   }
 
   /*Pagination Function's Starts*/
@@ -350,7 +331,6 @@ if(!this.frequencyIdList.length) {
       let currentPos = this.currentPos > -1 ? this.currentPos : 0;
       this.url = '?&filter[where][schoolId]=0&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
       this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-      this.router.navigate(['/selectSchool']);
     } else {
       let currentPos = this.currentPos > -1 ? this.currentPos : 0;
       this.url = '?&filter[where][schoolId]=' + localStorage.getItem("schoolId") + '&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + this.filterQuery + this.sortUrl + this.searchQuery;
@@ -380,10 +360,6 @@ if(!this.frequencyIdList.length) {
     this.feesService.perPage = this.perPage;
     this.feesService.currentPos = this.currentPos;
     this.feesService.currentPageNumber = this.currentPageNumber;
-    this.feesService.frequencyIdList = this.frequencyIdList;
-    this.feesService.filterQuery = this.filterQuery;
-    this.feesService.filter1CountQuery = this.filter1CountQuery;
-    this.feesService.filterValue1 = this.filterValue1;
     this.router.navigate(['/features/fees/feesHead/edit', data.id]);
   }
 
@@ -420,13 +396,6 @@ if(!this.frequencyIdList.length) {
   }
 
   onAddFees() {
-    this.feesService.perPage = this.perPage;
-    this.feesService.currentPos = this.currentPos;
-    this.feesService.currentPageNumber = this.currentPageNumber;
-    this.feesService.frequencyIdList = this.frequencyIdList;
-    this.feesService.filterQuery = this.filterQuery;
-    this.feesService.filter1CountQuery = this.filter1CountQuery;
-    this.feesService.filterValue1 = this.filterValue1;
     this.router.navigate(['/features/fees/feesHead/add']);
   }
 }

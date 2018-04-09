@@ -124,7 +124,7 @@
 													Fee Plan Description
 												</th>
 												<th title="Plan Used/Unused">
-													Status
+													Plan Used/Unused
 												</th>
 												<th title="">
 													Actions
@@ -135,14 +135,14 @@
 											<tr *ngFor='let row of feesPlanList | async'>
 												<td>{{row.feePlanName}}</td>
 												<td>{{row.feePlanDescription}}</td>
-												<td>{{row.isVerified?'Verified':'Not Verified'}}</td>
+												<td>{{row.isTransactionProcessed?'Used':'Unused'}}</td>
 												<td>
 													<a href="javascript:;" (click)="onManagefeesClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
 													 title="Edit" [isAuthorize]="['Feeplan.Update']">
 														<i class="la la-edit"></i>
 													</a>
 													<a href="javascript:;" (click)="onfeesDeleteClick(row)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-													 title="Delete" *ngIf="row.isVerified == 0" [isAuthorize]="['Feeplan.Delete']">
+													 title="Delete" *ngIf="row.isTransactionProcessed === false" [isAuthorize]="['Feeplan.Delete']">
 														<i class="la la-close"></i>
 													</a>
 												</td>

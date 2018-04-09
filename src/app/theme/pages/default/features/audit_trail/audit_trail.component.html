@@ -37,7 +37,7 @@
 <!-- END: Subheader -->
 
 <div class="m-content">
-	<p-dialog header="{{selectedRow.schoolName}}" *ngIf="popupVisible" [(visible)]="popupVisible" modal='true' >
+	<p-dialog header="{{selectedRow.schoolName}}" [(visible)]="popupVisible" modal='true' >
 			<div class="container-fluid">
 					<div class="row">
 					  <div class="col-md-6">
@@ -59,6 +59,8 @@
 					<h3 class="ListingHeading">
 						Audit List
 					</h3>
+					<button class="btn btn-info exportExcelBtn" (click)="exporttoCSV()" [disabled]="!longList">
+						<i class="flaticon-download"></i> Export to Excel</button>
 				</div>
 			</div>
 		</div>
@@ -136,7 +138,7 @@
 						</table>
 					</div>
 					<!-- Pagination -->
-					<div class="PaginationBox" *ngIf="!recordNotFound">
+					<div class="PaginationBox">
 
 						<div class="row">
 							<div class="col-md-6">

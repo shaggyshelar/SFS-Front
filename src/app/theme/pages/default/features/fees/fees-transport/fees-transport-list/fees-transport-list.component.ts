@@ -49,7 +49,6 @@ export class TransportListComponent implements OnInit {
     paymentProcessDate: number;
     
     constructor(
-        private router: Router,
         private globalErrorHandler: GlobalErrorHandler,
         private messageService: MessageService,
         private transportServics: TransportService,
@@ -67,7 +66,6 @@ export class TransportListComponent implements OnInit {
         // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!localStorage.getItem("schoolId") || localStorage.getItem("schoolId") == "null" || localStorage.getItem("schoolId") == "0") {
             this.messageService.addMessage({ severity: 'error', summary: 'Error', detail: 'Please Select School' });
-            this.router.navigate(['/selectSchool']);
         } else {
             this.schoolId = localStorage.getItem("schoolId");
             this.getSchoolDetails();
@@ -132,9 +130,7 @@ export class TransportListComponent implements OnInit {
             });
             this.previewRow.push(row);
         });
-        setTimeout(() => {
-            this.previewVisible = !this.previewVisible;
-        }, 10);
+        this.previewVisible = !this.previewVisible;
     }
     getSchoolDetails() {
         let schoolId = parseInt(localStorage.getItem('schoolId'));
@@ -215,7 +211,6 @@ export class TransportListComponent implements OnInit {
         }
     }
     addRowAndSave(row: any, rowNum: any) {
-        row.isVerified = false;
         if (!row.disableFrequecy) {
             this.onSaveTransportRows(row, rowNum);
         }
@@ -368,9 +363,7 @@ export class TransportListComponent implements OnInit {
                     let count1 = 0;
                     let count2 = 0;
                     _tempUpdateList.forEach(element => {
-                        element.isVerified = false;
                         this.tempTransportList.forEach(element1 => {
-                            
                             if ((element.id === element1.id)
                                 && (element.zoneCode !== element1.zoneCode || element.zoneDescription !== element1.zoneDescription || element.zoneCost !== element1.zoneCost)) {
                                 count++;
@@ -428,7 +421,6 @@ export class TransportListComponent implements OnInit {
                             }
                             else if ((element.id === element1.id)
                                 && (element.zoneCode === element1.zoneCode || element.zoneDescription === element1.zoneDescription || element.zoneCost === element1.zoneCost)) {
-                                    
                                 count2++;
                                 let maxFreq = _.find(this.frequencyList, { 'id': this.frequencyId });
                                 this.frequency.forEach(freq => {
@@ -572,7 +564,6 @@ export class TransportListComponent implements OnInit {
         }
     }
     onSaveTransportRows(row: any, rowNum: any) {
-        row.isVerified = false;
         if (row.zoneCode !== '' && row.zoneCost !== null && row.confirmZoneCost !== undefined && row.confirmZoneCost !== null) {
             if (row.zoneCost === row.confirmZoneCost) {
                 if (row.id === null) {
