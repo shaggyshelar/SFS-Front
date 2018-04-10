@@ -256,7 +256,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.pages = Math.ceil(this.total / this.perPage);
                 this.generateCount();
                 this.setDisplayPageNumberRange();
-                this.getAllInvoice();
+                this.onSearchReport();
             },
             error => {
                 Helpers.setLoading(false);
@@ -270,7 +270,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.pages = Math.ceil(this.total / this.perPage);
                 this.generateCount();
                 this.setDisplayPageNumberRange();
-                this.getAllInvoice();
+                //this.onSearchReport();
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -377,7 +377,7 @@ export class StudentInvoiceReportComponent implements OnInit {
     setEndDate(value) {
         if (value) {
             this.endDate = value;
-            this.filter6CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate.setHours(22)).toISOString();
+            this.filter6CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate).toISOString();
         } else {
             this.filter6CountQuery = '';
         }
@@ -454,7 +454,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.boundryEnd = this.boundry;
             this.generateCount();
             this.setDisplayPageNumberRange();
-            this.getAllInvoice();
+            this.onSearchReport();
         }
     }
 
@@ -481,7 +481,7 @@ export class StudentInvoiceReportComponent implements OnInit {
 
         this.generateCount();
         this.setDisplayPageNumberRange();
-        this.getAllInvoice();
+        this.onSearchReport();
     }
 
     backPage() {
@@ -489,7 +489,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             this.currentPos -= this.perPage;
             this.currentPageNumber--;
             this.setDisplayPageNumberRange();
-            this.getAllInvoice();
+            this.onSearchReport();
         }
         else {
             this.currentPos = 0;
@@ -512,7 +512,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             //     this.moreNextPages();
             // }
             this.setDisplayPageNumberRange();
-            this.getAllInvoice();
+            this.onSearchReport();
         }
     }
 
@@ -520,7 +520,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         this.currentPos = this.perPage * (pageNumber - 1);
         this.currentPageNumber = pageNumber;
         this.setDisplayPageNumberRange();
-        this.getAllInvoice();
+        this.onSearchReport();
     }
 
     noPrevPage() {
@@ -668,7 +668,7 @@ export class StudentInvoiceReportComponent implements OnInit {
         } else {
             this.sortUrl = '&filter[order]=' + column + ' ASC';
         }
-        this.getAllInvoice();
+        this.onSearchReport();
     }
     /* Filtering, Sorting, Search functions Ends*/
 
@@ -704,7 +704,7 @@ export class StudentInvoiceReportComponent implements OnInit {
             if (this.startDate && this.endDate) {
                 if (this.startDate < this.endDate) {
                     let currentPos = this.currentPos > -1 ? this.currentPos : 0;
-                    this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate.setHours(22)).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
+                    this.url = '?&filter[limit]=' + this.perPage + '&filter[skip]=' + this.currentPos + '&filter[where][and][0][dueDate][gt]=' + new Date(this.startDate).toISOString() + '&filter[where][and][1][dueDate][lt]=' + new Date(this.endDate).toISOString() + this.filterQuery + this.filterQuery1 + this.filterQuery2 + this.filterQuery3 + this.filterQuery4 + this.filterQuery5 + this.sortUrl + this.searchQuery;
                     this.getAllStudentInvoiceReport(this.url);
                     this.getQueryDataCount();
                 } else {
