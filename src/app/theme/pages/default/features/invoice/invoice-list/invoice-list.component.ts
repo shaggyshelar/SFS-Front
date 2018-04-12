@@ -325,6 +325,7 @@ export class InvoiceListComponent implements OnInit {
                 this.generateCount();
                 this.setDisplayPageNumberRange();
                 //this.onSearchReport();
+                Helpers.setLoading(false);
             },
             error => {
                 this.globalErrorHandler.handleError(error);
@@ -433,6 +434,7 @@ export class InvoiceListComponent implements OnInit {
     setEndDate(value) {
         if (value) {
             this.endDate = value;
+            let date = new Date();
             this.filter6CountQuery = '&[where][and][1][dueDate][lt] =' + new Date(this.endDate).toISOString();
         } else {
             this.filter6CountQuery = '';
