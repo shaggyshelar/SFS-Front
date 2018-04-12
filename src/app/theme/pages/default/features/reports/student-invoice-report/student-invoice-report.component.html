@@ -133,14 +133,14 @@
 					<div class="col-md-2">
 						<div class="filterDropdown">
 							<label style="margin-top: 10px;">From</label>
-							<p-calendar [style]="{'width':'100%'}" placeholder="From date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
+							<p-calendar [style]="{'width':'100%'}" placeholder="From due date" [(ngModel)]="startDate" name="dueDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setStartDate($event)"></p-calendar>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="filterDropdown">
 							<label style="margin-top: 10px;">To</label>
-							<p-calendar [style]="{'width':'100%'}" placeholder="To date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
+							<p-calendar [style]="{'width':'100%'}" placeholder="To due date" [(ngModel)]="endDate" name="endDate" [monthNavigator]="true"
 							 [yearNavigator]="true" yearRange="1900:2070" readonlyInput="true" (onSelect)="setEndDate($event)"></p-calendar>
 						</div>
 					</div>
