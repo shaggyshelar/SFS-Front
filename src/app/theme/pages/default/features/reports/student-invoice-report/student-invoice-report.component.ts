@@ -257,6 +257,7 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.generateCount();
                 this.setDisplayPageNumberRange();
                 this.onSearchReport();
+                Helpers.setLoading(false);
             },
             error => {
                 Helpers.setLoading(false);
@@ -271,8 +272,10 @@ export class StudentInvoiceReportComponent implements OnInit {
                 this.generateCount();
                 this.setDisplayPageNumberRange();
                 //this.onSearchReport();
+                Helpers.setLoading(false);
             },
             error => {
+                Helpers.setLoading(false);
                 this.globalErrorHandler.handleError(error);
             });
     }
