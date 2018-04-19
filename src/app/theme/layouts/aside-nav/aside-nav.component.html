@@ -1,0 +1,487 @@
+<!-- BEGIN: Left Aside -->
+<button class="m-aside-left-close  m-aside-left-close--skin-dark" id="m_aside_left_close_btn" appunwraptag="">
+	<i class="la la-close"></i>
+</button>
+<div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
+	<!-- BEGIN: Aside Menu -->
+	<div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" data-menu-vertical="true"
+	 data-menu-scrollable="false" data-menu-dropdown-timeout="500">
+		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true">
+				<a routerLink="/index" class="m-menu__link">
+					<i class="m-menu__link-icon flaticon-squares-2"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Dashboard
+							</span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
+			 data-menu-submenu-toggle="hover" [isAuthorize]="['Institute.Read', 'School.Read']">
+				<a href="#" class="m-menu__link m-menu__toggle">
+					<i class="m-menu__link-icon la la-bank"></i>
+					<span class="m-menu__link-text">
+						School Management
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+				</a>
+				<div class="m-menu__submenu">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item " routerLinkActive="m-menu__item--active" aria-haspopup="true" [isAuthorize]="['Institute.Read']">
+							<a routerLink="/features/institute/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Institutes
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['School.Read']">
+							<a routerLink="/features/school/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											School
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['School.Read']">
+							<a routerLink="/features/merchant/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Merchant
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						 <!-- <li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['School.Read']">
+							<a routerLink="/features/configuration/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Configuration
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>  -->
+						 <li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['School.Read']">
+							<a routerLink="/features/sfsconfiguration/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											SFS Configuration
+										</span>
+									</span>
+								</span>
+							</a>
+						</li> 
+					</ul>
+				</div>
+			</li>
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['User.Read']">
+				<a routerLink="/features/users/list" class="m-menu__link">
+					<i class="m-menu__link-icon flaticon-users"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								User Management
+							</span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['ProcessFee.Read']">
+				<a routerLink="/features/feeProcessing" class="m-menu__link">
+					<i class="m-menu__link-icon flaticon-share"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Fees Processing
+							</span>
+						</span>
+					</span>
+				</a>
+			</li> -->
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Role.Read']">
+				<a routerLink="/features/roles/list" class="m-menu__link">
+					<i class="m-menu__link-icon flaticon-interface-1"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Roles and Permissions
+							</span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
+			 data-menu-submenu-toggle="hover" [isAuthorize]="['Category.Read', 'Frequency.Read', 'AcademicYear.Read', 'Board.Read', 'Class.Read','Division.Read']">
+				<a href="#" class="m-menu__link m-menu__toggle">
+					<i class="m-menu__link-icon flaticon-user-settings"></i>
+					<span class="m-menu__link-text">
+						Master Management
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+				</a>
+				<div class="m-menu__submenu">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Category.Read']">
+							<a routerLink="/features/masterManagement/categories/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Categories
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Frequency.Read']">
+							<a routerLink="/features/masterManagement/frequencies/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Frequency
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['AcademicYear.Read']">
+							<a routerLink="/features/academicYear/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Academic Year
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Board.Read']">
+							<a routerLink="/features/board/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Board
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Class.Read']">
+							<a routerLink="/features/class/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Class
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Division.Read']">
+							<a routerLink="/features/division/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Division
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+
+					</ul>
+				</div>
+			</li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
+			 data-menu-submenu-toggle="hover" [isAuthorize]="['VerifyTransport.Read','Feehead.Read', 'Feeplan.Read','VerifyFeePlan.Read', 'Zone.Read', 'Feeplanassociation.Read', 'Adhocfee.Read']">
+				<a href="#" class="m-menu__link m-menu__toggle">
+					<i class="m-menu__link-icon la la-inr"></i>
+					<span class="m-menu__link-text">
+						Fee Management
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+				</a>
+				<div class="m-menu__submenu">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feehead.Read']">
+							<a routerLink="/features/fees/feesHead/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Fee Heads
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplan.Read']">
+							<a routerLink="/features/fees/feesPlan/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Fee Plan
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['VerifyFeePlan.Read']">
+							<a routerLink="/features/fees/feesPlan/verifyList" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Verify Fee Plan
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Feeplanassociation.Read']">
+							<a routerLink="/features/feePlanAssociation/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Fee Plan Association
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Adhocfee.Read']">
+							<a routerLink="/features/adhocFee/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Adhoc Fee
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Zone.Read']">
+							<a routerLink="/features/transport/list" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Transport/Zone
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['VerifyTransport.Read']">
+								<a routerLink="/features/transport/verifyList" class="m-menu__link">
+									<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+										<span></span>
+									</i>
+									<span class="m-menu__link-title">
+										<span class="m-menu__link-wrap">
+											<span class="m-menu__link-text">
+												Verify Transport/Zone
+											</span>
+										</span>
+									</span>
+								</a>
+							</li>
+					</ul>
+				</div>
+			</li>
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Student.Read']">
+				<a routerLink="/features/student/list" class="m-menu__link">
+					<i class="m-menu__link-icon	la la-graduation-cap"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Student Management
+							</span>
+						</span>
+					</span>
+				</a>
+			</li>
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			[isAuthorize]="['Invoice.Read']">
+			   <a routerLink="/features/invoice/list" class="m-menu__link">
+				   <i class="m-menu__link-icon flaticon-list-2"></i>
+				   <span class="m-menu__link-title">
+					   <span class="m-menu__link-wrap">
+						   <span class="m-menu__link-text">
+							  Invoice
+						   </span>
+					   </span>
+				   </span>
+			   </a>
+		   </li>
+			<li class="m-menu__item  m-menu__item--submenu m-menu__item--active" routerLinkActive="m-menu__item--active" aria-haspopup="true"
+			 data-menu-submenu-toggle="hover" [isAuthorize]="['Vwauditlog.Read','Vwinvoicereport.Read','StudentCategoryReport.Read','FeeHeadPaymentReport.Read','CategoryClassPaymentReport.Read']">
+				<a href="#" class="m-menu__link m-menu__toggle">
+					<i class="m-menu__link-icon la la-inr"></i>
+					<span class="m-menu__link-text">
+						Reports
+					</span>
+					<i class="m-menu__ver-arrow la la-angle-right"></i>
+				</a>
+				<div class="m-menu__submenu">
+					<span class="m-menu__arrow"></span>
+					<ul class="m-menu__subnav">
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Vwinvoicereport.Read']">
+							<a routerLink="/features/reports/studentReports/student" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Student Invoice
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['StudentCategoryReport.Read']">
+							<a routerLink="/features/reports/studentCategoryReports/category" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Student Category
+										</span>
+									</span>
+								</span>
+							</a>
+						</li> 
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['FeeHeadPaymentReport.Read']">
+							<a routerLink="/features/reports/feeheadPaymentReports/feeheadreport" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Feehead Payment
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['CategoryClassPaymentReport.Read']">
+							<a routerLink="/features/reports/classCategoryPaymentReports/classcategoryreport" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Class/Category Payment
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="m-menu__item " aria-haspopup="true" routerLinkActive="m-menu__item--active" [isAuthorize]="['Vwauditlog.Read']">
+							<a routerLink="/features/audit/trail" class="m-menu__link">
+								<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+									<span></span>
+								</i>
+								<span class="m-menu__link-title">
+									<span class="m-menu__link-wrap">
+										<span class="m-menu__link-text">
+											Audit Trail
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"
+			 [isAuthorize]="['Feature.Read']">
+				<a routerLink="/features/featureList" class="m-menu__link">
+					<i class="m-menu__link-icon la la-archive"></i>
+					<span class="m-menu__link-title">
+						<span class="m-menu__link-wrap">
+							<span class="m-menu__link-text">
+								Features
+							</span>
+						</span>
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- END: Aside Menu -->
+</div>
+<!-- END: Left Aside -->

@@ -1,0 +1,97 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title">
+				Dashboard
+			</h3>
+		</div>
+		<!-- Select School Dropdown  -->
+		<div class="row selectSchoolRow" *ngIf="superAdmin && selectSchool">
+			<label class="col-md-4 selectSchoolLabel">
+				Select School
+			</label>
+			<div class="col-md-8">
+				<!-- <select class="form-control m-input" name="schoolDDl"  [(ngModel)]="selectedSchoolId" (change)="onSchoolChange()" >
+					<option *ngFor="let item of schoolList" [ngValue]="item.Id">{{item.schoolName}}</option>
+				</select> -->
+				<p-dropdown class="feePlanBox" [options]="schoolList" [style]="{'width':'100%'}" [(ngModel)]="selectedSchoolId" name="schoolDDl"
+				(onChange)="onSchoolChange()"></p-dropdown>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<!--Begin::Main Portlet-->
+	
+  <!--begin:: Widgets/Stats-->
+  <div class="m-portlet ">
+	<div class="m-portlet__body  m-portlet__body--no-padding">
+		<div class="row m-row--no-padding m-row--col-separator-xl">
+			<div class="col-md-12 col-lg-6 col-xl-4">
+				<!--begin::Total Profit-->
+				<div class="m-widget24">
+					<div class="m-widget24__item">
+						<h4 class="m-widget24__title">
+							Payment Due
+						</h4>
+						<br>
+						<h5 class="m-widget24__desc">
+							For all students
+						</h5>
+						<span class="m-widget24__stats m--font-brand">
+							Rs. {{dashBoardDetails.dueAmount | number}}						</span>
+						
+					</div>
+				</div>
+				<!--end::Total Profit-->
+			</div>
+			<div class="col-md-12 col-lg-6 col-xl-4">
+				<!--begin::New Feedbacks-->
+				<div class="m-widget24">
+					<div class="m-widget24__item">
+						<h4 class="m-widget24__title">
+							Payment Received
+						</h4>                                                
+						<h5 class="m-widget24__desc">
+							For all students
+						</h5>
+						<span class="m-widget24__stats m--font-info">
+							Rs.  {{dashBoardDetails.paidAmount | number}}	
+						</span>
+					   
+					</div>
+				</div>
+				<!--end::New Feedbacks-->
+			</div>
+			<div class="col-md-12 col-lg-6 col-xl-4">
+				<!--begin::New Orders-->
+				<div class="m-widget24">
+					<div class="m-widget24__item">
+						<h4 class="m-widget24__title">
+						   Total Students
+						</h4>
+						<br>
+						<h5 class="m-widget24__desc">
+							For current year
+						</h5>
+						<span class="m-widget24__stats m--font-danger">
+							{{dashBoardDetails.toatalStudnetCount | number}}	
+						</span>
+						
+					</div>
+				</div>
+				<!--end::New Orders-->
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!--end:: Widgets/Stats-->
+   
+	<!--End::Main Portlet-->
+	<!--Begin::Main Portlet-->
+
+	<!--End::Main Portlet-->
+</div>

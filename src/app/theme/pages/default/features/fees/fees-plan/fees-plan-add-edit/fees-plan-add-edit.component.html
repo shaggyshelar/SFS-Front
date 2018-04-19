@@ -1,0 +1,287 @@
+<p-confirmDialog #cd>
+	<p-footer>
+		<button type="button" class="btn btn-secondary m-btn m-btn--icon" (click)="cd.reject()">
+			<span>
+				<i class="la la-close"></i>
+				<span>
+					Ok
+				</span>
+			</span>
+		</button>
+	</p-footer>
+</p-confirmDialog>
+
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Fee Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							Fee Plan
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							Add/Edit Fee Plan
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+
+	<!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+	<div class="m-portlet">
+
+		<!--begin::Form-->
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" name="feePlanForm" #feePlanForm="ngForm"
+		 novalidate (ngSubmit)="onSubmit(feePlanForm)">
+			<div class="m-portlet__head headFeePlan">
+				<div class="m-portlet__head-caption">
+					<div class="m-portlet__head-title">
+						<h3 class="m-portlet__head-text headTextFeePlan">
+							Add/Edit Fee Plan
+						</h3>
+					</div>
+				</div>
+
+				<!--Required Field Note-->
+				<label class="requiredFieldNoteFeePlan">Note: &nbsp;&nbsp;
+					<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+
+			</div>
+			<div class="m-portlet__body">
+
+				<div class="form-group m-form__group row lessPadding lessPaddingFeePlan" style="padding-top: 0px!important;padding-bottom: 20px!important;">
+					<div class="col-md-3">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
+							Fee Plan Name
+							<span class="requiredField">*</span>
+						</label>
+						<input class="form-control m-input feePlanText" type="text" [(ngModel)]="planeName" #planeNameVal="ngModel" name="planeName"
+						 required>
+						<div class="alertMsg" *ngIf="planeNameVal.errors && planeNameVal.errors.required && (planeNameVal.dirty || planeNameVal.touched)">
+							Name is required.
+						</div>
+					</div>
+					<div class="col-md-2">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
+							Academic Year
+							<span class="requiredField">*</span>
+						</label>
+						<p-dropdown class="feePlanBox" [disabled]="params" [options]="academicYearList" [style]="{'width':'100%'}" [(ngModel)]="selectedAcademicYear"
+						 name="acadamicYearDDL" (onChange)="onAcademicYearChange()" #academicYear="ngModel" required></p-dropdown>
+						<div class="alertMsg" *ngIf="academicYear.errors && academicYear.errors.required && (academicYear.dirty || academicYear.touched)">
+							Please select academic year
+						</div>
+						<!-- <label for="example-text-input" class="col-md-4 col-form-label">
+							{{selectedAcademicYear}}
+						</label> -->
+					</div>
+					<div class="col-md-7">
+						<label for="example-text-input" class="col-form-label feePlanLabel">
+							Description
+						</label>
+						<input class="form-control m-input feePlanText" type="text" [(ngModel)]="planeDesc" name="desc">
+						<!--<textarea class="form-control m-input" rows="3" style="resize:none;" name="desc" [(ngModel)]="planeDesc"></textarea> -->
+					</div>
+				</div>
+
+				<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
+
+				<!--+++++++++++++++++++++++++++++-->
+				<div class="">
+					<div class="form-group m-form__group row" style="padding-top: 10px !important;padding-bottom: 0px !important;">
+						<div class="col-md-5">
+							<h3 class="m-form__section feePlanManageHeading">
+								Fee Plan Management
+							</h3>
+						</div>
+					</div>
+
+					<!--******************************************-->
+					
+					<!--******************************************-->
+					<div class="form-group m-form__group row lessPadding" style="padding-top: 5px !important;padding-bottom: 10px !important;">
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Fee Head
+								<span class="requiredField">*</span>
+							</label>
+						</div>
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Frequency </label>
+						</div>
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Amount
+								<span class="requiredField">*</span>
+							</label>
+						</div>
+						<div class="col-md-2">
+							<label for="example-text-input" class="col-form-label feePlanLabel">
+								Re-enter Amount
+								<span class="requiredField">*</span>
+							</label>
+						</div>
+						<div class="col-md-2">
+								<label for="example-text-input" class="col-form-label feePlanLabel">
+									Skip Quarter
+								</label>
+							</div>
+					</div>
+					
+					<div class="form-group m-form__group row lessPadding" *ngFor="let fee of feePlanManagement;let rowNum=index;let lastRowNum=last"
+					 style="padding-top: 0px !important;padding-bottom: 10px !important;">
+
+						<div class="col-md-2">
+							<p-dropdown class="feePlanBox" [options]="fee.feeHeadList" [style]="{'width':'100%'}" [(ngModel)]="fee.feeHeadId" name="{{'feeHeadIdDDL'+fee.contRoleId}}"
+							 (onChange)="onFeeHeadChange(fee,rowNum)"></p-dropdown>
+						</div>
+						<div class="col-md-2">
+							<input class="form-control m-input feePlanText" type="text" name="{{'frequencyName'+fee.contRoleId}}" [(ngModel)]="fee.frequencyName" readonly disabled>
+						</div>
+						<div class="col-md-2">
+							<input  class="form-control m-input feePlanText" type="number" name="{{'amount'+fee.contRoleId}}" [(ngModel)]="fee.amount">
+						</div>
+						<div class="col-md-2">
+							<input  class="form-control m-input feePlanText" type="number" name="{{'confirmAmount'+fee.contRoleId}}" [(ngModel)]="fee.confirmAmount">
+						</div>
+						<div class="col-md-2" style='max-width: 12%'>
+								<p-dropdown class="feePlanBox"  [disabled]="fee.frequencyName=='Quarterly'?null:''" [options]="skipQuarter" [(ngModel)]="fee.skipQuarter" name="{{'skip'+fee.contRoleId}}"></p-dropdown>
+							</div>
+						<div class="col-md-2 feePlanAddBtn feePlanAddBtnPlan" *ngIf='!isVerified'>
+								
+							<button title="Delete" type="button" class="btn btn-danger m-btn--pill feePlanActionBtn feePlanActionBtnDel" *ngIf="!lastRowNum||rowNum>0"
+							 (click)="removeFeeHeadDetails(fee,rowNum)">
+								<i class="la la-close" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+							</button> &nbsp;
+							<button title="Add New" type="button" class="btn btn-primary m-btn--pill feePlanActionBtn" *ngIf="lastRowNum" (click)="addFeeHeadDetails(fee)">
+								<i class="la la-plus" style="vertical-align: middle;margin-top: -2px;margin-right: 0;"></i>
+							</button>
+							
+							
+						</div>
+					</div>
+					<!--******************************************-->
+
+					<!--<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div> -->
+
+					<!--<div class="form-group m-form__group row">
+						<div class="col-md-3" *ngFor="let item of frequency;let rowNum=index;let lastRowNum=last">
+							<label for="example-text-input" class="col-form-label" style="width:100%;">
+								Date {{rowNum+1}}_feeplan
+							</label>
+							<p-calendar placeholder="Due date" name="{{'Date'+rowNum}}" [required]="true" [monthNavigator]="false" [yearNavigator]="false"
+							 yearRange="academicYearRange" [(ngModel)]="item.date" [maxDate]="maxDate" dateFormat="dd/mm/yy" disabled [minDate]="minDate"
+							 readonlyInput="true"></p-calendar>
+						</div>
+					</div> -->
+
+				</div>
+				<!--+++++++++++++++++++++++++++++-->
+			</div>
+			<!--******************************************-->
+			<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x feePlanSeparator"></div>
+			<div class="form-group m-form__group row lessPadding" style="padding-top: 5px !important;padding-bottom: 10px !important;">
+				<div class="col-md-4" *ngIf='createdBy'>
+					<label for="example-text-input" class="col-form-label feePlanLabel">
+						<b>Created by: </b> {{createdBy}}
+					</label>
+				</div>
+				<div class="col-md-4" *ngIf='updatedBy'>
+					<label for="example-text-input" class="col-form-label feePlanLabel">
+						<b>Updated By:</b> {{updatedBy}}
+					</label>
+				</div>
+				<div class="col-md-4" *ngIf='verifiedBy'>
+					<label for="example-text-input" class="col-form-label feePlanLabel">
+						<b>Verified By:</b> {{verifiedBy}}
+					</label>
+				</div>
+			</div>
+			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+				<div class="m-form__actions m-form__actions--solid lessPaddingFeePlanFooter">
+					<div class="row">
+						<div class="col-lg-6">
+							<button type="submit" class="btn btn-accent" [disabled]="!feePlanForm.valid || isTransactionProcessed || isVerified">
+								{{ params ? from == 'verify' ? 'Verify':'Update' : 'Save' }}
+							</button>
+							<input type='button' class="btn" (click)="showDialog(feePlanForm)" value='Preview'/>
+							<!-- <button type="reset" class="btn btn-secondary">
+									Preview
+								</button> -->
+							<button type="reset" class="btn btn-secondary" (click)="onCancelFeePlan()">
+								Cancel
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<p-dialog [responsive]='true' header="{{planeName}}" [(visible)]="previewVisible" modal='true' >
+				<div class="container-fluid">
+					<div class="row">
+						<div class="" style="margin:0 auto;">
+						<table border='1' class="feePlanDialogTable">
+							<thead>
+								<th>Fee Head</th>
+								<th>Frequency</th>
+								<th>Amount</th>
+								<th *ngFor="let item of previewHeader; let myIndex = index">
+										{{item.sDate | date: 'MMM-yy'}} <span [hidden]='item.eDate == ""?true:false'>TO</span> {{item.eDate | date: 'MMM-yy'}}
+								</th>
+							</thead>
+							<tbody>
+								<tr *ngFor="let feePlan of feeHeadAmounts; let myIndex = index">
+									<td>{{feePlan.name}}</td>
+									<td>{{feePlan.frequencyName}}</td>
+									<td>{{feePlan.totalAmount}}</td>
+									<td *ngFor="let item of feePlan.charges;let myIndex = index">
+										{{item}}
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<th>Total</th>
+								<th></th>
+								<th *ngFor="let item of totals; let myIndex = index">
+									{{item}}
+								</th>
+							</tfoot>
+						</table>
+						</div>
+					</div>
+					</div>
+
+			</p-dialog>
+			<!-- preview modal -->
+			
+		</form>
+		<!--end::Form-->
+
+	</div>
+	<!--+++++++++++++++++++++++++++++++++++++++++++ End::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+</div>

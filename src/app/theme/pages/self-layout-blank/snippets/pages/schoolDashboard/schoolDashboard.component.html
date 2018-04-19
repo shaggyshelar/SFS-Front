@@ -1,0 +1,34 @@
+<div class="landingBrandBox">
+	<a routerLink="/index"><img src="./assets/img/phiLogo.png" /></a>
+
+	<label>School Fee System</label>
+
+</div>
+<div class="adminLandingContainer" style="background-image:url('bg-3.jpg');">
+	<div class="landingHeaderBox">
+		<h3>{{welcomeMessage}}</h3>
+		<h4>Please select a school to proceed</h4>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div *ngFor="let item of schoolList" class="col-md-6">
+				<div class="landingSchoolBox">
+					<div class="schoolImgBox">
+						<img *ngIf="item.UserschoolSchool && item.UserschoolSchool.schoolLogo" src="{{item.UserschoolSchool.schoolLogo}}" />
+						<img *ngIf="item.UserschoolSchool && item.UserschoolSchool.schoolLogo==null" src="./assets/img/school.png" />
+					</div>
+					<div class="schoolNameBox">
+						<h4>{{item.UserschoolSchool? item.UserschoolSchool.schoolName:''}}</h4>
+						<p *ngIf="item.UserschoolSchool">
+							{{item.UserschoolSchool?item.UserschoolSchool.schoolAddress:''}},{{item.UserschoolSchool?item.UserschoolSchool.schoolCity:''}},{{item.UserschoolSchool.schoolState}},{{item.UserschoolSchool.schoolCountry}}
+						</p>
+						<button *ngIf="item.UserschoolSchool" (click)="onSchoolSelect(item.UserschoolSchool.id,item.UserschoolSchool.instituteId,item.UserschoolSchool.schoolHeader,item.UserschoolSchool.schoolLogo)"
+						 class="btn btn-primary btn-sm">Go to Dashboard
+							<i class="la la-arrow-right"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
