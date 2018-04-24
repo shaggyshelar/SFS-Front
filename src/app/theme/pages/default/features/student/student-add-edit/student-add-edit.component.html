@@ -1,0 +1,470 @@
+<div class="m-subheader">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Student Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							Students
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+							{{ params ? 'edit' : 'add' }}
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+
+<div class="m-content">
+	<div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__head">
+			<div class="m-portlet__head-caption">
+				<div class="m-portlet__head-title">
+					<h3 class="m-portlet__head-text">
+						{{ params ? 'Edit Student' : 'Add Student' }}
+					</h3>
+				</div>
+			</div>
+			<label class="requiredFieldNote">Note: &nbsp;&nbsp;
+				<b>*</b>&nbsp;&nbsp; indicates Required Fields</label>
+			<label class="studentInfo">
+				<i class="la la-user"></i> {{studentName}},&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>Student Code :
+					<b>{{studentCode}}</b>
+				</span>
+			</label>
+		</div>
+		<div class="m-portlet__body">
+
+			<form role="form" (ngSubmit)="onSubmit(studentForm)" novalidate [formGroup]="studentForm">
+				<div class="row">
+					<div class="col-lg-6">
+
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-default studentDetailPanel">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+									<h4 class="panel-title">
+										Personal Details:
+										<i class="fa fa-angle-down"> </i>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in show">
+									<div class="panel-body">
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													First Name:
+													<span class="requiredField">*</span>
+												</label>
+												<input formControlName="studentFirstName" name="studentFirstName" type="text" class="form-control m-input" placeholder="Student First Name">
+												<div class="alertMsg" *ngIf="studentForm.get('studentFirstName').hasError('required') && studentForm.get('studentFirstName').touched">
+													Please enter First Name
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Middle Name:
+													<span class="requiredField">*</span>
+												</label>
+												<input type="text" formControlName="studentMiddleName" name="studentMiddleName" class="form-control m-input" placeholder="Student Middle Name">
+												<div class="alertMsg" *ngIf="studentForm.get('studentMiddleName').hasError('required') && studentForm.get('studentMiddleName').touched">
+													Please enter Middle Name
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Last Name:
+													<span class="requiredField">*</span>
+												</label>
+												<input type="text" formControlName="studentLastName" name="studentLastName" class="form-control m-input" placeholder="Student Last Name">
+												<div class="alertMsg" *ngIf="studentForm.get('studentLastName').hasError('required') && studentForm.get('studentLastName').touched">
+													Please enter Last Name
+												</div>
+
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Gender:
+													<span class="requiredField">*</span>
+												</label>
+												<p-dropdown placeholder="Select Gender" [options]="genderList" formControlName="studentGender" [style]="{'width':'100%'}"
+												 name="gender"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('studentGender').hasError('required') && studentForm.get('studentGender').touched">
+													Please Select Gender
+												</div>
+											</div>
+
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Email
+												</label>
+												<input type="text" formControlName="email" name="email" class="form-control m-input" maxlength="254" placeholder="Student Email">
+												<!-- <div class="alertMsg" *ngIf="studentForm.get('email').hasError('required') && studentForm.get('email').touched">
+													Please Enter Email:
+												</div> -->
+												<div class="alertMsg" *ngIf="studentForm.get('email').hasError('pattern') && studentForm.get('email').touched">
+													Please enter valid Email
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default studentDetailPanel">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+									<h4 class="panel-title">
+										Parent Details:
+										<i class="fa fa-angle-down"> </i>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Father's First Name:
+												</label>
+												<input type="text" formControlName="fatherFirstName" name="fatherFirstName" class="form-control m-input" placeholder="Father's First Name">
+
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Father's Last Name:
+												</label>
+												<input type="text" formControlName="fatherLastName" name="fatherLastName" class="form-control m-input" placeholder="Father's Last Name">
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Father's Mobile No:
+												</label>
+												<input type="text" formControlName="fatherMobile" name="fatherMobile" class="form-control m-input" placeholder="Father's Mobile">
+												<div class="alertMsg" *ngIf="!studentForm.get('fatherMobile').hasError('required') && studentForm.get('fatherMobile').hasError('pattern') && studentForm.get('fatherMobile').touched">
+													Please enter valid Father's Mobile No:
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<label>
+													Mother's First Name:
+												</label>
+												<input type="text" formControlName="motherFirstName" name="motherFirstName" class="form-control m-input" placeholder="Mother's First Name">
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Mother's Last Name:
+												</label>
+												<input type="text" formControlName="motherLastName" name="motherLastName" class="form-control m-input" placeholder="Mother's Last Name">
+											</div>
+											<div class="col-lg-6">
+												<label>
+													Mother's Mobile No:
+												</label>
+												<input type="text" formControlName="motherMobile" name="motherMobile" class="form-control m-input" placeholder="Mother's Mobile"
+												 maxlength="15">
+												<div class="alertMsg" *ngIf="!studentForm.get('motherMobile').hasError('required') && studentForm.get('motherMobile').hasError('pattern') && studentForm.get('motherMobile').touched">
+													Please enter valid Mother's Mobile No
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default studentDetailPanel">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<h4 class="panel-title">
+										Guardian Details:
+										<i class="fa fa-angle-down"> </i>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Guardian's First Name:
+												</label>
+												<input type="text" formControlName="guardianFirstName" name="guardianFirstName" class="form-control m-input" placeholder="Guardian's First Name">
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Guardian's Last Name:
+												</label>
+												<input type="text" formControlName="guardianLastName" name="guardianLastName" class="form-control m-input" placeholder="Guardian's Last Name">
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Guardian's Mobile No:
+												</label>
+												<input type="text" formControlName="guardianMobile" name="guardianMobile" class="form-control m-input" placeholder="Guardian's Mobile"
+												 maxlength="15">
+												<div class="alertMsg" *ngIf="!studentForm.get('guardianMobile').hasError('required') && studentForm.get('guardianMobile').hasError('pattern') && studentForm.get('guardianMobile').touched">
+													Please enter valid Guardian's Mobile No
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-lg-6">
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-default studentDetailPanel">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+									<h4 class="panel-title">
+										Education Details:
+										<i class="fa fa-angle-down"> </i>
+									</h4>
+								</div>
+								<div id="collapseFour" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label class="">
+													Class:
+													<span class="requiredField">*</span>
+												</label>
+
+												<p-dropdown placeholder="Select Class" class="recordSelect" [style]="{'width':'100%'}" formControlName="classId" [options]="classList"
+												 name="Class"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('classId').hasError('required') && studentForm.get('classId').touched">
+													Please Select Class
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Category:
+													<span class="requiredField">*</span>
+												</label>
+												<p-dropdown placeholder="Select Category" class="m-input" [options]="categoryList" formControlName="categoryId" [style]="{'width':'100%'}"
+												 name="class"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('categoryId').hasError('required') && studentForm.get('categoryId').touched">
+													Please Select Category
+												</div>
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+
+											<div class="col-lg-6">
+												<label class="">
+													Academic Year:
+													<span class="requiredField">*</span>
+												</label>
+												<p-dropdown placeholder="Select Academic Year" class="m-input" [options]="yearList" [style]="{'width':'100%'}" formControlName="academicYear"
+												 name="class" (change)="onAcademicYear($event.target.value)"></p-dropdown>
+												<div class="alertMsg" *ngIf="studentForm.get('academicYear').hasError('required') && studentForm.get('academicYear').touched">
+													Please Select Academic Year
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													GR Number
+												</label>
+												<input type="text" formControlName="gRNumber" name="gRNumber" class="form-control m-input" placeholder="GR Number">
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+
+											<div class="col-lg-6">
+												<label class="">
+													Zone:
+												</label>
+												<p-dropdown placeholder="Select Zone" class="m-input" [options]="transportList" [style]="{'width':'100%'}" formControlName="zoneId"
+												 name="zone"></p-dropdown>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default studentDetailPanel">
+								<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+									<h4 class="panel-title">
+										Other Details:
+										<i class="fa fa-angle-down"> </i>
+									</h4>
+								</div>
+								<div id="collapseFive" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													City:
+												</label>
+												<input type="text" formControlName="city" name="city" class="form-control m-input" placeholder="City">
+											</div>
+											<div class="col-lg-6">
+												<label>
+													State:
+												</label>
+												<input type="text" formControlName="state" name="state" class="form-control m-input" placeholder="State">
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label class="">
+													Date of Birth:
+												</label>
+												<p-calendar dateFormat="yy-mm-dd" formControlName="studentDateOfBirth"></p-calendar>
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Date of Joining:
+												</label>
+												<p-calendar dateFormat="yy-mm-dd" formControlName="dateOfJoining"></p-calendar>
+											</div>
+										</div>
+										<div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label>
+													Contact No.:
+												</label>
+												<input type="text" formControlName="phone" name="phone" class="form-control m-input" placeholder="Contact Number" maxlength="15">
+												<div class="alertMsg" *ngIf="!studentForm.get('phone').hasError('required') && studentForm.get('phone').hasError('pattern') && studentForm.get('phone').touched">
+													Please enter valid Phone number
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<label class="">
+													Blood Group:
+												</label>
+												<p-dropdown class="m-input" [options]="bloodGroupList" formControlName="bloodGroup" [style]="{'width':'100%'}" name="bloodGroup"></p-dropdown>
+											</div>
+
+										</div>
+										<!-- <div class="form-group m-form__group row">
+											<div class="col-lg-6">
+												<label class="">
+													Zone
+												</label>
+												<p-dropdown class="m-input" [options]="transportList" formControlName="bloodGroup" [style]="{'width':'100%'}" name="bloodGroup"></p-dropdown>
+											</div>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+					<div class="m-form__actions m-form__actions--solid">
+						<div class="row">
+							<div class="col-lg-6">
+								<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="studentForm.invalid" [ngClass]="studentForm.invalid ?'cursorNotAllowed':'cursorPointer'"
+								 title="{{ studentForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}" [isAuthorize]="['Student.Update', 'Student.Create']">
+									{{ params ? 'Update' : 'Save' }}
+								</button>
+								<button type="button" class="btn btn-secondary" (click)="onCancel()">
+									Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<!--begin::Section-->
+			<!-- <div class="m-section">
+				<div class="m-section__content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portlet light bordered legends-portlet">
+								<div class="portlet-body">
+									<form class="form-horizontal" role="form" novalidate (ngSubmit)="onSubmit(studentForm)" [formGroup]="studentForm">
+										<div class="form-group">
+											<label class="col-md-3 control-label">First Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="FirstName" name="schoolName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('FirstName').hasError('required') && studentForm.get('FirstName').touched">
+													Please enter First Name
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label">Middle Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="MiddleName" name="middleName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('MiddleName').hasError('required') && studentForm.get('MiddleName').touched">
+													Please enter Middle Name
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label">Last Name</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="LastName" name="lastName" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('LastName').hasError('required') && studentForm.get('LastName').touched">
+													Please enter Last Name
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">Email</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="Email" name="email" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('Email').hasError('required') && studentForm.get('Email').touched">
+													Please enter Email
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">Phone</label>
+											<div class="col-md-9">
+												<input type="text" formControlName="Phone" name="phone" class="form-control">
+												<div class="alert alert-danger" *ngIf="studentForm.get('Phone').hasError('required') && studentForm.get('Phone').touched">
+													Please enter Phone Number
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-offset-2 col-md-10">
+												<button pButton type="submit" label="Save" [disabled]="studentForm.invalid"></button>
+												<button pButton type="button" label="Cancel" (click)="onCancel()"></button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<!--end::Section-->
+		</div>
+	</div>
+</div>

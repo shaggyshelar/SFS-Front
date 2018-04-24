@@ -1,0 +1,122 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Fee Management
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="#" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							Fee Heads
+						</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="" class="m-nav__link">
+						<span class="m-nav__link-text">
+							{{ params ? 'edit' : 'add' }}
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="m-content">
+
+	<!--+++++++++++++++++++++++++++++++++++++++++++ Begin::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+	<div class="m-portlet">
+
+		<!--begin::Form-->
+		<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" novalidate (ngSubmit)="onSubmit(feesForm)"
+		 [formGroup]="feesForm">
+			<div class="m-portlet__head">
+				<div class="m-portlet__head-caption">
+					<div class="m-portlet__head-title">
+						<h3 class="m-portlet__head-text">
+							  {{ params ? 'Edit Fee Head' : 'Add Fee Head' }}
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="m-portlet__body">
+
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Fee Head Name <span class="requiredField">*</span>
+					</label>
+					<div class="col-md-5">
+						<input class="form-control m-input" type="text" formControlName="feeHeadName">
+						<div class="alertMsg" *ngIf="feesForm.get('feeHeadName').hasError('required') && feesForm.get('feeHeadName').touched">
+							    Please enter Fee Head Name
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Fee Head Description
+					</label>
+					<div class="col-md-5">
+						<textarea class="form-control m-input" rows="3" style="resize:none;" formControlName="feeHeadDescription"></textarea>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Payment Frequency <span class="requiredField">*</span>
+					</label>
+					<div class="col-md-5">
+						<p-dropdown placeholder="Select Frequency" [options]="frequencyIdList" [style]="{'width':'100%'}" formControlName="frequencyId"
+						 name="classId"></p-dropdown>
+						<div class="alertMsg" *ngIf="feesForm.get('frequencyId').hasError('required') && feesForm.get('frequencyId').touched">
+							Please select Payment Frequency
+						</div>
+					</div>
+				</div>
+				<div class="form-group m-form__group row">
+					<label for="example-text-input" class="col-md-2 col-form-label">
+						Charge Head <span class="requiredField">*</span>
+					</label>
+					<div class="col-md-5">
+						<p-dropdown placeholder="Select Charge Head" [options]="chargeHeaderList" [style]="{'width':'100%'}" formControlName="chargeHeadName"
+						 name="classId"></p-dropdown>
+						<div class="alertMsg" *ngIf="feesForm.get('chargeHeadName').hasError('required') && feesForm.get('chargeHeadName').touched">
+							Please select Charge Head
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+				<div class="m-form__actions m-form__actions--solid">
+					<div class="row">
+						<div class="col-lg-6">
+							<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" [disabled]="feesForm.invalid" [ngClass]="feesForm.invalid ?'cursorNotAllowed':'cursorPointer'" [isAuthorize]="['FeeHead.Update', 'Feehead.Create']" title="{{ feesForm.invalid ? 'Please fill in all the required fields' :  params ? 'Update' : 'Save'}}">
+								{{ params ? 'Update' : 'Save' }}
+							</button>
+							<button type="button" class="btn btn-secondary" (click)="onCancel()">
+								Cancel
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+		<!--end::Form-->
+
+	</div>
+	<!--+++++++++++++++++++++++++++++++++++++++++++ End::Main Portlet ++++++++++++++++++++++++++++++++++++++++++++-->
+</div>
