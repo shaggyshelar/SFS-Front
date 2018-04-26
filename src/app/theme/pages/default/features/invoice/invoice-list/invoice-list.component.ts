@@ -205,6 +205,8 @@ export class InvoiceListComponent implements OnInit {
         this.pageSize.push({ label: '400', value: 400 });
     }
     exporttoCSV() {
+        var urlForExport = this.url;
+        urlForExport = urlForExport.split('&').splice(3).join('&');
         let exprtcsv: any[] = [];
         let columns: any[] = [
             {
@@ -278,7 +280,7 @@ export class InvoiceListComponent implements OnInit {
         ];
         let url = '?filter[limit]=' + this.total + '&filter[skip]=' + this.currentPos + this.sortUrl;
         Helpers.setLoading(true);
-        this.invoiceService.getAllStudentInvoiceReport(url).subscribe(
+        this.invoiceService.getAllStudentInvoiceReport('?'+urlForExport).subscribe(
             response => {
                 Helpers.setLoading(false);
                 let _tempList = response;

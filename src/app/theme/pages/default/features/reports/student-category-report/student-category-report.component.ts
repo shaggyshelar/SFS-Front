@@ -476,6 +476,8 @@ export class StudentCategoryReportComponent implements OnInit {
             });
     }
     exporttoCSV() {
+        var urlForExport = this.url;
+        urlForExport = urlForExport.split('&').splice(3).join('&');
         let exprtcsv: any[] = [];
         let columns: any[] = [
             {
@@ -620,7 +622,7 @@ export class StudentCategoryReportComponent implements OnInit {
 
         let url = '?filter[limit]=' + this.total + '&filter[skip]=' + this.currentPos + this.sortUrl;
         Helpers.setLoading(true);
-        this.studentService.getAllStudents(this.url).subscribe(
+        this.studentService.getAllStudents('?'+urlForExport).subscribe(
             response => {
                 Helpers.setLoading(false);
                 let _tempList = response['_students'];
